@@ -1,25 +1,67 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useCallback, Suspense } from 'react';
+import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import Layout from './layout/layout';
+import * as action from './store/actions/index';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const Index = React.lazy(() => {
+	return import('./pages/index');
+});
+const Signup = React.lazy(() => {
+    return import('./pages/auth/signup');
+});
+const Login = React.lazy(() => {
+    return import('./pages/auth/login');
+});
+const Logout = React.lazy(() => {
+    return import('./pages/auth/logout');
+});
+const Requests = React.lazy(() => {
+    return import('./pages/requests/requests');
+});
+const Access = React.lazy(() => {
+    return import('./pages/requests/access/access');
+});
+const Pricing = React.lazy(() => {
+    return import('./pages/pricing');
+});
+const FAQ = React.lazy(() => {
+    return import('./pages/faq');
+});
+
+const App = () => {
+
+    const isAuthenticated = useSelector(state => state.auth.idToken !== null);
+
+    const dispatch = useDispatch();
+	const onTryAutoLogin = useCallback(() => dispatch(action.authCheckState()),[dispatch]);
+
+	useEffect(() => {
+            console.log('auto login');  
+            onTryAutoLogin();
+	},[onTryAutoLogin]);
+
+    const routes = (
+		<Switch>
+			<Route exact path="/" component={Index} />
+			<Route path="/signup" render={() => <Signup />} />
+			<Route path="/login" render={() => <Login />} />
+            <Route path="/pricing" render={() => <Pricing />} />
+			<Route path="/faq" render={() => <FAQ />} />
+            { isAuthenticated && <Route path="/logout" render={() => <Logout />} /> }
+			{ isAuthenticated && <Route path="/requests" render={() => <Requests />} /> }
+			{ isAuthenticated && <Route path="/access" render={() => <Access />} /> }
+			<Redirect to="/" />
+		</Switch>   
+	);
+
+    return (
+        <div>
+            <Layout>
+                <Suspense fallback={<p>Loading...</p>}>{routes}</Suspense>
+            </Layout>
+        </div>
+    );
 }
-
-export default App;
+ 
+export default withRouter(App);
