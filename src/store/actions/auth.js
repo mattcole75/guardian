@@ -56,7 +56,7 @@ export const signup = (authData, identifier) => {
 
         dispatch(authStart());
 
-        axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCtfV_dauaHQma6Mlb8yCphbx0rMsqTuko', authData)
+        axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[]]', authData)
             .then(res => {
 
                 setLocalStorage(res.data);
@@ -83,7 +83,7 @@ export const login = (authData, identifier) => {
 
         dispatch(authStart());
 
-        axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCtfV_dauaHQma6Mlb8yCphbx0rMsqTuko', authData)
+        axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=[]', authData)
             .then(res => {
 
                 setLocalStorage(res.data);
