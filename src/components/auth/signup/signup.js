@@ -43,6 +43,10 @@ const Signup = () => {
                 <i className="bi-person-plus form-auth-icon"></i>
                 <h1 className="h3 mb-3 fw-normal">Sign-up for an account</h1>
                 <div className="form-floating mb-3">
+                    <input type="text" className="form-control" id="displayName" placeholder="Your name" required minLength={3} maxLength={32} {...register("displayName", { required: true, minLength: 3, maxLength: 32 })} />
+                    <label htmlFor="displayName" className="form-label">Display name</label>
+                </div>
+                <div className="form-floating mb-3">
                     <input type="email" className="form-control" id="email" placeholder="name@example.com" required {...register("email", { required: true, pattern: /^\S+@\S+$/i })} />
                     <label htmlFor="email" className="form-label">Email address</label>
                 </div>

@@ -7,6 +7,7 @@ const initialState = {
     idToken: null,
     localId: null,
     email: null,
+    displayName: null,
     identifier: null,
     authRedirectPath: '/'
 };
@@ -25,7 +26,7 @@ const authSuccess = (state, action) => {
         idToken: action.idToken,
         localId: action.localId,
         email: action.email,
-        avatarUrl: action.avatarUrl,
+        displayName: action.displayName,
         identifier: action.identifier
     });
 };

@@ -7,10 +7,12 @@ const Logout = () => {
 
     const dispatch = useDispatch();
     const onLogout = useCallback(() => dispatch(action.logout()), [dispatch]);
+    const clearRequestState = useCallback(() => dispatch(action.resetState()), [dispatch]);
 
     useEffect(() => {
 		onLogout();
-	},[onLogout]);
+        clearRequestState();
+	},[onLogout, clearRequestState]);
 
     return (
         <Redirect to="/" />

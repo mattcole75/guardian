@@ -8,3 +8,9 @@ export {
     // changeRedirectPath,
     authCheckState
 } from './auth';
+
+export {
+    createRequest,
+    updateRequest,
+    resetState
+} from './request';

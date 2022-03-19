@@ -16,11 +16,14 @@ const Login = React.lazy(() => {
 const Logout = React.lazy(() => {
     return import('./pages/auth/logout');
 });
+const Account = React.lazy(() => {
+    return import('./pages/auth/account');
+});
 const Requests = React.lazy(() => {
     return import('./pages/requests/requests');
 });
-const Access = React.lazy(() => {
-    return import('./pages/requests/access/access');
+const Request = React.lazy(() => {
+    return import('./pages/requests/request');
 });
 const Pricing = React.lazy(() => {
     return import('./pages/pricing');
@@ -36,9 +39,8 @@ const App = () => {
     const dispatch = useDispatch();
 	const onTryAutoLogin = useCallback(() => dispatch(action.authCheckState()),[dispatch]);
 
-	useEffect(() => {
-            console.log('auto login');  
-            onTryAutoLogin();
+	useEffect(() => { 
+        onTryAutoLogin();
 	},[onTryAutoLogin]);
 
     const routes = (
@@ -50,7 +52,8 @@ const App = () => {
 			<Route path="/faq" render={() => <FAQ />} />
             { isAuthenticated && <Route path="/logout" render={() => <Logout />} /> }
 			{ isAuthenticated && <Route path="/requests" render={() => <Requests />} /> }
-			{ isAuthenticated && <Route path="/access" render={() => <Access />} /> }
+			{ isAuthenticated && <Route path="/request" render={() => <Request />} /> }
+			{ isAuthenticated && <Route path="/account" render={() => <Account />} /> }
 			<Redirect to="/" />
 		</Switch>   
 	);

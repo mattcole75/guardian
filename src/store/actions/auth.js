@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as type from './types';
+import { apikey } from '../../configuration/config';
 
 const authStart = () => {
     return {
@@ -7,12 +8,13 @@ const authStart = () => {
     };
 };
 
-const authSuccess = (idToken, localId, email, identifier) => {
+const authSuccess = (idToken, localId, email, displayName, identifier) => {
     return {
         type: type.AUTH_SUCCESS,
         idToken: idToken,
         localId: localId,
         email: email,
+        displayName: displayName,
         identifier: identifier
     };
 };
@@ -42,6 +44,7 @@ const setLocalStorage = (authData) => {
     localStorage.setItem('expirationDate', expirationDate);
     localStorage.setItem('localId', authData.localId);
     localStorage.setItem('email', authData.email);
+    localStorage.setItem('displayName', authData.displayName);
 };
 
 const deleteLocalStorage = () => {
@@ -49,6 +52,7 @@ const deleteLocalStorage = () => {
     localStorage.removeItem('expirationDate');
     localStorage.removeItem('localId');
     localStorage.removeItem('email');
+    localStorage.removeItem('displayName');
 };
 
 export const signup = (authData, identifier) => {
@@ -56,7 +60,7 @@ export const signup = (authData, identifier) => {
 
         dispatch(authStart());
 
-        axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[]]', authData)
+        axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + apikey, authData)
             .then(res => {
 
                 setLocalStorage(res.data);
@@ -65,6 +69,7 @@ export const signup = (authData, identifier) => {
                     res.data.idToken,
                     res.data.localId,
                     res.data.email,
+                    res.data.displayName,
                     identifier
                 ));
 
@@ -83,7 +88,7 @@ export const login = (authData, identifier) => {
 
         dispatch(authStart());
 
-        axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=[]', authData)
+        axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + apikey, authData)
             .then(res => {
 
                 setLocalStorage(res.data);
@@ -92,6 +97,7 @@ export const login = (authData, identifier) => {
                     res.data.idToken, 
                     res.data.localId, 
                     res.data.email,
+                    res.data.displayName,
                     identifier
                 ));
 
