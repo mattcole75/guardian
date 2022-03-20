@@ -1,21 +1,24 @@
-import React, { useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as action from '../../store/actions/index';
 // import { Redirect } from 'react-router-dom';
 
 import AccessDetails from './accessRequest/accessRequest';
-
+import LocationLimitForm from './accessRequest/locationLimits/locationLimitForm';
 
 import LocationLimits from './accessRequest/locationLimits/locationLimits';
 import RiskAssessments from './accessRequest/riskAssessments/riskAssessments';
 import MethodStatements from './accessRequest/methodStatements/methodStatements';
 
+import Modal from '../ui/modal/modal';
 import Backdrop from '../ui/backdrop/backdrop';
 import Spinner from '../ui/spinner/spinner';
 
 const Request = () => {
 
     const dispatch = useDispatch();
+
+    const [editLocationLimit, setEditLocationLimit] = useState(false);
 
     const loading = useSelector(state => state.requests.loading);
     const error = useSelector(state => state.requests.error);
@@ -35,9 +38,19 @@ const Request = () => {
             onCreate(data, 'CREATE_REQUEST');
     }, [onCreate, onUpdate, request]);
 
+    const toggleLocationLimitEdit = () => {setEditLocationLimit(prevState => !prevState)}
+
     let spinner = null;
     if(loading)
         spinner = <Spinner />;
+    
+    let modal = null;
+    if(editLocationLimit) {
+        modal = <Modal 
+            show={editLocationLimit} 
+            modalClosed={toggleLocationLimitEdit} 
+            content={<LocationLimitForm toggle={toggleLocationLimitEdit} />}/>
+    }
 
     return (
         <div className="form-request my-5">
@@ -49,6 +62,7 @@ const Request = () => {
                     {error.message}
                 </div>
             }
+            {modal}
             <div className="was-validated">
                 <div className="text-sm-center">
                     <i className="bi-plus-circle-dotted form-auth-icon"></i>
@@ -57,7 +71,7 @@ const Request = () => {
                 
                 <div className="form-floating mb-3">
                     <AccessDetails save={saveHandler} />
-                    <LocationLimits save={saveHandler} />
+                    <LocationLimits save={saveHandler} toggle={toggleLocationLimitEdit} />
                     <RiskAssessments save={saveHandler} />
                     <MethodStatements save={saveHandler} />
                 </div>
