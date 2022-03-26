@@ -1,10 +1,38 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 
 
-const LocationLimit = (props) => {
+const LocationLimitForm = (props) => {
 
-    const { register, handleSubmit, formState } = useForm({ mode: 'onChange' });
+    const { register, handleSubmit, formState } = useForm({ mode: 'onChange', defaultValues: props.request.locationLimitItems[props.index] });
+
+    const save = useCallback((data) => {
+
+        if(props.request && props.index === null) {
+            let updatedLocationLimitItems = props.request.locationLimitItems;
+            updatedLocationLimitItems.push({...data, locationLimitStatus: 'pending'});
+            props.save({locationLimitItems: updatedLocationLimitItems}, 'SAVE_LOCATION_LIMIT');
+
+        } else if (props.request && props.index !== null) {
+            let updatedLocationLimitItems = props.request.locationLimitItems;
+            updatedLocationLimitItems[props.index] = {...data, locationLimitStatus: 'pending'};
+            props.save({locationLimitItems: updatedLocationLimitItems}, 'SAVE_LOCATION_LIMIT');
+
+        } else {
+            props.save({locationLimitItems: [{...data, locationLimitStatus: 'pending'}]}, 'SAVE_LOCATION_LIMIT');
+        }
+        props.toggle();
+
+    }, [props]);
+
+    const remove = useCallback(() => {
+
+        props.request.locationLimitItems.splice(props.index, 1);
+        let updatedLocationLimitItems = props.request.locationLimitItems;
+        props.save({locationLimitItems: updatedLocationLimitItems}, 'SAVE_LOCATION_LIMIT');
+        props.toggle();
+
+    }, [props]);
 
     return (
         <div className="form-auth my-5">
@@ -36,8 +64,9 @@ const LocationLimit = (props) => {
                 </div>
 
                 <div className="list-group mb-3 text-start">
-                    <label htmlFor="locationLimitAccessType" className="form-label">Access Type</label>
-                    <select className="form-select" id="locationLimitAccessType" required>
+                    <label htmlFor="locationLimitType" className="form-label">Access Type</label>
+                    <select className="form-select" id="locationLimitType" required
+                        {...register("locationLimitType", { required: true })}>
                         <option value="">Choose...</option>
                         <option>Occupation (no issolation)</option>
                         <option>Occupation (issolation)</option>
@@ -54,10 +83,13 @@ const LocationLimit = (props) => {
                     <label htmlFor="locationLimitDuration" className="form-label">Duration</label>
                 </div>
                 <div className="form-floating mb-3">
-                    <button className="w-100 btn btn-lg btn-primary" type="button" disabled={!formState.isValid} onClick={() => {}}>Save changes</button>
+                    <button className="w-100 btn btn-lg btn-primary" type="button" disabled={!formState.isValid} onClick={handleSubmit(save)}>Save changes</button>
+                </div>
+                <div className="form-floating mb-5">
+                    <button className="w-100 btn btn-lg btn-secondary" type="button" onClick={props.toggle}>Close</button>
                 </div>
                 <div className="form-floating">
-                    <button className="w-100 btn btn-lg btn-secondary" type="button" onClick={props.toggle}>Cancel</button>
+                    <button className="w-100 btn btn-lg btn-danger" type="button" onClick={handleSubmit(remove)}>Delete</button>
                 </div>
                 
             </form>
@@ -65,4 +97,4 @@ const LocationLimit = (props) => {
     )
 }
 
-export default LocationLimit;
+export default LocationLimitForm;

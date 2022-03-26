@@ -12,5 +12,10 @@ export {
 export {
     createRequest,
     updateRequest,
+    getRequests,
+    selectRequestItem,
+    selectLocationLimit,
+    selectRiskAssessmemt,
+    selectMthodStatement,
     resetState
 } from './request';

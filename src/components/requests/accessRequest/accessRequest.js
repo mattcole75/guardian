@@ -1,9 +1,14 @@
 import React, { useCallback } from 'react';
+import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
 const AccessRequest = (props) => {
 
-    const { register, handleSubmit, formState } = useForm({ mode: 'onChange' });
+    const request = useSelector(state => state.requests.request);
+    const { register, handleSubmit, formState } = useForm({ 
+        mode: 'onChange',
+        defaultValues: request
+    });
 
     const save = useCallback((data) => {
         props.save(data, 'SAVE_REQUEST');
@@ -96,7 +101,6 @@ const AccessRequest = (props) => {
                 </div>
                 <button className="w-100 btn btn-lg btn-primary mb-3" type="button" disabled={!formState.isValid} onClick={handleSubmit(save)}>Save section (draft)</button>
             </div>
-
         </div>
     );
 }

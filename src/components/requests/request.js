@@ -5,6 +5,8 @@ import * as action from '../../store/actions/index';
 
 import AccessDetails from './accessRequest/accessRequest';
 import LocationLimitForm from './accessRequest/locationLimits/locationLimitForm';
+import RiskAssessmentForm from './accessRequest/riskAssessments/riskAssessmentForm';
+import MethodStatementForm from './accessRequest/methodStatements/methodStatementForm';
 
 import LocationLimits from './accessRequest/locationLimits/locationLimits';
 import RiskAssessments from './accessRequest/riskAssessments/riskAssessments';
@@ -19,26 +21,66 @@ const Request = () => {
     const dispatch = useDispatch();
 
     const [editLocationLimit, setEditLocationLimit] = useState(false);
+    const [editRiskAssessment, setEditRiskAssessment] = useState(false);
+    const [editMethodStatement, setMethodStatement] = useState(false);
 
     const loading = useSelector(state => state.requests.loading);
     const error = useSelector(state => state.requests.error);
     // const isAuthenticated = useSelector(state => state.auth.idToken !== null);
     const idToken = useSelector(state => state.auth.idToken);
     const request = useSelector(state => state.requests.request);
+    const locationLimitIndex = useSelector(state => state.requests.locationLimitIndex);
+    const riskAssessmentIndex = useSelector(state => state.requests.riskAssessmentIndex);
+    const methodStatementIndex = useSelector(state => state.requests.methodStatementIndex);
     // const identifier = useSelector(state => state.auth.identifier);
     // const requestRedirectPath = useSelector(state => state.requests.requestRedirectPath);
 
     const onCreate = useCallback((data, identifier) => dispatch(action.createRequest(data, idToken, identifier)), [dispatch, idToken]);
-    const onUpdate = useCallback((data, identifier) => dispatch(action.updateRequest(data, idToken, identifier)), [dispatch, idToken]);
+    const onUpdate = useCallback((id, data, identifier) => dispatch(action.updateRequest(id, data, idToken, identifier)), [dispatch, idToken]);
+    const onLocationLimitItemSelect = useCallback((index, identifier) => dispatch(action.selectLocationLimit(index, identifier)), [dispatch]);
+    const onRiskAssessmentItemSelect = useCallback((index, identifier) => dispatch(action.selectRiskAssessmemt (index, identifier)), [dispatch]);
+    const onMethodStatementItemSelect = useCallback((index, identifier) => dispatch(action.selectMthodStatement (index, identifier)), [dispatch]);
 
     const saveHandler = useCallback((data) => {
         if(request)
-            onUpdate({...data, id: request.id}, 'UPDATE_REQUEST');
+            onUpdate(request.id, data, 'UPDATE_REQUEST');
+            // onUpdate({...data, id: request.id}, 'UPDATE_REQUEST');
         else
             onCreate(data, 'CREATE_REQUEST');
     }, [onCreate, onUpdate, request]);
 
-    const toggleLocationLimitEdit = () => {setEditLocationLimit(prevState => !prevState)}
+    const locationLimitSelectHandler = useCallback((index) => {
+        onLocationLimitItemSelect(index, 'LOCATION_ITEM_SELECT');
+    }, [onLocationLimitItemSelect]);
+
+    const riskAssessmentSelectHandler = useCallback((index) => {
+        onRiskAssessmentItemSelect(index, 'RISK_ITEM_SELECT');
+    }, [onRiskAssessmentItemSelect]);
+
+    const methodStatementSelectHandler = useCallback((index) => {
+        onMethodStatementItemSelect(index, 'METHOD_ITEM_SELECT');
+    }, [onMethodStatementItemSelect]);
+
+    const toggleLocationLimitEdit = () => {
+        if(editLocationLimit)
+            locationLimitSelectHandler(null);
+        
+        setEditLocationLimit(prevState => !prevState)
+    };
+    
+    const toggleRiskAssessmentEdit = () => {
+        if(editRiskAssessment)
+            riskAssessmentSelectHandler(null);
+
+        setEditRiskAssessment(prevState => !prevState)
+    };
+
+    const toggleMethodStatementEdit = () => {
+        if(editMethodStatement)
+            methodStatementSelectHandler(null);
+
+        setMethodStatement(prevState => !prevState)
+    };
 
     let spinner = null;
     if(loading)
@@ -49,9 +91,41 @@ const Request = () => {
         modal = <Modal 
             show={editLocationLimit} 
             modalClosed={toggleLocationLimitEdit} 
-            content={<LocationLimitForm toggle={toggleLocationLimitEdit} />}/>
+            content={
+                <LocationLimitForm 
+                    toggle={toggleLocationLimitEdit}
+                    save={saveHandler} 
+                    request={request}
+                    index = {locationLimitIndex}
+                />
+            }/>
     }
-
+    if(editRiskAssessment) {
+        modal = <Modal 
+            show={editRiskAssessment} 
+            modalClosed={toggleRiskAssessmentEdit} 
+            content={
+                <RiskAssessmentForm 
+                    toggle={toggleRiskAssessmentEdit}
+                    save={saveHandler} 
+                    request={request}
+                    index={riskAssessmentIndex}
+                />
+            }/>
+    }
+    if(editMethodStatement) {
+        modal = <Modal 
+            show={editMethodStatement} 
+            modalClosed={toggleMethodStatementEdit} 
+            content={
+                <MethodStatementForm 
+                    toggle={toggleMethodStatementEdit}
+                    save={saveHandler} 
+                    request={request}
+                    index={methodStatementIndex}
+                />
+            }/>
+    }
     return (
         <div className="form-request my-5">
             <Backdrop show={loading} />
@@ -71,9 +145,9 @@ const Request = () => {
                 
                 <div className="form-floating mb-3">
                     <AccessDetails save={saveHandler} />
-                    <LocationLimits save={saveHandler} toggle={toggleLocationLimitEdit} />
-                    <RiskAssessments save={saveHandler} />
-                    <MethodStatements save={saveHandler} />
+                    <LocationLimits save={saveHandler} toggle={toggleLocationLimitEdit} select={locationLimitSelectHandler} />
+                    <RiskAssessments save={saveHandler} toggle={toggleRiskAssessmentEdit} select={riskAssessmentSelectHandler} />
+                    <MethodStatements save={saveHandler} toggle={toggleMethodStatementEdit} select={methodStatementSelectHandler} />
                 </div>
 
                 <button className="w-100 btn btn-lg btn-primary" type="button" disabled={false}>Submit for approval</button>

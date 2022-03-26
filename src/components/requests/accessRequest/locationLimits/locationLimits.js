@@ -1,15 +1,10 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import LocationLimitItem from './locationLimitItem';
 
-const LocationDetails = (props) => {
+const LocationLimits = (props) => {
 
-    const item = {
-        from: 'VIC',
-        to: 'QRD',
-        date: '05/07/2022',
-        type: 'Maintenance (no issolation)',
-        duration: '3h'
-    };
+    const request = useSelector(state => state.requests.request);
 
     return (
         <div>
@@ -18,12 +13,14 @@ const LocationDetails = (props) => {
                     <button type="button" className="btn btn-success" onClick={props.toggle}>Add limit item</button>
             </div>
             <div className="list-group mb-3 text-start">
-                <LocationLimitItem item={item} toggle={props.toggle} />
-                <LocationLimitItem item={item} toggle={props.toggle} />
-                <LocationLimitItem item={item} toggle={props.toggle} />
+                {
+                    request && request.locationLimitItems.map((item, index) => {
+                        return(<LocationLimitItem key={index} index={index} item={item} toggle={props.toggle} select={props.select} />);
+                    })
+                }
             </div>
         </div>
     );
 }
 
-export default LocationDetails;
+export default LocationLimits;

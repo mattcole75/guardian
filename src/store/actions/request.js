@@ -26,6 +26,46 @@ const updateRequestSuccess = (id, request, identifier) => {
     };
 }
 
+const getRequestsSuccess = (requests, identifier) => {
+    return {
+        type: type.REQUESTS_GET_SUCCESS,
+        requests: requests,
+        identifier: identifier
+    };
+}
+
+const updateSelectedRequest = (request, identifier) => {
+    return {
+        type: type.REQUEST_UPDATE_SELECTED,
+        request: request,
+        identifier: identifier
+    };
+}
+
+const updateSelectedLocationLimitIndex = (index, identifier) => {
+    return {
+        type: type.REQUEST_LOCATION_LIMIT_INDEX,
+        locationLimitIndex: index,
+        identifier: identifier
+    };
+}
+
+const updateSelectedRiskAssessmentIndex = (index, identifier) => {
+    return {
+        type: type.REQUEST_RISK_ASSESSMENT_INDEX,
+        riskAssessmentIndex: index,
+        identifier: identifier
+    };
+}
+
+const updateSelectedMethodStatementIndex = (index, identifier) => {
+    return {
+        type: type.REQUEST_METHOD_STATEMENT_INDEX,
+        methodStatementIndex: index,
+        identifier: identifier
+    };
+}
+
 const requestFinish = () => {
     return {
         type: type.REQUEST_FINISH
@@ -53,7 +93,6 @@ export const createRequest = (data, idToken, identifier) => {
 
         axios.post('/requests.json?auth=' + idToken, data)
         .then(response => {
-            // dispatch(createRequestSuccess(response.data.name, {...data, ...{id: response.data.name}}, identifier));
             dispatch(createRequestSuccess(response.data.name, data, identifier));
             dispatch(requestFinish());
         })
@@ -64,22 +103,73 @@ export const createRequest = (data, idToken, identifier) => {
     };
 }
 
-export const updateRequest = (data, idToken, identifier) => {
+export const updateRequest = (id, data, idToken, identifier) => {
     
     return dispatch => {
 
         dispatch(requestStart());
 
-        axios.patch('/requests/' + data.id + '.json?auth=' + idToken, data)
+        axios.patch('/requests/' + id + '.json?auth=' + idToken, data)
         .then(response => {
-
-            dispatch(updateRequestSuccess(response.data.name, data, identifier));
+            dispatch(updateRequestSuccess(id, data, identifier));
             dispatch(requestFinish());
         })
         .catch(error => {
             console.log(error);
             dispatch(requestFail(error)); 
         });
+    };
+}
+
+export const getRequests = (idToken, identifier) => {
+
+    return dispatch => {
+
+        dispatch(requestStart());
+
+        axios.get('/requests.json?auth=' + idToken)
+        .then(response => {
+            dispatch(getRequestsSuccess(response.data, identifier));
+            dispatch(requestFinish());
+        })
+        .catch(error => {
+            console.log(error);
+            dispatch(requestFail(error));
+        });
+    };
+}
+
+export const selectRequestItem = (request, identifier) => {
+
+    return dispatch => {
+        dispatch(requestStart());
+        dispatch(updateSelectedRequest(request, identifier));
+        dispatch(requestFinish());
+    };
+}
+
+export const selectLocationLimit = (elementIndex, identifier) => {
+
+    return dispatch => {
+        dispatch(requestStart());
+        dispatch(updateSelectedLocationLimitIndex(elementIndex, identifier));
+        dispatch(requestFinish());
+    };
+}
+
+export const selectRiskAssessmemt = (elementIndex, identifier) => {
+    return dispatch => {
+        dispatch(requestStart());
+        dispatch(updateSelectedRiskAssessmentIndex(elementIndex, identifier));
+        dispatch(requestFinish());
+    };
+}
+
+export const selectMthodStatement = (elementIndex, identifier) => {
+    return dispatch => {
+        dispatch(requestStart());
+        dispatch(updateSelectedMethodStatementIndex(elementIndex, identifier));
+        dispatch(requestFinish());
     };
 }
 
