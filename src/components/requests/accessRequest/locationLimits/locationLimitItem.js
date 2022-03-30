@@ -12,11 +12,10 @@ const locationLimitItem = (props) => {
             <i className="bi-wrench access-icon access-icon-pending"></i>
             <div className="d-flex gap-2 w-100 justify-content-between" role="button">
                 <div>
-                    <p className="mb-0 opacity-75"><strong>From: </strong>{props.item.locationLimitFrom}</p>
-                    <p className="mb-0 opacity-75"><strong>To: </strong>{props.item.locationLimitTo}</p>
+                    <p className="mb-0 opacity-75"><strong>Location(s): </strong>{props.item.locations.join(', ')}</p>
                     <p className="mb-0 opacity-75"><strong>Date/Time: </strong>{props.item.locationLimitDate}</p>
                     <p className="mb-0 opacity-75"><strong>Type: </strong>{props.item.locationLimitType}</p>
-                    <p className="mb-0 opacity-75"><strong>Duration: </strong>{props.item.locationLimitDuration}</p>
+                    <p className="mb-0 opacity-75"><strong>Duration: </strong>{props.item.locationLimitDuration}{props.item.durationType}</p>
                 </div>
                 <small className="opacity-70 text-nowrap access-icon-pending">{props.item.locationLimitStatus}</small>
             </div>

@@ -13,8 +13,8 @@ const riskAssessmentItem = (props) => {
             <div className="d-flex gap-2 w-100 justify-content-between" role="button">
                 <div>
                     <p className="mb-0 opacity-75"><strong>Hazard: </strong>{props.item.riskHazardTitle}</p>
-                    <p className="mb-0 opacity-75"><strong>Risk score: </strong>{props.item.riskScore}</p>
-                    <p className="mb-0 opacity-75"><strong>Mitigated risk score: </strong>{props.item.riskMitigatedScore}</p>
+                    <p className="mb-0 opacity-75"><strong>Risk score: </strong>{props.item.impact * props.item.likelihood}</p>
+                    <p className="mb-0 opacity-75"><strong>Mitigated risk score: </strong>{props.item.impact * props.item.mitigatedLikelihood}</p>
                     <p className="mb-0 opacity-75"><strong>Nearest hospital: </strong>{props.item.riskNearestHospital}</p>
                 </div>
                 <small className="opacity-70 text-nowrap access-icon-pending">{props.item.riskAssessmentStatus}</small>

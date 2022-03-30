@@ -4,7 +4,10 @@ import { useForm } from 'react-hook-form';
 
 const MethodStatementForm = (props) => {
 
-    const { register, handleSubmit, formState } = useForm({ mode: 'onChange', defaultValues: props.request.methodStatementItems[props.index] });
+    const { register, handleSubmit, formState } = useForm({ 
+        mode: 'onChange', 
+        defaultValues: props.request.methodStatementItems[props.index] 
+    });
 
     const save = useCallback((data) => {
 

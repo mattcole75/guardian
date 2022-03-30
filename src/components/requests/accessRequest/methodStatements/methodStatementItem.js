@@ -17,7 +17,7 @@ const methodStatementItem = (props) => {
                     <p className="mb-0 opacity-75"><strong>Equipment: </strong>{props.item.methodStatementEquipment}</p>
                     <p className="mb-0 opacity-75"><strong>Track Vehicles: </strong>{props.item.methodStatementTrackVehicles}</p>
                 </div>
-                <small className="opacity-70 text-nowrap access-icon-pending">{props.item.status}</small>
+                <small className="opacity-70 text-nowrap access-icon-pending">{props.item.methodStatementStatus}</small>
             </div>
         </div>
     );

@@ -31,7 +31,7 @@ const requestCreateSuccess = (state, action) => {
         action.request.projectTitle,
         action.request.projectOrganisation,
         action.request.projectChangeRequestID,
-        action.request.accessRequestIsDisruptive,
+        action.request.accessTypeDisruptive,
         action.request.accessRequestTitle,
         action.request.accessRequestDescription,
         action.request.accessRequestCompetentPerson,
@@ -39,7 +39,9 @@ const requestCreateSuccess = (state, action) => {
         action.request.locationLimitItems || [],
         action.request.riskAssessmentItems || [],
         action.request.methodStatementItems || [],
-        'Draft'
+        action.request.requestStatus,
+        action.request.created,
+        action.request.updated
     );
     return {
         ...state,
@@ -66,7 +68,7 @@ const requestUpdateSuccess = (state, action) => {
         action.request.projectTitle || state.request.projectTitle,
         action.request.projectOrganisation || state.request.projectOrganisation,
         action.request.projectChangeRequestID || state.request.projectChangeRequestID,
-        action.request.accessRequestIsDisruptive || state.request.accessRequestIsDisruptive,
+        action.request.accessTypeDisruptive || state.request.accessTypeDisruptive,
         action.request.accessRequestTitle || state.request.accessRequestTitle,
         action.request.accessRequestDescription || state.request.accessRequestDescription,
         action.request.accessRequestCompetentPerson || state.request.accessRequestCompetentPerson,
@@ -74,7 +76,9 @@ const requestUpdateSuccess = (state, action) => {
         action.request.locationLimitItems || state.request.locationLimitItems || [],
         action.request.riskAssessmentItems || state.request.riskAssessmentItems || [],
         action.request.methodStatementItems || state.request.methodStatementItems || [],
-        'Draft'
+        action.request.requestStatus || state.request.requestStatus,
+        action.request.created || state.request.created,
+        action.request.updated || state.request.updated
     );
     const updatedRequests = [...state.requests];
     updatedRequests[requestIndex] = updatedRequest;
@@ -103,7 +107,7 @@ const requestsGetSuccess = (state, action) => {
                 action.requests[key].projectTitle,
                 action.requests[key].projectOrganisation,
                 action.requests[key].projectChangeRequestID,
-                action.requests[key].accessRequestIsDisruptive,
+                action.requests[key].accessTypeDisruptive,
                 action.requests[key].accessRequestTitle,
                 action.requests[key].accessRequestDescription,
                 action.requests[key].accessRequestCompetentPerson,
@@ -111,7 +115,9 @@ const requestsGetSuccess = (state, action) => {
                 action.requests[key].locationLimitItems || [],
                 action.requests[key].riskAssessmentItems || [],
                 action.requests[key].methodStatementItems || [],
-                'Draft'
+                action.requests[key].requestStatus,
+                action.requests[key].created,
+                action.requests[key].updated
             ));
     }
     return {

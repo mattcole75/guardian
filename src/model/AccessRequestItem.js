@@ -2,8 +2,8 @@ class AccessRequestItem {
 
     constructor (id, requestorName, requestorPhone, requestorEmail, requestorOrganisation,
                     projectTitle, projectOrganisation, projectChangeRequestID,
-                    accessRequestIsDisruptive, accessRequestTitle, accessRequestDescription, accessRequestCompetentPerson, accessRequestSiteContactPhone,
-                    locationLimitItems, riskAssessmentItems, methodStatementItems, status) {
+                    accessTypeDisruptive, accessRequestTitle, accessRequestDescription, accessRequestCompetentPerson, accessRequestSiteContactPhone,
+                    locationLimitItems, riskAssessmentItems, methodStatementItems, requestStatus, created, updated) {
         this.id = id
         this.requestorName = requestorName;
         this.requestorPhone = requestorPhone;
@@ -12,7 +12,7 @@ class AccessRequestItem {
         this.projectTitle = projectTitle;
         this.projectOrganisation = projectOrganisation;
         this.projectChangeRequestID = projectChangeRequestID;
-        this.accessRequestIsDisruptive = accessRequestIsDisruptive;
+        this.accessTypeDisruptive = accessTypeDisruptive;
         this.accessRequestTitle = accessRequestTitle;
         this.accessRequestDescription = accessRequestDescription;
         this.accessRequestCompetentPerson = accessRequestCompetentPerson;
@@ -20,7 +20,9 @@ class AccessRequestItem {
         this.locationLimitItems = locationLimitItems;
         this.riskAssessmentItems = riskAssessmentItems;
         this.methodStatementItems = methodStatementItems;
-        this.status = status;
+        this.requestStatus = requestStatus;
+        this.created = created;
+        this.updated = updated;
     }
 }
 

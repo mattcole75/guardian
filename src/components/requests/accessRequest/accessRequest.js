@@ -7,7 +7,21 @@ const AccessRequest = (props) => {
     const request = useSelector(state => state.requests.request);
     const { register, handleSubmit, formState } = useForm({ 
         mode: 'onChange',
-        defaultValues: request
+        // defaultValues: request // the bug is here
+        defaultValues: {
+            requestorName: request.requestorName,
+            requestorPhone: request.requestorPhone,
+            requestorEmail: request.requestorEmail,
+            requestorOrganisation: request.requestorOrganisation,
+            projectTitle: request.projectTitle,
+            projectOrganisation: request.projectOrganisation,
+            projectChangeRequestID: request.projectChangeRequestID,
+            accessTypeDisruptive: request.accessTypeDisruptive,
+            accessRequestTitle: request.accessRequestTitle,
+            accessRequestDescription: request.accessRequestDescription,
+            accessRequestCompetentPerson: request.accessRequestCompetentPerson,
+            accessRequestSiteContactPhone: request.accessRequestSiteContactPhone
+        }
     });
 
     const save = useCallback((data) => {
@@ -16,7 +30,7 @@ const AccessRequest = (props) => {
 
     return (
         <div>
-            <div className="mb-3">
+            <div className="mb-3 border-bottom mb-3">
                 <h6 className="h6 text-start">Your details:</h6>
                 <div className="form-floating mb-3">
                     <input type="text" className="form-control" id="requestorName" placeholder="Your name" required minLength={3} maxLength={32} 
@@ -40,7 +54,7 @@ const AccessRequest = (props) => {
                 </div>
             </div>
 
-            <div className="mb-3">
+            <div className="mb-3 border-bottom mb-3">
                 <h6 className="h6 text-start">Project details:</h6>
                 <div className="form-floating mb-3">
                     <input type="text" className="form-control" id="projectTitle" placeholder="Project title" required 
@@ -59,26 +73,22 @@ const AccessRequest = (props) => {
                 </div>
             </div>
 
-            <div className="border-bottom mb-3">
-                <h6 className="h6 text-start"> Access Request details:</h6>
+            <div className="mb-3 border-bottom mb-3">
+                <h6 className="h6 text-start">Access Request details:</h6>
+
                 <div className="list-group mx-0 mb-3">
                     <label className="list-group-item d-flex gap-2">
-                    <input className="form-check-input flex-shrink-0" type="radio" name="accessTypeGroupRadios" id="accessRequestIsDisruptive" 
-                        {...register("isStandardAccess", { required: true })} checked />
+                        <div className="form-check form-switch">
+                            <input className="form-check-input" type="checkbox" role="switch" id="accessTypeDisruptive" 
+                                {...register("accessTypeDisruptive")} />
+                        </div>
                         <span className="text-start">
                             Disruptive access request
-                            <small className="d-block text-muted">Disruptive Access Request</small>
-                        </span>
-                    </label>
-                    <label className="list-group-item d-flex gap-2">
-                        <input className="form-check-input flex-shrink-0" type="radio" name="accessTypeGroupRadios" id="accessRequestIsDisruptive" 
-                            {...register("isStandardAccess", { required: true })} />
-                        <span className="text-start">
-                            Standard access request
-                            <small className="d-block text-muted">Standard access request with 12 week lead time</small>
+                            <small className="d-block text-muted">Indicate if this request will be disruptive to normal operations</small>
                         </span>
                     </label>
                 </div>
+
                 <div className="form-floating mb-3">
                     <input type="text" className="form-control" id="accessRequestTitle" placeholder="Request title" required 
                         {...register("accessRequestTitle", { required: true, minLength: 3 })} />
@@ -99,6 +109,9 @@ const AccessRequest = (props) => {
                         {...register("accessRequestSiteContactPhone", { required: true, minLength: 3 })} />
                     <label htmlFor="accessRequestSiteContactPhone" className="form-label">Site contact number</label>
                 </div>
+            </div>
+
+            <div className="border-bottom mb-3">
                 <button className="w-100 btn btn-lg btn-primary mb-3" type="button" disabled={!formState.isValid} onClick={handleSubmit(save)}>Save section (draft)</button>
             </div>
         </div>

@@ -7,6 +7,7 @@ import AccessDetails from './accessRequest/accessRequest';
 import LocationLimitForm from './accessRequest/locationLimits/locationLimitForm';
 import RiskAssessmentForm from './accessRequest/riskAssessments/riskAssessmentForm';
 import MethodStatementForm from './accessRequest/methodStatements/methodStatementForm';
+import moment from 'moment';
 
 import LocationLimits from './accessRequest/locationLimits/locationLimits';
 import RiskAssessments from './accessRequest/riskAssessments/riskAssessments';
@@ -43,10 +44,24 @@ const Request = () => {
 
     const saveHandler = useCallback((data) => {
         if(request)
-            onUpdate(request.id, data, 'UPDATE_REQUEST');
-            // onUpdate({...data, id: request.id}, 'UPDATE_REQUEST');
+            onUpdate(
+                request.id,
+                {
+                    ...data,
+                    updated: moment().format()
+                },
+                'UPDATE_REQUEST'
+            );
         else
-            onCreate(data, 'CREATE_REQUEST');
+            onCreate(
+                {
+                    ...data,
+                    requestStatus: 'draft',
+                    created: moment().format(),
+                    updated: moment().format()
+                },
+                'CREATE_REQUEST'
+            );
     }, [onCreate, onUpdate, request]);
 
     const locationLimitSelectHandler = useCallback((index) => {

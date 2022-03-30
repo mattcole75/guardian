@@ -93,7 +93,7 @@ export const createRequest = (data, idToken, identifier) => {
 
         axios.post('/requests.json?auth=' + idToken, data)
         .then(response => {
-            dispatch(createRequestSuccess(response.data.name, data, identifier));
+            dispatch(createRequestSuccess(response.data.name, data,identifier));
             dispatch(requestFinish());
         })
         .catch(error => {

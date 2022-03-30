@@ -1,10 +1,44 @@
-import React, { useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
-
+import riskConfig from '../../../../configuration/riskConfig';
+import { updateObject } from '../../../../shared/utility';
 
 const RiskAssessmentForm = (props) => {
 
-    const { register, handleSubmit, formState } = useForm({ mode: 'onChange', defaultValues: props.request.riskAssessmentItems[props.index] });
+    const { register, handleSubmit, formState, setValue } = useForm({
+        mode: 'onChange', 
+        defaultValues: props.request.riskAssessmentItems[props.index] 
+    });
+    const [likelihood, setLikelihood] = useState(riskConfig.likelihoodImpact.likelihood);
+    const [mitigatedLikelihood, setMitigatedLikelihood] = useState(riskConfig.likelihoodImpact.likelihood);
+    const [impact, setImpact] = useState(riskConfig.likelihoodImpact.healthSafety);
+
+    const changeImpact = useCallback((event) => {
+        setValue('impact', event.target.value);
+        setImpact(
+            updateObject(impact, {
+                value: event.target.value
+            })
+        );
+    },[ setValue, impact ]);
+
+    const changeLikelihood = useCallback((event) => {
+        setValue('likelihood', event.target.value);
+        setLikelihood(
+            updateObject(likelihood, {
+                value: event.target.value
+            })
+        );
+    },[ setValue, likelihood ]);
+
+    const changeMitigatedLikelihood = useCallback((event) => {
+        setValue('mitigatedLikelihood', event.target.value);
+        setMitigatedLikelihood(
+            updateObject(mitigatedLikelihood, {
+                value: event.target.value
+            })
+        );
+    },[ setValue, mitigatedLikelihood ]);
 
     const save = useCallback((data) => {
 
@@ -50,10 +84,40 @@ const RiskAssessmentForm = (props) => {
                     <label htmlFor="riskHazardDescription" className="form-label">Hazard Description</label>
                 </div>
 
-                <div className="form-floating mb-3">
-                    <input type="number" className="form-control" id="riskScore" placeholder="Risk score" required
-                        {...register("riskScore", { required: true})} />
-                    <label htmlFor="riskScore" className="form-label">Risk score</label>
+                <div className="mb-3">
+                    <div className="range text-start border rounded border-success form-control">
+                        <label htmlFor="impact" className="form-label"> H&S Impact</label>
+                        <input 
+                            type="range"
+                            id="impact"
+                            min={impact.min} 
+                            max={impact.max}
+                            step={impact.step}
+                            {...register("impact", {})}
+                            onChange={(event) => {changeImpact(event)}}
+                        />
+                        <div className="text-center m-2">
+                             <span className="badge bg-info text-dark text-wrap">{impact[impact.value].description}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="mb-3">
+                    <div className="range text-start border rounded border-success form-control">
+                        <label htmlFor="likelihood" className="form-label">Likelihood (unmitigated)</label>
+                        <input 
+                            type="range"
+                            id="likelihood"
+                            min={likelihood.min} 
+                            max={likelihood.max}
+                            step={likelihood.step}
+                            {...register("likelihood", {})}
+                            onChange={(event) => {changeLikelihood(event)}}
+                        />
+                        <div className="text-center m-2">
+                             <span className="badge bg-info text-dark">{likelihood[likelihood.value].description}</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="form-floating mb-3">
@@ -62,10 +126,22 @@ const RiskAssessmentForm = (props) => {
                     <label htmlFor="riskHazardMitigation" className="form-label">Hazard mitigation</label>
                 </div>
 
-                <div className="form-floating mb-3">
-                    <input type="number" className="form-control" id="riskMitigatedScore" placeholder="Mitigated risk score" required
-                        {...register("riskMitigatedScore", { required: true})} />
-                    <label htmlFor="riskMitigatedScore" className="form-label">Mitigated risk score</label>
+                <div className="mb-3">
+                    <div className="range text-start border rounded border-success form-control">
+                        <label htmlFor="mitigatedLikelihood" className="form-label">Likelihood (mitigated)</label>
+                        <input 
+                            type="range"
+                            id="mitigatedLikelihood" 
+                            min={likelihood.min} 
+                            max={likelihood.max}
+                            step={likelihood.step}
+                            {...register("mitigatedLikelihood", {})}
+                            onChange={(event) => {changeMitigatedLikelihood(event)}}
+                        />
+                        <div className="text-center m-2">
+                             <span className="badge bg-info text-dark">{likelihood[mitigatedLikelihood.value].description}</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="list-group mb-3 text-start">
