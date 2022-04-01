@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as action from '../../store/actions/index';
-// import { Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 import AccessDetails from './accessRequest/accessRequest';
 import LocationLimitForm from './accessRequest/locationLimits/locationLimitForm';
@@ -24,6 +24,7 @@ const Request = () => {
     const [editLocationLimit, setEditLocationLimit] = useState(false);
     const [editRiskAssessment, setEditRiskAssessment] = useState(false);
     const [editMethodStatement, setMethodStatement] = useState(false);
+    const [redirect, setRedirect] = useState(null);
 
     const loading = useSelector(state => state.requests.loading);
     const error = useSelector(state => state.requests.error);
@@ -48,6 +49,7 @@ const Request = () => {
                 request.id,
                 {
                     ...data,
+                    requestStatus: 'Draft',
                     updated: moment().format()
                 },
                 'UPDATE_REQUEST'
@@ -56,13 +58,28 @@ const Request = () => {
             onCreate(
                 {
                     ...data,
-                    requestStatus: 'draft',
+                    requestStatus: 'Draft',
                     created: moment().format(),
                     updated: moment().format()
                 },
                 'CREATE_REQUEST'
             );
     }, [onCreate, onUpdate, request]);
+
+    const submitForApprovalHandler = useCallback(() => {
+        if(request) {
+            onUpdate(
+                request.id,
+                {
+                    requestStatus: 'Submitted for approval',
+                    updated: moment().format()
+                },
+                'UPDATE_REQUEST_STATUS'
+
+            );
+            setRedirect(<Redirect to="/requests" />);
+        }
+    }, [request, onUpdate]);
 
     const locationLimitSelectHandler = useCallback((index) => {
         onLocationLimitItemSelect(index, 'LOCATION_ITEM_SELECT');
@@ -141,8 +158,10 @@ const Request = () => {
                 />
             }/>
     }
+
     return (
         <div className="form-request my-5">
+            {redirect}
             <Backdrop show={loading} />
                 {spinner}
             
@@ -165,7 +184,7 @@ const Request = () => {
                     <MethodStatements save={saveHandler} toggle={toggleMethodStatementEdit} select={methodStatementSelectHandler} />
                 </div>
 
-                <button className="w-100 btn btn-lg btn-primary" type="button" disabled={false}>Submit for approval</button>
+                <button className="w-100 btn btn-lg btn-primary" type="button" disabled={false} onClick={submitForApprovalHandler}>Submit for approval</button>
             </div>
         </div>
     )

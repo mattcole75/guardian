@@ -4,8 +4,23 @@ import moment from 'moment';
 const requestItem = (props) => {
 
 const select = () => {
-    props.select(props.item);
+    if(props.item.requestStatus === 'Draft')
+        props.select(props.item);
 };
+
+let statusCSS = [];
+statusCSS.push('d-inline-block mb-2 text-nowrap');
+
+switch(props.item.requestStatus){
+    case 'Draft':
+        statusCSS.push('badge bg-secondary');
+        break;
+    case 'Submitted for approval':
+        statusCSS.push('badge bg-warning text-dark');
+        break;
+    default:
+        break;
+}
 
     return (
 
@@ -23,7 +38,7 @@ const select = () => {
                         
                     </div>
                     <div className="p-4">
-                        <small className=" d-inline-block mb-2 text-primary text-nowrap">{props.item.requestStatus}</small>
+                        <small className={statusCSS.join(' ')}>{props.item.requestStatus}</small>
                     </div>
                 </div>
             </div>
