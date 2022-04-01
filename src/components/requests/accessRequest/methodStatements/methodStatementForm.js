@@ -6,7 +6,7 @@ const MethodStatementForm = (props) => {
 
     const { register, handleSubmit, formState } = useForm({ 
         mode: 'onChange', 
-        defaultValues: props.request.methodStatementItems[props.index] 
+        defaultValues: props.request && props.request.methodStatementItems[props.index] 
     });
 
     const save = useCallback((data) => {

@@ -9,18 +9,18 @@ const AccessRequest = (props) => {
         mode: 'onChange',
         // defaultValues: request // the bug is here
         defaultValues: {
-            requestorName: request.requestorName,
-            requestorPhone: request.requestorPhone,
-            requestorEmail: request.requestorEmail,
-            requestorOrganisation: request.requestorOrganisation,
-            projectTitle: request.projectTitle,
-            projectOrganisation: request.projectOrganisation,
-            projectChangeRequestID: request.projectChangeRequestID,
-            accessTypeDisruptive: request.accessTypeDisruptive,
-            accessRequestTitle: request.accessRequestTitle,
-            accessRequestDescription: request.accessRequestDescription,
-            accessRequestCompetentPerson: request.accessRequestCompetentPerson,
-            accessRequestSiteContactPhone: request.accessRequestSiteContactPhone
+            requestorName: request && request.requestorName,
+            requestorPhone: request && request.requestorPhone,
+            requestorEmail: request && request.requestorEmail,
+            requestorOrganisation: request && request.requestorOrganisation,
+            projectTitle: request && request.projectTitle,
+            projectOrganisation: request && request.projectOrganisation,
+            projectChangeRequestID: request && request.projectChangeRequestID,
+            accessTypeDisruptive: request && request.accessTypeDisruptive,
+            accessRequestTitle: request && request.accessRequestTitle,
+            accessRequestDescription: request && request.accessRequestDescription,
+            accessRequestCompetentPerson: request && request.accessRequestCompetentPerson,
+            accessRequestSiteContactPhone: request && request.accessRequestSiteContactPhone
         }
     });
 

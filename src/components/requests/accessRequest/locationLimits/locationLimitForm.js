@@ -7,7 +7,7 @@ const LocationLimitForm = (props) => {
 
     const { register, handleSubmit, formState, getValues } = useForm({ 
         mode: 'onChange', 
-        defaultValues: props.request.locationLimitItems[props.index]
+        defaultValues: props.request && props.request.locationLimitItems[props.index]
     });
 
     const [locations, setLocations] = useState([]);

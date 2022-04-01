@@ -7,7 +7,7 @@ const RiskAssessmentForm = (props) => {
 
     const { register, handleSubmit, formState, setValue } = useForm({
         mode: 'onChange', 
-        defaultValues: props.request.riskAssessmentItems[props.index] 
+        defaultValues: props.request && props.request.riskAssessmentItems[props.index] 
     });
     const [likelihood, setLikelihood] = useState(riskConfig.likelihoodImpact.likelihood);
     const [mitigatedLikelihood, setMitigatedLikelihood] = useState(riskConfig.likelihoodImpact.likelihood);
