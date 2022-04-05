@@ -6,7 +6,11 @@ const locationListItem = (props) => (
         <div className="d-flex gap-2 w-100 justify-content-between" role="button">
             <p className="mb-0 opacity-75">{props.item}</p>
             <small className="opacity-70 text-nowrap access-icon-pending">{props.item.locationLimitStatus}</small>
-            <button className="btn btn-danger" type="button" onClick={() => {props.remove(props.index)}}>Remove</button>
+            {props.editable
+                ? <button className="btn btn-danger" type="button" onClick={() => {props.remove(props.index)}}>Remove</button>
+                : null
+            }
+            
         </div>
     </div>
 )

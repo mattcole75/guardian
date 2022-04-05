@@ -234,4 +234,499 @@
       box-shadow: 0em -3em 0 0, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0, -2em -2em 0 0.2em;
     }
 }
+.map-container {
+  font-size: 1rem;
+  margin: 3rem;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  gap: 4px;
+  grid-template-columns: 
+    [c1] auto [c2] auto [c3] auto [c4] auto [c5] auto [c6] auto [c7] auto [c8] auto [c9] auto [c10] auto;
+  grid-template-rows: 
+    [r1] auto [r2] auto [r3] auto [r4] auto [r5] auto [r6] auto [r7] auto [r8] auto [r9] auto [r10] auto
+    [r11] auto [r12] auto [r13] auto [r14] auto [r15] auto [r16] auto [r17] auto [r18] auto [r19] auto [r20] auto
+    [r21] auto [r22] auto [r23] auto [r24] auto [r25] auto [r26] auto [r27] auto [r28] auto [r29] auto [r30] auto
+    [r31] auto [r32] auto [r33] auto [r34] auto [r35] auto [r36] auto [r37] auto [r38] auto [r39] auto [r40] auto
+    [r41] auto;
+}
+
+.map-item_name {
+  display: block;
+}
+
+.map-item_code {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+
+  .map-container {
+    font-size: 0.7rem;
+    gap: 2px;
+  }
+
+  .map-item_name {
+    display: block;
+  }
   
+  .map-item_code {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .map-container {
+    font-size: 0.5rem;
+    gap: 2px;
+  }
+
+  .map-item_name {
+    display: block;
+  }
+  
+  .map-item_code {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+
+  .map-container {
+    font-size: 0.7rem;
+    gap: 2px;
+  }
+
+  .map-item_name {
+    display: none;
+  }
+  
+  .map-item_code {
+    display: block;
+  }
+}
+.map-item_rtc {
+  grid-column: c10;
+  grid-row: r1;
+}
+.map-item_roc {
+  grid-column: c10;
+  grid-row: r2;
+}
+.map-item_neb {
+  grid-column: c10;
+  grid-row: r3;
+}
+.map-item_kin {
+  grid-column: c10;
+  grid-row: r4;
+}
+.map-item_mil {
+  grid-column: c10;
+  grid-row: r5;
+}
+.map-item_neh {
+  grid-column: c10;
+  grid-row: r6;
+}
+.map-item_shc {
+  grid-column: c10;
+  grid-row: r7;
+}
+.map-item_der {
+  grid-column: c10;
+  grid-row: r8;
+}
+.map-item_ohm {
+  grid-column: c10;
+  grid-row: r9;
+}
+.map-item_bry {
+  grid-column: c7;
+  grid-row: r10;
+}
+.map-item_ohc {
+  grid-column: c10;
+  grid-row: r10;
+}
+.map-item_ecc {
+  grid-column: c3;
+  grid-row: r11;
+}
+.map-item_rad {
+  grid-column: c7;
+  grid-row: r11;
+}
+.map-item_ohk {
+  grid-column: c10;
+  grid-row: r11;
+}
+.map-item_ldw {
+  grid-column: c3;
+  grid-row: r12;
+}
+.map-item_wfd {
+  grid-column: c7;
+  grid-row: r12;
+}
+.map-item_wwd {
+  grid-column: c10;
+  grid-row: r12;
+}
+.map-item_wst {
+  grid-column: c3;
+  grid-row: r13;
+}
+.map-item_bob {
+  grid-column: c7;
+  grid-row: r13;
+}
+.map-item_fre {
+  grid-column: c10;
+  grid-row: r13;
+}
+.map-item_lgw {
+  grid-column: c3;
+  grid-row: r14;
+}
+.map-item_prs {
+  grid-column: c7;
+  grid-row: r14;
+}
+.map-item_soc {
+  grid-column: c10;
+  grid-row: r14;
+}
+.map-item_trc {
+  grid-column: c1;
+  grid-row: r15;
+}
+.map-item_bdw {
+  grid-column: c3;
+  grid-row: r15;
+}
+.map-item_hpk {
+  grid-column: c7;
+  grid-row: r15;
+}
+.map-item_hol {
+  grid-column: c10;
+  grid-row: r15;
+}
+.map-item_evc {
+  grid-column: c1;
+  grid-row: r16;
+}
+.map-item_mec {
+  grid-column: c3;
+  grid-row: r16;
+}
+.map-item_bkv {
+  grid-column: c7;
+  grid-row: r16;
+}
+.map-item_fal {
+  grid-column: c10;
+  grid-row: r16;
+}
+.map-item_par {
+  grid-column: c1;
+  grid-row: r17;
+}
+.map-item_hbc {
+  grid-column: c3;
+  grid-row: r17;
+}
+.map-item_crp {
+  grid-column: c7;
+  grid-row: r17;
+}
+.map-item_nhm {
+  grid-column: c10;
+  grid-row: r17;
+}
+.map-item_vlg {
+  grid-column: c1;
+  grid-row: r18;
+}
+.map-item_anc {
+  grid-column: c3;
+  grid-row: r18;
+}
+.map-item_abm {
+  grid-column: c7;
+  grid-row: r18;
+}
+.map-item_qrd {
+  grid-column: c8;
+  grid-row: r18;
+}
+.map-item_cep {
+  grid-column: c10;
+  grid-row: r18;
+}
+.map-item_iwm {
+  grid-column: c1;
+  grid-row: r19;
+}
+.map-item_sfq {
+  grid-column: c3;
+  grid-row: r19;
+}
+.map-item_qns {
+  grid-column: c7;
+  grid-row: r19;
+}
+.map-item_mon {
+  grid-column: c9;
+  grid-row: r19;
+}
+.map-item_wsd {
+  grid-column: c1;
+  grid-row: r20;
+}
+.map-item_exq {
+  grid-column: c3;
+  grid-row: r20;
+}
+.map-item_exs {
+  grid-column: c5;
+  grid-row: r20;
+}
+.map-item_vic {
+  grid-column: c8;
+  grid-row: r20;
+}
+.map-item_pom {
+  grid-column: c2;
+  grid-row: r21;
+}
+.map-item_shl {
+  grid-column: c7;
+  grid-row: r21;
+}
+
+.map-item_cnk {
+  grid-column: c3;
+  grid-row: r22;
+}
+.map-item_dcf {
+  grid-column: c4;
+  grid-row: r22;
+}
+.map-item_sps {
+  grid-column: c5;
+  grid-row: r22;
+}
+.map-item_mkt {
+  grid-column: c6;
+  grid-row: r22;
+}
+.map-item_tfb {
+  grid-column: c2;
+  grid-row: r23;
+}
+.map-item_pcg {
+  grid-column: c6;
+  grid-row: r23;
+}
+
+.map-item_old {
+  grid-column: c1;
+  grid-row: r24;
+}
+.map-item_tfd {
+  grid-column: c2;
+  grid-row: r24;
+}
+.map-item_fir {
+  grid-column: c3;
+  grid-row: r24;
+}
+.map-item_pic {
+  grid-column: c7;
+  grid-row: r24;
+}
+
+.map-item_str {
+  grid-column: c1;
+  grid-row: r25;
+}
+.map-item_cho {
+  grid-column: c3;
+  grid-row: r25;
+}
+.map-item_nis {
+  grid-column: c7;
+  grid-row: r25;
+}
+
+.map-item_dan {
+  grid-column: c1;
+  grid-row: r26;
+}
+.map-item_swr {
+  grid-column: c4;
+  grid-row: r26;
+}
+.map-item_hot {
+  grid-column: c7;
+  grid-row: r26;
+}
+
+.map-item_sal {
+  grid-column: c1;
+  grid-row: r27;
+}
+.map-item_wth {
+  grid-column: c3;
+  grid-row: r27;
+}
+.map-item_bmr {
+  grid-column: c5;
+  grid-row: r27;
+}
+.map-item_spc {
+  grid-column: c7;
+  grid-row: r27;
+}
+
+.map-item_brk {
+  grid-column: c1;
+  grid-row: r28;
+}
+.map-item_brt {
+  grid-column: c3;
+  grid-row: r28;
+}
+.map-item_swp {
+  grid-column: c5;
+  grid-row: r28;
+}
+.map-item_vel {
+  grid-column: c7;
+  grid-row: r28;
+}
+
+.map-item_tmp {
+  grid-column: c1;
+  grid-row: r29;
+}
+.map-item_wdd {
+  grid-column: c3;
+  grid-row: r29;
+}
+.map-item_nmr {
+  grid-column: c5;
+  grid-row: r29;
+}
+.map-item_cla {
+  grid-column: c7;
+  grid-row: r29;
+}
+
+.map-item_nav {
+  grid-column: c1;
+  grid-row: r30;
+}
+.map-item_ddv {
+  grid-column: c3;
+  grid-row: r30;
+}
+.map-item_wpk {
+  grid-column: c5;
+  grid-row: r30;
+}
+.map-item_edl {
+  grid-column: c7;
+  grid-row: r30;
+}
+
+.map-item_alt {
+  grid-column: c1;
+  grid-row: r31;
+}
+.map-item_edd {
+  grid-column: c3;
+  grid-row: r31;
+}
+.map-item_mrd {
+  grid-column: c5;
+  grid-row: r31;
+}
+.map-item_cer {
+  grid-column: c7;
+  grid-row: r31;
+}
+
+.map-item_bag {
+  grid-column: c5;
+  grid-row: r32;
+}
+.map-item_dyl {
+  grid-column: c7;
+  grid-row: r32;
+}
+
+.map-item_rth {
+  grid-column: c5;
+  grid-row: r33;
+}
+.map-item_aud {
+  grid-column: c7;
+  grid-row: r33;
+} 
+
+.map-item_mar {
+  grid-column: c5;
+  grid-row: r34;
+}
+.map-item_asm {
+  grid-column: c7;
+  grid-row: r34;
+}
+
+.map-item_bch {
+  grid-column: c5;
+  grid-row: r35;
+}
+.map-item_asw {
+  grid-column: c7;
+  grid-row: r35;
+}
+
+.map-item_cro {
+  grid-column: c5;
+  grid-row: r36;
+}
+.map-item_ash {
+  grid-column: c7;
+  grid-row: r36;
+}
+
+.map-item_wyc {
+  grid-column: c5;
+  grid-row: r37;
+}
+
+.map-item_rbn {
+  grid-column: c5;
+  grid-row: r38;
+}
+
+.map-item_plh {
+  grid-column: c5;
+  grid-row: r39;
+}
+
+.map-item_shd {
+  grid-column: c5;
+  grid-row: r40;
+}
+
+.map-item_air {
+  grid-column: c5;
+  grid-row: r41;
+}

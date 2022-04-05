@@ -5,9 +5,11 @@ import { updateObject } from '../../../../shared/utility';
 
 const RiskAssessmentForm = (props) => {
 
+    const { request, index, editable, save, toggle } = props;
+
     const { register, handleSubmit, formState, setValue } = useForm({
         mode: 'onChange', 
-        defaultValues: props.request && props.request.riskAssessmentItems[props.index] 
+        defaultValues: request && request.riskAssessmentItems[index] 
     });
     const [likelihood, setLikelihood] = useState(riskConfig.likelihoodImpact.likelihood);
     const [mitigatedLikelihood, setMitigatedLikelihood] = useState(riskConfig.likelihoodImpact.likelihood);
@@ -40,31 +42,31 @@ const RiskAssessmentForm = (props) => {
         );
     },[ setValue, mitigatedLikelihood ]);
 
-    const save = useCallback((data) => {
+    const onSave = useCallback((data) => {
 
-        if(props.request && props.index === null) {
-            let updatedRiskAssessementItems = props.request.riskAssessmentItems;
+        if(request && index === null) {
+            let updatedRiskAssessementItems = request.riskAssessmentItems;
             updatedRiskAssessementItems.push({...data, riskAssessmentStatus: 'pending'});
-            props.save({riskAssessmentItems: updatedRiskAssessementItems}, 'SAVE_RISK_ASSESSMENT');
-        } else if (props.request && props.index !== null) {
-            let updatedRiskAssessementItems = props.request.riskAssessmentItems;
-            updatedRiskAssessementItems[props.index] = {...data, riskAssessmentStatus: 'pending'};
-            props.save({riskAssessmentItems: updatedRiskAssessementItems}, 'SAVE_RISK_ASSESSMENT');
+            save({riskAssessmentItems: updatedRiskAssessementItems}, 'SAVE_RISK_ASSESSMENT');
+        } else if (request && index !== null) {
+            let updatedRiskAssessementItems = request.riskAssessmentItems;
+            updatedRiskAssessementItems[index] = {...data, riskAssessmentStatus: 'pending'};
+            save({riskAssessmentItems: updatedRiskAssessementItems}, 'SAVE_RISK_ASSESSMENT');
         } else {
-            props.save({riskAssessmentItems: [{...data, riskAssessmentStatus: 'pending'}]}, 'SAVE_RISK_ASSESSMENT');
+            save({riskAssessmentItems: [{...data, riskAssessmentStatus: 'pending'}]}, 'SAVE_RISK_ASSESSMENT');
         }
-        props.toggle();
+        toggle();
 
-    }, [props]);
+    }, [index, request, save, toggle]);
 
-    const remove = useCallback(() => {
+    const onDelete = useCallback(() => {
 
-        props.request.riskAssessmentItems.splice(props.index, 1);
-        let updatedRiskAssessementItems = props.request.riskAssessmentItems;
-        props.save({riskAssessmentItems: updatedRiskAssessementItems}, 'SAVE_RISK_ASSESSMENT');
-        props.toggle();
+        request.riskAssessmentItems.splice(index, 1);
+        let updatedRiskAssessementItems = request.riskAssessmentItems;
+        save({riskAssessmentItems: updatedRiskAssessementItems}, 'SAVE_RISK_ASSESSMENT');
+        toggle();
 
-    }, [props]);
+    }, [index, request.riskAssessmentItems, save, toggle]);
 
     return (
         <div className="form-auth my-5">
@@ -74,12 +76,14 @@ const RiskAssessmentForm = (props) => {
 
                 <div className="form-floating mb-3">
                     <input type="text" className="form-control" id="riskHazardTitle" placeholder="Hazard title" required minLength={3} maxLength={32} 
+                        disabled={!editable}
                         {...register("riskHazardTitle", { required: true, minLength: 3, maxLength: 32 })} />
                     <label htmlFor="riskHazardTitle" className="form-label">Hazard title</label>
                 </div>
 
                 <div className="form-floating mb-3">
                     <textarea className="form-control" id="riskHazardDescription"  rows="3" style={{height:"auto"}} placeholder="Hazard description" required 
+                        disabled={!editable}
                         {...register("riskHazardDescription", { required: true, minLength: 5 })} />
                     <label htmlFor="riskHazardDescription" className="form-label">Hazard Description</label>
                 </div>
@@ -93,6 +97,7 @@ const RiskAssessmentForm = (props) => {
                             min={impact.min} 
                             max={impact.max}
                             step={impact.step}
+                            disabled={!editable}
                             {...register("impact", {})}
                             onChange={(event) => {changeImpact(event)}}
                         />
@@ -111,6 +116,7 @@ const RiskAssessmentForm = (props) => {
                             min={likelihood.min} 
                             max={likelihood.max}
                             step={likelihood.step}
+                            disabled={!editable}
                             {...register("likelihood", {})}
                             onChange={(event) => {changeLikelihood(event)}}
                         />
@@ -122,6 +128,7 @@ const RiskAssessmentForm = (props) => {
 
                 <div className="form-floating mb-3">
                     <textarea className="form-control" id="riskHazardMitigation"  rows="3" style={{height:"auto"}} placeholder="Hazard mitigation" required 
+                        disabled={!editable}
                         {...register("riskHazardMitigation", { required: true })} />
                     <label htmlFor="riskHazardMitigation" className="form-label">Hazard mitigation</label>
                 </div>
@@ -135,6 +142,7 @@ const RiskAssessmentForm = (props) => {
                             min={likelihood.min} 
                             max={likelihood.max}
                             step={likelihood.step}
+                            disabled={!editable}
                             {...register("mitigatedLikelihood", {})}
                             onChange={(event) => {changeMitigatedLikelihood(event)}}
                         />
@@ -147,6 +155,7 @@ const RiskAssessmentForm = (props) => {
                 <div className="list-group mb-3 text-start">
                     <label htmlFor="riskNearestHospital" className="form-label">Nearest hospital</label>
                     <select className="form-select" id="riskNearestHospital" required
+                        disabled={!editable}
                         {...register("riskNearestHospital", { required: true})}>
                         <option value="">Choose...</option>
                         <option>Royal Oldham Hospital, Rochdale Rd, OL1 2JH</option>
@@ -162,16 +171,22 @@ const RiskAssessmentForm = (props) => {
                     </select>
                 </div>
 
-                <div className="form-floating mb-3">
-                    <button className="w-100 btn btn-lg btn-primary" type="button" disabled={!formState.isValid} onClick={handleSubmit(save)}>Save changes</button>
-                </div>
-                <div className="form-floating mb-5">
-                    <button className="w-100 btn btn-lg btn-secondary" type="button" onClick={props.toggle}>Close</button>
-                </div>
-                <div className="form-floating">
-                    <button className="w-100 btn btn-lg btn-danger" type="button" onClick={handleSubmit(remove)}>Delete</button>
-                </div>
+                {editable
+                    ? <div className="form-floating mb-3">
+                        <button className="w-100 btn btn-lg btn-primary" type="button" disabled={!formState.isValid} onClick={handleSubmit(onSave)}>Save changes</button>
+                    </div>
+                    : null
+                }
                 
+                <div className="form-floating mb-5">
+                    <button className="w-100 btn btn-lg btn-secondary" type="button" onClick={toggle}>Close</button>
+                </div>
+                {editable
+                    ? <div className="form-floating">
+                        <button className="w-100 btn btn-lg btn-danger" type="button" onClick={handleSubmit(onDelete)}>Delete</button>
+                    </div>
+                    : null
+                }
             </form>
         </div>
     )

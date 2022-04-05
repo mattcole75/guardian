@@ -23,7 +23,6 @@ const Applications = () => {
     }
 
     const editRequestItem = (item) => {
-
         onSelectRequestItem(item, 'UPDATE_SELECTED_ITEM');
         navigateToRequestItem();
     }

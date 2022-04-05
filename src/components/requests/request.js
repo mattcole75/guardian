@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as action from '../../store/actions/index';
 import { Redirect } from 'react-router-dom';
@@ -25,6 +25,7 @@ const Request = () => {
     const [editRiskAssessment, setEditRiskAssessment] = useState(false);
     const [editMethodStatement, setMethodStatement] = useState(false);
     const [redirect, setRedirect] = useState(null);
+    const [editable, setEditable] = useState(null);
 
     const loading = useSelector(state => state.requests.loading);
     const error = useSelector(state => state.requests.error);
@@ -42,6 +43,14 @@ const Request = () => {
     const onLocationLimitItemSelect = useCallback((index, identifier) => dispatch(action.selectLocationLimit(index, identifier)), [dispatch]);
     const onRiskAssessmentItemSelect = useCallback((index, identifier) => dispatch(action.selectRiskAssessmemt (index, identifier)), [dispatch]);
     const onMethodStatementItemSelect = useCallback((index, identifier) => dispatch(action.selectMthodStatement (index, identifier)), [dispatch]);
+
+
+    useEffect(() => {
+        if(request.requestStatus === 'Submitted for approval' || request.requestStatus === 'Approved')
+            setEditable(false);
+        else
+            setEditable(true);
+    }, [request]);
 
     const saveHandler = useCallback((data) => {
         if(request)
@@ -66,12 +75,12 @@ const Request = () => {
             );
     }, [onCreate, onUpdate, request]);
 
-    const submitForApprovalHandler = useCallback(() => {
+    const submitRequestHandler = useCallback((status) => {
         if(request) {
             onUpdate(
                 request.id,
                 {
-                    requestStatus: 'Submitted for approval',
+                    requestStatus: status,
                     updated: moment().format()
                 },
                 'UPDATE_REQUEST_STATUS'
@@ -128,7 +137,8 @@ const Request = () => {
                     toggle={toggleLocationLimitEdit}
                     save={saveHandler} 
                     request={request}
-                    index = {locationLimitIndex}
+                    index={locationLimitIndex}
+                    editable={editable}
                 />
             }/>
     }
@@ -142,6 +152,7 @@ const Request = () => {
                     save={saveHandler} 
                     request={request}
                     index={riskAssessmentIndex}
+                    editable={editable}
                 />
             }/>
     }
@@ -155,6 +166,7 @@ const Request = () => {
                     save={saveHandler} 
                     request={request}
                     index={methodStatementIndex}
+                    editable={editable}
                 />
             }/>
     }
@@ -178,13 +190,22 @@ const Request = () => {
                 </div>
                 
                 <div className="form-floating mb-3">
-                    <AccessDetails save={saveHandler} />
-                    <LocationLimits save={saveHandler} toggle={toggleLocationLimitEdit} select={locationLimitSelectHandler} />
-                    <RiskAssessments save={saveHandler} toggle={toggleRiskAssessmentEdit} select={riskAssessmentSelectHandler} />
-                    <MethodStatements save={saveHandler} toggle={toggleMethodStatementEdit} select={methodStatementSelectHandler} />
+                    <AccessDetails save={saveHandler} editable={editable} />
+                    <LocationLimits save={saveHandler} editable={editable} toggle={toggleLocationLimitEdit} select={locationLimitSelectHandler} />
+                    <RiskAssessments save={saveHandler} editable={editable} toggle={toggleRiskAssessmentEdit} select={riskAssessmentSelectHandler} />
+                    <MethodStatements save={saveHandler} editable={editable} toggle={toggleMethodStatementEdit} select={methodStatementSelectHandler} />
                 </div>
-
-                <button className="w-100 btn btn-lg btn-primary" type="button" disabled={false} onClick={submitForApprovalHandler}>Submit for approval</button>
+                {editable
+                    ? <button className="w-100 btn btn-lg btn-primary" type="button" disabled={false} onClick={() => {submitRequestHandler('Submitted for approval')}}>Submit for approval</button>
+                    :<div>
+                        {request.requestStatus !== 'Approved'
+                            ? <button className="w-100 btn btn-lg btn-primary mb-3" type="button" disabled={false} onClick={() => {submitRequestHandler('Approved')}}>Approve and lock</button>
+                            : null
+                        }
+                        <button className="w-100 btn btn-lg btn-danger" type="button" disabled={false} onClick={() => {submitRequestHandler('Rejected')}}>Reject (return access request)</button>
+                    </div>
+                }   
+                
             </div>
         </div>
     )
