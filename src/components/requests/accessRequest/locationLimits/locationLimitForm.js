@@ -75,6 +75,30 @@ const LocationLimitForm = (props) => {
 
     }, [index, locations, request, save, toggle]);
 
+    const onApprove = useCallback((data) => {
+        
+        let updatedLocationLimitItems = request.locationLimitItems;
+            updatedLocationLimitItems[index] = {
+                ...data, 
+                locations: locations,
+                locationLimitStatus: 'approved'
+            };
+            save({locationLimitItems: updatedLocationLimitItems}, 'SAVE_LOCATION_LIMIT');
+            toggle();
+    }, [index, locations, request.locationLimitItems, save, toggle]);
+
+    const onDecline = useCallback((data) => {
+        
+        let updatedLocationLimitItems = request.locationLimitItems;
+            updatedLocationLimitItems[index] = {
+                ...data, 
+                locations: locations,
+                locationLimitStatus: 'declined'
+            };
+            save({locationLimitItems: updatedLocationLimitItems}, 'SAVE_LOCATION_LIMIT');
+            toggle();
+    }, [index, locations, request.locationLimitItems, save, toggle]);
+
     const onDelete = useCallback(() => {
 
         request.locationLimitItems.splice(index, 1);
@@ -170,16 +194,20 @@ const LocationLimitForm = (props) => {
                     ? <div className="form-floating mb-3">
                         <button className="w-100 btn btn-lg btn-primary" type="button" disabled={!formState.isValid} onClick={handleSubmit(onSave)}>Save changes</button>
                     </div>
-                    : null
+                    : <div className="form-floating mb-3">
+                        <button className="w-100 btn btn-lg btn-primary" type="button" disabled={!formState.isValid} onClick={handleSubmit(onApprove)}>Approve</button>
+                    </div>
                 }
                 <div className="form-floating mb-5">
                     <button className="w-100 btn btn-lg btn-secondary" type="button" onClick={toggle}>Close</button>
                 </div>
                 {editable
-                    ?<div className="form-floating">
+                    ? <div className="form-floating">
                         <button className="w-100 btn btn-lg btn-danger" type="button" onClick={handleSubmit(onDelete)}>Delete</button>
                     </div>
-                    : null
+                    : <div className="form-floating">
+                        <button className="w-100 btn btn-lg btn-danger" type="button" onClick={handleSubmit(onDecline)}>Decline</button>
+                    </div>
                 }
             </form>
         </div>

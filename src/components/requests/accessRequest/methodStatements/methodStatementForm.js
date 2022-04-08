@@ -19,15 +19,33 @@ const MethodStatementForm = (props) => {
             save({methodStatementItems: updatedMethodStatementItems}, 'SAVE_METHOD_STATEMENT');
         } else if (request && index !== null) {
             let updatedMethodStatementItems = request.methodStatementItems;
-            updatedMethodStatementItems[index] = {...data, riskAssessmentStatus: 'pending'};
+            updatedMethodStatementItems[index] = {...data, methodStatementStatus: 'pending'};
             save({methodStatementItems: updatedMethodStatementItems}, 'SAVE_METHOD_STATEMENT');
 
         } else {
-            save({methodStatementItems: [{...data, riskAssessmentStatus: 'pending'}]}, 'SAVE_METHOD_STATEMENT');
+            save({methodStatementItems: [{...data, methodStatementStatus: 'pending'}]}, 'SAVE_METHOD_STATEMENT');
         }
         toggle();
 
     }, [index, request, save, toggle]);
+
+    const onApprove = useCallback((data) => {
+
+        let updatedMethodStatementItems = request.methodStatementItems;
+        updatedMethodStatementItems[index] = {...data, methodStatementStatus: 'approved'};
+        save({methodStatementItems: updatedMethodStatementItems}, 'SAVE_METHOD_STATEMENT');
+        toggle();
+
+    }, [index, request.methodStatementItems, save, toggle]);
+
+    const onNotApprove = useCallback((data) => {
+
+        let updatedMethodStatementItems = request.methodStatementItems;
+        updatedMethodStatementItems[index] = {...data, methodStatementStatus: 'not approved'};
+        save({methodStatementItems: updatedMethodStatementItems}, 'SAVE_METHOD_STATEMENT');
+        toggle();
+
+    }, [index, request.methodStatementItems, save, toggle]);
 
     const onDelete = useCallback(() => {
 
@@ -86,7 +104,9 @@ const MethodStatementForm = (props) => {
                     ? <div className="form-floating mb-3">
                         <button className="w-100 btn btn-lg btn-primary" type="button" disabled={!formState.isValid} onClick={handleSubmit(onSave)}>Save changes</button>
                     </div>
-                    : null
+                    : <div className="form-floating mb-3">
+                        <button className="w-100 btn btn-lg btn-primary" type="button" disabled={!formState.isValid} onClick={handleSubmit(onApprove)}>Approve</button>
+                    </div>
                 }
                 
                 <div className="form-floating mb-5">
@@ -96,7 +116,9 @@ const MethodStatementForm = (props) => {
                     ? <div className="form-floating">
                         <button className="w-100 btn btn-lg btn-danger" type="button" onClick={handleSubmit(onDelete)}>Delete</button>
                     </div>
-                    : null
+                    : <div className="form-floating">
+                        <button className="w-100 btn btn-lg btn-danger" type="button" onClick={handleSubmit(onNotApprove)}>Not approved</button>
+                    </div>
                 }
             </form>
         </div>

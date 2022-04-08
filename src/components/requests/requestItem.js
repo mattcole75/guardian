@@ -41,8 +41,7 @@ switch(props.item.requestStatus){
                         <p className="card-text"><strong>Organisation: </strong>{item.projectOrganisation}</p>
                         <p className="card-text"><strong>Project title: </strong>{item.projectTitle}</p>
                         <p className="card-text"><strong>Requestor name: </strong>{item.requestorName}</p>
-                        <p className="card-text"><small className="text-muted">Last updated: {moment(item.updated).startOf('hour').fromNow()}</small></p>
-                        
+                        <p className="card-text"><small className="text-muted">Last updated: {moment(item.updated).startOf('hour').fromNow()}</small></p> 
                     </div>
                     <div className="p-4">
                         <small className={statusCSS.join(' ')}>{item.requestStatus}</small>

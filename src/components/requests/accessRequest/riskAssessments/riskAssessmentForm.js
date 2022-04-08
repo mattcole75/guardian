@@ -7,7 +7,7 @@ const RiskAssessmentForm = (props) => {
 
     const { request, index, editable, save, toggle } = props;
 
-    const { register, handleSubmit, formState, setValue } = useForm({
+    const { register, handleSubmit, formState, setValue, getValues } = useForm({
         mode: 'onChange', 
         defaultValues: request && request.riskAssessmentItems[index] 
     });
@@ -59,6 +59,24 @@ const RiskAssessmentForm = (props) => {
 
     }, [index, request, save, toggle]);
 
+    const onAccept = useCallback((data) => {
+
+        let updatedRiskAssessementItems = request.riskAssessmentItems;
+        updatedRiskAssessementItems[index] = {...data, riskAssessmentStatus: 'acceptable'};
+        save({riskAssessmentItems: updatedRiskAssessementItems}, 'SAVE_RISK_ASSESSMENT');
+        toggle();
+
+    }, [index, request.riskAssessmentItems, save, toggle]);
+
+    const onNotAcceptable = useCallback((data) => {
+
+        let updatedRiskAssessementItems = request.riskAssessmentItems;
+        updatedRiskAssessementItems[index] = {...data, riskAssessmentStatus: 'not acceptable'};
+        save({riskAssessmentItems: updatedRiskAssessementItems}, 'SAVE_RISK_ASSESSMENT');
+        toggle();
+
+    }, [index, request.riskAssessmentItems, save, toggle]);
+
     const onDelete = useCallback(() => {
 
         request.riskAssessmentItems.splice(index, 1);
@@ -102,7 +120,7 @@ const RiskAssessmentForm = (props) => {
                             onChange={(event) => {changeImpact(event)}}
                         />
                         <div className="text-center m-2">
-                             <span className="badge bg-info text-dark text-wrap">{impact[impact.value].description}</span>
+                             <span className="badge bg-info text-dark text-wrap">{impact[getValues().impact].description}</span>
                         </div>
                     </div>
                 </div>
@@ -121,7 +139,7 @@ const RiskAssessmentForm = (props) => {
                             onChange={(event) => {changeLikelihood(event)}}
                         />
                         <div className="text-center m-2">
-                             <span className="badge bg-info text-dark">{likelihood[likelihood.value].description}</span>
+                             <span className="badge bg-info text-dark">{likelihood[getValues().likelihood].description}</span>
                         </div>
                     </div>
                 </div>
@@ -147,7 +165,7 @@ const RiskAssessmentForm = (props) => {
                             onChange={(event) => {changeMitigatedLikelihood(event)}}
                         />
                         <div className="text-center m-2">
-                             <span className="badge bg-info text-dark">{likelihood[mitigatedLikelihood.value].description}</span>
+                             <span className="badge bg-info text-dark">{likelihood[getValues().mitigatedLikelihood].description}</span>
                         </div>
                     </div>
                 </div>
@@ -175,7 +193,9 @@ const RiskAssessmentForm = (props) => {
                     ? <div className="form-floating mb-3">
                         <button className="w-100 btn btn-lg btn-primary" type="button" disabled={!formState.isValid} onClick={handleSubmit(onSave)}>Save changes</button>
                     </div>
-                    : null
+                    : <div className="form-floating mb-3">
+                        <button className="w-100 btn btn-lg btn-primary" type="button" disabled={!formState.isValid} onClick={handleSubmit(onAccept)}>Accept</button>
+                    </div>
                 }
                 
                 <div className="form-floating mb-5">
@@ -185,7 +205,9 @@ const RiskAssessmentForm = (props) => {
                     ? <div className="form-floating">
                         <button className="w-100 btn btn-lg btn-danger" type="button" onClick={handleSubmit(onDelete)}>Delete</button>
                     </div>
-                    : null
+                    : <div className="form-floating">
+                        <button className="w-100 btn btn-lg btn-danger" type="button" onClick={handleSubmit(onNotAcceptable)}>Not acceptable</button>
+                    </div>
                 }
             </form>
         </div>

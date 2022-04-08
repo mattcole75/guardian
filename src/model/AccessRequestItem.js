@@ -3,7 +3,7 @@ class AccessRequestItem {
     constructor (id, requestorName, requestorPhone, requestorEmail, requestorOrganisation,
                     projectTitle, projectOrganisation, projectChangeRequestID,
                     accessTypeDisruptive, accessRequestTitle, accessRequestDescription, accessRequestCompetentPerson, accessRequestSiteContactPhone,
-                    locationLimitItems, riskAssessmentItems, methodStatementItems, requestStatus, created, updated) {
+                    locationLimitItems, riskAssessmentItems, methodStatementItems, reviewItems, requestStatus, created, updated) {
         this.id = id
         this.requestorName = requestorName;
         this.requestorPhone = requestorPhone;
@@ -20,6 +20,7 @@ class AccessRequestItem {
         this.locationLimitItems = locationLimitItems;
         this.riskAssessmentItems = riskAssessmentItems;
         this.methodStatementItems = methodStatementItems;
+        this.reviewItems = reviewItems;
         this.requestStatus = requestStatus;
         this.created = created;
         this.updated = updated;

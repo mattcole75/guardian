@@ -10,6 +10,7 @@ const initialState = {
     locationLimitIndex: null,
     riskAssessmentIndex: null,
     methodStatementIndex: null,
+    reviewIndex: null,
     identifier: null,
     requestRedirectPath: '/'
 };
@@ -39,6 +40,7 @@ const requestCreateSuccess = (state, action) => {
         action.request.locationLimitItems || [],
         action.request.riskAssessmentItems || [],
         action.request.methodStatementItems || [],
+        action.request.reviewItems || [],
         action.request.requestStatus,
         action.request.created,
         action.request.updated
@@ -52,6 +54,7 @@ const requestCreateSuccess = (state, action) => {
         locationLimitIndex: null,
         riskAssessmentIndex: null,
         methodStatementIndex: null,
+        reviewIndex: null,
         identifier: action.identifier
     };
 }
@@ -76,6 +79,7 @@ const requestUpdateSuccess = (state, action) => {
         action.request.locationLimitItems || state.request.locationLimitItems || [],
         action.request.riskAssessmentItems || state.request.riskAssessmentItems || [],
         action.request.methodStatementItems || state.request.methodStatementItems || [],
+        action.request.reviewItems || state.request.reviewItems || [],
         action.request.requestStatus || state.request.requestStatus,
         action.request.created || state.request.created,
         action.request.updated || state.request.updated
@@ -91,6 +95,7 @@ const requestUpdateSuccess = (state, action) => {
         locationLimitIndex: null,
         riskAssessmentIndex: null,
         methodStatementIndex: null,
+        reviewIndex: null,
         identifier: action.identifier
     };
 }
@@ -115,6 +120,7 @@ const requestsGetSuccess = (state, action) => {
                 action.requests[key].locationLimitItems || [],
                 action.requests[key].riskAssessmentItems || [],
                 action.requests[key].methodStatementItems || [],
+                action.requests[key].reviewItems || [],
                 action.requests[key].requestStatus,
                 action.requests[key].created,
                 action.requests[key].updated
@@ -129,6 +135,7 @@ const requestsGetSuccess = (state, action) => {
         locationLimitIndex: null,
         riskAssessmentIndex: null,
         methodStatementIndex: null,
+        reviewIndex: null,
         identifier: action.identifier
     };
 }
@@ -142,6 +149,7 @@ const requestUpdateSelected = (state, action) => {
         locationLimitIndex: null,
         riskAssessmentIndex: null,
         methodStatementIndex: null,
+        reviewIndex: null,
         identifier: action.identifier
     };
 }
@@ -154,6 +162,7 @@ const requestLocationLimitIndex = (state, action) => {
         locationLimitIndex: action.locationLimitIndex,
         riskAssessmentIndex: null,
         methodStatementIndex: null,
+        reviewIndex: null,
         identifier: action.identifier
     };
 }
@@ -166,6 +175,7 @@ const requestRiskAssessmentIndex = (state, action) => {
         locationLimitIndex: null,
         riskAssessmentIndex: action.riskAssessmentIndex,
         methodStatementIndex: null,
+        reviewIndex: null,
         identifier: action.identifier
     };
 }
@@ -178,6 +188,20 @@ const requestMethodStatementIndex = (state, action) => {
         locationLimitIndex: null,
         riskAssessmentIndex: null,
         methodStatementIndex: action.methodStatementIndex,
+        reviewIndex: null,
+        identifier: action.identifier
+    };
+}
+
+const requestReviewIndex = (state, action) => {
+    return {
+        ...state,
+        loading: false,
+        error: null,
+        locationLimitIndex: null,
+        riskAssessmentIndex: null,
+        methodStatementIndex: null,
+        reviewIndex: action.reviewIndex,
         identifier: action.identifier
     };
 }
@@ -191,6 +215,7 @@ const requestDeleteSuccess = (state, action) => {
         locationLimitIndex: null,
         riskAssessmentIndex: null,
         methodStatementIndex: null,
+        reviewIndex: null,
         identifier: action.identifier
     };
 }
@@ -235,6 +260,7 @@ const reducer = (state = initialState, action) => {
         case type.REQUEST_LOCATION_LIMIT_INDEX: return requestLocationLimitIndex(state, action);
         case type.REQUEST_RISK_ASSESSMENT_INDEX: return requestRiskAssessmentIndex(state, action);
         case type.REQUEST_METHOD_STATEMENT_INDEX: return requestMethodStatementIndex(state, action);
+        case type.REQUEST_REVIEW_INDEX: return requestReviewIndex(state, action);
         case type.REQUEST_DELETE_SUCCESS: return requestDeleteSuccess(state, action);
         case type.REQUEST_FINISH: return requestFinish(state);
         case type.REQUEST_FAIL: return requestFail(state, action);

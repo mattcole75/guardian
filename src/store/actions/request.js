@@ -66,6 +66,14 @@ const updateSelectedMethodStatementIndex = (index, identifier) => {
     };
 }
 
+const updateSelectedReviewIndex = (index, identifier) => {
+    return {
+        type: type.REQUEST_REVIEW_INDEX,
+        reviewIndex: index,
+        identifier: identifier
+    }
+}
+
 const requestFinish = () => {
     return {
         type: type.REQUEST_FINISH
@@ -169,6 +177,14 @@ export const selectMthodStatement = (elementIndex, identifier) => {
     return dispatch => {
         dispatch(requestStart());
         dispatch(updateSelectedMethodStatementIndex(elementIndex, identifier));
+        dispatch(requestFinish());
+    };
+}
+
+export const selectReview = (elementIndex, identifier) => {
+    return dispatch => {
+        dispatch(requestStart());
+        dispatch(updateSelectedReviewIndex(elementIndex, identifier));
         dispatch(requestFinish());
     };
 }

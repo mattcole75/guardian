@@ -7,11 +7,14 @@ import AccessDetails from './accessRequest/accessRequest';
 import LocationLimitForm from './accessRequest/locationLimits/locationLimitForm';
 import RiskAssessmentForm from './accessRequest/riskAssessments/riskAssessmentForm';
 import MethodStatementForm from './accessRequest/methodStatements/methodStatementForm';
+import ReviewForm from './accessRequest/review/reviewForm';
+import ReviewResponseForm from './accessRequest/review/reviewResponseForm';
 import moment from 'moment';
 
 import LocationLimits from './accessRequest/locationLimits/locationLimits';
 import RiskAssessments from './accessRequest/riskAssessments/riskAssessments';
 import MethodStatements from './accessRequest/methodStatements/methodStatements';
+import ReviewItems from './accessRequest/review/reviews';
 
 import Modal from '../ui/modal/modal';
 import Backdrop from '../ui/backdrop/backdrop';
@@ -23,9 +26,10 @@ const Request = () => {
 
     const [editLocationLimit, setEditLocationLimit] = useState(false);
     const [editRiskAssessment, setEditRiskAssessment] = useState(false);
-    const [editMethodStatement, setMethodStatement] = useState(false);
+    const [editMethodStatement, setEditMethodStatement] = useState(false);
+    const [editReview, setEditReview] = useState(false);
     const [redirect, setRedirect] = useState(null);
-    const [editable, setEditable] = useState(null);
+    const [editable, setEditable] = useState(true);
 
     const loading = useSelector(state => state.requests.loading);
     const error = useSelector(state => state.requests.error);
@@ -35,6 +39,7 @@ const Request = () => {
     const locationLimitIndex = useSelector(state => state.requests.locationLimitIndex);
     const riskAssessmentIndex = useSelector(state => state.requests.riskAssessmentIndex);
     const methodStatementIndex = useSelector(state => state.requests.methodStatementIndex);
+    const reviewIndex = useSelector(state => state.requests.reviewIndex);
     // const identifier = useSelector(state => state.auth.identifier);
     // const requestRedirectPath = useSelector(state => state.requests.requestRedirectPath);
 
@@ -43,13 +48,16 @@ const Request = () => {
     const onLocationLimitItemSelect = useCallback((index, identifier) => dispatch(action.selectLocationLimit(index, identifier)), [dispatch]);
     const onRiskAssessmentItemSelect = useCallback((index, identifier) => dispatch(action.selectRiskAssessmemt (index, identifier)), [dispatch]);
     const onMethodStatementItemSelect = useCallback((index, identifier) => dispatch(action.selectMthodStatement (index, identifier)), [dispatch]);
+    const onReviewItemSelect = useCallback((index, identifier) => dispatch(action.selectReview (index, identifier)), [dispatch]);
 
 
     useEffect(() => {
-        if(request.requestStatus === 'Submitted for approval' || request.requestStatus === 'Approved')
-            setEditable(false);
-        else
-            setEditable(true);
+        if(request) {
+            if(request.requestStatus === 'Submitted for approval' || request.requestStatus === 'Approved')
+                setEditable(false);
+            else
+                setEditable(true);
+        }
     }, [request]);
 
     const saveHandler = useCallback((data) => {
@@ -58,7 +66,7 @@ const Request = () => {
                 request.id,
                 {
                     ...data,
-                    requestStatus: 'Draft',
+                    // requestStatus: 'Draft',
                     updated: moment().format()
                 },
                 'UPDATE_REQUEST'
@@ -102,6 +110,10 @@ const Request = () => {
         onMethodStatementItemSelect(index, 'METHOD_ITEM_SELECT');
     }, [onMethodStatementItemSelect]);
 
+    const reviewSelectHandler = useCallback((index) => {
+        onReviewItemSelect(index, 'REVIEW_ITEM_SELECT');
+    }, [onReviewItemSelect]);
+
     const toggleLocationLimitEdit = () => {
         if(editLocationLimit)
             locationLimitSelectHandler(null);
@@ -120,7 +132,14 @@ const Request = () => {
         if(editMethodStatement)
             methodStatementSelectHandler(null);
 
-        setMethodStatement(prevState => !prevState)
+        setEditMethodStatement(prevState => !prevState)
+    };
+
+    const toggleReviewEdit = () => {
+        if(editReview)
+            reviewSelectHandler(null);
+
+        setEditReview(prevState => !prevState)
     };
 
     let spinner = null;
@@ -171,6 +190,32 @@ const Request = () => {
             }/>
     }
 
+    if(editReview && (request && request.requestStatus === 'Submitted for approval')) {
+        modal = <Modal 
+            show={editReview} 
+            modalClosed={toggleReviewEdit} 
+            content={
+                <ReviewForm 
+                    toggle={toggleReviewEdit}
+                    save={saveHandler} 
+                    request={request}
+                    index={reviewIndex}
+                />
+            }/>
+    } else if (editReview && (request && request.requestStatus !== 'Submitted for approval')) {
+        modal = <Modal 
+            show={editReview} 
+            modalClosed={toggleReviewEdit} 
+            content={
+                <ReviewResponseForm 
+                    toggle={toggleReviewEdit}
+                    save={saveHandler} 
+                    request={request}
+                    index={reviewIndex}
+                />
+            }/>
+    }
+
     return (
         <div className="form-request my-5">
             {redirect}
@@ -194,15 +239,17 @@ const Request = () => {
                     <LocationLimits save={saveHandler} editable={editable} toggle={toggleLocationLimitEdit} select={locationLimitSelectHandler} />
                     <RiskAssessments save={saveHandler} editable={editable} toggle={toggleRiskAssessmentEdit} select={riskAssessmentSelectHandler} />
                     <MethodStatements save={saveHandler} editable={editable} toggle={toggleMethodStatementEdit} select={methodStatementSelectHandler} />
+                    <ReviewItems save={saveHandler} toggle={toggleReviewEdit} select={reviewSelectHandler} />
+                        
                 </div>
                 {editable
                     ? <button className="w-100 btn btn-lg btn-primary" type="button" disabled={false} onClick={() => {submitRequestHandler('Submitted for approval')}}>Submit for approval</button>
                     :<div>
-                        {request.requestStatus !== 'Approved'
+                        {request && request.requestStatus !== 'Approved'
                             ? <button className="w-100 btn btn-lg btn-primary mb-3" type="button" disabled={false} onClick={() => {submitRequestHandler('Approved')}}>Approve and lock</button>
                             : null
                         }
-                        <button className="w-100 btn btn-lg btn-danger" type="button" disabled={false} onClick={() => {submitRequestHandler('Rejected')}}>Reject (return access request)</button>
+                         <button className="w-100 btn btn-lg btn-danger" type="button" disabled={false} onClick={() => {submitRequestHandler('Rejected')}}>Reject (return access request)</button>
                     </div>
                 }   
                 

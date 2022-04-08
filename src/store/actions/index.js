@@ -17,5 +17,6 @@ export {
     selectLocationLimit,
     selectRiskAssessmemt,
     selectMthodStatement,
+    selectReview,
     resetState
 } from './request';
