@@ -20,3 +20,9 @@ export {
     selectReview,
     resetState
 } from './request';
+
+export {
+    getMapRequests,
+    mapResetState,
+    mapResetError
+} from './map';

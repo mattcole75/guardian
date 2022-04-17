@@ -8,12 +8,14 @@ import App from './App';
 
 import authReducer from './store/reducers/auth';
 import requestsReducer from './store/reducers/request';
+import mapReducer from './store/reducers/map';
 // import reportWebVitals from './reportWebVitals';
 
 const composeEnhancers = (process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null) || compose;
 const rootReducer = combineReducers({
     auth: authReducer,
-    requests: requestsReducer
+    requests: requestsReducer,
+    map: mapReducer
 });
 
 const store = createStore(rootReducer, 

@@ -9,7 +9,7 @@ const RiskAssessmentForm = (props) => {
 
     const { register, handleSubmit, formState, setValue, getValues } = useForm({
         mode: 'onChange', 
-        defaultValues: request && request.riskAssessmentItems[index] 
+        defaultValues: (request == null ? null : request.riskAssessmentItems[index])
     });
     const [likelihood, setLikelihood] = useState(riskConfig.likelihoodImpact.likelihood);
     const [mitigatedLikelihood, setMitigatedLikelihood] = useState(riskConfig.likelihoodImpact.likelihood);
@@ -66,7 +66,7 @@ const RiskAssessmentForm = (props) => {
         save({riskAssessmentItems: updatedRiskAssessementItems}, 'SAVE_RISK_ASSESSMENT');
         toggle();
 
-    }, [index, request.riskAssessmentItems, save, toggle]);
+    }, [index, request, save, toggle]);
 
     const onNotAcceptable = useCallback((data) => {
 
@@ -75,7 +75,7 @@ const RiskAssessmentForm = (props) => {
         save({riskAssessmentItems: updatedRiskAssessementItems}, 'SAVE_RISK_ASSESSMENT');
         toggle();
 
-    }, [index, request.riskAssessmentItems, save, toggle]);
+    }, [index, request, save, toggle]);
 
     const onDelete = useCallback(() => {
 
@@ -84,7 +84,7 @@ const RiskAssessmentForm = (props) => {
         save({riskAssessmentItems: updatedRiskAssessementItems}, 'SAVE_RISK_ASSESSMENT');
         toggle();
 
-    }, [index, request.riskAssessmentItems, save, toggle]);
+    }, [index, request, save, toggle]);
 
     return (
         <div className="form-auth my-5">
@@ -120,7 +120,7 @@ const RiskAssessmentForm = (props) => {
                             onChange={(event) => {changeImpact(event)}}
                         />
                         <div className="text-center m-2">
-                             <span className="badge bg-info text-dark text-wrap">{impact[getValues().impact].description}</span>
+                             <span className="badge bg-info text-dark text-wrap">{impact[(getValues().impact == null ? 6 : getValues().impact)].description}</span>
                         </div>
                     </div>
                 </div>
@@ -139,7 +139,7 @@ const RiskAssessmentForm = (props) => {
                             onChange={(event) => {changeLikelihood(event)}}
                         />
                         <div className="text-center m-2">
-                             <span className="badge bg-info text-dark">{likelihood[getValues().likelihood].description}</span>
+                             <span className="badge bg-info text-dark">{likelihood[(getValues().likelihood == null ? 6 : getValues().likelihood)].description}</span>
                         </div>
                     </div>
                 </div>
@@ -165,7 +165,7 @@ const RiskAssessmentForm = (props) => {
                             onChange={(event) => {changeMitigatedLikelihood(event)}}
                         />
                         <div className="text-center m-2">
-                             <span className="badge bg-info text-dark">{likelihood[getValues().mitigatedLikelihood].description}</span>
+                             <span className="badge bg-info text-dark">{likelihood[(getValues().mitigatedLikelihood == null ? 6 : getValues().mitigatedLikelihood)].description}</span>
                         </div>
                     </div>
                 </div>

@@ -8,7 +8,7 @@ const MethodStatementForm = (props) => {
 
     const { register, handleSubmit, formState } = useForm({ 
         mode: 'onChange', 
-        defaultValues: request && request.methodStatementItems[index] 
+        defaultValues: (request == null ? null : request.methodStatementItems[index]) 
     });
 
     const onSave = useCallback((data) => {
@@ -36,7 +36,7 @@ const MethodStatementForm = (props) => {
         save({methodStatementItems: updatedMethodStatementItems}, 'SAVE_METHOD_STATEMENT');
         toggle();
 
-    }, [index, request.methodStatementItems, save, toggle]);
+    }, [index, request, save, toggle]);
 
     const onNotApprove = useCallback((data) => {
 
@@ -45,7 +45,7 @@ const MethodStatementForm = (props) => {
         save({methodStatementItems: updatedMethodStatementItems}, 'SAVE_METHOD_STATEMENT');
         toggle();
 
-    }, [index, request.methodStatementItems, save, toggle]);
+    }, [index, request, save, toggle]);
 
     const onDelete = useCallback(() => {
 
@@ -54,7 +54,7 @@ const MethodStatementForm = (props) => {
         save({methodStatementItems: updatedMethodStatementItems}, 'SAVE_METHOD_STATEMENT');
         toggle();
 
-    }, [index, request.methodStatementItems, save, toggle]);
+    }, [index, request, save, toggle]);
 
     return (
         <div className="form-auth my-5">

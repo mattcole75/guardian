@@ -9,7 +9,7 @@ const LocationLimitForm = (props) => {
 
     const { register, handleSubmit, formState, getValues } = useForm({ 
         mode: 'onChange', 
-        defaultValues: request && request.locationLimitItems[index]
+        defaultValues: (request == null ? null : request.locationLimitItems[index])
     });
 
     const [locations, setLocations] = useState([]);
@@ -22,7 +22,7 @@ const LocationLimitForm = (props) => {
             setLocations(request.locationLimitItems[index].locations);
         }
             
-    }, [index, request.locationLimitItems])
+    }, [index, request])
 
     const addToLocations = () => {
         let locs = [];
@@ -85,7 +85,7 @@ const LocationLimitForm = (props) => {
             };
             save({locationLimitItems: updatedLocationLimitItems}, 'SAVE_LOCATION_LIMIT');
             toggle();
-    }, [index, locations, request.locationLimitItems, save, toggle]);
+    }, [index, request, locations, save, toggle]);
 
     const onDecline = useCallback((data) => {
         
@@ -97,7 +97,7 @@ const LocationLimitForm = (props) => {
             };
             save({locationLimitItems: updatedLocationLimitItems}, 'SAVE_LOCATION_LIMIT');
             toggle();
-    }, [index, locations, request.locationLimitItems, save, toggle]);
+    }, [index, request, locations, save, toggle]);
 
     const onDelete = useCallback(() => {
 
@@ -106,7 +106,7 @@ const LocationLimitForm = (props) => {
         save({locationLimitItems: updatedLocationLimitItems}, 'SAVE_LOCATION_LIMIT');
         toggle();
 
-    }, [index, request.locationLimitItems, save, toggle]);
+    }, [index, request, save, toggle]);
 
     return (
         <div className="form-auth my-5">

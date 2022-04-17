@@ -6729,6 +6729,11 @@ textarea.form-control-lg {
   display: none !important;
 }
 
+.location-shadow {
+  -webkit-box-shadow: 0 0 1.5rem #dc3545;
+  box-shadow: 0 0 1.5rem #dc3545;
+}
+
 .shadow {
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
 }
