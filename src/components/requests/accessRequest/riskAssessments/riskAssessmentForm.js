@@ -170,25 +170,6 @@ const RiskAssessmentForm = (props) => {
                     </div>
                 </div>
 
-                <div className="list-group mb-3 text-start">
-                    <label htmlFor="riskNearestHospital" className="form-label">Nearest hospital</label>
-                    <select className="form-select" id="riskNearestHospital" required
-                        disabled={!editable}
-                        {...register("riskNearestHospital", { required: true})}>
-                        <option value="">Choose...</option>
-                        <option>Royal Oldham Hospital, Rochdale Rd, OL1 2JH</option>
-                        <option>North Manchester General Hospital, Delaunuys Rd, Crumpsall, M8 5RB</option>
-                        <option>Manchester Royal Infirmary, Grafton Street, M13 9WL</option>
-                        <option>Salford Royal, Stott Lane, Salford, M6 8HD</option>
-                        <option>Wythenshawe Hospital, Southmoor Road, M23 9LT</option>
-                        <option>Royal Oldham Hospital, Rochdale Road, Oldham, OL1 2JH</option>
-                        <option>Tameside Hospital, Fountain Street, Ashton Under Lyne, OL6 9RW</option>
-                        <option>Stepping Hill Hospital, Poplar Grove, Hazel Grove, Stockport, SK2 7JE</option>
-                        <option>Fairfield General Hospital, Rochdale Old Road, Bury, BL9 7TD</option>
-                        <option>Royal Bolton Hospital, Minerva Road, Farnworth, Bolton, BL4 0JR</option>
-                    </select>
-                </div>
-
                 {editable
                     ? <div className="form-floating mb-3">
                         <button className="w-100 btn btn-lg btn-primary" type="button" disabled={!formState.isValid} onClick={handleSubmit(onSave)}>Save changes</button>

@@ -37,7 +37,6 @@ const riskAssessmentItem = (props) => {
                     <p className="mb-0 opacity-75"><strong>Hazard: </strong>{item.riskHazardTitle}</p>
                     <p className="mb-0 opacity-75"><strong>Risk score: </strong>{item.impact * item.likelihood}</p>
                     <p className="mb-0 opacity-75"><strong>Mitigated risk score: </strong>{item.impact * item.mitigatedLikelihood}</p>
-                    <p className="mb-0 opacity-75"><strong>Nearest hospital: </strong>{item.riskNearestHospital}</p>
                 </div>
                 <div className="p-1">
                     <small className={badgeStyle.join(' ')}>{item.riskAssessmentStatus}</small>

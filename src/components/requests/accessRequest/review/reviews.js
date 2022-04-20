@@ -8,7 +8,7 @@ const Reviews = (props) => {
     const { toggle, select } = props;
     return (
         <div>
-            <h6 className="h6 text-start">Acees request review comments:</h6>
+            <h6 className="h6 text-start">Access request review comments:</h6>
             {request && request.requestStatus === 'Submitted for approval'
                 ? <div className="text-start mb-3" role="group" aria-label="Basic example">
                     <button type="button" className="btn btn-success" onClick={toggle} >Add review comment</button>

@@ -160,14 +160,38 @@ const LocationLimitForm = (props) => {
                         disabled={!editable}
                         {...register("locationLimitType", { required: true })}>
                         <option value="">Choose...</option>
-                        <option>Occupation (no isolation)</option>
-                        <option>Occupation (isolation)</option>
-                        <option>Posession (no isolation)</option>
-                        <option>Posession (isolation)</option>
-                        <option>Maintenance (no isolation)</option>
-                        <option>Maintenance (isolation)</option>
+                        <option>Occupation</option>
+                        <option>Posession</option>
+                        <option>Maintenance</option>
                     </select>
                     <label htmlFor="locationLimitType">Access Type</label>
+                </div>
+                
+                <div className="form-floating mb-3">
+                    <select className="form-select" id="locationIssolation" required
+                        disabled={!editable}
+                        {...register("locationIssolation", { required: true })}>
+                        <option value="">Choose...</option>
+                        <option>No issolation (live OLE)</option>
+                        <option>De-energise</option>
+                        <option>Standard issolation (sub to sub)</option>
+                        <option>Special issolation</option>
+                    </select>
+                    <label htmlFor="locationIssolation">Electrical issolation</label>
+                </div>
+                
+                <div className="list-group mx-0 mb-3">
+                    <label className="list-group-item d-flex gap-2">
+                        <div className="form-check form-switch">
+                            <input className="form-check-input" type="checkbox" role="switch" id="signallingResource" 
+                                disabled={!editable}
+                                {...register("signallingResource")} />
+                        </div>
+                        <span className="text-start">
+                            Signalling resource required
+                            <small className="d-block text-muted">Indicate if this request will require signalling resource (e.g. Axle Counter Reset)</small>
+                        </span>
+                    </label>
                 </div>
 
                 <div className="form-floating mb-3">
@@ -188,6 +212,24 @@ const LocationLimitForm = (props) => {
                             <option value="Wks">Weeks</option>
                     </select>
                     <label htmlFor="durationType">Duration type</label>
+                </div>
+                
+                <div className="form-floating mb-3">
+                    <select className="form-select" id="nearestHospital" required
+                        {...register("nearestHospital", { required: true })}>
+                        <option value="">Choose...</option>
+                        <option>Royal Oldham Hospital, Rochdale Rd, OL1 2JH</option>
+                        <option>North Manchester General Hospital, Delaunuys Rd, Crumpsall, M8 5RB</option>
+                        <option>Manchester Royal Infirmary, Grafton Street, M13 9WL</option>
+                        <option>Salford Royal, Stott Lane, Salford, M6 8HD</option>
+                        <option>Wythenshawe Hospital, Southmoor Road, M23 9LT</option>
+                        <option>Royal Oldham Hospital, Rochdale Road, Oldham, OL1 2JH</option>
+                        <option>Tameside Hospital, Fountain Street, Ashton Under Lyne, OL6 9RW</option>
+                        <option>Stepping Hill Hospital, Poplar Grove, Hazel Grove, Stockport, SK2 7JE</option>
+                        <option>Fairfield General Hospital, Rochdale Old Road, Bury, BL9 7TD</option>
+                        <option>Royal Bolton Hospital, Minerva Road, Farnworth, Bolton, BL4 0JR</option>
+                    </select>
+                    <label htmlFor="nearestHospital">Nearest hospital</label>
                 </div>
                 
                 {editable

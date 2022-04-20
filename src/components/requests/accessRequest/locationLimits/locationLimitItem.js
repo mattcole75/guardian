@@ -36,9 +36,11 @@ const locationLimitItem = (props) => {
             <div className="d-flex gap-2 w-100 justify-content-between" role="button">
                 <div>
                     <p className="mb-0 opacity-75"><strong>Location(s): </strong>{item.locations.join(', ')}</p>
-                    <p className="mb-0 opacity-75"><strong>Date/Time: </strong>{item.locationLimitDate}</p>
+                    <p className="mb-0 opacity-75"><strong>Date/Time: </strong>{item.locationLimitDate} @ {item.locationLimitTime} for {item.locationLimitDuration}{item.durationType}</p>
                     <p className="mb-0 opacity-75"><strong>Type: </strong>{item.locationLimitType}</p>
-                    <p className="mb-0 opacity-75"><strong>Duration: </strong>{item.locationLimitDuration}{item.durationType}</p>
+                    <p className="mb-0 opacity-75"><strong>Issolation: </strong>{item.locationIssolation}</p>
+                    <p className="mb-0 opacity-75"><strong>Signalling resource: </strong>{item.signallingResource === true ? 'Required' : 'Not required'}</p>
+                    <p className="mb-0 opacity-75"><strong>Nearest hospital: </strong>{item.nearestHospital}</p>
                 </div>
                 <div className="p-1">
                     <small className={badgeStyle.join(' ')}>{item.locationLimitStatus}</small>

@@ -8,7 +8,7 @@ const mapItem = (props) => {
     let tooltip = [];
 
     mapItems.forEach(element => {
-        element.locationLimitItems.forEach(item => {
+        element.locationLimitItems && element.locationLimitItems.forEach(item => {
             item.locations.forEach(loc => {
                 if(loc === name) {
                     styles.push('location-shadow');
