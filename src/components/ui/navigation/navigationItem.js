@@ -6,8 +6,7 @@ const navigationItem = (props) => (
 	<li className="">
 		<NavLink
             className={isActive => "nav-link px-2 " + (!isActive ? "text-white" : "text-keolis")}
-			to={props.link}
-			exact>
+			to={props.link}>
 			{props.children}
 		</NavLink>
 	</li>

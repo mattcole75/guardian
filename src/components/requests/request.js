@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as action from '../../store/actions/index';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 import AccessDetails from './accessRequest/accessRequest';
 import LocationLimitForm from './accessRequest/locationLimits/locationLimitForm';
@@ -94,7 +94,7 @@ const Request = () => {
                 'UPDATE_REQUEST_STATUS'
 
             );
-            setRedirect(<Redirect to="/requests" />);
+            setRedirect(<Navigate to="/requests" />);
         }
     }, [request, onUpdate]);
 

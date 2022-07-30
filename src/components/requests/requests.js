@@ -1,13 +1,13 @@
 import React, { useEffect, useCallback } from "react";
 import RequestItem from './requestItem';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import * as action from '../../store/actions/index';
 
 const Applications = () => {
 
     const dispatch = useDispatch();
-    const history = useHistory();
+    const navigate = useNavigate();
     const requests = useSelector(state => state.requests.requests);
     const idToken = useSelector(state => state.auth.idToken);
     const onGetRequests = useCallback((identifier) => dispatch(action.getRequests(idToken, identifier)), [dispatch, idToken]);
@@ -19,7 +19,7 @@ const Applications = () => {
     }, [onGetRequests]);
 
     const navigateToRequestItem = () => {
-        history.push('/request');
+        navigate('/request');
     }
 
     const editRequestItem = (item) => {

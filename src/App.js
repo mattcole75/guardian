@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, Suspense } from 'react';
-import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Layout from './layout/layout';
 import * as action from './store/actions/index';
@@ -34,37 +34,36 @@ const FAQ = React.lazy(() => {
 
 const App = () => {
 
+	const dispatch = useDispatch();
     const isAuthenticated = useSelector(state => state.auth.idToken !== null);
-
-    const dispatch = useDispatch();
 	const onTryAutoLogin = useCallback(() => dispatch(action.authCheckState()),[dispatch]);
 
+	// check if there is persistent auth data stored on refresh, load into redux if it exists
 	useEffect(() => { 
         onTryAutoLogin();
 	},[onTryAutoLogin]);
 
     const routes = (
-		<Switch>
-			<Route exact path="/" component={Index} />
-			<Route path="/signup" render={() => <Signup />} />
-			<Route path="/login" render={() => <Login />} />
-            <Route path="/pricing" render={() => <Pricing />} />
-			<Route path="/faq" render={() => <FAQ />} />
-            { isAuthenticated && <Route path="/logout" render={() => <Logout />} /> }
-			{ isAuthenticated && <Route path="/requests" render={() => <Requests />} /> }
-			{ isAuthenticated && <Route path="/request" render={() => <Request />} /> }
-			{ isAuthenticated && <Route path="/account" render={() => <Account />} /> }
-			<Redirect to="/" />
-		</Switch>   
+		<Routes>
+			<Route path="/" element={ <Index /> } />
+			<Route path="/login" element={ <Login /> } />
+			<Route path="/signup" element={ <Signup /> } />
+            <Route path="/pricing" element={ <Pricing /> } />
+			<Route path="/faq" element={ () => <FAQ /> } />
+            { isAuthenticated && <Route path="/logout" element={ <Logout /> } /> }
+			{ isAuthenticated && <Route path="/requests" element={ <Requests /> } /> }
+			{ isAuthenticated && <Route path="/request" element={ <Request /> } /> }
+			{ isAuthenticated && <Route path="/account" element={ <Account /> } /> }
+		</Routes>
 	);
 
     return (
-        <div>
-            <Layout>
-                <Suspense fallback={<p>Loading...</p>}>{routes}</Suspense>
-            </Layout>
-        </div>
-    );
-}
- 
-export default withRouter(App);
+		<div className="">
+			<Layout>
+				<Suspense fallback={<p>Loading...</p>}>{routes}</Suspense>
+			</Layout>
+		</div>
+	)
+};
+
+export default App;

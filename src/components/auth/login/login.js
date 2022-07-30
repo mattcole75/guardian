@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import * as action from '../../../store/actions/index';
 
 import Backdrop from '../../ui/backdrop/backdrop';
@@ -31,7 +31,7 @@ const Login = () => {
 
     return (
         <div className="form-auth my-5">
-            {isAuthenticated && <Redirect to={authRedirectPath} />}
+            {isAuthenticated && <Navigate to={authRedirectPath} />}
             <Backdrop show={loading} />
                 {spinner}
             {error &&

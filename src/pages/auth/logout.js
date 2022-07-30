@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback } from 'react';
 import {useDispatch} from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import * as action from '../../store/actions/index';
 
 const Logout = () => {
@@ -12,10 +12,10 @@ const Logout = () => {
     useEffect(() => {
 		onLogout();
         clearRequestState();
-	},[onLogout, clearRequestState]);
+	});
 
     return (
-        <Redirect to="/" />
+        <Navigate to="/" />
     )
 };
 

@@ -1,4 +1,6 @@
-import axios from 'axios';
+import axios from '../../shared/axios';
+import direct from 'axios';
+
 import * as type from './types';
 import { apikey } from '../../configuration/config';
 
@@ -8,13 +10,16 @@ const authStart = () => {
     };
 };
 
-const authSuccess = (idToken, localId, email, displayName, identifier) => {
+const authSuccess = (idToken, localId, displayName, phoneNumber, email, organisation, roles, identifier) => {
     return {
         type: type.AUTH_SUCCESS,
         idToken: idToken,
         localId: localId,
-        email: email,
         displayName: displayName,
+        phoneNumber: phoneNumber,
+        email: email,
+        organisation: organisation,
+        roles: roles,
         identifier: identifier
     };
 };
@@ -38,46 +43,40 @@ const authStateReset = () => {
     };
 };
 
-const setLocalStorage = (authData) => {
-    const expirationDate = new Date(new Date().getTime() + authData.expiresIn * 1000);
-    localStorage.setItem('idToken', authData.idToken);
+const setLocalStorage = (idToken, localId, displayName, phoneNumber, email, organisation, roles, expiresIn) => {
+    const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
+    localStorage.setItem('idToken', idToken);
     localStorage.setItem('expirationDate', expirationDate);
-    localStorage.setItem('localId', authData.localId);
-    localStorage.setItem('email', authData.email);
-    localStorage.setItem('displayName', authData.displayName);
+    localStorage.setItem('localId', localId);
+    localStorage.setItem('displayName', displayName);
+    localStorage.setItem('phoneNumber', phoneNumber);
+    localStorage.setItem('email', email);
+    localStorage.setItem('organisation', organisation);
+    localStorage.setItem('roles', roles);
+    
 };
 
 const deleteLocalStorage = () => {
     localStorage.removeItem('idToken');
     localStorage.removeItem('expirationDate');
     localStorage.removeItem('localId');
-    localStorage.removeItem('email');
     localStorage.removeItem('displayName');
+    localStorage.removeItem('phoneNumber');
+    localStorage.removeItem('email');
+    localStorage.removeItem('organisation');
+    localStorage.removeItem('roles');
+    
 };
 
-export const signup = (authData, identifier) => {
+export const signup = (authData) => {
     return dispatch => {
 
         dispatch(authStart());
-
-        axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + apikey, authData)
+        axios.post('/user', authData)
             .then(res => {
-
-                setLocalStorage(res.data);
-
-                dispatch(authSuccess(
-                    res.data.idToken,
-                    res.data.localId,
-                    res.data.email,
-                    res.data.displayName,
-                    identifier
-                ));
-
-                dispatch(checkAuthTimeout(res.data.expiresIn));
                 dispatch(authFinish());
             })
             .catch(err => {
-                console.log(err);
                 dispatch(authFail(err)); 
             });
     };
@@ -88,25 +87,28 @@ export const login = (authData, identifier) => {
 
         dispatch(authStart());
 
-        axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + apikey, authData)
-            .then(res => {
+        direct.post('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + apikey, authData)
+            .then(resA => {
+                const { idToken, localId, expiresIn } = resA.data
+                axios.get('/user' , {
+                    headers: {
+                        idToken: idToken,
+                        localId: localId
+                    }
+                })
+                .then(resB => {
+                    const { displayName, phoneNumber, email, organisation, roles } = resB.data.data;
 
-                setLocalStorage(res.data);
-
-                dispatch(authSuccess(
-                    res.data.idToken, 
-                    res.data.localId, 
-                    res.data.email,
-                    res.data.displayName,
-                    identifier
-                ));
-
-                dispatch(checkAuthTimeout(res.data.expiresIn));
-                dispatch(authFinish());
-
+                    setLocalStorage(idToken, localId, displayName, phoneNumber, email, organisation, roles, expiresIn);
+                    dispatch(authSuccess(idToken, localId, displayName, phoneNumber, email, organisation, roles, identifier));
+                    dispatch(checkAuthTimeout(expiresIn));
+                    dispatch(authFinish());
+                })
+                .catch(err => {
+                    dispatch(authFail(err)); 
+                })
             })
             .catch(err => {
-        
                 dispatch(authFail(err)); 
             });
     };
@@ -114,8 +116,10 @@ export const login = (authData, identifier) => {
 
 export const logout = () => {
     return dispatch => {
+        dispatch(authStart());
         deleteLocalStorage();
         dispatch(authStateReset());
+        dispatch(authFinish());
     };
 };
 
@@ -130,7 +134,13 @@ export const checkAuthTimeout = (expirationTime) => {
 export const authCheckState = () => {
     return dispatch => {
         const idToken = localStorage.getItem('idToken');
+        const localId = localStorage.getItem('localId');
+        const displayName = localStorage.getItem('displayName');
+        const phoneNumber = localStorage.getItem('phoneNumber');
         const email = localStorage.getItem('email');
+        const organisation = localStorage.getItem('organisation');
+        const roles = localStorage.getItem('roles');
+        
 
         if (!idToken) {
             dispatch(logout());
@@ -140,8 +150,7 @@ export const authCheckState = () => {
                 dispatch(logout());
                 dispatch(authStateReset());
             } else {
-                const localId = localStorage.getItem('localId');
-                dispatch(authSuccess(idToken, localId, email, 'AUTH_CHECK_STATE'));
+                dispatch(authSuccess(idToken, localId, displayName, phoneNumber, email, organisation, roles, 'AUTH_CHECK_STATE'));
                 dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000 ));
             } 
         }

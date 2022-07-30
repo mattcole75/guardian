@@ -1,5 +1,4 @@
 import * as type from '../actions/types';
-import { updateObject } from '../../shared/utility';
 import MapItem from '../../model/MapItem';
 
 const initialState = {
@@ -11,10 +10,10 @@ const initialState = {
 };
 
 const mapStart = (state) => {
-    return updateObject( state, {
+    return { ...state,
         error: null,
         loading: true
-    });
+    };
 }
 
 const mapSuccess = (state, action) => {
@@ -39,24 +38,22 @@ const mapSuccess = (state, action) => {
 }
 
 const mapFinish = (state) => {
-    return updateObject( state, {
-        identifier: null
-    });
+    return { ...state, identifier: null };
 }
 
 const mapFail = (state, action) => {
-    return updateObject( state, {
+    return { ...state,
         loading: false,
         error: action.error
-    });
+    };
 }
 
 const mapStateReset = (state) => {
-    return updateObject( state, initialState);
+    return { ...state, initialState };
 }
 
 const mapErrorReset = (state) => {
-    return updateObject( state, { error: null });
+    return { ...state, error: null };
 }
 
 const reducer = (state = initialState, action) => {

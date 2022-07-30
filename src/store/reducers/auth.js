@@ -1,67 +1,72 @@
 import * as type from '../actions/types';
-import { updateObject } from '../../shared/utility';
 
 const initialState = {
     loading: false,
     error: null,
     idToken: null,
     localId: null,
-    email: null,
     displayName: null,
+    phoneNumber: null,
+    email: null,
+    organisation: null,
+    roles: [],
     identifier: null,
     authRedirectPath: '/'
 };
 
 const authStart = (state) => {
-    return updateObject( state, {
+    return { ...state,
         error: null,
         loading: true
-    });
+    };
 };
 
 const authSuccess = (state, action) => {
-    return updateObject( state, {
-        loading: false,
+    return { ...state,
         error: null,
         idToken: action.idToken,
         localId: action.localId,
-        email: action.email,
         displayName: action.displayName,
+        phoneNumber: action.phoneNumber,
+        email: action.email,
+        organisation: action.organisation,
+        roles: action.roles,
         identifier: action.identifier
-    });
+    };
 };
 
 const authFinish = (state) => {
-    return updateObject( state, {
+    return { ...state,
+        loading: false,
         identifier: null
-    });
+    };
 };
 
 const authFail = (state, action) => {
-    return updateObject( state, {
+    return { ...state,
         loading: false,
         error: action.error
-    });
+    };
 }
 
 const authStateReset = (state) => {
-    return updateObject( state, initialState);
+    return initialState;
 };
 
 const authLogout = (state) => {
-    return updateObject( state, initialState);
+    return initialState;
 };
 
 const authErrorReset = (state) => {
-    return updateObject( state, {
+    return { ...state,
         error: null
-    });
+    };
 }
 
 const authRedirectPath = (state, action) => {
-    return updateObject( state, {
+    return { ...state,
         authRedirectPath: action.authRedirectPath
-    });
+    };
 }
 
 const reducer = (state = initialState, action) => {
@@ -74,10 +79,6 @@ const reducer = (state = initialState, action) => {
         case type.AUTH_STATE_RESET: return authStateReset(state);
         case type.AUTH_ERROR_RESET: return authErrorReset(state);
         case type.AUTH_REDIRECT_PATH: return authRedirectPath(state, action);
-        // case actionType.AUTH_POST_DISPLAY_NAME: return postDisplayName(state, action);
-        // case actionType.AUTH_POST_EMAIL: return postEmail(state, action);
-        // case actionType.AUTH_POST_PASSWORD: return postPassword(state, action);
-        // case actionType.AUTH_POST_FORGOTTEN_PASSWORD: return postForgottenPassword(state, action);
         case type.AUTH_LOGOUT: return authLogout(state);
         
         default: return state;

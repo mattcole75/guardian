@@ -1,13 +1,14 @@
 import React from 'react';
 import Navigation from '../navigation/navigationItems';
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import logo from '../../../assets/kam.webp';
 
 const Header = (props) => {
 
-    const history = useHistory();
-    const navigate = (to) => {
-        history.push(to);
+    const navigate = useNavigate();
+
+    const navigateTo = (to) => {
+        navigate(to);
     }
 
     return (
@@ -22,11 +23,11 @@ const Header = (props) => {
 
                     { !props.isAuthenticated
                         ?   <div className="text-end">
-                                <button type="button" className="btn btn-outline-light me-2" onClick={() => navigate('/login')}>Login</button>
-                                <button type="button" className="btn btn-warning" onClick={() => navigate('/signup')}>Sign-up</button>
+                                <button type="button" className="btn btn-outline-light me-2" onClick={() => navigateTo('/login')}>Login</button>
+                                <button type="button" className="btn btn-warning" onClick={() => navigateTo('/signup')}>Sign-up</button>
                             </div>
                         :   <div className="text-end">
-                                <button type="button" className="btn btn-warning" onClick={() => navigate('/logout')}>Logout</button>
+                                <button type="button" className="btn btn-warning" onClick={() => navigateTo('/logout')}>Logout</button>
                             </div>
                     }
                 </div>
