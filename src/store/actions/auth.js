@@ -54,7 +54,7 @@ const setLocalStorage = (idToken, localId, displayName, phoneNumber, email, orga
     localStorage.setItem('organisation', organisation);
     localStorage.setItem('roles', roles);
     
-};
+}
 
 const deleteLocalStorage = () => {
     localStorage.removeItem('idToken');
@@ -64,9 +64,8 @@ const deleteLocalStorage = () => {
     localStorage.removeItem('phoneNumber');
     localStorage.removeItem('email');
     localStorage.removeItem('organisation');
-    localStorage.removeItem('roles');
-    
-};
+    localStorage.removeItem('roles');   
+}
 
 export const signup = (authData) => {
     return dispatch => {
@@ -80,7 +79,7 @@ export const signup = (authData) => {
                 dispatch(authFail(err)); 
             });
     };
-};
+}
 
 export const login = (authData, identifier) => {
     return dispatch => {
@@ -112,7 +111,7 @@ export const login = (authData, identifier) => {
                 dispatch(authFail(err)); 
             });
     };
-};
+}
 
 export const logout = () => {
     return dispatch => {
@@ -121,7 +120,31 @@ export const logout = () => {
         dispatch(authStateReset());
         dispatch(authFinish());
     };
-};
+}
+
+export const authSendRequest = (url, method, data, idToken, localId, identifier, param) => {
+
+    return dispatch => {
+
+        dispatch(authStart());
+
+        axios({
+            method: method,
+            url: url,
+            data: data,
+            headers: {
+                'Content-Type': 'application/json',
+                idToken: idToken,
+                localId: localId,
+                param: param
+            }
+        })
+        .then(res => {
+            const { uid, displayName, phoneNumber, email, organisation, roles } = res.body.data
+            dispatch(authSuccess(idToken, uid, displayName, phoneNumber, email, organisation, roles, identifier))
+        })
+    };
+}
 
 export const checkAuthTimeout = (expirationTime) => {
     return dispatch => {
@@ -129,7 +152,7 @@ export const checkAuthTimeout = (expirationTime) => {
             dispatch(logout());
         }, expirationTime * 1000);
     };
-};
+}
 
 export const authCheckState = () => {
     return dispatch => {
@@ -155,4 +178,4 @@ export const authCheckState = () => {
             } 
         }
     };
-};
+}

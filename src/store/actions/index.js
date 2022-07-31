@@ -4,6 +4,7 @@ export {
     // updateAccount,
     // passwordRequest,
     logout,
+    authSendRequest,
     // errorReset,
     // changeRedirectPath,
     authCheckState
