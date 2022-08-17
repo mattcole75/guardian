@@ -25,7 +25,7 @@ const Search = React.memo((props) => {
                 enteredFilter.length === 0
                 ? ''
                 : enteredFilter;
-            onLoadUsers(idToken, localId, 'GET_USERS', query)
+            onLoadUsers(idToken, localId, query, 'GET_USERS')
           }
         }, 500);
         return () => {
@@ -47,7 +47,7 @@ const Search = React.memo((props) => {
                     type="search"
                     className='form-control'
                     ref={inputRef}
-                    placeholder='Search...'
+                    placeholder='Search email...'
                     aria-label='Search'
                     value={enteredFilter}
                     onChange={event => setEnteredFilter(event.target.value)}
