@@ -1,5 +1,7 @@
 export const AUTH_START = 'AUTH_START';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
+export const USERS_GET_SUCCESS = 'USERS_GET_SUCCESS';
+export const AUTH_ADMIN_PATCH_SUCCESS = 'AUTH_ADMIN_PATCH_SUCCESS';
 export const AUTH_FINISH = 'AUTH_FINISH';
 export const AUTH_FAIL = 'AUTH_FAIL';
 export const AUTH_STATE_RESET = 'AUTH_STATE_RESET';

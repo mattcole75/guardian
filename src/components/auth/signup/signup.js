@@ -41,7 +41,7 @@ const Signup = () => {
             }
             <form className="was-validated" onSubmit={handleSubmit(signupHandler)}>
                 <i className="bi-person-plus form-auth-icon"></i>
-                <h1 className="h3 mb-3 fw-normal">Sign-up for an account</h1>
+                <h1 className="h3 mb-3 fw-normal">Sign-up</h1>
 
                 <div className="form-floating mb-3">
                     <input 
@@ -50,11 +50,12 @@ const Signup = () => {
                         id="displayName"
                         placeholder="Your name"
                         required
+                        autoComplete='off'
                         minLength={3}
                         maxLength={32}
                         {...register("displayName", { required: true, minLength: 3, maxLength: 32 })}
                     />
-                    <label htmlFor="displayName" className="form-label">Display name</label>
+                    <label htmlFor="displayName" className="form-label">Display Name</label>
                 </div>
 
                 <div className="form-floating mb-3">
@@ -64,10 +65,11 @@ const Signup = () => {
                         id="phoneNumber"
                         placeholder="+447911123456"
                         required
-                        pattern='^\+[1-9]\d{1,14}$'
-                        {...register("phoneNumber", { required: true, pattern: /^\+?[1-9]\d{1,14}/i })}
+                        autoComplete='off'
+                        pattern='^\+[1-9]\d{11,14}$'
+                        {...register("phoneNumber", { required: true, pattern: /^\+[1-9]\d{11,14}$/ })}
                     />
-                    <label htmlFor="phoneNumber" className="form-label">Phone number</label>
+                    <label htmlFor="phoneNumber" className="form-label">Phone Number</label>
                 </div>
 
                 <div className="form-floating mb-3">
@@ -76,9 +78,10 @@ const Signup = () => {
                         className="form-control"
                         id="email"
                         placeholder="name@example.com"
-                        required 
+                        required
+                        autoComplete='off'
                         {...register("email", { required: true, pattern: /^\S+@\S+$/i })} />
-                    <label htmlFor="email" className="form-label">Email address</label>
+                    <label htmlFor="email" className="form-label">Email Address</label>
                 </div>
 
                 <div className="form-floating mb-3">
@@ -88,6 +91,7 @@ const Signup = () => {
                         id="organisation"
                         placeholder="Your organisation"
                         required
+                        autoComplete='off'
                         minLength={3}
                         maxLength={32}
                         {...register("organisation", { required: true, minLength: 3, maxLength: 32 })}
@@ -102,6 +106,7 @@ const Signup = () => {
                         id="password"
                         placeholder="Password"
                         required
+                        autoComplete='off'
                         minLength={6}
                         maxLength={255}
                         {...register("password", { required: true, minLength: 6, maxLength: 255 })} />

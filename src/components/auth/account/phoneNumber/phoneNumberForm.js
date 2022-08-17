@@ -1,13 +1,13 @@
 import React, { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 
-const DisplayNameForm = (props) => {
+const PhoneNumberForm = (props) => {
 
-    const { displayName, save, toggle } = props;
+    const { phoneNumber, save, toggle } = props;
 
     const { register, handleSubmit, formState } = useForm({
         mode: 'onChange',
-        defaultValues: { displayName: displayName }
+        defaultValues: { phoneNumber: phoneNumber }
     });
 
     const onSave = useCallback((data) => {
@@ -19,21 +19,25 @@ const DisplayNameForm = (props) => {
     return (
         <div className='form-auth'>
             <form className='was-validated'>
-                <h1 className='h3 mb-3 fw-normal'>Display name</h1>
+                <h1 className='h3 mb-3 fw-normal'>Phone number</h1>
 
-                <div className='form-floating mb-3'>
-                    <input
-                        type='text'
-                        className='form-control'
-                        id='displayName'
-                        placeholder='Your display name'
+                <div className="form-floating mb-3">
+                    <input 
+                        type="tel"
+                        className="form-control"
+                        id="phoneNumber"
+                        placeholder="+447911123456"
                         required
                         autoComplete='off'
-                        minLength={3}
-                        maxLength={32}
-                        { ...register('displayName', { required: true, minLength: 3, maxLength: 32 })}
+                        pattern='^\+[1-9]\d{11,14}$'
+                        {
+                            ...register("phoneNumber", { 
+                            required: true,
+                            pattern: /^\+[1-9]\d{11,14}$/})
+                            // pattern: /^\+?[1-9]\d{1,14}/i })
+                        }
                     />
-                    <label htmlFor='displayName' className='form-label'>Display name</label>
+                    <label htmlFor="phoneNumber" className="form-label">Phone number</label>
                 </div>
 
                 <div className='form-floating mb-3'>
@@ -56,4 +60,4 @@ const DisplayNameForm = (props) => {
     );
 }
 
-export default DisplayNameForm;
+export default PhoneNumberForm  ;

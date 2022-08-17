@@ -31,11 +31,16 @@ const Pricing = React.lazy(() => {
 const FAQ = React.lazy(() => {
     return import('./pages/faq');
 });
+const Users = React.lazy(() => {
+	return import ('./pages/auth/users');
+});
 
 const App = () => {
 
 	const dispatch = useDispatch();
     const isAuthenticated = useSelector(state => state.auth.idToken !== null);
+	const roles = useSelector(state => state.auth.roles);
+    const isAdministrator = roles.includes('administrator', 0);
 	const onTryAutoLogin = useCallback(() => dispatch(action.authCheckState()),[dispatch]);
 
 	// check if there is persistent auth data stored on refresh, load into redux if it exists
@@ -54,6 +59,8 @@ const App = () => {
 			{ isAuthenticated && <Route path="/requests" element={ <Requests /> } /> }
 			{ isAuthenticated && <Route path="/request" element={ <Request /> } /> }
 			{ isAuthenticated && <Route path="/account" element={ <Account /> } /> }
+			{ isAuthenticated && isAdministrator && <Route path="/users" element={ <Users /> } /> }
+			<Route path="*" element={ <Index /> } />
 		</Routes>
 	);
 

@@ -12,14 +12,14 @@ const initialState = {
     roles: [],
     identifier: null,
     authRedirectPath: '/'
-};
+}
 
 const authStart = (state) => {
     return { ...state,
         error: null,
         loading: true
     };
-};
+}
 
 const authSuccess = (state, action) => {
     return { ...state,
@@ -33,14 +33,39 @@ const authSuccess = (state, action) => {
         roles: action.roles,
         identifier: action.identifier
     };
-};
+}
+
+const authUsersSuccess = (state, action) => {
+    return { ...state,
+        error: null,
+        users: action.users,
+        identifier: action.identifier
+    };
+}
+
+const authAdminPatchSuccess = (state, action) => {
+    const index = state.users.findIndex(usr => usr.uid === action.localId);
+    const updatedUsers = [...state.users];
+    let user = {
+        ...updatedUsers[index],
+        roles: action.roles, 
+        disabled: action.disabled
+    };
+    updatedUsers[index] = user;
+    
+    return { ...state,
+        error: null,
+        users: updatedUsers,
+        identifier: action.identifier
+    };
+}
 
 const authFinish = (state) => {
     return { ...state,
         loading: false,
         identifier: null
     };
-};
+}
 
 const authFail = (state, action) => {
     return { ...state,
@@ -51,11 +76,11 @@ const authFail = (state, action) => {
 
 const authStateReset = (state) => {
     return initialState;
-};
+}
 
 const authLogout = (state) => {
     return initialState;
-};
+}
 
 const authErrorReset = (state) => {
     return { ...state,
@@ -74,15 +99,16 @@ const reducer = (state = initialState, action) => {
     switch (action.type) {
         case type.AUTH_START: return authStart(state);
         case type.AUTH_SUCCESS: return authSuccess(state, action);
+        case type.USERS_GET_SUCCESS: return authUsersSuccess(state, action);
+        case type.AUTH_ADMIN_PATCH_SUCCESS: return authAdminPatchSuccess(state, action);
         case type.AUTH_FINISH: return authFinish(state);
         case type.AUTH_FAIL: return authFail(state, action);
         case type.AUTH_STATE_RESET: return authStateReset(state);
         case type.AUTH_ERROR_RESET: return authErrorReset(state);
         case type.AUTH_REDIRECT_PATH: return authRedirectPath(state, action);
         case type.AUTH_LOGOUT: return authLogout(state);
-        
         default: return state;
     }
-};
+}
 
 export default reducer;

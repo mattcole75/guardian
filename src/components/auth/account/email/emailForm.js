@@ -1,13 +1,13 @@
 import React, { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 
-const DisplayNameForm = (props) => {
+const EmailForm = (props) => {
 
-    const { displayName, save, toggle } = props;
+    const { email, save, toggle } = props;
 
     const { register, handleSubmit, formState } = useForm({
         mode: 'onChange',
-        defaultValues: { displayName: displayName }
+        defaultValues: { email: email }
     });
 
     const onSave = useCallback((data) => {
@@ -19,21 +19,18 @@ const DisplayNameForm = (props) => {
     return (
         <div className='form-auth'>
             <form className='was-validated'>
-                <h1 className='h3 mb-3 fw-normal'>Display name</h1>
+                <h1 className='h3 mb-3 fw-normal'>Email</h1>
 
-                <div className='form-floating mb-3'>
-                    <input
-                        type='text'
-                        className='form-control'
-                        id='displayName'
-                        placeholder='Your display name'
+                <div className="form-floating mb-3">
+                    <input 
+                        type="email"
+                        className="form-control"
+                        id="email"
+                        placeholder="name@example.com"
                         required
                         autoComplete='off'
-                        minLength={3}
-                        maxLength={32}
-                        { ...register('displayName', { required: true, minLength: 3, maxLength: 32 })}
-                    />
-                    <label htmlFor='displayName' className='form-label'>Display name</label>
+                        {...register("email", { required: true, pattern: /^\S+@\S+$/i })} />
+                    <label htmlFor="email" className="form-label">Email address</label>
                 </div>
 
                 <div className='form-floating mb-3'>
@@ -56,4 +53,4 @@ const DisplayNameForm = (props) => {
     );
 }
 
-export default DisplayNameForm;
+export default EmailForm;

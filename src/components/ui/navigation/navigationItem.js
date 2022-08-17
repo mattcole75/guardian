@@ -2,12 +2,15 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 const navigationItem = (props) => (
-	
-	<li className="">
-		<NavLink
-            className={isActive => "nav-link px-2 " + (!isActive ? "text-white" : "text-keolis")}
-			to={props.link}>
-			{props.children}
+
+	<li>
+		<NavLink 
+			to={props.link}
+			className={ ({isActive}) => isActive 
+				? 'nav-link text-secondary' 
+				: 'nav-link text-white' }>
+			<i className={ props.icon + ' fs-3 d-block text-sm-center' } />
+			{ props.children }
 		</NavLink>
 	</li>
 );

@@ -43,11 +43,25 @@ const Login = () => {
                 <i className="bi-person-check form-auth-icon"></i>
                 <h1 className="h3 mb-3 fw-normal">Login</h1>
                 <div className="form-floating mb-3">
-                    <input type="email" className="form-control" id="email" placeholder="name@example.com" required {...register("email", { required: true, pattern: /^\S+@\S+$/i })} />
-                    <label htmlFor="email" className="form-label">Email address</label>
+                    <input
+                        type="email"
+                        className="form-control"
+                        id="email" placeholder="name@example.com"
+                        required
+                        autoComplete='off'
+                        {...register("email", { required: true, pattern: /^\S+@\S+$/i })} />
+                    <label htmlFor="email" className="form-label">Email Address</label>
                 </div>
                 <div className="form-floating mb-3">
-                    <input type="password" className="form-control" id="password" placeholder="Password" required minLength={6} maxLength={255} {...register("password", { required: true, minLength: 6, maxLength: 255 })} />
+                    <input
+                        type="password"
+                        className="form-control"
+                        id="password" placeholder="Password"
+                        required
+                        autoComplete='off'
+                        minLength={6}
+                        maxLength={255}
+                        {...register("password", { required: true, minLength: 6, maxLength: 255 })} />
                     <label htmlFor="password" className="form-label">Password</label>
                 </div>
                 <button className="w-100 btn btn-lg btn-primary" type="submit" disabled={!formState.isValid}>Login</button>

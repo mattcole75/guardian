@@ -5,6 +5,8 @@ export {
     // passwordRequest,
     logout,
     authSendRequest,
+    authGetUsers,
+    authAdminPatch,
     // errorReset,
     // changeRedirectPath,
     authCheckState
