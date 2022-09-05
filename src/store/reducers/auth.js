@@ -60,6 +60,14 @@ const authAdminPatchSuccess = (state, action) => {
     };
 }
 
+const authRecoverPasswordSuccess = (state, action) => {
+    return { ...state,
+        error: null,
+        email: action.email,
+        identifier: action.identifier
+    };
+}
+
 const authFinish = (state) => {
     return { ...state,
         loading: false,
@@ -101,6 +109,7 @@ const reducer = (state = initialState, action) => {
         case type.AUTH_SUCCESS: return authSuccess(state, action);
         case type.USERS_GET_SUCCESS: return authUsersSuccess(state, action);
         case type.AUTH_ADMIN_PATCH_SUCCESS: return authAdminPatchSuccess(state, action);
+        case type.AUTH_RECOVER_PASSWORD_SUCCESS: return authRecoverPasswordSuccess(state, action);
         case type.AUTH_FINISH: return authFinish(state);
         case type.AUTH_FAIL: return authFail(state, action);
         case type.AUTH_STATE_RESET: return authStateReset(state);

@@ -1,9 +1,9 @@
 import React from 'react';
-import Map from '../components/map/map';
+import PublicView from '../components/publicView/publicView';
 
 const index = () => (
     <section>
-        <Map />
+        <PublicView />
     </section>
 );
 

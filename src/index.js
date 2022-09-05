@@ -6,14 +6,14 @@ import { configureStore } from '@reduxjs/toolkit'
 import App from './App';
 import authReducer from './store/reducers/auth';
 import requestsReducer from './store/reducers/request';
-import mapReducer from './store/reducers/map';
+import publicViewReducer from './store/reducers/publicView';
 // import reportWebVitals from './reportWebVitals';
 
 const store = configureStore({
     reducer: {
         auth: authReducer,
         requests: requestsReducer,
-        map: mapReducer
+        publicView: publicViewReducer
     }
 });
 

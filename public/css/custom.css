@@ -52,11 +52,14 @@
   text-align: center;
 }
 
+.admin-info-icon {
+  font-size: 1rem;
+  color: #0d6efd;
+}
 .location-icon {
   font-size: 1.2rem;
   color: black;
 }
-
 .form-request-icon {
   font-size: 5rem;
   color: darkslategray;
@@ -266,7 +269,7 @@
   display: none;
 }
 
-@media (max-width: 1024px) {
+/* @media (max-width: 1024px) {
 
   .map-container {
     font-size: 0.7rem;
@@ -280,9 +283,9 @@
   .map-item_code {
     display: none;
   }
-}
+} */
 
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
 
   .map-container {
     font-size: 0.5rem;
@@ -296,9 +299,9 @@
   .map-item_code {
     display: none;
   }
-}
+} */
 
-@media (max-width: 600px) {
+/* @media (max-width: 600px) {
 
   .map-container {
     font-size: 0.7rem;
@@ -312,7 +315,21 @@
   .map-item_code {
     display: block;
   }
+} */
+
+.map-container {
+  font-size: 0.7rem;
+  gap: 2px;
 }
+
+.map-item_name {
+  display: none;
+}
+
+.map-item_code {
+  display: block;
+}
+
 .map-item_rtc {
   grid-column: c10;
   grid-row: r1;

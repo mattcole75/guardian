@@ -29,7 +29,7 @@ const navigationItems = (props) => (
 							? <DropdownNavigationItem link='/account' icon='bi-person'> Account</DropdownNavigationItem>
 							: null
 						}
-						{ props.isAuthenticated
+						{ props.isAuthenticated && props.isAdministrator
 							? <DropdownNavigationItem link='/users' icon='bi-people'> Users</DropdownNavigationItem>
 							: null
 						}

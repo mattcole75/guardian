@@ -33,6 +33,13 @@ const getRequestsSuccess = (requests, identifier) => {
         identifier: identifier
     };
 }
+const getPlannersSuccess = (planners, identifier) => {
+    return {
+        type: type.REQUESTS_PLANNERS_GET_SUCCESS,
+        planners: planners,
+        identifier: identifier
+    };
+}
 
 const updateSelectedRequest = (request, identifier) => {
     return {
@@ -48,30 +55,6 @@ const updateSelectedLocationLimitIndex = (index, identifier) => {
         locationLimitIndex: index,
         identifier: identifier
     };
-}
-
-const updateSelectedRiskAssessmentIndex = (index, identifier) => {
-    return {
-        type: type.REQUEST_RISK_ASSESSMENT_INDEX,
-        riskAssessmentIndex: index,
-        identifier: identifier
-    };
-}
-
-const updateSelectedMethodStatementIndex = (index, identifier) => {
-    return {
-        type: type.REQUEST_METHOD_STATEMENT_INDEX,
-        methodStatementIndex: index,
-        identifier: identifier
-    };
-}
-
-const updateSelectedReviewIndex = (index, identifier) => {
-    return {
-        type: type.REQUEST_REVIEW_INDEX,
-        reviewIndex: index,
-        identifier: identifier
-    }
 }
 
 const requestFinish = () => {
@@ -93,15 +76,21 @@ const requestStateReset = () => {
     };
 }
 
-export const createRequest = (data, idToken, identifier) => {
+export const createRequest = (idToken, localId, data, identifier) => {
 
     return dispatch => {
 
         dispatch(requestStart());
 
-        axios.post('/requests.json?auth=' + idToken, data)
+        axios.post('/request', data, {
+            headers: {
+                idToken: idToken,
+                localId: localId
+            }
+        })
         .then(response => {
-            dispatch(createRequestSuccess(response.data.name, data,identifier));
+
+            dispatch(createRequestSuccess(response.data.result.id, data, identifier));
             dispatch(requestFinish());
         })
         .catch(error => {
@@ -111,13 +100,19 @@ export const createRequest = (data, idToken, identifier) => {
     };
 }
 
-export const updateRequest = (id, data, idToken, identifier) => {
+export const updateRequest = (id, idToken, localId, data, identifier) => {
     
     return dispatch => {
 
         dispatch(requestStart());
 
-        axios.patch('/requests/' + id + '.json?auth=' + idToken, data)
+        axios.patch('/request', data, {
+            headers: {
+                idToken: idToken,
+                localId: localId,
+                param: id
+            }
+        })
         .then(response => {
             dispatch(updateRequestSuccess(id, data, identifier));
             dispatch(requestFinish());
@@ -129,15 +124,27 @@ export const updateRequest = (id, data, idToken, identifier) => {
     };
 }
 
-export const getRequests = (idToken, identifier) => {
+export const getRequests = (idToken, localId, roles, identifier) => {
 
     return dispatch => {
 
+        let url = '/requests';
+        let headers = { headers: {
+            idToken: idToken,
+            localId: localId
+        }};
+
+        if(roles.includes('coordinator'))
+            url = '/coordinatorrequests'
+        
+        if(roles.includes('planner'))
+            url = '/plannerrequests'
+
         dispatch(requestStart());
 
-        axios.get('/requests.json?auth=' + idToken)
+        axios.get(url, headers)
         .then(response => {
-            dispatch(getRequestsSuccess(response.data, identifier));
+            dispatch(getRequestsSuccess(response.data.result, identifier));
             dispatch(requestFinish());
         })
         .catch(error => {
@@ -165,27 +172,25 @@ export const selectLocationLimit = (elementIndex, identifier) => {
     };
 }
 
-export const selectRiskAssessmemt = (elementIndex, identifier) => {
-    return dispatch => {
-        dispatch(requestStart());
-        dispatch(updateSelectedRiskAssessmentIndex(elementIndex, identifier));
-        dispatch(requestFinish());
-    };
-}
+export const getPlanners = (idToken, localId, identifier) => {
 
-export const selectMthodStatement = (elementIndex, identifier) => {
     return dispatch => {
-        dispatch(requestStart());
-        dispatch(updateSelectedMethodStatementIndex(elementIndex, identifier));
-        dispatch(requestFinish());
-    };
-}
 
-export const selectReview = (elementIndex, identifier) => {
-    return dispatch => {
         dispatch(requestStart());
-        dispatch(updateSelectedReviewIndex(elementIndex, identifier));
-        dispatch(requestFinish());
+
+        axios.get('/planners', {
+            headers: {
+                idToken: idToken,
+                localId: localId
+            }
+        })
+        .then(response => {
+            dispatch(getPlannersSuccess(response.data.planners, identifier));
+            dispatch(requestFinish());
+        })
+        .catch(error => {
+            dispatch(requestFail(error));
+        });
     };
 }
 

@@ -1,6 +1,7 @@
 export {
     signup,
     login,
+    recoverPassword,
     // updateAccount,
     // passwordRequest,
     logout,
@@ -16,16 +17,14 @@ export {
     createRequest,
     updateRequest,
     getRequests,
+    getPlanners,
     selectRequestItem,
     selectLocationLimit,
-    selectRiskAssessmemt,
-    selectMthodStatement,
-    selectReview,
     resetState
 } from './request';
 
 export {
-    getMapRequests,
-    mapResetState,
-    mapResetError
-} from './map';
+    getPublicViewRequests,
+    publicViewResetState,
+    publicViewResetError
+} from './publicView';

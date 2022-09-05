@@ -13,6 +13,9 @@ const Signup = React.lazy(() => {
 const Login = React.lazy(() => {
     return import('./pages/auth/login');
 });
+const RecoverPassword = React.lazy(() => {
+    return import('./pages/auth/recoverPassword');
+});
 const Logout = React.lazy(() => {
     return import('./pages/auth/logout');
 });
@@ -52,6 +55,7 @@ const App = () => {
 		<Routes>
 			<Route path="/" element={ <Index /> } />
 			<Route path="/login" element={ <Login /> } />
+			<Route path="/recoverPassword" element={ <RecoverPassword /> } />
 			<Route path="/signup" element={ <Signup /> } />
             <Route path="/pricing" element={ <Pricing /> } />
 			<Route path="/faq" element={ () => <FAQ /> } />

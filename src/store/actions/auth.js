@@ -41,6 +41,13 @@ const authAdminPatchSuccess = (user, identifier) => {
         identifier: identifier
     };
 }
+const authRecoverPasswordSuccess = (email, identifier) => {
+    return {
+        type: type.AUTH_RECOVER_PASSWORD_SUCCESS,
+        email: email,
+        identifier: identifier
+    }
+}
 
 const authFinish = () => {
     return {
@@ -127,6 +134,23 @@ export const login = (authData, identifier) => {
             })
             .catch(err => {
                 dispatch(authFail(err)); 
+            });
+    };
+}
+
+export const recoverPassword = (authData, identifier) => {
+    return dispatch => {
+
+        dispatch(authStart());
+
+        direct.post('https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=' + apikey, authData)
+            .then(res => {
+                console.log('action', res.data.email);
+                dispatch(authRecoverPasswordSuccess(res.data.email, identifier));
+                dispatch(authFinish());
+            })
+            .catch(err => {
+                dispatch(authFail(err));
             });
     };
 }

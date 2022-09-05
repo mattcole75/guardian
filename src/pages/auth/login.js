@@ -1,8 +1,8 @@
 import React from 'react';
 import Login from '../../components/auth/login/login';
 
-const signup = () => (
+const login = () => (
     <Login />
 );
 
-export default signup;
+export default login;

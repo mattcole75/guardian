@@ -9,7 +9,7 @@ const AdminForm = (props) => {
     const { register, handleSubmit } = useForm({
         mode: 'onChange',
         defaultValues: { 
-            user: user.roles.includes('user') ? true : false ,
+            user: user.roles.includes('user') ? true : false,
             coordinator: user.roles.includes('coordinator') ? true : false,
             planner: user.roles.includes('planner') ? true : false,
             technicalReviewer: user.roles.includes('technicalReviewer') ? true : false,
@@ -57,10 +57,13 @@ const AdminForm = (props) => {
                 </li>
 
                 <li className='list-group-item d-flex justify-content-between lh-sm'>
-                    <div className='text-start'>
-                        <h6 className='my-0'>Email</h6>
-                        <small className='text-muted'>
-                            {user.email} {
+                    <div class="d-flex gap-2 w-100 justify-content-between">
+                        <div className='text-start'>
+                            <h6 className="mb-0">Email</h6>
+                            <small className='text-muted'>{user.email}</small>
+                        </div>
+                        <small className="opacity-75 text-nowrap">
+                            {
                                 !user.emailVerified 
                                     ? <span className='badge text-end bg-danger'>Not Verified</span>
                                     : <span className='badge text-end bg-success'>Verified</span>
@@ -84,7 +87,20 @@ const AdminForm = (props) => {
 
             </ul>
             <form className=''>
-                <h1 className='h3 mb-3 fw-normal text-start'>Account Status</h1>
+
+                <div class="d-flex gap-2 w-100 justify-content-between">
+                        <div className='text-start'>
+                            <h1 className='h3 mb-3 fw-normal text-start'>Account Status</h1>
+                        </div>
+                        <small className="opacity-75 text-nowrap">
+                            {
+                                user.disabled 
+                                    ? <span className='badge text-end bg-danger'>Disabled</span>
+                                    : <span className='badge text-end bg-success'>Enabled</span>
+                            }
+                        </small>
+                    </div>
+
                 <div className='form-floating mb-3 border border-secondary p-2 rounded-2'>
                     <div className="form-check form-switch primary text-start">
                         <input 

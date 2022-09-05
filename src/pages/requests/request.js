@@ -1,8 +1,8 @@
 import React from 'react';
-import Request from '../../components/requests/request';
+import RequestForm from '../../components/requests/form/requestForm';
 
 const access = () => (
-    <Request />
+    <RequestForm />
 );
 
 export default access;
