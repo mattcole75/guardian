@@ -7,10 +7,11 @@ const accessRequestList = (props) => {
 
     return (
         <div className="list-group col">
-            {
-                requests && requests.map((item, index) => (
-                    <AccessRequestListItem key={index} item={item} />
-                ))
+            { requests.length > 0
+                 ?  requests.map((item, index) => (
+                        <AccessRequestListItem key={index} item={item} />
+                    ))
+                :   <div className='alert alert-warning text-sm-center' role='alert'>No Access Requests have been registered for this week</div>
             }
         </div>
     )

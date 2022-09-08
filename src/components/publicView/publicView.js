@@ -1,27 +1,51 @@
-import React, { useEffect, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import * as action from '../../store/actions/index';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import moment from 'moment';
+
+import Backdrop from '../ui/backdrop/backdrop';
+import Spinner from '../ui/spinner/spinner';
 
 import Filter from './filter/filter';
 import Map from './map/map';
 import AccessRequestList from './accessRequestList/accessRequestList';
+import railWeeks from '../../configuration/railWeeks';
 
 const PublicView = () => {
 
-    const dispatch = useDispatch();
-    const idToken = useSelector(state => state.auth.idToken);
-    const localId = useSelector(state => state.auth.localId);
+    const loading = useSelector(state => state.publicView.loading);
+    const error = useSelector(state => state.publicView.error);
     const publicViewRequests = useSelector(state => state.publicView.requests);
+    
+    const [currentWeek, setCurrentWeek] = useState(null);
 
-    const onGetPublicRequests = useCallback((idToken, localId, identifier) => dispatch(action.getPublicViewRequests(idToken, localId, identifier)), [dispatch])
+    const today = Date.parse(moment().startOf('day'));
 
     useEffect(() => {
-        onGetPublicRequests(idToken, localId,'GET_PUBLIC_VIEW_REQUESTS');
-    },[idToken, localId, onGetPublicRequests])
+
+        railWeeks.forEach(week => {
+            if(today >= Date.parse(week.start) && today < Date.parse(week.end) && week.inUse === 1) {
+                setCurrentWeek(week.id);
+            }
+        })
+    },[today]);
+
+
+    let spinner = null;
+
+    if(loading)
+        spinner = <Spinner />
+
 
     return (
         <div className='container'>
-            <Filter />
+            <Backdrop show={loading} />
+            {spinner}
+            {error &&
+                <div className='alert alert-danger' role='alert'>
+                    {error}
+                </div>
+            }
+            <Filter railWeeks={railWeeks} currentWeek={currentWeek}/>
             <div className='row'>
                 <Map requests={publicViewRequests} />
                 <AccessRequestList requests={publicViewRequests}/>

@@ -40,7 +40,7 @@ const publicViewErrorReset = () => {
     };
 }
 
-export const getPublicViewRequests = (idToken, localId, identifier) => {
+export const getPublicViewRequests = (idToken, localId, startDate, endDate, identifier) => {
 
     return dispatch => {
 
@@ -49,7 +49,9 @@ export const getPublicViewRequests = (idToken, localId, identifier) => {
         axios.get('/publicview', {
             headers: {
                 idToken: idToken,
-                localId: localId
+                localId: localId,
+                startDate: startDate,
+                endDate: endDate
             }
         })
         .then(response => {

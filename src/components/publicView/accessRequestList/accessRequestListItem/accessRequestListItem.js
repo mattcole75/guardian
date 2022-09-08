@@ -3,9 +3,9 @@ import moment from 'moment';
 
 const accessRequestListItem = (props) => {
 
-    const { title, startDate, endDate, locations, status, electricalIsolationRequired, signallingResourceRequired, testTramsRequired } = props.item;
+    const { startDate, endDate, locations, status, electricalIsolationRequired, signallingResourceRequired, testTramsRequired } = props.item;
 
-    let statusStyle = ['badge d-inline-block mb-2 text-nowrap'];
+    let statusStyle = ['badge d-inline-block mb-2 text-nowrap h-100 ms-lg-1'];
 
     switch(status) {
         case 'Draft':
@@ -30,17 +30,18 @@ const accessRequestListItem = (props) => {
     return (
         <div className='list-group-item list-group-item-action'>
             <div className='d-flex w-100 justify-content-between'>
-                <h5 className='mb-1'>{title}</h5>
+                <h5 className='mb-1'>{locations.join(' | ')}</h5>
+                {/* <h5 className='mb-1'>{title}</h5> */}
                 <span className={statusStyle.join(' ')}>{status}</span>
                 
             </div>
-            <p className='mb-1'>{locations.join(' | ')}</p>
-            <small>Due {moment(startDate).endOf('day').fromNow()}</small>
+            {/* <p className='mb-1'>{locations.join(' | ')}</p> */}
+            <small>Approx. {moment(startDate).endOf('day').fromNow()}</small>
             <p>
                 Start:
-                <small className='text-muted'> {startDate} </small>
+                <small className='text-muted'> {moment(startDate).format('Do MMMM YYYY')} </small>
                 End:
-                <small className='text-muted'> {endDate}</small>
+                <small className='text-muted'> {moment(endDate).format('Do MMMM YYYY')}</small>
             </p>
             <div className='d-flex justify-content-evenly'>
                 {electricalIsolationRequired
