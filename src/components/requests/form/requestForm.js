@@ -226,15 +226,15 @@ const Request = () => {
                                 <div className="accordion-body">
                                     <div className='border rounded p-1 mb-1 bg-light'>
                                         <div className='text-sm-start p-2'>
-                                            <div class="mb-1">
-                                                <label for="comment" class="form-label">Comments</label>
-                                                <input type="text" class="form-control" id="comment" onChange={(event => {setComment(event.target.value)})} placeholder='Type your message here' />
+                                            <div className="mb-1">
+                                                <label htmlFor="comment" className="form-label">Comments</label>
+                                                <input type="text" className="form-control" id="comment" onChange={(event => {setComment(event.target.value)})} placeholder='Type your message here' />
                                             </div>
                                             <div className='text-sm-end'>
                                                 <button className="w-25 btn btn-sm btn-primary mb-3" type="button" onClick={onSaveComment}>Send</button>
                                             </div>
                                         </div>
-                                        <div class="list-group">
+                                        <div className="list-group">
                                             {
                                                 (request && request[key].comments) && request[key].comments.map((item, index) => (<Comment key={index} comment={item} />))
                                             }

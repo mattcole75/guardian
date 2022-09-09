@@ -7,6 +7,7 @@ import moment from 'moment';
 const Administration = (props) => {
 
     const { request, save } = props;
+
     const planners = useSelector(state => state.requests.planners);
     const displayName = useSelector(state => state.auth.displayName);
 
@@ -38,7 +39,7 @@ const Administration = (props) => {
 
         save({ administrationComments: updatedComments }, 'SAVE_REQUEST');
         
-    }, [comment, displayName, request.administrationComments, save]);
+    }, [comment, displayName, request, save]);
 
 
 
@@ -64,7 +65,7 @@ const Administration = (props) => {
                     
                     <div className='text-sm-start p-2'>
                         <div className="mb-1">
-                            <label for="comment" className="form-label">Comments</label>
+                            <label htmlFor="comment" className="form-label">Comments</label>
                             <input type="text" className="form-control" id="comment" onChange={(event => {setComment(event.target.value)})} placeholder='Type your message here' />
                         </div>
                         <div className='text-sm-end'>

@@ -124,14 +124,18 @@ export const updateRequest = (id, idToken, localId, data, identifier) => {
     };
 }
 
-export const getRequests = (idToken, localId, roles, identifier) => {
+export const getRequests = (idToken, localId, startDate, endDate, statusFilter, plannerFilter, roles, identifier) => {
 
     return dispatch => {
 
         let url = '/requests';
         let headers = { headers: {
             idToken: idToken,
-            localId: localId
+            localId: localId,
+            startDate: startDate,
+            endDate: endDate,
+            statusFilter: statusFilter,
+            plannerFilter: plannerFilter
         }};
 
         if(roles.includes('coordinator'))
