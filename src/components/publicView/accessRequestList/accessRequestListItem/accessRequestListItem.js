@@ -3,7 +3,9 @@ import moment from 'moment';
 
 const accessRequestListItem = (props) => {
 
-    const { startDate, endDate, locations, status, electricalIsolationRequired, signallingResourceRequired, testTramsRequired } = props.item;
+    const { item, roles } = props;
+
+    const { title, organisation, startDate, endDate, locations, status, electricalIsolationRequired, signallingResourceRequired, testTramsRequired } = item;
 
     let statusStyle = ['badge d-inline-block mb-2 text-nowrap h-100 ms-lg-1'];
 
@@ -30,12 +32,20 @@ const accessRequestListItem = (props) => {
     return (
         <div className='list-group-item list-group-item-action'>
             <div className='d-flex w-100 justify-content-between'>
-                <h5 className='mb-1'>{locations.join(' | ')}</h5>
-                {/* <h5 className='mb-1'>{title}</h5> */}
+                { roles.includes('planner')
+                    ? <h5 className='mb-1'>{title}</h5>
+                    : null
+                }
+                { roles.includes('planner')
+                    ? <p className='mb-1'>{locations.join(' | ')}</p>
+                    : <h5 className='mb-1'>{locations.join(' | ')}</h5>
+                }
                 <span className={statusStyle.join(' ')}>{status}</span>
-                
             </div>
-            {/* <p className='mb-1'>{locations.join(' | ')}</p> */}
+            { roles.includes('planner')
+                    ? <p className='mb-0'>Project Organisation: <small className='text-muted'>{organisation}</small></p>
+                    : null
+            }
             <small>Approx. {moment(startDate).endOf('day').fromNow()}</small>
             <p>
                 Start:
@@ -43,21 +53,23 @@ const accessRequestListItem = (props) => {
                 End:
                 <small className='text-muted'> {moment(endDate).format('Do MMMM YYYY')}</small>
             </p>
-            <div className='d-flex justify-content-evenly'>
-                {electricalIsolationRequired
-                    ?   <span className='badge d-inline-block bg-warning text-dark text-nowrap'>Electrical Isolation</span>
-                    :   null
-                }
-                {signallingResourceRequired
-                    ?   <span className='badge d-inline-block bg-warning text-dark text-nowrap'>Signalling</span>
-                    :   null
-                }
-                {testTramsRequired
-                    ?   <span className='badge d-inline-block bg-warning text-dark text-nowrap'>Test Trams</span>
-                    :   null
-                }                
-            </div>
-            
+            {roles.length !== 0
+                ?   <div className='d-flex justify-content-evenly'>
+                        {electricalIsolationRequired
+                            ?   <span className='badge d-inline-block bg-warning text-dark text-nowrap'>Electrical Isolation</span>
+                            :   null
+                        }
+                        {signallingResourceRequired
+                            ?   <span className='badge d-inline-block bg-warning text-dark text-nowrap'>Signalling</span>
+                            :   null
+                        }
+                        {testTramsRequired
+                            ?   <span className='badge d-inline-block bg-warning text-dark text-nowrap'>Test Trams</span>
+                            :   null
+                        }                
+                    </div>
+                : null
+            }
         </div>
     )
 }

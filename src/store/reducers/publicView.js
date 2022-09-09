@@ -21,8 +21,8 @@ const publicViewSuccess = (state, action) => {
         let id = Object.keys(action.requests[key1]);
         for(const key2 in action.requests[key1][id].locationLimitItems) {
             newPublicViewRequestItems.push({
-                //organisation: action.requests[key1][id].requestorOrganisation,
-                //title: action.requests[key1][id].accessRequestTitle || null,
+                organisation: action.requests[key1][id].requestorOrganisation,
+                title: action.requests[key1][id].accessRequestTitle || null,
                 startDate: action.requests[key1][id].locationLimitItems[key2].locationLimitStartDate || null,
                 endDate: action.requests[key1][id].locationLimitItems[key2].locationLimitEndDate || null,
                 locations: action.requests[key1][id].locationLimitItems[key2].locations || [],

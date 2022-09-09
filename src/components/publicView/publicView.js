@@ -15,6 +15,7 @@ const PublicView = () => {
     const loading = useSelector(state => state.publicView.loading);
     const error = useSelector(state => state.publicView.error);
     const publicViewRequests = useSelector(state => state.publicView.requests);
+    const roles = useSelector(state => state.auth.roles);
     
     const [currentWeek, setCurrentWeek] = useState(null);
 
@@ -48,7 +49,7 @@ const PublicView = () => {
             <Filter railWeeks={railWeeks} currentWeek={currentWeek}/>
             <div className='row'>
                 <Map requests={publicViewRequests} />
-                <AccessRequestList requests={publicViewRequests}/>
+                <AccessRequestList requests={publicViewRequests} roles={roles}/>
             </div>
             
         </div>
