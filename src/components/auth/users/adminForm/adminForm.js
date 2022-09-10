@@ -57,7 +57,7 @@ const AdminForm = (props) => {
                 </li>
 
                 <li className='list-group-item d-flex justify-content-between lh-sm'>
-                    <div class="d-flex gap-2 w-100 justify-content-between">
+                    <div className="d-flex gap-2 w-100 justify-content-between">
                         <div className='text-start'>
                             <h6 className="mb-0">Email</h6>
                             <small className='text-muted'>{user.email}</small>
