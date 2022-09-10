@@ -20,9 +20,9 @@ const mapItem = (props) => {
 
     return (
         <div className={styles.join(' ')}>
-            <div data-bs-toggle="tooltip" data-bs-placement="right" title={name} >
-                <span className="map-item_name">{name}</span>
-                <span className="map-item_code">{code}</span>
+            <div data-bs-toggle='tooltip' data-bs-placement='right' title={name} >
+                <span className='map-item_name'>{name}</span>
+                <span className='map-item_code'>{code}</span>
             </div>
         </div>
     )

@@ -4,8 +4,8 @@ import DropdownNavigationItem from './dropdownNavigationItem';
 
 const navigationItems = (props) => (
 	
-		<nav className="">
-			<ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+		<nav>
+			<ul className='nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0'>
 				{/* <NavigationItem link='/'>Home</NavigationItem> */}
 				<NavigationItem link='/' icon='bi-house-door'>Home</NavigationItem>
 				{props.isAuthenticated
@@ -20,11 +20,11 @@ const navigationItems = (props) => (
 				} */}
 
 				<div  className='dropdown text-end'>
-					<a href="/" className="nav-link text-white dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-						<i className="bi-person fs-3 d-block text-sm-center"></i>
+					<a href='/' className='nav-link text-white dropdown-toggle' id='dropdownUser1' data-bs-toggle='dropdown' aria-expanded='false'>
+						<i className='bi-person fs-3 d-block text-sm-center'></i>
 						Profile
 					</a>
-					<ul className="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+					<ul className='dropdown-menu text-small' aria-labelledby='dropdownUser1'>
 						{ props.isAuthenticated
 							? <DropdownNavigationItem link='/account' icon='bi-person'> Account</DropdownNavigationItem>
 							: null
@@ -34,7 +34,7 @@ const navigationItems = (props) => (
 							: null
 						}
 						{ props.isAuthenticated
-							? <li><hr className="dropdown-divider"/></li>
+							? <li><hr className='dropdown-divider'/></li>
 							: null
 						}
 						{ props.isAuthenticated

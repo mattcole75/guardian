@@ -269,6 +269,11 @@
   display: none;
 }
 
+.location-shadow {
+  -webkit-box-shadow: 0 0 1.5rem #5c5220;
+  box-shadow: 0 0 1.5rem #5c5220;
+}
+
 /* @media (max-width: 1024px) {
 
   .map-container {

@@ -45,34 +45,34 @@ const Administration = (props) => {
 
     return (
         <div>
-            <div className="mb-3">
+            <div className='mb-3'>
 
                 {/* Administration section */}
-                <div className="form-floating mb-3">
-                    <select className="form-select" id="assignedPlanner" required
-                        {...register("assignedPlanner", { required: true })}>
-                        <option value="">Choose...</option>
+                <div className='form-floating mb-3'>
+                    <select className='form-select' id='assignedPlanner' required
+                        {...register('assignedPlanner', { required: true })}>
+                        <option value=''>Choose...</option>
                         {
                             planners.map((item, index) => (
                                 <option key={index}>{item}</option>
                             ))
                         }
                     </select>
-                    <label htmlFor="assignedPlanner">Assigned Planner</label>
+                    <label htmlFor='assignedPlanner'>Assigned Planner</label>
                 </div>
 
                 <div className='border rounded p-1 mb-1 bg-light'>
                     
                     <div className='text-sm-start p-2'>
-                        <div className="mb-1">
-                            <label htmlFor="comment" className="form-label">Comments</label>
-                            <input type="text" className="form-control" id="comment" onChange={(event => {setComment(event.target.value)})} placeholder='Type your message here' />
+                        <div className='mb-1'>
+                            <label htmlFor='comment' className='form-label'>Comments</label>
+                            <input type='text' className='form-control' id='comment' autoComplete='off' onChange={(event => {setComment(event.target.value)})} placeholder='Type your message here' />
                         </div>
                         <div className='text-sm-end'>
-                            <button className="w-25 btn btn-sm btn-primary mb-3" type="button" onClick={onSaveComment}>Send</button>
+                            <button className='w-25 btn btn-sm btn-primary mb-3' type='button' onClick={onSaveComment}>Send</button>
                         </div>
                     </div>
-                    <div className="list-group">
+                    <div className='list-group'>
                         {
                             (request && request.administrationComments) && request.administrationComments.map((item, index) => (<Comment key={index} comment={item} />))
                         }
@@ -81,7 +81,7 @@ const Administration = (props) => {
             </div>
 
             <div>
-                <button className="w-100 btn btn-lg btn-secondary mb-3" type="button" disabled={!formState.isValid} onClick={handleSubmit(onSave)}>Save Administration Details</button>
+                <button className='w-100 btn btn-lg btn-secondary mb-3' type='button' disabled={!formState.isValid} onClick={handleSubmit(onSave)}>Save Administration Details</button>
             </div>
         </div>
     );

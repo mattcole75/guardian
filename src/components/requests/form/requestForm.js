@@ -11,7 +11,6 @@ import LocationLimits from './locationLimits/locationLimits';
 import LocationLimitForm from './locationLimits/locationLimitForm';
 import Hazards from './hazards/hazards';
 import Comment from '../comment/comment';
-// import ReviewItems from '../accessRequest/review/reviews';
 
 import Modal from '../../ui/modal/modal';
 import Backdrop from '../../ui/backdrop/backdrop';
@@ -28,7 +27,6 @@ const Request = () => {
 
     const loading = useSelector(state => state.requests.loading);
     const error = useSelector(state => state.requests.error);
-    // const isAuthenticated = useSelector(state => state.auth.idToken !== null);
     
     const {idToken, localId, displayName, phoneNumber, email, organisation, roles } = useSelector(state => state.auth);
 
@@ -40,8 +38,6 @@ const Request = () => {
         key = Object.keys(request);
 
     const locationLimitIndex = useSelector(state => state.requests.locationLimitIndex);
-    // const identifier = useSelector(state => state.auth.identifier);
-    // const requestRedirectPath = useSelector(state => state.requests.requestRedirectPath);
 
     const onCreate = useCallback((idToken, localId, data, identifier) => dispatch(action.createRequest(idToken, localId, data, identifier)), [dispatch]);
     const onUpdate = useCallback((id, idToken, localId, data, identifier) => dispatch(action.updateRequest(id, idToken, localId, data, identifier)), [dispatch]);
@@ -127,35 +123,35 @@ const Request = () => {
     }
 
     return (
-        <div className="form-request my-5">
+        <div className='form-request my-5'>
             {redirect}
             <Backdrop show={loading} />
                 {spinner}
             
             {error &&
-                <div className="alert alert-danger" role="alert">
+                <div className='alert alert-danger' role='alert'>
                     {error.message}
                 </div>
             }
             {modal}
-            <div className="">
-                <div className="text-sm-center">
-                    <i className="bi-plus-circle-dotted form-auth-icon"></i>
-                    <h1 className="h3 mb-3 fw-normal">Access Request Form</h1>
+            <div className=''>
+                <div className='text-sm-center'>
+                    <i className='bi-plus-circle-dotted form-auth-icon'></i>
+                    <h1 className='h3 mb-3 fw-normal'>Access Request Form</h1>
                 </div>
                 
-                <div className="form-floating mb-3">
+                <div className='form-floating mb-3'>
 
-                    <div className="accordion" id="accordionPanels">
+                    <div className='accordion' id='accordionPanels'>
                         { roles.includes('coordinator') || roles.includes('planner')
-                            ?   <div className="accordion-item">
-                                    <h2 className="accordion-header" id="panelsStayOpen-headingAdministration">
-                                        <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseAdministration" aria-expanded="true" aria-controls="panelsStayOpen-collapseAdministration">
+                            ?   <div className='accordion-item'>
+                                    <h2 className='accordion-header' id='panelsStayOpen-headingAdministration'>
+                                        <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseAdministration' aria-expanded='true' aria-controls='panelsStayOpen-collapseAdministration'>
                                             Administration (only coordinators and planners can see this tab)
                                         </button>
                                     </h2>
-                                    <div id="panelsStayOpen-collapseAdministration" className="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingAdministration">
-                                        <div className="accordion-body">
+                                    <div id='panelsStayOpen-collapseAdministration' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingAdministration'>
+                                        <div className='accordion-body'>
                                             <Administration request={request ? request[key] : null} save={saveHandler} />
                                         </div>
                                     </div>
@@ -163,14 +159,14 @@ const Request = () => {
                             :   null
                         }
                         { request
-                            ?   <div className="accordion-item">
-                                    <h2 className="accordion-header" id="panelsStayOpen-headingRequestor">
-                                        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseRequestor" aria-expanded="false" aria-controls="panelsStayOpen-collapseRequestor">
+                            ?   <div className='accordion-item'>
+                                    <h2 className='accordion-header' id='panelsStayOpen-headingRequestor'>
+                                        <button className='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseRequestor' aria-expanded='false' aria-controls='panelsStayOpen-collapseRequestor'>
                                             Requestor Details
                                         </button>
                                     </h2>
-                                    <div id="panelsStayOpen-collapseRequestor" className="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingRequestor">
-                                        <div className="accordion-body">
+                                    <div id='panelsStayOpen-collapseRequestor' className='accordion-collapse collapse' aria-labelledby='panelsStayOpen-headingRequestor'>
+                                        <div className='accordion-body'>
                                             <Requestor request={request[key]} />
                                         </div>
                                     </div>
@@ -178,63 +174,63 @@ const Request = () => {
                             :   null
                         }
 
-                        <div className="accordion-item">
-                            <h2 className="accordion-header" id="panelsStayOpen-headingSummary">
-                                <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseSummary" aria-expanded="true" aria-controls="panelsStayOpen-collapseSummary">
+                        <div className='accordion-item'>
+                            <h2 className='accordion-header' id='panelsStayOpen-headingSummary'>
+                                <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseSummary' aria-expanded='true' aria-controls='panelsStayOpen-collapseSummary'>
                                     Access Request Summary
                                 </button>
                             </h2>
-                            <div id="panelsStayOpen-collapseSummary" className="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingSummary">
-                                <div className="accordion-body">
+                            <div id='panelsStayOpen-collapseSummary' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingSummary'>
+                                <div className='accordion-body'>
                                     <RequestSummary request={request ? request[key] : null} save={saveHandler} editable={editable} />
                                 </div>
                             </div>
                         </div>
 
-                        <div className="accordion-item">
-                            <h2 className="accordion-header" id="panelsStayOpen-headingLocationLimits">
-                                <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseLocationLimits" aria-expanded="true" aria-controls="panelsStayOpen-collapseLocationLimits">
+                        <div className='accordion-item'>
+                            <h2 className='accordion-header' id='panelsStayOpen-headingLocationLimits'>
+                                <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseLocationLimits' aria-expanded='true' aria-controls='panelsStayOpen-collapseLocationLimits'>
                                     Location Limits
                                 </button>
                             </h2>
-                            <div id="panelsStayOpen-collapseLocationLimits" className="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingLocationLimits">
-                                <div className="accordion-body">
+                            <div id='panelsStayOpen-collapseLocationLimits' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingLocationLimits'>
+                                <div className='accordion-body'>
                                     <LocationLimits request={request ? request[key] : null} save={saveHandler} editable={editable} toggle={toggleLocationLimitEdit} select={locationLimitSelectHandler} />
                                 </div>
                             </div>
                         </div>
 
-                        <div className="accordion-item">
-                            <h2 className="accordion-header" id="panelsStayOpen-headingHazards">
-                                <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseHazards" aria-expanded="true" aria-controls="panelsStayOpen-collapseHazards">
+                        <div className='accordion-item'>
+                            <h2 className='accordion-header' id='panelsStayOpen-headingHazards'>
+                                <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseHazards' aria-expanded='true' aria-controls='panelsStayOpen-collapseHazards'>
                                     Hazards
                                 </button>
                             </h2>
-                            <div id="panelsStayOpen-collapseHazards" className="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingHazards">
-                                <div className="accordion-body">
+                            <div id='panelsStayOpen-collapseHazards' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingHazards'>
+                                <div className='accordion-body'>
                                     <Hazards request={request ? request[key] : null} save={saveHandler} editable={editable} toggle={toggleLocationLimitEdit} select={locationLimitSelectHandler} />
                                 </div>
                             </div>
                         </div>
-                        <div className="accordion-item">
-                            <h2 className="accordion-header" id="panelsStayOpen-headingComments">
-                                <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseComments" aria-expanded="true" aria-controls="panelsStayOpen-collapseComments">
+                        <div className='accordion-item'>
+                            <h2 className='accordion-header' id='panelsStayOpen-headingComments'>
+                                <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseComments' aria-expanded='true' aria-controls='panelsStayOpen-collapseComments'>
                                     Comments
                                 </button>
                             </h2>
-                            <div id="panelsStayOpen-collapseComments" className="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingComments">
-                                <div className="accordion-body">
+                            <div id='panelsStayOpen-collapseComments' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingComments'>
+                                <div className='accordion-body'>
                                     <div className='border rounded p-1 mb-1 bg-light'>
                                         <div className='text-sm-start p-2'>
-                                            <div className="mb-1">
-                                                <label htmlFor="comment" className="form-label">Comments</label>
-                                                <input type="text" className="form-control" id="comment" onChange={(event => {setComment(event.target.value)})} placeholder='Type your message here' />
+                                            <div className='mb-1'>
+                                                <label htmlFor='comment' className='form-label'>Comments</label>
+                                                <input type='text' className='form-control' id='comment' autoComplete='off' onChange={(event => {setComment(event.target.value)})} placeholder='Type your message here' />
                                             </div>
                                             <div className='text-sm-end'>
-                                                <button className="w-25 btn btn-sm btn-primary mb-3" type="button" onClick={onSaveComment}>Send</button>
+                                                <button className='w-25 btn btn-sm btn-primary mb-3' type='button' onClick={onSaveComment}>Send</button>
                                             </div>
                                         </div>
-                                        <div className="list-group">
+                                        <div className='list-group'>
                                             {
                                                 (request && request[key].comments) && request[key].comments.map((item, index) => (<Comment key={index} comment={item} />))
                                             }
@@ -243,23 +239,19 @@ const Request = () => {
                                 </div>
                             </div>
                         </div>
-
-                    </div>
-
-                    {/* <ReviewItems save={saveHandler} toggle={toggleReviewEdit} select={reviewSelectHandler} /> */}
-                        
+                    </div>                        
                 </div>
                 {editable
-                    ?   <button className="w-100 btn btn-lg btn-primary" type="button" disabled={false} onClick={() => {submitRequestHandler('Submitted')}}>Submit For Approval</button>
+                    ?   <button className='w-100 btn btn-lg btn-primary' type='button' disabled={false} onClick={() => {submitRequestHandler('Submitted')}}>Submit For Approval</button>
                     :   null
                 }
                 { roles.includes('planner')
                     ?   <div>
                             {request && request[key].status !== 'Approved'
-                                ? <button className="w-100 btn btn-lg btn-success mb-3" type="button" disabled={false} onClick={() => {submitRequestHandler('Granted')}}>Grant Access</button>
+                                ? <button className='w-100 btn btn-lg btn-success mb-3' type='button' disabled={false} onClick={() => {submitRequestHandler('Granted')}}>Grant Access</button>
                                 : null
                             }
-                            <button className="w-100 btn btn-lg btn-danger" type="button" disabled={false} onClick={() => {submitRequestHandler('Denied')}}>Deny Access</button>
+                            <button className='w-100 btn btn-lg btn-danger' type='button' disabled={false} onClick={() => {submitRequestHandler('Denied')}}>Deny Access</button>
                         </div>
                     :   null
                 }   

@@ -128,33 +128,33 @@ const LocationLimitForm = (props) => {
     }, [index, request, save, toggle]);
 
     return (
-        <div className="form-authmy-5">
-            <form className="was-validated">
-                <h1 className="h3 mb-3 fw-normal">Location Limit</h1>
+        <div className='form-authmy-5'>
+            <form className='was-validated'>
+                <h1 className='h3 mb-3 fw-normal'>Location Limit</h1>
                 {/* Location Section */}
                 <div className='border rounded p-1 mb-3 bg-light'>
                     {editable
-                        ?   <div className="input-group mb-1">
-                                <div className="form-floating w-75">
-                                    <select className="form-select" id="locationSelect" required
-                                        {...register("locationSelect", { required: true })}>
-                                        <option value="">Choose...</option>
+                        ?   <div className='input-group mb-1'>
+                                <div className='form-floating w-75'>
+                                    <select className='form-select' id='locationSelect' required
+                                        {...register('locationSelect', { required: true })}>
+                                        <option value=''>Choose...</option>
                                         {
                                             locationList.map(item => {
                                                 return (<option key={item.code} value={item.name}>{item.name}</option>)
                                             })
                                         }
                                     </select>
-                                    <label htmlFor="locationSelect">Locations</label>
+                                    <label htmlFor='locationSelect'>Locations</label>
                                 </div>
-                                <button type="button" className="btn btn-primary w-25" onClick={addToLocations}>Add</button>
+                                <button type='button' className='btn btn-primary w-25' onClick={addToLocations}>Add</button>
                             </div>
                         
                         :   null
                     }
                     
-                    <div className="list-group text-start">
-                        <div className="list-group w-auto">
+                    <div className='list-group text-start'>
+                        <div className='list-group w-auto'>
                             {
                                 locations && locations.map((item, index) => {
                                     return(<LocationListItem key={index} index={index} item={item} editable={editable} remove={removeFromLocations}/>);
@@ -165,17 +165,17 @@ const LocationLimitForm = (props) => {
                 </div>
 
                 {/* Access Type Section */}
-                <div className="form-floating mb-3 ">
-                    <select className="form-select" id="locationLimitAccessType" required
+                <div className='form-floating mb-3 '>
+                    <select className='form-select' id='locationLimitAccessType' required
                         disabled={!editable}
-                        {...register("locationLimitAccessType", { required: true })}>
-                        <option value="">Choose...</option>
+                        {...register('locationLimitAccessType', { required: true })}>
+                        <option value=''>Choose...</option>
                         <option>Access</option>
                         <option>Egress</option>
                         <option>Maintenance</option>
                         <option>Possession</option>
                     </select>
-                    <label htmlFor="locationLimitAccessType">Access Type</label>
+                    <label htmlFor='locationLimitAccessType'>Access Type</label>
                 </div>
                 
                 {/* Dates & times Section */}
@@ -213,42 +213,55 @@ const LocationLimitForm = (props) => {
 
                 </div>
 
+                {/* co-locate */}
+                <div className='form-floating mb-1 mt-1'>
+                    <select className='form-select' id='colocate' required
+                        disabled={!editable}
+                        {...register('colocate', { required: true })}>
+                        <option value=''>Choose...</option>
+                        <option>Worksite can be co-located</option>
+                        <option>Worksite cannot be co-located</option>
+                        <option>Unsure at this stage</option>
+                    </select>
+                    <label htmlFor='colocate'>Co-locate Worksite</label>
+                </div>
+
                 {/* Electrical Isolation Section */}
                  <div className='border rounded p-1 mb-3 bg-light'>
-                    <div className="list-group mx-0">
-                        <label className="list-group-item d-flex gap-2">
-                            <div className="form-check form-switch">
-                                <input className="form-check-input" type="checkbox" role="switch" id="electricalIsolationRequired" 
+                    <div className='list-group mx-0'>
+                        <label className='list-group-item d-flex gap-2'>
+                            <div className='form-check form-switch'>
+                                <input className='form-check-input' type='checkbox' role='switch' id='electricalIsolationRequired' 
                                     disabled={!editable}
                                     { ...register('electricalIsolationRequired', { onChange:  toogleElectricalIsolationRequired })}
                                 />
                             </div>
-                            <span className="text-start">
+                            <span className='text-start'>
                                 Electrical Isolation Required
-                                <small className="d-block text-muted">Indicate if this Access Request will require an (OLE) Electrical Isolation</small>
+                                <small className='d-block text-muted'>Indicate if this Access Request will require an (OLE) Electrical Isolation</small>
                             </span>
                         </label>
                     </div>
                     { electricalIsolationRequired
                         ?   <div>
-                                <div className="form-floating mb-1 mt-1">
-                                    <select className="form-select" id="electricalIsolationType" required={electricalIsolationRequired}
+                                <div className='form-floating mb-1 mt-1'>
+                                    <select className='form-select' id='electricalIsolationType' required={electricalIsolationRequired}
                                         disabled={!editable}
-                                        {...register("electricalIsolationType", { required: electricalIsolationRequired })}>
-                                        <option value="">Choose...</option>
+                                        {...register('electricalIsolationType', { required: electricalIsolationRequired })}>
+                                        <option value=''>Choose...</option>
                                         <option>De-energise</option>
                                         <option>Standard Isolation (sub to sub)</option>
                                         <option>Special Isolation</option>
                                     </select>
-                                    <label htmlFor="electricalIsolationType">Electrical Isolation</label>
+                                    <label htmlFor='electricalIsolationType'>Electrical Isolation</label>
                                 </div> 
                         
-                                <div className="form-floating">
-                                        <textarea className="form-control" id="electricalIsolationRequirements"  rows="5" style={{height:"auto"}} placeholder="Electrical Isolation Requirements" 
+                                <div className='form-floating'>
+                                        <textarea className='form-control' id='electricalIsolationRequirements'  rows='5' style={{height:'auto'}} placeholder='Electrical Isolation Requirements' 
                                         disabled={!editable} required={electricalIsolationRequired}
-                                        {...register("electricalIsolationRequirements", { minLength: 5, required: electricalIsolationRequired })}
+                                        {...register('electricalIsolationRequirements', { minLength: 5, required: electricalIsolationRequired })}
                                     />
-                                    <label htmlFor="electricalIsolationRequirements" className="form-label">Electrical Isolation Requirements</label>
+                                    <label htmlFor='electricalIsolationRequirements' className='form-label'>Electrical Isolation Requirements</label>
                                 </div>
                             </div>
                         :   null
@@ -257,27 +270,27 @@ const LocationLimitForm = (props) => {
                 
                 {/* Signalling Resource Section */}
                 <div className='border rounded p-1 mb-3 bg-light'>
-                    <div className="list-group mx-0">
-                        <label className="list-group-item d-flex gap-2">
-                            <div className="form-check form-switch">
-                                <input className="form-check-input" type="checkbox" role="switch" id="signallingResourceRequired" 
+                    <div className='list-group mx-0'>
+                        <label className='list-group-item d-flex gap-2'>
+                            <div className='form-check form-switch'>
+                                <input className='form-check-input' type='checkbox' role='switch' id='signallingResourceRequired' 
                                     disabled={!editable}
                                     {...register('signallingResourceRequired', { onChange:  toggleSignallingResourceRequired })}
                                 />
                             </div>
-                            <span className="text-start">
+                            <span className='text-start'>
                                 Signalling Resource Required
-                                <small className="d-block text-muted">Indicate if this request will require signalling resource (e.g. Axle Counter Reset)</small>
+                                <small className='d-block text-muted'>Indicate if this request will require signalling resource (e.g. Axle Counter Reset)</small>
                             </span>
                         </label>
                     </div>
                     { signallingResourceRequired
-                        ?   <div className="form-floating mt-1">
-                                <textarea className="form-control" id="signallingResourceRequirements"  rows="5" style={{height:"auto"}} placeholder="Electrical Isolation Requirements" 
+                        ?   <div className='form-floating mt-1'>
+                                <textarea className='form-control' id='signallingResourceRequirements'  rows='5' style={{height:'auto'}} placeholder='Electrical Isolation Requirements' 
                                     disabled={!editable} required={signallingResourceRequired}
-                                    {...register("signallingResourceRequirements", { minLength: 5, required: signallingResourceRequired })}
+                                    {...register('signallingResourceRequirements', { minLength: 5, required: signallingResourceRequired })}
                                 />
-                                <label htmlFor="signallingResourceRequirements" className="form-label">Signalling Requirements</label>
+                                <label htmlFor='signallingResourceRequirements' className='form-label'>Signalling Requirements</label>
                             </div>
                         :   null
                     }
@@ -285,36 +298,36 @@ const LocationLimitForm = (props) => {
 
                 {/* Test Tram Section */}
                 <div className='border rounded p-1 mb-3 bg-light'>
-                    <div className="list-group mx-0">
-                        <label className="list-group-item d-flex gap-2">
-                            <div className="form-check form-switch">
-                                <input className="form-check-input" type="checkbox" role="switch" id="testTramsRequired" 
+                    <div className='list-group mx-0'>
+                        <label className='list-group-item d-flex gap-2'>
+                            <div className='form-check form-switch'>
+                                <input className='form-check-input' type='checkbox' role='switch' id='testTramsRequired' 
                                     disabled={!editable}
                                     {...register('testTramsRequired', { onChange:  toggleTestTramsRequired })}
                                 />
                             </div>
-                            <span className="text-start">
+                            <span className='text-start'>
                                 Test Trams Required
-                                <small className="d-block text-muted">Indicate if this request will require test trams for testing.</small>
+                                <small className='d-block text-muted'>Indicate if this request will require test trams for testing.</small>
                             </span>
                         </label>
                     </div>
                     { testTramsRequired
-                        ?   <div className="form-floating mt-1">
-                                <textarea className="form-control" id="testTramRequirements"  rows="5" style={{height:"auto"}} placeholder="Electrical Isolation Requirements" 
+                        ?   <div className='form-floating mt-1'>
+                                <textarea className='form-control' id='testTramRequirements'  rows='5' style={{height:'auto'}} placeholder='Electrical Isolation Requirements' 
                                     disabled={!editable} required={testTramsRequired}
-                                    {...register("testTramRequirements", { minLength: 5, required: testTramsRequired })}
+                                    {...register('testTramRequirements', { minLength: 5, required: testTramsRequired })}
                                 />
-                                <label htmlFor="testTramRequirements" className="form-label">Test Tram Requirements</label>
+                                <label htmlFor='testTramRequirements' className='form-label'>Test Tram Requirements</label>
                             </div>
                         :   null
                     }
                 </div>
                 
-                <div className="form-floating mb-3">
-                    <select className="form-select" id="nearestHospital" disabled={!editable} required
-                        {...register("nearestHospital", { required: true })}>
-                        <option value="">Choose...</option>
+                <div className='form-floating mb-3'>
+                    <select className='form-select' id='nearestHospital' disabled={!editable} required
+                        {...register('nearestHospital', { required: true })}>
+                        <option value=''>Choose...</option>
                         <option>Royal Oldham Hospital, Rochdale Rd, OL1 2JH</option>
                         <option>North Manchester General Hospital, Delaunuys Rd, Crumpsall, M8 5RB</option>
                         <option>Manchester Royal Infirmary, Grafton Street, M13 9WL</option>
@@ -326,31 +339,31 @@ const LocationLimitForm = (props) => {
                         <option>Fairfield General Hospital, Rochdale Old Road, Bury, BL9 7TD</option>
                         <option>Royal Bolton Hospital, Minerva Road, Farnworth, Bolton, BL4 0JR</option>
                     </select>
-                    <label htmlFor="nearestHospital">Nearest hospital</label>
+                    <label htmlFor='nearestHospital'>Nearest hospital</label>
                 </div>
                 
                 {editable
-                    ?   <div className="form-floating mb-3">
-                            <button className="w-100 btn btn-lg btn-primary" type="button" disabled={!formState.isValid} onClick={handleSubmit(onSave)}>Save Changes</button>
+                    ?   <div className='form-floating mb-3'>
+                            <button className='w-100 btn btn-lg btn-primary' type='button' disabled={!formState.isValid} onClick={handleSubmit(onSave)}>Save Changes</button>
                         </div>
                     :   null
                 }
-                <div className="form-floating mb-5">
-                    <button className="w-100 btn btn-lg btn-secondary" type="button" onClick={toggle}>Close</button>
+                <div className='form-floating mb-5'>
+                    <button className='w-100 btn btn-lg btn-secondary' type='button' onClick={toggle}>Close</button>
                 </div>
                 {editable
-                    ?   <div className="form-floating">
-                        <button className="w-100 btn btn-lg btn-danger" type="button" onClick={handleSubmit(onDelete)}>Delete</button>
+                    ?   <div className='form-floating'>
+                        <button className='w-100 btn btn-lg btn-danger' type='button' onClick={handleSubmit(onDelete)}>Delete</button>
                     </div>
                     :   null
                 }
                 {roles.includes('planner')
                     ?   <div>
-                            <div className="form-floating mb-3">
-                                <button className="w-100 btn btn-lg btn-success" type="button" disabled={!formState.isValid} onClick={handleSubmit(onApprove)}>Confirm</button>
+                            <div className='form-floating mb-3'>
+                                <button className='w-100 btn btn-lg btn-success' type='button' disabled={!formState.isValid} onClick={handleSubmit(onApprove)}>Confirm</button>
                             </div>
-                            <div className="form-floating">
-                                <button className="w-100 btn btn-lg btn-danger" type="button" onClick={handleSubmit(onUnavailable)}>Unavailable</button>
+                            <div className='form-floating'>
+                                <button className='w-100 btn btn-lg btn-danger' type='button' onClick={handleSubmit(onUnavailable)}>Unavailable</button>
                             </div>
                         </div>
                     : null

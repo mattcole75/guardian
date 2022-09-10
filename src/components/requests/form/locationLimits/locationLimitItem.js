@@ -41,21 +41,21 @@ const locationLimitItem = (props) => {
     }
 
     return (
-        <div className="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true" onClick={onSelect}>
+        <div className='list-group-item list-group-item-action d-flex gap-3 py-3' aria-current='true' onClick={onSelect}>
             <i className={iconStyle.join(' ')}></i>
-            <div className="d-flex gap-2 w-100 justify-content-between" role="button">
+            <div className='d-flex gap-2 w-100 justify-content-between' role='button'>
                 <div>
-                    <p className="mb-0 opacity-75"><strong>Location(s): </strong>{item.locations.join(' | ')}</p>
-                    <p className="mb-0 opacity-75"><strong>Date: </strong>{item.locationLimitStartDate}</p>
-                    <p className="mb-0 opacity-75"><strong>Type: </strong>{item.locationLimitAccessType}</p>
-                    <p className="mb-0 opacity-75"><strong>Maintenance Resource: </strong>
+                    <p className='mb-0 opacity-75'><strong>Location(s): </strong>{item.locations.join(' | ')}</p>
+                    <p className='mb-0 opacity-75'><strong>Date: </strong>{item.locationLimitStartDate}</p>
+                    <p className='mb-0 opacity-75'><strong>Type: </strong>{item.locationLimitAccessType}</p>
+                    <p className='mb-0 opacity-75'><strong>Maintenance Resource: </strong>
                         { maintenanceResource.length > 0 
                             ? maintenanceResource.join(' | ')
                             :   'No Maintenance Resource Required'
                         }
                     </p>
                 </div>
-                <div className="p-1">
+                <div className='p-1'>
                     <small className={badgeStyle.join(' ')}>{item.locationLimitStatus}</small>
                 </div>
                 

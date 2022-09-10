@@ -6,7 +6,7 @@ const accessRequestList = (props) => {
     const { requests, roles } = props;
 
     return (
-        <div className="list-group col">
+        <div className='list-group col'>
             { requests.length > 0
                  ?  requests.map((item, index) => (
                         <AccessRequestListItem key={index} item={item} roles={roles}/>

@@ -61,10 +61,9 @@ const Applications = () => {
                     {error}
                 </div>
             }
-            {roles.includes('planner')
-                ?   <Filter />
-                :   null
-            }
+            
+            <Filter />
+
             {/* <hr className="mt-5" /> */}
             <div className="row">
                 <RequestList requests={requests} select={editRequestItem} />
