@@ -46,6 +46,7 @@ const Administration = (props) => {
             });
 
         save({ administrationComments: updatedComments }, 'SAVE_REQUEST');
+        setComment('');
         
     }, [comment, displayName, request, save]);
 
@@ -79,6 +80,7 @@ const Administration = (props) => {
                                 className='form-control'
                                 id='comment'
                                 autoComplete='off'
+                                value={comment}
                                 onChange={(event => {setComment(event.target.value)})}
                                 placeholder='Type your message here'
                             />

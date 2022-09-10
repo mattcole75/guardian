@@ -97,6 +97,7 @@ const Request = () => {
             });
 
         saveHandler({ comments: updatedComments }, 'SAVE_REQUEST');
+        setComment('');
     }, [comment, displayName, key, request, saveHandler]);
 
     const locationLimitSelectHandler = useCallback((index) => {
@@ -232,7 +233,7 @@ const Request = () => {
                                         <div className='text-sm-start p-2'>
                                             <div className='mb-1'>
                                                 <label htmlFor='comment' className='form-label'>Comments</label>
-                                                <input type='text' className='form-control' id='comment' autoComplete='off' onChange={(event => {setComment(event.target.value)})} placeholder='Type your message here' />
+                                                <input type='text' className='form-control' id='comment' value={comment} autoComplete='off' onChange={(event => {setComment(event.target.value)})} placeholder='Type your message here' />
                                             </div>
                                             <div className='text-sm-end'>
                                                 <button className='w-25 btn btn-sm btn-primary mb-3' type='button' disabled={!commentButtonEnabled} onClick={onSaveComment}>Send</button>
