@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import Comment from '../../comment/comment';
@@ -12,6 +12,7 @@ const Administration = (props) => {
     const displayName = useSelector(state => state.auth.displayName);
 
     const [comment, setComment] = useState('');
+    const [commentButtonEnabled, setCommentButtonEnabled] = useState(false);
 
     const { register, handleSubmit, formState } = useForm({
         mode: 'onChange',
@@ -19,6 +20,13 @@ const Administration = (props) => {
             assignedPlanner: request && request.assignedPlanner
         }
     });
+
+    useEffect(() => {
+        if(comment.length > 0)
+            setCommentButtonEnabled(true);
+        else
+            setCommentButtonEnabled(false);
+    }, [comment]);
 
     const onSave = useCallback((data) => {
         save({ ...data, status: 'Under Review' }, 'SAVE_REQUEST');
@@ -66,10 +74,21 @@ const Administration = (props) => {
                     <div className='text-sm-start p-2'>
                         <div className='mb-1'>
                             <label htmlFor='comment' className='form-label'>Comments</label>
-                            <input type='text' className='form-control' id='comment' autoComplete='off' onChange={(event => {setComment(event.target.value)})} placeholder='Type your message here' />
+                            <input 
+                                type='text'
+                                className='form-control'
+                                id='comment'
+                                autoComplete='off'
+                                onChange={(event => {setComment(event.target.value)})}
+                                placeholder='Type your message here'
+                            />
                         </div>
                         <div className='text-sm-end'>
-                            <button className='w-25 btn btn-sm btn-primary mb-3' type='button' onClick={onSaveComment}>Send</button>
+                            <button
+                                className='w-25 btn btn-sm btn-primary mb-3'
+                                type='button'
+                                disabled={!commentButtonEnabled}
+                                onClick={onSaveComment}>Send</button>
                         </div>
                     </div>
                     <div className='list-group'>

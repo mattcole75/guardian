@@ -24,6 +24,7 @@ const Request = () => {
     const [redirect, setRedirect] = useState(null);
     const [editable, setEditable] = useState(true);
     const [comment, setComment] = useState('');
+    const [commentButtonEnabled, setCommentButtonEnabled] = useState(false);
 
     const loading = useSelector(state => state.requests.loading);
     const error = useSelector(state => state.requests.error);
@@ -51,6 +52,13 @@ const Request = () => {
                 setEditable(true);
         }
     }, [request, key]);
+
+    useEffect(() => {
+        if(comment.length > 0)
+            setCommentButtonEnabled(true);
+        else
+            setCommentButtonEnabled(false);
+    },[comment]);
 
     // save the access request, this may be a new record or an update to an existing record
     const saveHandler = useCallback((data) => {
@@ -227,7 +235,7 @@ const Request = () => {
                                                 <input type='text' className='form-control' id='comment' autoComplete='off' onChange={(event => {setComment(event.target.value)})} placeholder='Type your message here' />
                                             </div>
                                             <div className='text-sm-end'>
-                                                <button className='w-25 btn btn-sm btn-primary mb-3' type='button' onClick={onSaveComment}>Send</button>
+                                                <button className='w-25 btn btn-sm btn-primary mb-3' type='button' disabled={!commentButtonEnabled} onClick={onSaveComment}>Send</button>
                                             </div>
                                         </div>
                                         <div className='list-group'>
