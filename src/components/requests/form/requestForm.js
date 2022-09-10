@@ -249,8 +249,8 @@ const Request = () => {
                         </div>
                     </div>                        
                 </div>
-                {editable
-                    ?   <button className='w-100 btn btn-lg btn-primary' type='button' disabled={false} onClick={() => {submitRequestHandler('Submitted')}}>Submit For Approval</button>
+                {(editable && request && (request[key].requestorName === displayName))
+                    ?   <button className='w-100 btn btn-lg btn-primary mb-3' type='button' disabled={false} onClick={() => {submitRequestHandler('Submitted')}}>Submit For Approval</button>
                     :   null
                 }
                 { roles.includes('planner')
@@ -262,8 +262,7 @@ const Request = () => {
                             <button className='w-100 btn btn-lg btn-danger' type='button' disabled={false} onClick={() => {submitRequestHandler('Denied')}}>Deny Access</button>
                         </div>
                     :   null
-                }   
-                
+                }
             </div>
         </div>
     )

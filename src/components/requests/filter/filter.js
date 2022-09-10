@@ -53,8 +53,8 @@ const Filter = () => {
                 ?   <header className='py-3 mb-4 border mt-3 rounded-1 bg-light'>
                         <div className='row gy-3 justify-content-evenly'>
 
-                            <div className='col-md-3'>
-                                <div className='form-floating'>
+                            <div className='col-md-4'>
+                                <div className='form-floating m-2'>
                                     <select className='form-select' id='railweeks'
                                         onChange={event => setWeek(event.target.value)} value={week}>
                                         <option value=''>No Filter...</option>
@@ -75,8 +75,8 @@ const Filter = () => {
                                 </div>
                             </div>
 
-                            <div className='col-md-3'>
-                                <div className='form-floating'>
+                            <div className='col-md-4'>
+                                <div className='form-floating m-2'>
                                     <select className='form-select' id='accessRequestStatus'
                                         onChange={event => setStatusFilter(event.target.value)} value={statusFilter}>
                                         <option value=''>No Filter...</option>
@@ -89,8 +89,8 @@ const Filter = () => {
                                 </div>
                             </div>
 
-                            <div className='col-md-3'>
-                                <div className='form-floating'>
+                            <div className='col-md-4'>
+                                <div className='form-floating m-2'>
                                     <div className='form-check form-switch'>
                                         <input 
                                             className='form-check-input'

@@ -35,7 +35,7 @@ const RequestSummary = (props) => {
             <div>
                 {/* Summary section */}
                 <div className='form-floating mb-3'>
-                    <input type='text' className='form-control' id='accessRequestTitle' placeholder='Request title' required 
+                    <input type='text' className='form-control' id='accessRequestTitle' autoComplete='off' placeholder='Request title' required 
                         disabled={!editable}
                         {...register('accessRequestTitle', { required: true, minLength: 3 })} />
                     <label htmlFor='accessRequestTitle' className='form-label'>Title</label>
@@ -47,13 +47,13 @@ const RequestSummary = (props) => {
                     <label htmlFor='accessRequestDescription' className='form-label'>Description</label>
                 </div>
                 <div className='form-floating mb-3'>
-                    <input type='text' className='form-control' id='accessRequestCompetentPerson' placeholder='Competent person' required 
+                    <input type='text' className='form-control' id='accessRequestCompetentPerson' autoComplete='off' placeholder='Competent person' required 
                         disabled={!editable}
                         {...register('accessRequestCompetentPerson', { required: true, minLength: 3 })} />
                     <label htmlFor='accessRequestCompetentPerson' className='form-label'>Competent Person</label>
                 </div>
                 <div className='form-floating mb-3'>
-                    <input type='text' className='form-control' id='accessRequestCompetentPersonPhoneNumber' placeholder='Site contact number' required 
+                    <input type='text' className='form-control' id='accessRequestCompetentPersonPhoneNumber' autoComplete='off' placeholder='Site contact number' required 
                         disabled={!editable}
                         {...register('accessRequestCompetentPersonPhoneNumber', { required: true, minLength: 3 })} />
                     <label htmlFor='accessRequestCompetentPersonPhoneNumber' className='form-label'>Competent Person Phone Number</label>
@@ -64,7 +64,7 @@ const RequestSummary = (props) => {
                     <div className='list-group mx-0'>
                         <label className='list-group-item d-flex gap-2'>
                             <div className='form-check form-switch'>
-                                <input className='form-check-input' type='checkbox' role='switch' id='associatedWithProject' 
+                                <input className='form-check-input' type='checkbox' role='switch' id='associatedWithProject'
                                     disabled={!editable}
                                     {...register('associatedWithProject', { onChange:  toggleAssociatedWithProject })}
                                 />
@@ -78,13 +78,13 @@ const RequestSummary = (props) => {
                     { associatedWithProject
                         ?   <div className='mt-1'>
                                 <div className='form-floating mb-1'>
-                                    <input type='text' className='form-control' id='projectTitle' placeholder='Project title' required 
+                                    <input type='text' className='form-control' id='projectTitle' autoComplete='off' placeholder='Project title' required 
                                         disabled={!editable}
                                         {...register('projectTitle', { required: true, minLength: 3 })} />
                                     <label htmlFor='projectTitle' className='form-label'>Project Title</label>
                                 </div>
                                 <div className='form-floating mb-1'>
-                                    <input type='text' className='form-control' id='projectOrganisation' placeholder='Project organisation' required
+                                    <input type='text' className='form-control' id='projectOrganisation' autoComplete='off' placeholder='Project organisation' required
                                         disabled={!editable}
                                         {...register('projectOrganisation', { required: true })} />
                                     <label htmlFor='projectOrganisation' className='form-label'>Project Organisation</label>
