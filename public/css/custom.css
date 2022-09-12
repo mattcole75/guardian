@@ -178,7 +178,8 @@
     width: 1em;
     height: 1em;
     border-radius: 50%;
-    position: absolute;
+    position: fixed;
+    /* position: absolute; */
     left: 50%;
     top: 35%;
     text-indent: -9999em;

@@ -29,6 +29,7 @@ const publicViewSuccess = (state, action) => {
                 electricalIsolationRequired: action.requests[key1][id].locationLimitItems[key2].electricalIsolationRequired || false,
                 signallingResourceRequired: action.requests[key1][id].locationLimitItems[key2].signallingResourceRequired || false,
                 testTramsRequired: action.requests[key1][id].locationLimitItems[key2].testTramsRequired || false,
+                colocate: action.requests[key1][id].locationLimitItems[key2].colocate || '',
                 status: action.requests[key1][id].status
             })  
         }

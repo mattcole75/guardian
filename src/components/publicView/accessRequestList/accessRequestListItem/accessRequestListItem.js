@@ -5,7 +5,7 @@ const accessRequestListItem = (props) => {
 
     const { item, roles } = props;
 
-    const { title, organisation, startDate, endDate, locations, status, electricalIsolationRequired, signallingResourceRequired, testTramsRequired } = item;
+    const { title, organisation, startDate, endDate, locations, status, electricalIsolationRequired, signallingResourceRequired, testTramsRequired, colocate } = item;
 
     let statusStyle = ['badge d-inline-block mb-2 text-nowrap h-100 ms-lg-1'];
 
@@ -53,6 +53,7 @@ const accessRequestListItem = (props) => {
                 End:
                 <small className='text-muted'> {moment(endDate).format('Do MMMM YYYY')}</small>
             </p>
+            <p>Note: <small className='text-muted'>{colocate}</small></p>
             {roles.length !== 0
                 ?   <div className='d-flex justify-content-evenly'>
                         {electricalIsolationRequired
