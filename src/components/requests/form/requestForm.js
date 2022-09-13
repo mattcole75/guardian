@@ -124,7 +124,7 @@ const Request = () => {
                 <LocationLimitForm 
                     toggle={toggleLocationLimitEdit}
                     save={saveHandler} 
-                    request={request[key]}
+                    request={request ? request[key] : null}
                     index={locationLimitIndex}
                     editable={editable}
                 />

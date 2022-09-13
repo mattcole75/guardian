@@ -36,7 +36,7 @@ const LocationLimitForm = (props) => {
         } else
             setLocations([ ...request.locationLimitItems[index].locations ]);
             
-    }, [index, request])
+    }, [index, request]);
 
     const addToLocations = () => {
         let locs = [];
@@ -55,7 +55,7 @@ const LocationLimitForm = (props) => {
         let locs = locations;
         locations.splice(index, 1);
         setLocations([...locs]);
-    }
+    };
 
     const onSave = useCallback((data) => {
 
@@ -351,13 +351,13 @@ const LocationLimitForm = (props) => {
                 <div className='form-floating mb-5'>
                     <button className='w-100 btn btn-lg btn-secondary' type='button' onClick={toggle}>Close</button>
                 </div>
-                {editable
+                {request && editable
                     ?   <div className='form-floating'>
                         <button className='w-100 btn btn-lg btn-danger' type='button' onClick={handleSubmit(onDelete)}>Delete</button>
                     </div>
                     :   null
                 }
-                {roles.includes('planner')
+                {request && roles.includes('planner')
                     ?   <div>
                             <div className='form-floating mb-3'>
                                 <button className='w-100 btn btn-lg btn-success' type='button' disabled={!formState.isValid} onClick={handleSubmit(onApprove)}>Confirm</button>
