@@ -5,7 +5,7 @@ const Hazards = (props) => {
 
     const { request, save, editable } = props;
 
-    const { register, handleSubmit, formState } = useForm({ 
+    const { register, handleSubmit } = useForm({ 
         mode: 'onChange',
         defaultValues: {
             additionalHazards: request && request.additionalHazards,
@@ -14,6 +14,11 @@ const Hazards = (props) => {
             within275OLE: (request && request.hazards) && request.hazards.includes('within275OLE') ? true : false,
             withinSubstation: (request && request.hazards) && request.hazards.includes('withinSubstation') ? true : false,
             chapter8Protection: (request && request.hazards) && request.hazards.includes('chapter8Protection') ? true : false,
+            
+            adjacentToLines: (request && request.hazards) && request.hazards.includes('adjacentToLines') ? true : false,
+            adjacentToWater: (request && request.hazards) && request.hazards.includes('adjacentToWater') ? true : false,
+            liftingPlan: (request && request.hazards) && request.hazards.includes('liftingPlan') ? true : false,
+            
             trackPlant: (request && request.hazards) && request.hazards.includes('trackPlant') ? true : false,
             withinSER: (request && request.hazards) && request.hazards.includes('withinSER') ? true : false,
             withinSERWithFireSuppression: (request && request.hazards) && request.hazards.includes('withinSERWithFireSuppression') ? true : false,
@@ -21,7 +26,6 @@ const Hazards = (props) => {
             inDepotWorkshop: (request && request.hazards) && request.hazards.includes('inDepotWorkshop') ? true : false,
             onDepotSidings: (request && request.hazards) && request.hazards.includes('onDepotSidings') ? true : false,
             tramsInOperation: (request && request.hazards) && request.hazards.includes('tramsInOperation') ? true : false,
-            manualHandling: (request && request.hazards) && request.hazards.includes('manualHandling') ? true : false,
             workingAtHeight: (request && request.hazards) && request.hazards.includes('workingAtHeight') ? true : false,
             poweredAccessEquipment: (request && request.hazards) && request.hazards.includes('poweredAccessEquipment') ? true : false,
             prefabricatedAccessPlatforms: (request && request.hazards) && request.hazards.includes('prefabricatedAccessPlatforms') ? true : false,
@@ -57,9 +61,11 @@ const Hazards = (props) => {
 
     }, [save]);
 
+
     return (
         <div>
-            <div className='form-floating mb-3 border  p-2 rounded'>
+            <div className='form-floating mb-3 border p-2 rounded text-start'>
+
                 <div className='form-check form-switch primary text-start'>
                     <input 
                         className='form-check-input'
@@ -69,7 +75,9 @@ const Hazards = (props) => {
                         disabled={!editable}
                         { ...register('withinHazardZone', { required: false })}
                     />
-                    <label className='form-check-label' htmlFor='withinHazardZone'>Working within the Metrolink Hazard Zone</label>
+                    <label className='form-check-label' htmlFor='withinHazardZone'>
+                        Working within the Metrolink Hazard Zone
+                    </label>
                 </div>
 
                 <div className='form-check form-switch primary text-start'>
@@ -81,12 +89,11 @@ const Hazards = (props) => {
                         disabled={!editable}
                         { ...register('within275OLE', { required: false })}
                     />
-                    <label 
-                        className='form-check-label' 
-                        htmlFor='within275OLE'>Working within 2.75<abbr title='Metric Meters' className='initialism'>m</abbr> of any <abbr title='Overhead Line Equipment' className='initialism'>OLE</abbr>
+                    <label className='form-check-label' htmlFor='within275OLE'>
+                        Working within 2.75<abbr title='Metric Meters' className='initialism'>m</abbr> of any <abbr title='Overhead Line Equipment' className='initialism'>OLE</abbr>
                     </label>
                 </div>
-
+                
                 <div className='form-check form-switch primary text-start'>
                     <input 
                         className='form-check-input'
@@ -96,7 +103,9 @@ const Hazards = (props) => {
                         disabled={!editable}
                         { ...register('withinSubstation', { required: false })}
                     />
-                    <label className='form-check-label' htmlFor='withinSubstation'>Working within a Traction Substation</label>
+                    <label className='form-check-label' htmlFor='withinSubstation'>
+                        Working within a Traction Substation
+                    </label>
                 </div>
 
                 <div className='form-check form-switch primary text-start'>
@@ -108,8 +117,51 @@ const Hazards = (props) => {
                         disabled={!editable}
                         { ...register('chapter8Protection', { required: false })}
                     />
-                    <label 
-                        className='form-check-label' htmlFor='chapter8Protection'>Working on street requiring <abbr title='Traffic Signs Manual Chapter 8' className='initialism'>Chapter 8</abbr> signage and protection</label>
+                    <label className='form-check-label' htmlFor='chapter8Protection'>
+                            Working on street requiring <abbr title='Traffic Signs Manual Chapter 8' className='initialism'>Chapter 8</abbr> signage and protection
+                    </label>
+                </div>
+
+                <div className='form-check form-switch primary text-start'>
+                    <input 
+                        className='form-check-input'
+                        type='checkbox'
+                        role='switch'
+                        id='adjacentToLines'
+                        disabled={!editable}
+                        { ...register('adjacentToLines', { required: false })}
+                    />
+                    <label className='form-check-label' htmlFor='adjacentToLines'>
+                        Adjacent to open <abbr title='e.g. Adjacent to Network Rail Intrastructure' className='initialism'>lines</abbr>
+                    </label>
+                </div>
+
+                <div className='form-check form-switch primary text-start'>
+                    <input 
+                        className='form-check-input'
+                        type='checkbox'
+                        role='switch'
+                        id='adjacentToWater'
+                        disabled={!editable}
+                        { ...register('adjacentToWater', { required: false })}
+                    />
+                    <label className='form-check-label' htmlFor='adjacentToWater'>
+                        Adjacent to or above <abbr title='e.g. adjacent to or above a body of water' className='initialism'>water</abbr>
+                    </label>
+                </div>
+
+                <div className='form-check form-switch primary text-start'>
+                    <input 
+                        className='form-check-input'
+                        type='checkbox'
+                        role='switch'
+                        id='liftingPlan'
+                        disabled={!editable}
+                        { ...register('liftingPlan', { required: false })}
+                    />
+                    <label className='form-check-label' htmlFor='liftingPlan'>
+                        Requires a lifting plan
+                    </label>
                 </div>
 
                 <div className='form-check form-switch primary text-start'>
@@ -121,7 +173,9 @@ const Hazards = (props) => {
                         disabled={!editable}
                         { ...register('trackPlant', { required: false })}
                     />
-                    <label className='form-check-label' htmlFor='trackPlant'>Working with on-track plant</label>
+                    <label className='form-check-label' htmlFor='trackPlant'>
+                        Working with on-track plant
+                    </label>
                 </div>
 
                 <div className='form-check form-switch primary text-start'>
@@ -133,7 +187,9 @@ const Hazards = (props) => {
                         disabled={!editable}
                         { ...register('withinSER', { required: false })}
                     />
-                    <label className='form-check-label' htmlFor='withinSER'>Working within an Site Equipment Room</label>
+                    <label className='form-check-label' htmlFor='withinSER'>
+                        Working within an Site Equipment Room
+                    </label>
                 </div>
 
                 <div className='form-check form-switch primary text-start'>
@@ -145,7 +201,9 @@ const Hazards = (props) => {
                         disabled={!editable}
                         { ...register('withinSERWithFireSuppression', { required: false })}
                     />
-                    <label className='form-check-label' htmlFor='withinSERWithFireSuppression'>Working within an Equipment Room with Fire Suppression</label>
+                    <label className='form-check-label' htmlFor='withinSERWithFireSuppression'>
+                        Working within an Equipment Room with Fire Suppression
+                    </label>
                 </div>
 
                 <div className='form-check form-switch primary text-start'>
@@ -157,7 +215,9 @@ const Hazards = (props) => {
                         disabled={!editable}
                         { ...register('onPlatform', { required: false })}
                     />
-                    <label className='form-check-label' htmlFor='onPlatform'>Working on a Tram Stop Platform</label>
+                    <label className='form-check-label' htmlFor='onPlatform'>
+                        Working on a Tram Stop Platform
+                    </label>
                 </div>
 
                 <div className='form-check form-switch primary text-start'>
@@ -169,7 +229,9 @@ const Hazards = (props) => {
                         disabled={!editable}
                         { ...register('inDepotWorkshop', { required: false })}
                     />
-                    <label className='form-check-label' htmlFor='inDepotWorkshop'>Working in Depot Work Shops</label>
+                    <label className='form-check-label' htmlFor='inDepotWorkshop'>
+                        Working in Depot Work Shops
+                    </label>
                 </div>
 
                 <div className='form-check form-switch primary text-start'>
@@ -181,7 +243,9 @@ const Hazards = (props) => {
                         disabled={!editable}
                         { ...register('onDepotSidings', { required: false })}
                     />
-                    <label className='form-check-label' htmlFor='onDepotSidings'>Working on Depot Sidings</label>
+                    <label className='form-check-label' htmlFor='onDepotSidings'>
+                        Working on Depot Sidings
+                    </label>
                 </div>
 
                 <div className='form-check form-switch primary text-start'>
@@ -193,19 +257,9 @@ const Hazards = (props) => {
                         disabled={!editable}
                         { ...register('tramsInOperation', { required: false })}
                     />
-                    <label className='form-check-label' htmlFor='tramsInOperation'>Working while Trams Operational</label>
-                </div>
-
-                <div className='form-check form-switch primary text-start'>
-                    <input 
-                        className='form-check-input'
-                        type='checkbox'
-                        role='switch'
-                        id='manualHandling'
-                        disabled={!editable}
-                        { ...register('manualHandling', { required: false })}
-                    />
-                    <label className='form-check-label' htmlFor='manualHandling'>Manual Handling</label>
+                    <label className='form-check-label' htmlFor='tramsInOperation'>
+                        Working while Trams Operational
+                    </label>
                 </div>
 
                 <div className='form-check form-switch primary text-start'>
@@ -217,7 +271,9 @@ const Hazards = (props) => {
                         disabled={!editable}
                         { ...register('workingAtHeight', { required: false })}
                     />
-                    <label className='form-check-label' htmlFor='workingAtHeight'>Working at Height</label>
+                    <label className='form-check-label' htmlFor='workingAtHeight'>
+                        Working at Height
+                    </label>
                 </div>
 
                 <div className='form-check form-switch primary text-start'>
@@ -229,7 +285,9 @@ const Hazards = (props) => {
                         disabled={!editable}
                         { ...register('poweredAccessEquipment', { required: false })}
                     />
-                    <label className='form-check-label' htmlFor='poweredAccessEquipment'>Working with Powered Access Equipment <abbr title='International Powered Access Federation' className='initialism'>(IPAF)</abbr></label>
+                    <label className='form-check-label' htmlFor='poweredAccessEquipment'>
+                        Working with Powered Access Equipment <abbr title='International Powered Access Federation' className='initialism'>(IPAF)</abbr>
+                    </label>
                 </div>
 
                 <div className='form-check form-switch primary text-start'>
@@ -241,7 +299,9 @@ const Hazards = (props) => {
                         disabled={!editable}
                         { ...register('prefabricatedAccessPlatforms', { required: false })}
                     />
-                    <label className='form-check-label' htmlFor='prefabricatedAccessPlatforms'>Working with Prefabricated Access Platforms <abbr title="Prefabricated Access Suppliers' and Manufacturers' Association" className='initialism'>(PASMA)</abbr></label>
+                    <label className='form-check-label' htmlFor='prefabricatedAccessPlatforms'>
+                        Working with Prefabricated Access Platforms <abbr title="Prefabricated Access Suppliers' and Manufacturers' Association" className='initialism'>(PASMA)</abbr>
+                    </label>
                 </div>
 
                 <div className='form-check form-switch primary text-start'>
@@ -253,7 +313,9 @@ const Hazards = (props) => {
                         disabled={!editable}
                         { ...register('confinedSpaces', { required: false })}
                     />
-                    <label className='form-check-label' htmlFor='confinedSpaces'>Working in Confined Spaces</label>
+                    <label className='form-check-label' htmlFor='confinedSpaces'>
+                        Working in Confined Spaces
+                    </label>
                 </div>
 
                 <div className='form-check form-switch primary text-start'>
@@ -265,7 +327,9 @@ const Hazards = (props) => {
                         disabled={!editable}
                         { ...register('lvElectrical', { required: false })}
                     />
-                    <label className='form-check-label' htmlFor='lvElectrical'>Working on <abbr title='Low Volatge' className='initialism'>LV</abbr> Electrical</label>
+                    <label className='form-check-label' htmlFor='lvElectrical'>
+                        Working on <abbr title='Low Volatge' className='initialism'>LV</abbr> Electrical
+                    </label>
                 </div>
 
                 <div className='form-check form-switch primary text-start'>
@@ -277,7 +341,9 @@ const Hazards = (props) => {
                         disabled={!editable}
                         { ...register('excavationRequired', { required: false })}
                     />
-                    <label className='form-check-label' htmlFor='excavationRequired'>Excavation requiring permission to Dig</label>
+                    <label className='form-check-label' htmlFor='excavationRequired'>
+                        Excavation requiring permission to Dig
+                    </label>
                 </div>
 
                 <div className='form-check form-switch primary text-start'>
@@ -289,7 +355,9 @@ const Hazards = (props) => {
                         disabled={!editable}
                         { ...register('hotWorks', { required: false })}
                     />
-                    <label className='form-check-label' htmlFor='hotWorks'>Hot works (e.g., Welding)</label>
+                    <label className='form-check-label' htmlFor='hotWorks'>
+                        Hot works (e.g., Welding)
+                    </label>
                 </div>
                 <div className='form-check form-switch primary text-start'>
                     <input 
@@ -300,7 +368,9 @@ const Hazards = (props) => {
                         disabled={!editable}
                         { ...register('testTrams', { required: false })}
                     />
-                    <label className='form-check-label' htmlFor='testTrams'>Working with a Test Tram(s)</label>
+                    <label className='form-check-label' htmlFor='testTrams'>
+                        Working with a Test Tram(s)
+                    </label>
                 </div>
 
                 <div className='form-check form-switch primary text-start mb-3'>
@@ -312,7 +382,9 @@ const Hazards = (props) => {
                         disabled={!editable}
                         { ...register('accessingChampbersDucts', { required: false })}
                     />
-                    <label className='form-check-label' htmlFor='accessingChampbersDucts'>Accessing Chambers - Duct / Cable routes</label>
+                    <label className='form-check-label' htmlFor='accessingChampbersDucts'>
+                        Accessing Chambers - Duct / Cable routes
+                    </label>
                 </div>
 
                 {/* Additional Hazards Section */}
@@ -337,7 +409,9 @@ const Hazards = (props) => {
                                     disabled={!editable} required={additionalHazards}
                                     {...register('additionalHazardsDescription', { minLength: 5, required: additionalHazards })}
                                 />
-                                <label htmlFor='additionalHazardsDescription' className='form-label'>Additional Hazards Descriptions</label>
+                                <label htmlFor='additionalHazardsDescription' className='form-label'>
+                                    Additional Hazards Descriptions
+                                </label>
                             </div>
                         :   null
                     }
@@ -346,7 +420,7 @@ const Hazards = (props) => {
 
             {editable 
                 ? <div className='border-bottom mb-3'>
-                    <button className='w-100 btn btn-lg btn-secondary mb-3' type='button' disabled={!formState.isValid} onClick={handleSubmit(onSave)}>Save Hazard Details</button>
+                    <button className='w-100 btn btn-lg btn-secondary mb-3' type='button' onClick={handleSubmit(onSave)}>Save Hazard Details</button>
                 </div>
                 : null
             }

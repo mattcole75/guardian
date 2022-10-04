@@ -104,7 +104,6 @@ const requestUpdateSelected = (state, action) => {
 const requestLocationLimitIndex = (state, action) => {
     return {
         ...state,
-        loading: false,
         error: null,
         locationLimitIndex: action.locationLimitIndex,
         riskAssessmentIndex: null,

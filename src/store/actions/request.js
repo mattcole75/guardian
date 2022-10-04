@@ -89,14 +89,14 @@ export const createRequest = (idToken, localId, data, identifier) => {
             }
         })
         .then(response => {
-
-            dispatch(createRequestSuccess(response.data.result.id, data, identifier));
+            dispatch(createRequestSuccess(response.data.result.id, data, identifier));   
+        })
+        .then(() => {
             dispatch(requestFinish());
         })
         .catch(error => {
-            console.log(error);
             dispatch(requestFail(error));
-        })
+        });
     };
 }
 
@@ -115,6 +115,8 @@ export const updateRequest = (id, idToken, localId, data, identifier) => {
         })
         .then(response => {
             dispatch(updateRequestSuccess(id, data, identifier));
+        })
+        .then(() => {
             dispatch(requestFinish());
         })
         .catch(error => {
@@ -149,6 +151,9 @@ export const getRequests = (idToken, localId, startDate, endDate, statusFilter, 
         axios.get(url, headers)
         .then(response => {
             dispatch(getRequestsSuccess(response.data.result, identifier));
+            
+        })
+        .then(() => {
             dispatch(requestFinish());
         })
         .catch(error => {
@@ -161,18 +166,18 @@ export const getRequests = (idToken, localId, startDate, endDate, statusFilter, 
 export const selectRequestItem = (request, identifier) => {
 
     return dispatch => {
-        dispatch(requestStart());
+        // dispatch(requestStart());
         dispatch(updateSelectedRequest(request, identifier));
-        dispatch(requestFinish());
+        // dispatch(requestFinish());
     };
 }
 
 export const selectLocationLimit = (elementIndex, identifier) => {
 
     return dispatch => {
-        dispatch(requestStart());
+        // dispatch(requestStart());
         dispatch(updateSelectedLocationLimitIndex(elementIndex, identifier));
-        dispatch(requestFinish());
+        // dispatch(requestFinish());
     };
 }
 
@@ -190,6 +195,9 @@ export const getPlanners = (idToken, localId, identifier) => {
         })
         .then(response => {
             dispatch(getPlannersSuccess(response.data.planners, identifier));
+            
+        })
+        .then(() => {
             dispatch(requestFinish());
         })
         .catch(error => {

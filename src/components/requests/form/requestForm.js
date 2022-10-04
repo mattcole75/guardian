@@ -152,7 +152,8 @@ const Request = () => {
                 <div className='form-floating mb-3'>
 
                     <div className='accordion' id='accordionPanels'>
-                        { roles.includes('coordinator') || roles.includes('planner')
+                        {/* This section is for planners and coordinators to discuss the access request */}
+                        { request && (roles.includes('coordinator') || roles.includes('planner'))
                             ?   <div className='accordion-item'>
                                     <h2 className='accordion-header' id='panelsStayOpen-headingAdministration'>
                                         <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseAdministration' aria-expanded='true' aria-controls='panelsStayOpen-collapseAdministration'>
@@ -167,6 +168,8 @@ const Request = () => {
                                 </div>
                             :   null
                         }
+
+                        {/* This section details the person who made the request and is collapsed by default */}
                         { request
                             ?   <div className='accordion-item'>
                                     <h2 className='accordion-header' id='panelsStayOpen-headingRequestor'>
@@ -183,6 +186,7 @@ const Request = () => {
                             :   null
                         }
 
+                        {/* General Details about the access Request */}
                         <div className='accordion-item'>
                             <h2 className='accordion-header' id='panelsStayOpen-headingSummary'>
                                 <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseSummary' aria-expanded='true' aria-controls='panelsStayOpen-collapseSummary'>
@@ -195,32 +199,40 @@ const Request = () => {
                                 </div>
                             </div>
                         </div>
-
-                        <div className='accordion-item'>
-                            <h2 className='accordion-header' id='panelsStayOpen-headingLocationLimits'>
-                                <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseLocationLimits' aria-expanded='true' aria-controls='panelsStayOpen-collapseLocationLimits'>
-                                    Location Limits
-                                </button>
-                            </h2>
-                            <div id='panelsStayOpen-collapseLocationLimits' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingLocationLimits'>
-                                <div className='accordion-body'>
-                                    <LocationLimits request={request ? request[key] : null} save={saveHandler} editable={editable} toggle={toggleLocationLimitEdit} select={locationLimitSelectHandler} />
+                        
+                        {/* Location Limit Section */}
+                        { request
+                            ?   <div className='accordion-item'>
+                                    <h2 className='accordion-header' id='panelsStayOpen-headingLocationLimits'>
+                                        <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseLocationLimits' aria-expanded='true' aria-controls='panelsStayOpen-collapseLocationLimits'>
+                                            Location Limits
+                                        </button>
+                                    </h2>
+                                    <div id='panelsStayOpen-collapseLocationLimits' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingLocationLimits'>
+                                        <div className='accordion-body'>
+                                            <LocationLimits request={request ? request[key] : null} save={saveHandler} editable={editable} toggle={toggleLocationLimitEdit} select={locationLimitSelectHandler} />
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                            :   null
+                        }
 
-                        <div className='accordion-item'>
-                            <h2 className='accordion-header' id='panelsStayOpen-headingHazards'>
-                                <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseHazards' aria-expanded='true' aria-controls='panelsStayOpen-collapseHazards'>
-                                    Hazards
-                                </button>
-                            </h2>
-                            <div id='panelsStayOpen-collapseHazards' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingHazards'>
-                                <div className='accordion-body'>
-                                    <Hazards request={request ? request[key] : null} save={saveHandler} editable={editable} toggle={toggleLocationLimitEdit} select={locationLimitSelectHandler} />
+                        {/* Hazaard Section */}
+                        { request
+                            ?   <div className='accordion-item'>
+                                    <h2 className='accordion-header' id='panelsStayOpen-headingHazards'>
+                                        <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseHazards' aria-expanded='true' aria-controls='panelsStayOpen-collapseHazards'>
+                                            Hazards
+                                        </button>
+                                    </h2>
+                                    <div id='panelsStayOpen-collapseHazards' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingHazards'>
+                                        <div className='accordion-body'>
+                                            <Hazards request={request ? request[key] : null} save={saveHandler} editable={editable} toggle={toggleLocationLimitEdit} select={locationLimitSelectHandler} />
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                            :   null
+                        }
                         <div className='accordion-item'>
                             <h2 className='accordion-header' id='panelsStayOpen-headingComments'>
                                 <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseComments' aria-expanded='true' aria-controls='panelsStayOpen-collapseComments'>
@@ -254,7 +266,7 @@ const Request = () => {
                     ?   <button className='w-100 btn btn-lg btn-primary mb-3' type='button' disabled={false} onClick={() => {submitRequestHandler('Submitted')}}>Submit For Approval</button>
                     :   null
                 }
-                { roles.includes('planner')
+                { request && roles.includes('planner')
                     ?   <div>
                             {request && request[key].status !== 'Approved'
                                 ? <button className='w-100 btn btn-lg btn-success mb-3' type='button' disabled={false} onClick={() => {submitRequestHandler('Granted')}}>Grant Access</button>

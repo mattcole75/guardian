@@ -5,7 +5,7 @@ const RequestSummary = (props) => {
 
     const { request, save, editable } = props;
 
-    const { register, handleSubmit, formState } = useForm({
+    const { register, handleSubmit } = useForm({
         mode: 'onChange',
         // defaultValues: request // the bug is here
         defaultValues: {
@@ -108,7 +108,7 @@ const RequestSummary = (props) => {
 
             {editable 
                 ? <div className='border-bottom mb-3'>
-                    <button className='w-100 btn btn-lg btn-secondary mb-3' type='button' disabled={!formState.isValid} onClick={handleSubmit(onSave)}>Save Access Request Summary</button>
+                    <button className='w-100 btn btn-lg btn-secondary mb-3' type='button' onClick={handleSubmit(onSave)}>Save Access Request Summary</button>
                 </div>
                 : null
             }

@@ -8,7 +8,7 @@ const LocationLimitForm = (props) => {
 
     const { request, index, editable, save, toggle } = props;
 
-    const { register, handleSubmit, formState, getValues } = useForm({ 
+    const { register, handleSubmit, formState } = useForm({ 
         mode: 'onChange', 
         defaultValues: ((request == null || request.locationLimitItems == null) ? null : request.locationLimitItems[index])
     });
@@ -19,6 +19,7 @@ const LocationLimitForm = (props) => {
     const [electricalIsolationRequired, setElectricalIsolationRequired] = useState((index !== null) ? request.locationLimitItems[index].electricalIsolationRequired : false);
     const [signallingResourceRequired, setSignallingResourceRequired] = useState((index !== null) ? request.locationLimitItems[index].signallingResourceRequired : false);
     const [testTramsRequired, setTestTramsRequired] = useState((index !== null) ? request.locationLimitItems[index].testTramsRequired : false);
+
 
     const toogleElectricalIsolationRequired = () => {
         setElectricalIsolationRequired(prevState => !prevState);
@@ -38,7 +39,8 @@ const LocationLimitForm = (props) => {
             
     }, [index, request]);
 
-    const addToLocations = () => {
+    const addToLocations = useCallback((location) => {
+
         let locs = [];
 
         if(index && request.locationLimitItems[index].locations) {
@@ -47,9 +49,10 @@ const LocationLimitForm = (props) => {
             locs = locations;
         }
 
-        locs.push(getValues().locationSelect);
+        locs.push(location);
         setLocations([...locs]);
-    };
+
+    },[index, locations, request.locationLimitItems]);
 
     const removeFromLocations = (index) => {
         let locs = locations;
@@ -128,16 +131,17 @@ const LocationLimitForm = (props) => {
     }, [index, request, save, toggle]);
 
     return (
-        <div className='form-authmy-5'>
-            <form className='was-validated'>
+        <div className='form-location my-5'>
+            <form className=''>
                 <h1 className='h3 mb-3 fw-normal'>Location Limit</h1>
+
                 {/* Location Section */}
                 <div className='border rounded p-1 mb-3 bg-light'>
                     {editable
                         ?   <div className='input-group mb-1'>
-                                <div className='form-floating w-75'>
-                                    <select className='form-select' id='locationSelect' required
-                                        {...register('locationSelect', { required: true })}>
+                                <div className='form-floating w-100'>
+                                    <select className='form-select' id='locationSelect' required disabled={!editable}
+                                        {...register('locationSelect', { onChange: (event) => addToLocations(event.target.value), required: true })}>
                                         <option value=''>Choose...</option>
                                         {
                                             locationList.map(item => {
@@ -147,9 +151,7 @@ const LocationLimitForm = (props) => {
                                     </select>
                                     <label htmlFor='locationSelect'>Locations</label>
                                 </div>
-                                <button type='button' className='btn btn-primary w-25' onClick={addToLocations}>Add</button>
                             </div>
-                        
                         :   null
                     }
                     
@@ -166,8 +168,7 @@ const LocationLimitForm = (props) => {
 
                 {/* Access Type Section */}
                 <div className='form-floating mb-3 '>
-                    <select className='form-select' id='locationLimitAccessType' required
-                        disabled={!editable}
+                    <select className='form-select' id='locationLimitAccessType' required disabled={!editable}
                         {...register('locationLimitAccessType', { required: true })}>
                         <option value=''>Choose...</option>
                         <option>Access</option>
@@ -257,9 +258,10 @@ const LocationLimitForm = (props) => {
                                 </div> 
                         
                                 <div className='form-floating'>
-                                        <textarea className='form-control' id='electricalIsolationRequirements'  rows='5' style={{height:'auto'}} placeholder='Electrical Isolation Requirements' 
-                                        disabled={!editable} required={electricalIsolationRequired}
-                                        {...register('electricalIsolationRequirements', { minLength: 5, required: electricalIsolationRequired })}
+                                        <textarea className='form-control' id='electricalIsolationRequirements'  
+                                            rows='5' minLength={5} style={{height:'auto'}} placeholder='Electrical Isolation Requirements' 
+                                            disabled={!editable} required={electricalIsolationRequired}
+                                            {...register('electricalIsolationRequirements', { minLength: 5, required: electricalIsolationRequired })}
                                     />
                                     <label htmlFor='electricalIsolationRequirements' className='form-label'>Electrical Isolation Requirements</label>
                                 </div>
@@ -286,7 +288,8 @@ const LocationLimitForm = (props) => {
                     </div>
                     { signallingResourceRequired
                         ?   <div className='form-floating mt-1'>
-                                <textarea className='form-control' id='signallingResourceRequirements'  rows='5' style={{height:'auto'}} placeholder='Electrical Isolation Requirements' 
+                                <textarea className='form-control' id='signallingResourceRequirements' rows='5' 
+                                    style={{height:'auto'}} placeholder='Electrical Isolation Requirements' minLength={5}
                                     disabled={!editable} required={signallingResourceRequired}
                                     {...register('signallingResourceRequirements', { minLength: 5, required: signallingResourceRequired })}
                                 />
@@ -314,8 +317,9 @@ const LocationLimitForm = (props) => {
                     </div>
                     { testTramsRequired
                         ?   <div className='form-floating mt-1'>
-                                <textarea className='form-control' id='testTramRequirements'  rows='5' style={{height:'auto'}} placeholder='Electrical Isolation Requirements' 
-                                    disabled={!editable} required={testTramsRequired}
+                                <textarea className='form-control' id='testTramRequirements' rows='5'
+                                    style={{height:'auto'}} placeholder='Electrical Isolation Requirements' 
+                                    minLength={5} disabled={!editable} required={testTramsRequired}
                                     {...register('testTramRequirements', { minLength: 5, required: testTramsRequired })}
                                 />
                                 <label htmlFor='testTramRequirements' className='form-label'>Test Tram Requirements</label>
@@ -344,7 +348,7 @@ const LocationLimitForm = (props) => {
                 
                 {editable
                     ?   <div className='form-floating mb-3'>
-                            <button className='w-100 btn btn-lg btn-primary' type='button' disabled={!formState.isValid} onClick={handleSubmit(onSave)}>Save Changes</button>
+                            <button className='w-100 btn btn-lg btn-primary' type='button' onClick={handleSubmit(onSave)}>Save Changes</button>
                         </div>
                     :   null
                 }
