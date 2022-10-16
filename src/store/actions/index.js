@@ -17,8 +17,8 @@ export {
     createRequest,
     updateRequest,
     getRequests,
+    getRequest,
     getPlanners,
-    selectRequestItem,
     selectLocationLimit,
     resetState
 } from './request';

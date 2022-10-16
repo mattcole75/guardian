@@ -7,7 +7,6 @@ const RequestSummary = (props) => {
 
     const { register, handleSubmit } = useForm({
         mode: 'onChange',
-        // defaultValues: request // the bug is here
         defaultValues: {
             accessRequestTitle: request && request.accessRequestTitle,
             accessRequestDescription: request && request.accessRequestDescription,
@@ -32,7 +31,7 @@ const RequestSummary = (props) => {
 
     return (
         <div>
-            <div>
+            <div className='mb-3'>
                 {/* Summary section */}
                 <div className='form-floating mb-3'>
                     <input type='text' className='form-control' id='accessRequestTitle' autoComplete='off' placeholder='Request title' required 
@@ -107,8 +106,8 @@ const RequestSummary = (props) => {
             </div>
 
             {editable 
-                ? <div className='border-bottom mb-3'>
-                    <button className='w-100 btn btn-lg btn-secondary mb-3' type='button' onClick={handleSubmit(onSave)}>Save Access Request Summary</button>
+                ? <div>
+                    <button className='w-100 btn btn-lg btn-secondary' type='button' onClick={handleSubmit(onSave)}>Save Access Request Summary</button>
                 </div>
                 : null
             }

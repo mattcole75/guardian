@@ -101,7 +101,7 @@ export const signup = (authData) => {
                 dispatch(authFinish());
             })
             .catch(err => {
-                dispatch(authFail(err)); 
+                dispatch(authFail(err.message)); 
             });
     };
 }
@@ -129,11 +129,11 @@ export const login = (authData, identifier) => {
                     dispatch(authFinish());
                 })
                 .catch(err => {
-                    dispatch(authFail(err)); 
+                    dispatch(authFail(err.message)); 
                 })
             })
             .catch(err => {
-                dispatch(authFail(err)); 
+                dispatch(authFail(err.message)); 
             });
     };
 }
@@ -150,7 +150,7 @@ export const recoverPassword = (authData, identifier) => {
                 dispatch(authFinish());
             })
             .catch(err => {
-                dispatch(authFail(err));
+                dispatch(authFail(err.message));
             });
     };
 }
@@ -187,7 +187,7 @@ export const authSendRequest = (url, method, data, idToken, localId, identifier,
             dispatch(authFinish());
         })
         .catch(err => {
-            dispatch(authFail(err));
+            dispatch(authFail(err.message));
         });
     };
 }
@@ -213,8 +213,7 @@ export const authGetUsers = (idToken, localId, query, identifier) => {
                 dispatch(authFinish());
             })
             .catch(err => {
-                console.log(err);
-                dispatch(authFail(err));
+                dispatch(authFail(err.message));
             });
     };
 }
@@ -240,7 +239,7 @@ export const authAdminPatch = (idToken, localId, data, identifier) => {
                 // dispatch(authGetUsers(idToken, localId, '', identifier));
             })
             .catch(err => {
-                dispatch(authFail(err)); 
+                dispatch(authFail(err.message)); 
             });
     };
 }

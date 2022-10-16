@@ -678,6 +678,24 @@ progress {
   margin-top: var(--bs-gutter-y);
 }
 
+.row-alt {
+  --bs-gutter-x: 1.5rem;
+  --bs-gutter-y: 0;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: calc(-1 * var(--bs-gutter-y));
+  margin-right: calc(-0.5 * var(--bs-gutter-x));
+  margin-left: calc(-0.5 * var(--bs-gutter-x));
+}
+.row-alt > * {
+  flex-shrink: 0;
+  /* width: 100%; */
+  max-width: 100%;
+  padding-right: calc(var(--bs-gutter-x) * 0.5);
+  padding-left: calc(var(--bs-gutter-x) * 0.5);
+  margin-top: var(--bs-gutter-y);
+}
+
 .col {
   flex: 1 0 0%;
 }
@@ -7598,6 +7616,15 @@ textarea.form-control-lg {
 
 .fs-6 {
   font-size: 1rem !important;
+}
+.fs-7 {
+  font-size: .75rem !important;
+}
+.fs-8 {
+  font-size: .5rem !important;
+}
+.fs-9 {
+  font-size: .25rem !important;
 }
 
 .fst-italic {

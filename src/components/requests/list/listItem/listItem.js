@@ -1,13 +1,14 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 
-const RequestItem = (props) => {
+const ListItem = (props) => {
     
-const { item, select } = props;
+const { item } = props;
 const request  = item[Object.keys(item)];
 
 const onSelect = () => {
-    select(item);
+    // select(item);
 };
 
 
@@ -62,10 +63,20 @@ switch(request.status) {
 
     return (
 
-        <div className="list-group-item list-group-item-action cursor-pointer" onClick={onSelect}>
+        <div className="list-group-item list-group-item-action" onClick={onSelect}>
             <div className="d-flex w-100 justify-content-between">
                 <h5 className="h5 mb-1">{request.accessRequestTitle}</h5>
-                <small className={statusCSS.join(' ')}>{request.status}</small>
+                <div>
+                    <div className='dropdown text-end'>
+                        <div className='btn' role='button' data-bs-toggle='dropdown' aria-expanded='false'>
+                            <span className='bi-three-dots-vertical fs-5' />
+                        </div>
+                        <ul className='dropdown-menu fs-7'>
+                            <li><Link className='dropdown-item' to={`/request/${Object.keys(item)}`} >Edit</Link></li>
+                            <li><button type='button' className='dropdown-item' onClick={() => {}}>Delete</button></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
             <p className="mb-1">Registered: <small className="text-muted">{moment(request.created).format('MMMM Do YYYY HH:mm')}</small></p>
             <p className="mb-1">Date(s): <small className="text-muted">{displayDates}</small></p>
@@ -74,9 +85,10 @@ switch(request.status) {
                 ?   <p className="mb-1">Assigned Planner: <small className="text-muted">{request.assignedPlanner}</small></p>
                 :   null
             }
-            <small>Last updated: {moment(request.edited).fromNow()}</small>
+            <small className={statusCSS.join(' ')}>{request.status}</small>
+            <small> - Last updated: {moment(request.edited).fromNow()}</small>
         </div>
     );
 }
 
-export default RequestItem;
+export default ListItem;

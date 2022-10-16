@@ -33,18 +33,19 @@ const getRequestsSuccess = (requests, identifier) => {
         identifier: identifier
     };
 }
-const getPlannersSuccess = (planners, identifier) => {
+
+const getRquestSuccess = (request, identifier) => {
     return {
-        type: type.REQUESTS_PLANNERS_GET_SUCCESS,
-        planners: planners,
+        type: type.REQUEST_GET_SUCCESS,
+        request: request,
         identifier: identifier
     };
 }
 
-const updateSelectedRequest = (request, identifier) => {
+const getPlannersSuccess = (planners, identifier) => {
     return {
-        type: type.REQUEST_UPDATE_SELECTED,
-        request: request,
+        type: type.REQUESTS_PLANNERS_GET_SUCCESS,
+        planners: planners,
         identifier: identifier
     };
 }
@@ -88,14 +89,14 @@ export const createRequest = (idToken, localId, data, identifier) => {
                 localId: localId
             }
         })
-        .then(response => {
-            dispatch(createRequestSuccess(response.data.result.id, data, identifier));   
+        .then(res => {
+            dispatch(createRequestSuccess(res.data.result.id, data, identifier));   
         })
         .then(() => {
             dispatch(requestFinish());
         })
-        .catch(error => {
-            dispatch(requestFail(error));
+        .catch(err => {
+            dispatch(requestFail(err.message));
         });
     };
 }
@@ -113,15 +114,14 @@ export const updateRequest = (id, idToken, localId, data, identifier) => {
                 param: id
             }
         })
-        .then(response => {
+        .then(res => {
             dispatch(updateRequestSuccess(id, data, identifier));
         })
         .then(() => {
             dispatch(requestFinish());
         })
-        .catch(error => {
-            console.log(error);
-            dispatch(requestFail(error)); 
+        .catch(err => {
+            dispatch(requestFail(err.message)); 
         });
     };
 }
@@ -149,35 +149,47 @@ export const getRequests = (idToken, localId, startDate, endDate, statusFilter, 
         dispatch(requestStart());
 
         axios.get(url, headers)
-        .then(response => {
-            dispatch(getRequestsSuccess(response.data.result, identifier));
-            
+        .then(res => {
+            dispatch(getRequestsSuccess(res.data.result, identifier));
         })
         .then(() => {
             dispatch(requestFinish());
         })
-        .catch(error => {
-            console.log(error);
-            dispatch(requestFail(error));
+        .catch(err => {
+            dispatch(requestFail(err.message));
         });
     };
 }
 
-export const selectRequestItem = (request, identifier) => {
-
+export const getRequest = (idToken, localId, uid, identifier) => {
+    
     return dispatch => {
-        // dispatch(requestStart());
-        dispatch(updateSelectedRequest(request, identifier));
-        // dispatch(requestFinish());
+
+        dispatch(requestStart());
+
+        axios.get('/request', { 
+            headers: {
+                idToken: idToken,
+                localId: localId,
+                uid: uid
+            }
+        })
+        .then(res => {
+            dispatch(getRquestSuccess(res.data.result, identifier))
+        })
+        .then(() => {
+            dispatch(requestFinish());
+        })
+        .catch(err => {
+            dispatch(requestFail(err.message));
+        })
     };
 }
 
 export const selectLocationLimit = (elementIndex, identifier) => {
 
     return dispatch => {
-        // dispatch(requestStart());
         dispatch(updateSelectedLocationLimitIndex(elementIndex, identifier));
-        // dispatch(requestFinish());
     };
 }
 
@@ -200,8 +212,8 @@ export const getPlanners = (idToken, localId, identifier) => {
         .then(() => {
             dispatch(requestFinish());
         })
-        .catch(error => {
-            dispatch(requestFail(error));
+        .catch(err => {
+            dispatch(requestFail(err.message));
         });
     };
 }

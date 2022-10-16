@@ -1,20 +1,17 @@
 import React, { useEffect, useCallback } from "react";
-import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import * as action from '../../store/actions/index';
-import moment from "moment";
 
 import Backdrop from "../ui/backdrop/backdrop";
 import Spinner from "../ui/spinner/spinner";
 
 import Filter from "./filter/filter";
-import RequestList from "./list/requestList";
+import List from "./list/list";
 
 
-const Applications = () => {
+const Requests = () => {
 
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     
     const loading = useSelector(state => state.requests.loading);
     const error = useSelector(state => state.requests.error);
@@ -23,29 +20,13 @@ const Applications = () => {
     const localId = useSelector(state => state.auth.localId);
     const roles = useSelector(state => state.auth.roles);
 
-    const today = Date.parse(moment().startOf('day'));
-
     const onGetPlanners = useCallback((idToken, localId, identifier) => dispatch(action.getPlanners(idToken, localId, identifier)), [dispatch]);
     
-    const onSelectRequestItem = useCallback((request, identifier) => dispatch(action.selectRequestItem(request, identifier)), [dispatch]);
-
+    // side effect to return a list of planners if the user has the planner or coordinator role asigned
     useEffect(() => {
-        
         if(roles.includes('planner') || roles.includes('coordinator'))
             onGetPlanners(idToken, localId, 'GET_PLANNERS');
-
-        // onGetRequests(idToken, localId, roles, 'GET_REQUESTS');
-
-    }, [idToken, localId, onGetPlanners, roles, today]);
-
-    const navigateToRequestItem = () => {
-        navigate('/request');
-    }
-
-    const editRequestItem = (item) => {
-        onSelectRequestItem(item, 'UPDATE_SELECTED_ITEM');
-        navigateToRequestItem();
-    }
+    }, [idToken, localId, onGetPlanners, roles]);
 
     let spinner = null;
 
@@ -57,19 +38,19 @@ const Applications = () => {
              <Backdrop show={loading} />
             {spinner}
             {error &&
-                <div className='alert alert-danger' role='alert'>
+                <div className='alert alert-danger text-wrap text-break' role='alert'>
                     {error}
                 </div>
             }
-            
+            {/* The list Filter Component */}
             <Filter />
 
-            {/* <hr className="mt-5" /> */}
+            {/* The List Component */}
             <div className="row">
-                <RequestList requests={requests} select={editRequestItem} />
+                <List requests={requests} />
             </div>
         </div>
     )
 }
 
-export default Applications;
+export default Requests;

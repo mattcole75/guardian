@@ -61,7 +61,7 @@ const App = () => {
 			<Route path='/faq' element={ () => <FAQ /> } />
             { isAuthenticated && <Route path='/logout' element={ <Logout /> } /> }
 			{ isAuthenticated && <Route path='/requests' element={ <Requests /> } /> }
-			{ isAuthenticated && <Route path='/request' element={ <Request /> } /> }
+			{ isAuthenticated && <Route path='/request/:uid' element={ <Request /> } /> }
 			{ isAuthenticated && <Route path='/account' element={ <Account /> } /> }
 			{ isAuthenticated && isAdministrator && <Route path='/users' element={ <Users /> } /> }
 			<Route path='*' element={ <Index /> } />

@@ -41,16 +41,18 @@ const LocationLimitForm = (props) => {
 
     const addToLocations = useCallback((location) => {
 
-        let locs = [];
+            if(location !== '') {
+            let locs = [];
 
-        if(index && request.locationLimitItems[index].locations) {
-            locs = [ ...request.locationLimitItems[index].locations ];
-        } else {
-            locs = locations;
+            if(index && request.locationLimitItems[index].locations) {
+                locs = [ ...request.locationLimitItems[index].locations ];
+            } else {
+                locs = locations;
+            }
+
+            locs.push(location);
+            setLocations([...new Set(locs)]);
         }
-
-        locs.push(location);
-        setLocations([...locs]);
 
     },[index, locations, request.locationLimitItems]);
 
@@ -131,9 +133,9 @@ const LocationLimitForm = (props) => {
     }, [index, request, save, toggle]);
 
     return (
-        <div className='form-location my-5'>
+        <div className='form-location my-1'>
             <form className=''>
-                <h1 className='h3 mb-3 fw-normal'>Location Limit</h1>
+                <h1 className='h3 mb-3 fw-normal text-start'>Location Limit</h1>
 
                 {/* Location Section */}
                 <div className='border rounded p-1 mb-3 bg-light'>

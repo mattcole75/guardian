@@ -1,16 +1,24 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as action from '../../../store/actions/index';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import moment from 'moment';
 
 import Administration from './administration/administration';
 import Requestor from './requestor/requestor';
 import RequestSummary from './requestSummary/requestSummary';
+import Disruptive from './disruptive/disruptive';
 import LocationLimits from './locationLimits/locationLimits';
 import LocationLimitForm from './locationLimits/locationLimitForm';
 import Hazards from './hazards/hazards';
 import Comment from '../comment/comment';
+import Finance from './finance/finance';
+import TramImpactForm from './disruptive/operationalImpact/tramImpact/form/tramImpactForm';
+import BusImpactForm from './disruptive/operationalImpact/busImpact/form/busImpactForm';
+import MaintenanceImpactForm from './disruptive/operationalImpact/maintenanceImpact/form/maintenanceImpactForm';
+import ResourceImpactForm from './disruptive/operationalImpact/resourceImpact/form/resourceImpactForm';
+import ExternalImpactForm from './disruptive/operationalImpact/externalImpact/form/externalImpactForm';
+import CommunicationImpactForm from './disruptive/operationalImpact/communicationsImpact/form/communicationImpactForm';
 
 import Modal from '../../ui/modal/modal';
 import Backdrop from '../../ui/backdrop/backdrop';
@@ -18,7 +26,68 @@ import Spinner from '../../ui/spinner/spinner';
 
 const Request = () => {
 
+    const { uid } = useParams();
     const dispatch = useDispatch();
+
+    // Disruptive: Tram Service Impact
+    const [editingTramDisruptiveItem, setEditingTramDisruptiveItem] = useState(false);
+    const [selectedTramImpactItemIndex, setSelectedTramImpactItemIndex] = useState(null);
+    const toggleEditingTramDisruptiveImpact = () => {
+        setEditingTramDisruptiveItem(prevState => !prevState);
+    }
+    const tramDisruptiveItemSelected = (index) => {
+        setSelectedTramImpactItemIndex(index);
+    }
+
+    // Disruptive Bus Service Impact
+    const [editingBusDisruptiveItem, setEditingBusDisruptiveItem] = useState(false);
+    const [selectedBusImpactItemIndex, setSelectedBusImpactItemIndex] = useState(null);
+    const toggleEditingBusDisruptiveImpact = () => {
+        setEditingBusDisruptiveItem(prevState => !prevState);
+    }
+    const busDisruptiveItemSelected = (index) => {
+        setSelectedBusImpactItemIndex(index);
+    }
+    
+    // Disruptive Maintenance Impact
+    const [editingMaintenanceDisruptiveItem, setEditingMaintenanceDisruptiveItem] = useState(false);
+    const [selectedMaintenanceImpactItemIndex, setSelectedMaintenanceImpactItemIndex] = useState(null);
+    const toggleEditingMaintenanceDisruptiveImpact = () => {
+        setEditingMaintenanceDisruptiveItem(prevState => !prevState);
+    }
+    const maintenanceDisruptiveItemSelected = (index) => {
+        setSelectedMaintenanceImpactItemIndex(index);
+    }
+
+    // Disruption Resource Impact
+    const [editingResourceDisruptiveItem, setEditingResourceDisruptiveItem] = useState(false);
+    const [selectedResourceImpactItemIndex, setSelectedResourceImpactItemIndex] = useState(null);
+    const toggleEditingResourceDisruptiveImpact = () => {
+        setEditingResourceDisruptiveItem(prevState => !prevState);
+    }
+    const resourceDisruptiveItemSelected = (index) => {
+        setSelectedResourceImpactItemIndex(index);
+    }
+
+    // External Impact
+    const [editingExternalDisruptiveItem, setEditingExternalDisruptiveItem] = useState(false);
+    const [selectedExternalImpactItemIndex, setSelectedExternalImpactItemIndex] = useState(null);
+    const toggleEditingExternalDisruptiveImpact = () => {
+        setEditingExternalDisruptiveItem(prevState => !prevState);
+    }
+    const externalDisruptiveItemSelected = (index) => {
+        setSelectedExternalImpactItemIndex(index);
+    }
+
+    // Communications Impact
+    const [editingCommunicationDisruptiveItem, setEditingCommunicationDisruptiveItem] = useState(false);
+    const [selectedCommunicationImpactItemIndex, setSelectedCommunicationImpactItemIndex] = useState(null);
+    const toggleEditingCommunicationDisruptiveImpact = () => {
+        setEditingCommunicationDisruptiveItem(prevState => !prevState);
+    }
+    const communicationDisruptiveItemSelected = (index) => {
+        setSelectedCommunicationImpactItemIndex(index);
+    }
 
     const [editLocationLimit, setEditLocationLimit] = useState(false);
     const [redirect, setRedirect] = useState(null);
@@ -33,17 +102,30 @@ const Request = () => {
 
     const request = useSelector(state => state.requests.request);
     
-    // get the record uid as key
+    // set the record uid as key
     let key = null;
-    if(request)
-        key = Object.keys(request);
+    if(request && uid !== 'new') {
+        key = uid;
+    } else if (request && uid === 'new') {
+        //setRedirect(<Navigate to={ '/request/' + Object.keys(request)[0] } />);
+        key = Object.keys(request)[0];
+    }
+        
 
     const locationLimitIndex = useSelector(state => state.requests.locationLimitIndex);
 
     const onCreate = useCallback((idToken, localId, data, identifier) => dispatch(action.createRequest(idToken, localId, data, identifier)), [dispatch]);
+    const onGetRequest = useCallback((idToken, localId, uid, identifier) => dispatch(action.getRequest(idToken, localId, uid, identifier)), [dispatch]);
     const onUpdate = useCallback((id, idToken, localId, data, identifier) => dispatch(action.updateRequest(id, idToken, localId, data, identifier)), [dispatch]);
     const onLocationLimitItemSelect = useCallback((index, identifier) => dispatch(action.selectLocationLimit(index, identifier)), [dispatch]);
     
+    useEffect (() => {
+        if(uid !== 'new') {
+            // get request from db
+            onGetRequest(idToken, localId, uid, 'GET_REQUEST');
+        }
+    }, [uid, onGetRequest, idToken, localId]);
+
     useEffect(() => {
         if(request) {
             if(request[key].status === 'Submitted' || request[key].status === 'Under Review' || request[key].status === 'Granted')
@@ -65,15 +147,13 @@ const Request = () => {
         if(request)
             onUpdate(key, idToken, localId, data, 'UPDATE_REQUEST');
         else {
-
             onCreate(idToken, localId, { ...data, 
                 requestorName: displayName,
                 requestorPhoneNumber: phoneNumber,
                 requestorEmail: email,
-                requestorOrganisation: organisation }, 
-            'CREATE_REQUEST');
+                requestorOrganisation: organisation
+            }, 'CREATE_REQUEST');
         }
-        
     }, [displayName, email, idToken, key, localId, onCreate, onUpdate, organisation, phoneNumber, request]);
 
     const submitRequestHandler = useCallback((status) => {
@@ -108,8 +188,8 @@ const Request = () => {
         if(editLocationLimit)
             locationLimitSelectHandler(null);
         
-        setEditLocationLimit(prevState => !prevState)
-    };
+        setEditLocationLimit(prevState => !prevState);
+    }
 
     let spinner = null;
     if(loading)
@@ -131,15 +211,111 @@ const Request = () => {
             }/>
     }
 
+    if(editingTramDisruptiveItem) {
+        modal = <Modal 
+        show={editingTramDisruptiveItem} 
+        modalClosed={toggleEditingTramDisruptiveImpact} 
+        content={
+            <TramImpactForm 
+                toggle={toggleEditingTramDisruptiveImpact}
+                save={saveHandler} 
+                request={request ? request[key] : null}
+                index={selectedTramImpactItemIndex}
+                editable={editable}
+                setIndex={tramDisruptiveItemSelected}
+            />
+        }/>
+    }
+
+    if(editingBusDisruptiveItem) {
+        modal = <Modal 
+        show={editingBusDisruptiveItem} 
+        modalClosed={toggleEditingBusDisruptiveImpact} 
+        content={
+            <BusImpactForm 
+                toggle={toggleEditingBusDisruptiveImpact}
+                save={saveHandler} 
+                request={request ? request[key] : null}
+                index={selectedBusImpactItemIndex}
+                editable={editable}
+                setIndex={busDisruptiveItemSelected}
+            />
+        }/>
+    }
+
+    if(editingMaintenanceDisruptiveItem) {
+        modal = <Modal 
+        show={editingMaintenanceDisruptiveItem} 
+        modalClosed={toggleEditingMaintenanceDisruptiveImpact} 
+        content={
+            <MaintenanceImpactForm 
+                toggle={toggleEditingMaintenanceDisruptiveImpact}
+                save={saveHandler} 
+                request={request ? request[key] : null}
+                index={selectedMaintenanceImpactItemIndex}
+                editable={editable}
+                setIndex={maintenanceDisruptiveItemSelected}
+            />
+        }/>
+    }
+
+    if(editingResourceDisruptiveItem) {
+        modal = <Modal 
+        show={editingResourceDisruptiveItem} 
+        modalClosed={toggleEditingResourceDisruptiveImpact} 
+        content={
+            <ResourceImpactForm 
+                toggle={toggleEditingResourceDisruptiveImpact}
+                save={saveHandler} 
+                request={request ? request[key] : null}
+                index={selectedResourceImpactItemIndex}
+                editable={editable}
+                setIndex={resourceDisruptiveItemSelected}
+            />
+        }/>
+    }
+
+    if(editingExternalDisruptiveItem) {
+        modal = <Modal 
+        show={editingExternalDisruptiveItem} 
+        modalClosed={toggleEditingExternalDisruptiveImpact} 
+        content={
+            <ExternalImpactForm 
+                toggle={toggleEditingExternalDisruptiveImpact}
+                save={saveHandler} 
+                request={request ? request[key] : null}
+                index={selectedExternalImpactItemIndex}
+                editable={editable}
+                setIndex={externalDisruptiveItemSelected}
+            />
+        }/>
+    }
+
+    if(editingCommunicationDisruptiveItem) {
+        modal = <Modal 
+        show={editingCommunicationDisruptiveItem} 
+        modalClosed={toggleEditingCommunicationDisruptiveImpact} 
+        content={
+            <CommunicationImpactForm 
+                toggle={toggleEditingCommunicationDisruptiveImpact}
+                save={saveHandler} 
+                request={request ? request[key] : null}
+                index={selectedCommunicationImpactItemIndex}
+                editable={editable}
+                setIndex={communicationDisruptiveItemSelected}
+            />
+        }/>
+    }
+
     return (
-        <div className='form-request my-5'>
+        <div className='form-request my-5 shadow'>
             {redirect}
             <Backdrop show={loading} />
                 {spinner}
             
             {error &&
                 <div className='alert alert-danger' role='alert'>
-                    {error.message}
+                    {error}
                 </div>
             }
             {modal}
@@ -187,18 +363,70 @@ const Request = () => {
                         }
 
                         {/* General Details about the access Request */}
-                        <div className='accordion-item'>
-                            <h2 className='accordion-header' id='panelsStayOpen-headingSummary'>
-                                <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseSummary' aria-expanded='true' aria-controls='panelsStayOpen-collapseSummary'>
-                                    Access Request Summary
-                                </button>
-                            </h2>
-                            <div id='panelsStayOpen-collapseSummary' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingSummary'>
-                                <div className='accordion-body'>
-                                    <RequestSummary request={request ? request[key] : null} save={saveHandler} editable={editable} />
+                        { request || uid === 'new'
+                            ?   <div className='accordion-item'>
+                                    <h2 className='accordion-header' id='panelsStayOpen-headingSummary'>
+                                        <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseSummary' aria-expanded='true' aria-controls='panelsStayOpen-collapseSummary'>
+                                            Access Request Summary
+                                        </button>
+                                    </h2>
+                                    <div id='panelsStayOpen-collapseSummary' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingSummary'>
+                                        <div className='accordion-body'>
+                                            <RequestSummary request={request ? request[key] : null} save={saveHandler} editable={editable} />
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                            :   null
+                        }
+
+                        {
+                            request
+                            ?   <div className='accordion-item'>
+                                    <h2 className='accordion-header' id='panelsStayOpen-headingFinance'>
+                                        <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseFinance' aria-expanded='true' aria-controls='panelsStayOpen-collapseFinance'>
+                                            Finance
+                                        </button>
+                                    </h2>
+                                    <div id='panelsStayOpen-collapseFinance' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingFinance'>
+                                        <div className='accordion-body'>
+                                            <Finance request={request ? request[key] : null} save={saveHandler} editable={editable} />
+                                        </div>
+                                    </div>
+                                </div>
+                            :   null
+                        }
+
+                        {/* Details for a disruptive request */}
+                        { request
+                            ?   <div className='accordion-item'>
+                                    <h2 className='accordion-header' id='panelsStayOpen-headingDisruptive'>
+                                        <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseDisruptive' aria-expanded='true' aria-controls='panelsStayOpen-collapseDisruptive'>
+                                            Disruptive Details
+                                        </button>
+                                    </h2>
+                                    <div id='panelsStayOpen-collapseDisruptive' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingDisruptive'>
+                                        <div className='accordion-body'>
+                                            <Disruptive 
+                                                request={request ? request[key] : null} 
+                                                save={saveHandler} editable={editable} 
+                                                toggleTramDisruptive={toggleEditingTramDisruptiveImpact} 
+                                                selectTramDisruptive={tramDisruptiveItemSelected}
+                                                toggleBusDisruptive={toggleEditingBusDisruptiveImpact}
+                                                selectBusDisruptive={busDisruptiveItemSelected}
+                                                toggleMaintenanceDisruptive={toggleEditingMaintenanceDisruptiveImpact}
+                                                selectMaintenanceDisruptive={maintenanceDisruptiveItemSelected}
+                                                toggleResourceDisruptive={toggleEditingResourceDisruptiveImpact}
+                                                selectResourceDisruptive={resourceDisruptiveItemSelected}
+                                                toggleExternalDisruptive={toggleEditingExternalDisruptiveImpact}
+                                                selectExternalDisruptive={externalDisruptiveItemSelected}
+                                                toggleCommunicationDisruptive={toggleEditingCommunicationDisruptiveImpact}
+                                                selectCommunicationDisruptive={communicationDisruptiveItemSelected}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            :   null
+                        } 
                         
                         {/* Location Limit Section */}
                         { request
@@ -233,33 +461,39 @@ const Request = () => {
                                 </div>
                             :   null
                         }
-                        <div className='accordion-item'>
-                            <h2 className='accordion-header' id='panelsStayOpen-headingComments'>
-                                <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseComments' aria-expanded='true' aria-controls='panelsStayOpen-collapseComments'>
-                                    Comments
-                                </button>
-                            </h2>
-                            <div id='panelsStayOpen-collapseComments' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingComments'>
-                                <div className='accordion-body'>
-                                    <div className='border rounded p-1 mb-1 bg-light'>
-                                        <div className='text-sm-start p-2'>
-                                            <div className='mb-1'>
-                                                <label htmlFor='comment' className='form-label'>Comments</label>
-                                                <input type='text' className='form-control' id='comment' value={comment} autoComplete='off' onChange={(event => {setComment(event.target.value)})} placeholder='Type your message here' />
+
+                        {/* Comment section */}
+                        { request
+                            ?    <div className='accordion-item'>
+                                    <h2 className='accordion-header' id='panelsStayOpen-headingComments'>
+                                        <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseComments' aria-expanded='true' aria-controls='panelsStayOpen-collapseComments'>
+                                            Comments
+                                        </button>
+                                    </h2>
+                                    <div id='panelsStayOpen-collapseComments' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingComments'>
+                                        <div className='accordion-body'>
+                                            <div className='border rounded p-1 mb-1 bg-light'>
+                                                <div className='text-sm-start p-2'>
+                                                    <div className='mb-1'>
+                                                        <label htmlFor='comment' className='form-label'>Comments</label>
+                                                        <input type='text' className='form-control' id='comment' value={comment} autoComplete='off' onChange={(event => {setComment(event.target.value)})} placeholder='Type your message here' />
+                                                    </div>
+                                                    <div className='text-sm-end'>
+                                                        <button className='w-25 btn btn-sm btn-primary mb-3' type='button' disabled={!commentButtonEnabled} onClick={onSaveComment}>Send</button>
+                                                    </div>
+                                                </div>
+                                                { request && request[key].comments
+                                                    ?   <div className='list-group'>
+                                                            {request[key].comments.map((item, index) => (<Comment key={index} comment={item} />))}
+                                                        </div>
+                                                    :   <div className='alert alert-warning text-sm-center' role='alert'>There are no comments on this Access Request</div>
+                                                }
                                             </div>
-                                            <div className='text-sm-end'>
-                                                <button className='w-25 btn btn-sm btn-primary mb-3' type='button' disabled={!commentButtonEnabled} onClick={onSaveComment}>Send</button>
-                                            </div>
-                                        </div>
-                                        <div className='list-group'>
-                                            {
-                                                (request && request[key].comments) && request[key].comments.map((item, index) => (<Comment key={index} comment={item} />))
-                                            }
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                            : null
+                        }
                     </div>                        
                 </div>
                 {(editable && request && (request[key].requestorName === displayName))

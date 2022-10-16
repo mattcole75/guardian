@@ -14,11 +14,9 @@ const Hazards = (props) => {
             within275OLE: (request && request.hazards) && request.hazards.includes('within275OLE') ? true : false,
             withinSubstation: (request && request.hazards) && request.hazards.includes('withinSubstation') ? true : false,
             chapter8Protection: (request && request.hazards) && request.hazards.includes('chapter8Protection') ? true : false,
-            
             adjacentToLines: (request && request.hazards) && request.hazards.includes('adjacentToLines') ? true : false,
             adjacentToWater: (request && request.hazards) && request.hazards.includes('adjacentToWater') ? true : false,
             liftingPlan: (request && request.hazards) && request.hazards.includes('liftingPlan') ? true : false,
-            
             trackPlant: (request && request.hazards) && request.hazards.includes('trackPlant') ? true : false,
             withinSER: (request && request.hazards) && request.hazards.includes('withinSER') ? true : false,
             withinSERWithFireSuppression: (request && request.hazards) && request.hazards.includes('withinSERWithFireSuppression') ? true : false,
@@ -188,7 +186,7 @@ const Hazards = (props) => {
                         { ...register('withinSER', { required: false })}
                     />
                     <label className='form-check-label' htmlFor='withinSER'>
-                        Working within an Site Equipment Room
+                        Working within a Site Equipment Room
                     </label>
                 </div>
 
@@ -419,8 +417,8 @@ const Hazards = (props) => {
             </div>
 
             {editable 
-                ? <div className='border-bottom mb-3'>
-                    <button className='w-100 btn btn-lg btn-secondary mb-3' type='button' onClick={handleSubmit(onSave)}>Save Hazard Details</button>
+                ? <div>
+                    <button className='w-100 btn btn-lg btn-secondary' type='button' onClick={handleSubmit(onSave)}>Save Hazard Details</button>
                 </div>
                 : null
             }

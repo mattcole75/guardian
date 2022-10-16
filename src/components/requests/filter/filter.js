@@ -14,16 +14,17 @@ const Filter = () => {
     const localId = useSelector(state => state.auth.localId);
     const displayName = useSelector(state => state.auth.displayName);
     const roles = useSelector(state => state.auth.roles);
-    
+
     const [week, setWeek] = useState('');
     const [statusFilter, setStatusFilter] = useState('');
     const [plannerFilterState, setPlannerFilterState] = useState(false);
 
     const onGetRequests = useCallback((idToken, localId, startDate, endDate, statusFilter, roles, identifier) => dispatch(action.getRequests(idToken, localId, startDate, endDate, statusFilter, roles, identifier)), [dispatch]);
 
+    // a side effect to query the database and return to state a list of requests
     useEffect(() => {
         
-        if( week !== '') {
+        if( week !== '') { // if a week number is selected
             onGetRequests(idToken, localId, 
                 railWeeks.find(wks => wks.id === week).start,
                 railWeeks.find(wks => wks.id === week).end,
@@ -50,7 +51,7 @@ const Filter = () => {
     return (
         <div className='mb-3 mt-3'>
             {roles.includes('planner')
-                ?   <header className='py-3 mb-4 border mt-3 rounded-1 bg-light'>
+                ?   <header className='py-3 mb-4 border mt-3 rounded-1 bg-light shadow'>
                         <div className='row gy-3 justify-content-evenly'>
 
                             <div className='col-md-4'>
