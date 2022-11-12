@@ -120,6 +120,10 @@
   font-size: 1.2rem;
   color: black;
 }
+.trash-icon {
+  color: red;
+}
+
 .form-request-icon {
   font-size: 5rem;
   color: darkslategray;
@@ -383,9 +387,13 @@
   }
 } */
 
+.hidden-column {
+  display: none;
+}
+
 @media (max-width: 600px) {
 
-  .table-item_hide {
+  .item-hide {
     display: none;
   }
 

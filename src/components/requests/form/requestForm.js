@@ -13,12 +13,6 @@ import LocationLimitForm from './locationLimits/locationLimitForm';
 import Hazards from './hazards/hazards';
 import Comment from '../comment/comment';
 import Finance from './finance/finance';
-import TramImpactForm from './disruptive/operationalImpact/tramImpact/form/tramImpactForm';
-import BusImpactForm from './disruptive/operationalImpact/busImpact/form/busImpactForm';
-import MaintenanceImpactForm from './disruptive/operationalImpact/maintenanceImpact/form/maintenanceImpactForm';
-import ResourceImpactForm from './disruptive/operationalImpact/resourceImpact/form/resourceImpactForm';
-import ExternalImpactForm from './disruptive/operationalImpact/externalImpact/form/externalImpactForm';
-import CommunicationImpactForm from './disruptive/operationalImpact/communicationsImpact/form/communicationImpactForm';
 
 import Modal from '../../ui/modal/modal';
 import Backdrop from '../../ui/backdrop/backdrop';
@@ -29,69 +23,22 @@ const Request = () => {
     const { uid } = useParams();
     const dispatch = useDispatch();
 
-    // Disruptive: Tram Service Impact
-    const [editingTramDisruptiveItem, setEditingTramDisruptiveItem] = useState(false);
-    const [selectedTramImpactItemIndex, setSelectedTramImpactItemIndex] = useState(null);
-    const toggleEditingTramDisruptiveImpact = () => {
-        setEditingTramDisruptiveItem(prevState => !prevState);
-    }
-    const tramDisruptiveItemSelected = (index) => {
-        setSelectedTramImpactItemIndex(index);
-    }
+    // // Disruptive: Tram Service Impact
+    // const [editingTramDisruptiveItem, setEditingTramDisruptiveItem] = useState(false);
+    // const [selectedTramImpactItemIndex, setSelectedTramImpactItemIndex] = useState(null);
+    // const toggleEditingTramDisruptiveImpact = () => {
+    //     if(editingTramDisruptiveItem)
+    //         tramDisruptiveItemSelected(null);
 
-    // Disruptive Bus Service Impact
-    const [editingBusDisruptiveItem, setEditingBusDisruptiveItem] = useState(false);
-    const [selectedBusImpactItemIndex, setSelectedBusImpactItemIndex] = useState(null);
-    const toggleEditingBusDisruptiveImpact = () => {
-        setEditingBusDisruptiveItem(prevState => !prevState);
-    }
-    const busDisruptiveItemSelected = (index) => {
-        setSelectedBusImpactItemIndex(index);
-    }
-    
-    // Disruptive Maintenance Impact
-    const [editingMaintenanceDisruptiveItem, setEditingMaintenanceDisruptiveItem] = useState(false);
-    const [selectedMaintenanceImpactItemIndex, setSelectedMaintenanceImpactItemIndex] = useState(null);
-    const toggleEditingMaintenanceDisruptiveImpact = () => {
-        setEditingMaintenanceDisruptiveItem(prevState => !prevState);
-    }
-    const maintenanceDisruptiveItemSelected = (index) => {
-        setSelectedMaintenanceImpactItemIndex(index);
-    }
-
-    // Disruption Resource Impact
-    const [editingResourceDisruptiveItem, setEditingResourceDisruptiveItem] = useState(false);
-    const [selectedResourceImpactItemIndex, setSelectedResourceImpactItemIndex] = useState(null);
-    const toggleEditingResourceDisruptiveImpact = () => {
-        setEditingResourceDisruptiveItem(prevState => !prevState);
-    }
-    const resourceDisruptiveItemSelected = (index) => {
-        setSelectedResourceImpactItemIndex(index);
-    }
-
-    // External Impact
-    const [editingExternalDisruptiveItem, setEditingExternalDisruptiveItem] = useState(false);
-    const [selectedExternalImpactItemIndex, setSelectedExternalImpactItemIndex] = useState(null);
-    const toggleEditingExternalDisruptiveImpact = () => {
-        setEditingExternalDisruptiveItem(prevState => !prevState);
-    }
-    const externalDisruptiveItemSelected = (index) => {
-        setSelectedExternalImpactItemIndex(index);
-    }
-
-    // Communications Impact
-    const [editingCommunicationDisruptiveItem, setEditingCommunicationDisruptiveItem] = useState(false);
-    const [selectedCommunicationImpactItemIndex, setSelectedCommunicationImpactItemIndex] = useState(null);
-    const toggleEditingCommunicationDisruptiveImpact = () => {
-        setEditingCommunicationDisruptiveItem(prevState => !prevState);
-    }
-    const communicationDisruptiveItemSelected = (index) => {
-        setSelectedCommunicationImpactItemIndex(index);
-    }
+    //     setEditingTramDisruptiveItem(prevState => !prevState);
+    // }
+    // const tramDisruptiveItemSelected = (index) => {
+    //     setSelectedTramImpactItemIndex(index);
+    // }
 
     const [editLocationLimit, setEditLocationLimit] = useState(false);
     const [redirect, setRedirect] = useState(null);
-    const [editable, setEditable] = useState(true);
+    const [recordLocked, setRecordLocked] = useState(false);
     const [comment, setComment] = useState('');
     const [commentButtonEnabled, setCommentButtonEnabled] = useState(false);
 
@@ -99,19 +46,19 @@ const Request = () => {
     const error = useSelector(state => state.requests.error);
     
     const {idToken, localId, displayName, phoneNumber, email, organisation, roles } = useSelector(state => state.auth);
-
     const request = useSelector(state => state.requests.request);
+
+    const isPlanner = roles.includes('planner');
+    const isCoordinator = roles.includes('coordinator');
     
     // set the record uid as key
     let key = null;
     if(request && uid !== 'new') {
         key = uid;
     } else if (request && uid === 'new') {
-        //setRedirect(<Navigate to={ '/request/' + Object.keys(request)[0] } />);
         key = Object.keys(request)[0];
     }
         
-
     const locationLimitIndex = useSelector(state => state.requests.locationLimitIndex);
 
     const onCreate = useCallback((idToken, localId, data, identifier) => dispatch(action.createRequest(idToken, localId, data, identifier)), [dispatch]);
@@ -126,12 +73,13 @@ const Request = () => {
         }
     }, [uid, onGetRequest, idToken, localId]);
 
+    // determin if the record is editable based on status
     useEffect(() => {
         if(request) {
             if(request[key].status === 'Submitted' || request[key].status === 'Under Review' || request[key].status === 'Granted')
-                setEditable(false);
+                setRecordLocked(true);
             else
-                setEditable(true);
+                setRecordLocked(false);
         }
     }, [request, key]);
 
@@ -144,8 +92,10 @@ const Request = () => {
 
     // save the access request, this may be a new record or an update to an existing record
     const saveHandler = useCallback((data) => {
-        if(request)
+
+        if(request){
             onUpdate(key, idToken, localId, data, 'UPDATE_REQUEST');
+        }
         else {
             onCreate(idToken, localId, { ...data, 
                 requestorName: displayName,
@@ -206,106 +156,27 @@ const Request = () => {
                     save={saveHandler} 
                     request={request ? request[key] : null}
                     index={locationLimitIndex}
-                    editable={editable}
+                    recordLocked={recordLocked}
                 />
             }/>
     }
 
-    if(editingTramDisruptiveItem) {
-        modal = <Modal 
-        show={editingTramDisruptiveItem} 
-        modalClosed={toggleEditingTramDisruptiveImpact} 
-        content={
-            <TramImpactForm 
-                toggle={toggleEditingTramDisruptiveImpact}
-                save={saveHandler} 
-                request={request ? request[key] : null}
-                index={selectedTramImpactItemIndex}
-                editable={editable}
-                setIndex={tramDisruptiveItemSelected}
-            />
-        }/>
-    }
-
-    if(editingBusDisruptiveItem) {
-        modal = <Modal 
-        show={editingBusDisruptiveItem} 
-        modalClosed={toggleEditingBusDisruptiveImpact} 
-        content={
-            <BusImpactForm 
-                toggle={toggleEditingBusDisruptiveImpact}
-                save={saveHandler} 
-                request={request ? request[key] : null}
-                index={selectedBusImpactItemIndex}
-                editable={editable}
-                setIndex={busDisruptiveItemSelected}
-            />
-        }/>
-    }
-
-    if(editingMaintenanceDisruptiveItem) {
-        modal = <Modal 
-        show={editingMaintenanceDisruptiveItem} 
-        modalClosed={toggleEditingMaintenanceDisruptiveImpact} 
-        content={
-            <MaintenanceImpactForm 
-                toggle={toggleEditingMaintenanceDisruptiveImpact}
-                save={saveHandler} 
-                request={request ? request[key] : null}
-                index={selectedMaintenanceImpactItemIndex}
-                editable={editable}
-                setIndex={maintenanceDisruptiveItemSelected}
-            />
-        }/>
-    }
-
-    if(editingResourceDisruptiveItem) {
-        modal = <Modal 
-        show={editingResourceDisruptiveItem} 
-        modalClosed={toggleEditingResourceDisruptiveImpact} 
-        content={
-            <ResourceImpactForm 
-                toggle={toggleEditingResourceDisruptiveImpact}
-                save={saveHandler} 
-                request={request ? request[key] : null}
-                index={selectedResourceImpactItemIndex}
-                editable={editable}
-                setIndex={resourceDisruptiveItemSelected}
-            />
-        }/>
-    }
-
-    if(editingExternalDisruptiveItem) {
-        modal = <Modal 
-        show={editingExternalDisruptiveItem} 
-        modalClosed={toggleEditingExternalDisruptiveImpact} 
-        content={
-            <ExternalImpactForm 
-                toggle={toggleEditingExternalDisruptiveImpact}
-                save={saveHandler} 
-                request={request ? request[key] : null}
-                index={selectedExternalImpactItemIndex}
-                editable={editable}
-                setIndex={externalDisruptiveItemSelected}
-            />
-        }/>
-    }
-
-    if(editingCommunicationDisruptiveItem) {
-        modal = <Modal 
-        show={editingCommunicationDisruptiveItem} 
-        modalClosed={toggleEditingCommunicationDisruptiveImpact} 
-        content={
-            <CommunicationImpactForm 
-                toggle={toggleEditingCommunicationDisruptiveImpact}
-                save={saveHandler} 
-                request={request ? request[key] : null}
-                index={selectedCommunicationImpactItemIndex}
-                editable={editable}
-                setIndex={communicationDisruptiveItemSelected}
-            />
-        }/>
-    }
+    // if(editingTramDisruptiveItem) {
+    //     modal = <Modal 
+    //     show={editingTramDisruptiveItem} 
+    //     modalClosed={toggleEditingTramDisruptiveImpact} 
+    //     content={
+    //         <TramImpactForm
+    //             roles={roles}
+    //             toggle={toggleEditingTramDisruptiveImpact}
+    //             save={saveHandler} 
+    //             request={request ? request[key] : null}
+    //             index={selectedTramImpactItemIndex}
+    //             editable={editable}
+    //             setIndex={tramDisruptiveItemSelected}
+    //         />
+    //     }/>
+    // }
 
     return (
         <div className='form-request my-5 shadow'>
@@ -329,7 +200,7 @@ const Request = () => {
 
                     <div className='accordion' id='accordionPanels'>
                         {/* This section is for planners and coordinators to discuss the access request */}
-                        { request && (roles.includes('coordinator') || roles.includes('planner'))
+                        { request && (isCoordinator || isPlanner)
                             ?   <div className='accordion-item'>
                                     <h2 className='accordion-header' id='panelsStayOpen-headingAdministration'>
                                         <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseAdministration' aria-expanded='true' aria-controls='panelsStayOpen-collapseAdministration'>
@@ -372,13 +243,14 @@ const Request = () => {
                                     </h2>
                                     <div id='panelsStayOpen-collapseSummary' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingSummary'>
                                         <div className='accordion-body'>
-                                            <RequestSummary request={request ? request[key] : null} save={saveHandler} editable={editable} />
+                                            <RequestSummary request={request ? request[key] : null} save={saveHandler} recordLocked={recordLocked} />
                                         </div>
                                     </div>
                                 </div>
                             :   null
                         }
 
+                        {/* Finance Details about the request */}
                         {
                             request
                             ?   <div className='accordion-item'>
@@ -389,7 +261,7 @@ const Request = () => {
                                     </h2>
                                     <div id='panelsStayOpen-collapseFinance' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingFinance'>
                                         <div className='accordion-body'>
-                                            <Finance request={request ? request[key] : null} save={saveHandler} editable={editable} />
+                                            <Finance request={request ? request[key] : null} save={saveHandler} recordLocked={recordLocked} />
                                         </div>
                                     </div>
                                 </div>
@@ -408,19 +280,8 @@ const Request = () => {
                                         <div className='accordion-body'>
                                             <Disruptive 
                                                 request={request ? request[key] : null} 
-                                                save={saveHandler} editable={editable} 
-                                                toggleTramDisruptive={toggleEditingTramDisruptiveImpact} 
-                                                selectTramDisruptive={tramDisruptiveItemSelected}
-                                                toggleBusDisruptive={toggleEditingBusDisruptiveImpact}
-                                                selectBusDisruptive={busDisruptiveItemSelected}
-                                                toggleMaintenanceDisruptive={toggleEditingMaintenanceDisruptiveImpact}
-                                                selectMaintenanceDisruptive={maintenanceDisruptiveItemSelected}
-                                                toggleResourceDisruptive={toggleEditingResourceDisruptiveImpact}
-                                                selectResourceDisruptive={resourceDisruptiveItemSelected}
-                                                toggleExternalDisruptive={toggleEditingExternalDisruptiveImpact}
-                                                selectExternalDisruptive={externalDisruptiveItemSelected}
-                                                toggleCommunicationDisruptive={toggleEditingCommunicationDisruptiveImpact}
-                                                selectCommunicationDisruptive={communicationDisruptiveItemSelected}
+                                                save={saveHandler}
+                                                recordLocked={recordLocked}
                                             />
                                         </div>
                                     </div>
@@ -438,7 +299,13 @@ const Request = () => {
                                     </h2>
                                     <div id='panelsStayOpen-collapseLocationLimits' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingLocationLimits'>
                                         <div className='accordion-body'>
-                                            <LocationLimits request={request ? request[key] : null} save={saveHandler} editable={editable} toggle={toggleLocationLimitEdit} select={locationLimitSelectHandler} />
+                                            <LocationLimits
+                                                request={request ? request[key] : null}
+                                                save={saveHandler}
+                                                toggle={toggleLocationLimitEdit}
+                                                select={locationLimitSelectHandler}
+                                                recordLocked={recordLocked}
+                                            />
                                         </div>
                                     </div>
                                 </div>
@@ -455,7 +322,13 @@ const Request = () => {
                                     </h2>
                                     <div id='panelsStayOpen-collapseHazards' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingHazards'>
                                         <div className='accordion-body'>
-                                            <Hazards request={request ? request[key] : null} save={saveHandler} editable={editable} toggle={toggleLocationLimitEdit} select={locationLimitSelectHandler} />
+                                            <Hazards
+                                                request={request ? request[key] : null}
+                                                save={saveHandler}
+                                                toggle={toggleLocationLimitEdit}
+                                                select={locationLimitSelectHandler}
+                                                recordLocked={recordLocked}
+                                            />
                                         </div>
                                     </div>
                                 </div>
@@ -496,11 +369,11 @@ const Request = () => {
                         }
                     </div>                        
                 </div>
-                {(editable && request && (request[key].requestorName === displayName))
+                { (!recordLocked && request && (request[key].requestorName === displayName))
                     ?   <button className='w-100 btn btn-lg btn-primary mb-3' type='button' disabled={false} onClick={() => {submitRequestHandler('Submitted')}}>Submit For Approval</button>
                     :   null
                 }
-                { request && roles.includes('planner')
+                { (request && isPlanner === true)
                     ?   <div>
                             {request && request[key].status !== 'Approved'
                                 ? <button className='w-100 btn btn-lg btn-success mb-3' type='button' disabled={false} onClick={() => {submitRequestHandler('Granted')}}>Grant Access</button>

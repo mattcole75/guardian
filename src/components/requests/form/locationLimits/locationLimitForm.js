@@ -6,7 +6,7 @@ import LocationListItem from './locationListItem';
 
 const LocationLimitForm = (props) => {
 
-    const { request, index, editable, save, toggle } = props;
+    const { request, index, recordLocked, save, toggle } = props;
 
     const { register, handleSubmit, formState } = useForm({ 
         mode: 'onChange', 
@@ -139,10 +139,10 @@ const LocationLimitForm = (props) => {
 
                 {/* Location Section */}
                 <div className='border rounded p-1 mb-3 bg-light'>
-                    {editable
+                    {!recordLocked
                         ?   <div className='input-group mb-1'>
                                 <div className='form-floating w-100'>
-                                    <select className='form-select' id='locationSelect' required disabled={!editable}
+                                    <select className='form-select' id='locationSelect' required disabled={recordLocked}
                                         {...register('locationSelect', { onChange: (event) => addToLocations(event.target.value), required: true })}>
                                         <option value=''>Choose...</option>
                                         {
@@ -161,7 +161,7 @@ const LocationLimitForm = (props) => {
                         <div className='list-group w-auto'>
                             {
                                 locations && locations.map((item, index) => {
-                                    return(<LocationListItem key={index} index={index} item={item} editable={editable} remove={removeFromLocations}/>);
+                                    return(<LocationListItem key={index} index={index} item={item} recordLocked={recordLocked} remove={removeFromLocations}/>);
                                 })
                             }
                         </div>
@@ -170,7 +170,7 @@ const LocationLimitForm = (props) => {
 
                 {/* Access Type Section */}
                 <div className='form-floating mb-3 '>
-                    <select className='form-select' id='locationLimitAccessType' required disabled={!editable}
+                    <select className='form-select' id='locationLimitAccessType' required disabled={recordLocked}
                         {...register('locationLimitAccessType', { required: true })}>
                         <option value=''>Choose...</option>
                         <option>Access</option>
@@ -187,13 +187,13 @@ const LocationLimitForm = (props) => {
                     <div className='row g-2 bg-light'>
                         <div className='form-floating  col-sm-6'>
                             <input type='date' className='form-control' id='locationLimitStartDate' placeholder='Date' required
-                                disabled={!editable} 
+                                disabled={recordLocked} 
                                 {...register('locationLimitStartDate', { required: true })} />
                             <label htmlFor='locationLimitStartDate' className='form-label'>Start Date</label>
                         </div>
                         <div className='form-floating col-sm-6 mb-1'>
                             <input type='time' className='form-control' id='locationLimitStartTime' placeholder='Date' required
-                                disabled={!editable} 
+                                disabled={recordLocked} 
                                 {...register('locationLimitStartTime', { required: true })} />
                             <label htmlFor='locationLimitStartTime' className='form-label'>Start Time</label>
                         </div>
@@ -202,13 +202,13 @@ const LocationLimitForm = (props) => {
                     <div className='row g-2 bg-light'>
                         <div className='form-floating  col-sm-6'>
                             <input type='date' className='form-control' id='locationLimitEndDate' placeholder='Date' required
-                                disabled={!editable} 
+                                disabled={recordLocked} 
                                 {...register('locationLimitEndDate', { required: true })} />
                             <label htmlFor='locationLimitEndDate' className='form-label'>End Date</label>
                         </div>
                         <div className='form-floating col-sm-6'>
                             <input type='time' className='form-control' id='locationLimitEndTime' placeholder='Date' required
-                                disabled={!editable} 
+                                disabled={recordLocked} 
                                 {...register('locationLimitEndTime', { required: true })} />
                             <label htmlFor='locationLimitEndTime' className='form-label'>End Time</label>
                         </div>
@@ -219,7 +219,7 @@ const LocationLimitForm = (props) => {
                 {/* co-locate */}
                 <div className='form-floating mb-1 mt-1'>
                     <select className='form-select' id='colocate' required
-                        disabled={!editable}
+                        disabled={recordLocked}
                         {...register('colocate', { required: true })}>
                         <option value=''>Choose...</option>
                         <option>Worksite can be co-located</option>
@@ -235,7 +235,7 @@ const LocationLimitForm = (props) => {
                         <label className='list-group-item d-flex gap-2'>
                             <div className='form-check form-switch'>
                                 <input className='form-check-input' type='checkbox' role='switch' id='electricalIsolationRequired' 
-                                    disabled={!editable}
+                                    disabled={recordLocked}
                                     { ...register('electricalIsolationRequired', { onChange:  toogleElectricalIsolationRequired })}
                                 />
                             </div>
@@ -249,7 +249,7 @@ const LocationLimitForm = (props) => {
                         ?   <div>
                                 <div className='form-floating mb-1 mt-1'>
                                     <select className='form-select' id='electricalIsolationType' required={electricalIsolationRequired}
-                                        disabled={!editable}
+                                        disabled={recordLocked}
                                         {...register('electricalIsolationType', { required: electricalIsolationRequired })}>
                                         <option value=''>Choose...</option>
                                         <option>De-energise</option>
@@ -262,7 +262,7 @@ const LocationLimitForm = (props) => {
                                 <div className='form-floating'>
                                         <textarea className='form-control' id='electricalIsolationRequirements'  
                                             rows='5' minLength={5} style={{height:'auto'}} placeholder='Electrical Isolation Requirements' 
-                                            disabled={!editable} required={electricalIsolationRequired}
+                                            disabled={recordLocked} required={electricalIsolationRequired}
                                             {...register('electricalIsolationRequirements', { minLength: 5, required: electricalIsolationRequired })}
                                     />
                                     <label htmlFor='electricalIsolationRequirements' className='form-label'>Electrical Isolation Requirements</label>
@@ -278,7 +278,7 @@ const LocationLimitForm = (props) => {
                         <label className='list-group-item d-flex gap-2'>
                             <div className='form-check form-switch'>
                                 <input className='form-check-input' type='checkbox' role='switch' id='signallingResourceRequired' 
-                                    disabled={!editable}
+                                    disabled={recordLocked}
                                     {...register('signallingResourceRequired', { onChange:  toggleSignallingResourceRequired })}
                                 />
                             </div>
@@ -292,7 +292,7 @@ const LocationLimitForm = (props) => {
                         ?   <div className='form-floating mt-1'>
                                 <textarea className='form-control' id='signallingResourceRequirements' rows='5' 
                                     style={{height:'auto'}} placeholder='Electrical Isolation Requirements' minLength={5}
-                                    disabled={!editable} required={signallingResourceRequired}
+                                    disabled={recordLocked} required={signallingResourceRequired}
                                     {...register('signallingResourceRequirements', { minLength: 5, required: signallingResourceRequired })}
                                 />
                                 <label htmlFor='signallingResourceRequirements' className='form-label'>Signalling Requirements</label>
@@ -307,7 +307,7 @@ const LocationLimitForm = (props) => {
                         <label className='list-group-item d-flex gap-2'>
                             <div className='form-check form-switch'>
                                 <input className='form-check-input' type='checkbox' role='switch' id='testTramsRequired' 
-                                    disabled={!editable}
+                                    disabled={recordLocked}
                                     {...register('testTramsRequired', { onChange:  toggleTestTramsRequired })}
                                 />
                             </div>
@@ -321,7 +321,7 @@ const LocationLimitForm = (props) => {
                         ?   <div className='form-floating mt-1'>
                                 <textarea className='form-control' id='testTramRequirements' rows='5'
                                     style={{height:'auto'}} placeholder='Electrical Isolation Requirements' 
-                                    minLength={5} disabled={!editable} required={testTramsRequired}
+                                    minLength={5} disabled={recordLocked} required={testTramsRequired}
                                     {...register('testTramRequirements', { minLength: 5, required: testTramsRequired })}
                                 />
                                 <label htmlFor='testTramRequirements' className='form-label'>Test Tram Requirements</label>
@@ -331,7 +331,7 @@ const LocationLimitForm = (props) => {
                 </div>
                 
                 <div className='form-floating mb-3'>
-                    <select className='form-select' id='nearestHospital' disabled={!editable} required
+                    <select className='form-select' id='nearestHospital' disabled={recordLocked} required
                         {...register('nearestHospital', { required: true })}>
                         <option value=''>Choose...</option>
                         <option>Royal Oldham Hospital, Rochdale Rd, OL1 2JH</option>
@@ -348,7 +348,7 @@ const LocationLimitForm = (props) => {
                     <label htmlFor='nearestHospital'>Nearest hospital</label>
                 </div>
                 
-                {editable
+                {!recordLocked
                     ?   <div className='form-floating mb-3'>
                             <button className='w-100 btn btn-lg btn-primary' type='button' onClick={handleSubmit(onSave)}>Save Changes</button>
                         </div>
@@ -357,7 +357,7 @@ const LocationLimitForm = (props) => {
                 <div className='form-floating mb-5'>
                     <button className='w-100 btn btn-lg btn-secondary' type='button' onClick={toggle}>Close</button>
                 </div>
-                {request && editable
+                {request && !recordLocked
                     ?   <div className='form-floating'>
                         <button className='w-100 btn btn-lg btn-danger' type='button' onClick={handleSubmit(onDelete)}>Delete</button>
                     </div>

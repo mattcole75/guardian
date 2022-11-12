@@ -22,9 +22,8 @@ const PublicView = () => {
     const today = Date.parse(moment().startOf('day'));
 
     useEffect(() => {
-
         railWeeks.forEach(week => {
-            if(today >= Date.parse(moment(week.start).startOf('day')) && today < Date.parse(moment(week.end).startOf('day')) && week.inUse === 1) {
+            if(today >= Date.parse(moment(week.start).startOf('day')) && today < Date.parse(moment(week.end).endOf('day')) && week.inUse === 1) {
                 setCurrentWeek(week.id);
             }
         })

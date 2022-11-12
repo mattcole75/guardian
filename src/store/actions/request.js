@@ -104,7 +104,7 @@ export const createRequest = (idToken, localId, data, identifier) => {
 export const updateRequest = (id, idToken, localId, data, identifier) => {
     
     return dispatch => {
-
+        
         dispatch(requestStart());
 
         axios.patch('/request', data, {

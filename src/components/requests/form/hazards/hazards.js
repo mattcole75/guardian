@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 
 const Hazards = (props) => {
 
-    const { request, save, editable } = props;
+    const { request, save, recordLocked } = props;
 
     const { register, handleSubmit } = useForm({ 
         mode: 'onChange',
@@ -70,7 +70,7 @@ const Hazards = (props) => {
                         type='checkbox'
                         role='switch'
                         id='withinHazardZone'
-                        disabled={!editable}
+                        disabled={recordLocked}
                         { ...register('withinHazardZone', { required: false })}
                     />
                     <label className='form-check-label' htmlFor='withinHazardZone'>
@@ -84,7 +84,7 @@ const Hazards = (props) => {
                         type='checkbox'
                         role='switch'
                         id='within275OLE'
-                        disabled={!editable}
+                        disabled={recordLocked}
                         { ...register('within275OLE', { required: false })}
                     />
                     <label className='form-check-label' htmlFor='within275OLE'>
@@ -98,7 +98,7 @@ const Hazards = (props) => {
                         type='checkbox'
                         role='switch'
                         id='withinSubstation'
-                        disabled={!editable}
+                        disabled={recordLocked}
                         { ...register('withinSubstation', { required: false })}
                     />
                     <label className='form-check-label' htmlFor='withinSubstation'>
@@ -112,7 +112,7 @@ const Hazards = (props) => {
                         type='checkbox'
                         role='switch'
                         id='chapter8Protection'
-                        disabled={!editable}
+                        disabled={recordLocked}
                         { ...register('chapter8Protection', { required: false })}
                     />
                     <label className='form-check-label' htmlFor='chapter8Protection'>
@@ -126,7 +126,7 @@ const Hazards = (props) => {
                         type='checkbox'
                         role='switch'
                         id='adjacentToLines'
-                        disabled={!editable}
+                        disabled={recordLocked}
                         { ...register('adjacentToLines', { required: false })}
                     />
                     <label className='form-check-label' htmlFor='adjacentToLines'>
@@ -140,7 +140,7 @@ const Hazards = (props) => {
                         type='checkbox'
                         role='switch'
                         id='adjacentToWater'
-                        disabled={!editable}
+                        disabled={recordLocked}
                         { ...register('adjacentToWater', { required: false })}
                     />
                     <label className='form-check-label' htmlFor='adjacentToWater'>
@@ -154,7 +154,7 @@ const Hazards = (props) => {
                         type='checkbox'
                         role='switch'
                         id='liftingPlan'
-                        disabled={!editable}
+                        disabled={recordLocked}
                         { ...register('liftingPlan', { required: false })}
                     />
                     <label className='form-check-label' htmlFor='liftingPlan'>
@@ -168,7 +168,7 @@ const Hazards = (props) => {
                         type='checkbox'
                         role='switch'
                         id='trackPlant'
-                        disabled={!editable}
+                        disabled={recordLocked}
                         { ...register('trackPlant', { required: false })}
                     />
                     <label className='form-check-label' htmlFor='trackPlant'>
@@ -182,7 +182,7 @@ const Hazards = (props) => {
                         type='checkbox'
                         role='switch'
                         id='withinSER'
-                        disabled={!editable}
+                        disabled={recordLocked}
                         { ...register('withinSER', { required: false })}
                     />
                     <label className='form-check-label' htmlFor='withinSER'>
@@ -196,7 +196,7 @@ const Hazards = (props) => {
                         type='checkbox'
                         role='switch'
                         id='withinSERWithFireSuppression'
-                        disabled={!editable}
+                        disabled={recordLocked}
                         { ...register('withinSERWithFireSuppression', { required: false })}
                     />
                     <label className='form-check-label' htmlFor='withinSERWithFireSuppression'>
@@ -210,7 +210,7 @@ const Hazards = (props) => {
                         type='checkbox'
                         role='switch'
                         id='onPlatform'
-                        disabled={!editable}
+                        disabled={recordLocked}
                         { ...register('onPlatform', { required: false })}
                     />
                     <label className='form-check-label' htmlFor='onPlatform'>
@@ -224,7 +224,7 @@ const Hazards = (props) => {
                         type='checkbox'
                         role='switch'
                         id='inDepotWorkshop'
-                        disabled={!editable}
+                        disabled={recordLocked}
                         { ...register('inDepotWorkshop', { required: false })}
                     />
                     <label className='form-check-label' htmlFor='inDepotWorkshop'>
@@ -238,7 +238,7 @@ const Hazards = (props) => {
                         type='checkbox'
                         role='switch'
                         id='onDepotSidings'
-                        disabled={!editable}
+                        disabled={recordLocked}
                         { ...register('onDepotSidings', { required: false })}
                     />
                     <label className='form-check-label' htmlFor='onDepotSidings'>
@@ -252,7 +252,7 @@ const Hazards = (props) => {
                         type='checkbox'
                         role='switch'
                         id='tramsInOperation'
-                        disabled={!editable}
+                        disabled={recordLocked}
                         { ...register('tramsInOperation', { required: false })}
                     />
                     <label className='form-check-label' htmlFor='tramsInOperation'>
@@ -266,7 +266,7 @@ const Hazards = (props) => {
                         type='checkbox'
                         role='switch'
                         id='workingAtHeight'
-                        disabled={!editable}
+                        disabled={recordLocked}
                         { ...register('workingAtHeight', { required: false })}
                     />
                     <label className='form-check-label' htmlFor='workingAtHeight'>
@@ -280,7 +280,7 @@ const Hazards = (props) => {
                         type='checkbox'
                         role='switch'
                         id='poweredAccessEquipment'
-                        disabled={!editable}
+                        disabled={recordLocked}
                         { ...register('poweredAccessEquipment', { required: false })}
                     />
                     <label className='form-check-label' htmlFor='poweredAccessEquipment'>
@@ -294,7 +294,7 @@ const Hazards = (props) => {
                         type='checkbox'
                         role='switch'
                         id='prefabricatedAccessPlatforms'
-                        disabled={!editable}
+                        disabled={recordLocked}
                         { ...register('prefabricatedAccessPlatforms', { required: false })}
                     />
                     <label className='form-check-label' htmlFor='prefabricatedAccessPlatforms'>
@@ -308,7 +308,7 @@ const Hazards = (props) => {
                         type='checkbox'
                         role='switch'
                         id='confinedSpaces'
-                        disabled={!editable}
+                        disabled={recordLocked}
                         { ...register('confinedSpaces', { required: false })}
                     />
                     <label className='form-check-label' htmlFor='confinedSpaces'>
@@ -322,7 +322,7 @@ const Hazards = (props) => {
                         type='checkbox'
                         role='switch'
                         id='lvElectrical'
-                        disabled={!editable}
+                        disabled={recordLocked}
                         { ...register('lvElectrical', { required: false })}
                     />
                     <label className='form-check-label' htmlFor='lvElectrical'>
@@ -336,7 +336,7 @@ const Hazards = (props) => {
                         type='checkbox'
                         role='switch'
                         id='excavationRequired'
-                        disabled={!editable}
+                        disabled={recordLocked}
                         { ...register('excavationRequired', { required: false })}
                     />
                     <label className='form-check-label' htmlFor='excavationRequired'>
@@ -350,7 +350,7 @@ const Hazards = (props) => {
                         type='checkbox'
                         role='switch'
                         id='hotWorks'
-                        disabled={!editable}
+                        disabled={recordLocked}
                         { ...register('hotWorks', { required: false })}
                     />
                     <label className='form-check-label' htmlFor='hotWorks'>
@@ -363,7 +363,7 @@ const Hazards = (props) => {
                         type='checkbox'
                         role='switch'
                         id='testTrams'
-                        disabled={!editable}
+                        disabled={recordLocked}
                         { ...register('testTrams', { required: false })}
                     />
                     <label className='form-check-label' htmlFor='testTrams'>
@@ -377,7 +377,7 @@ const Hazards = (props) => {
                         type='checkbox'
                         role='switch'
                         id='accessingChampbersDucts'
-                        disabled={!editable}
+                        disabled={recordLocked}
                         { ...register('accessingChampbersDucts', { required: false })}
                     />
                     <label className='form-check-label' htmlFor='accessingChampbersDucts'>
@@ -391,7 +391,7 @@ const Hazards = (props) => {
                         <label className='list-group-item d-flex gap-2'>
                             <div className='form-check form-switch'>
                                 <input className='form-check-input' type='checkbox' role='switch' id='additionalHazards' 
-                                    disabled={!editable}
+                                    disabled={recordLocked}
                                     {...register('additionalHazards', { onChange:  toggleAdditionalHazrds })}
                                 />
                             </div>
@@ -404,7 +404,7 @@ const Hazards = (props) => {
                     { additionalHazards
                         ?   <div className='form-floating mt-1'>
                                 <textarea className='form-control' id='additionalHazardsDescription'  rows='5' style={{height:'auto'}} placeholder='Electrical Isolation Requirements' 
-                                    disabled={!editable} required={additionalHazards}
+                                    disabled={recordLocked} required={additionalHazards}
                                     {...register('additionalHazardsDescription', { minLength: 5, required: additionalHazards })}
                                 />
                                 <label htmlFor='additionalHazardsDescription' className='form-label'>
@@ -416,7 +416,7 @@ const Hazards = (props) => {
                 </div>
             </div>
 
-            {editable 
+            {!recordLocked 
                 ? <div>
                     <button className='w-100 btn btn-lg btn-secondary' type='button' onClick={handleSubmit(onSave)}>Save Hazard Details</button>
                 </div>

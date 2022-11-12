@@ -3,11 +3,11 @@ import LocationLimitItem from './locationLimitItem';
 
 const LocationLimits = (props) => {
 
-    const { request, toggle, select, editable } = props;
+    const { request, toggle, select, recordLocked } = props;
     
     return (
         <div>
-            {editable
+            {!recordLocked
                 ?  <div className='text-start mb-3' role='group' aria-label='Basic example'>
                     <button type='button' className='btn btn-success' onClick={toggle}>Add Location Limit Item</button>
                 </div>
@@ -17,7 +17,13 @@ const LocationLimits = (props) => {
             <div className='list-group mb-3 text-start'>
                 {
                     (request && request.locationLimitItems) && request.locationLimitItems.map((item, index) => {
-                        return(<LocationLimitItem key={index} index={index} item={item} editable={editable} toggle={toggle} select={select} />);
+                        return(<LocationLimitItem
+                            key={index}
+                            index={index}
+                            item={item}
+                            toggle={toggle}
+                            select={select}
+                        />);
                     })
                 }
             </div>

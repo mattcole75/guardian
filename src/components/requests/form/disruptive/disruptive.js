@@ -3,15 +3,11 @@ import { useForm } from 'react-hook-form';
 import DisruptiveAccessSummary from './disruptiveAccessSummary/disruptiveAccessSummary';
 import OperationalImpact from './operationalImpact/operationalImpact';
 import Approvals from './approvals/approvals';
+import { useSelector } from 'react-redux';
 
 const Disruptive = (props) => {
 
-    const {
-            request, save, editable, toggleTramDisruptive, selectTramDisruptive,
-            toggleBusDisruptive, selectBusDisruptive, toggleMaintenanceDisruptive, selectMaintenanceDisruptive,
-            toggleResourceDisruptive, selectResourceDisruptive, toggleExternalDisruptive, selectExternalDisruptive,
-            toggleCommunicationDisruptive, selectCommunicationDisruptive
-    } = props;
+    const { request, save, recordLocked } = props;
 
     const { register } = useForm({
         mode: 'onChange',
@@ -20,7 +16,9 @@ const Disruptive = (props) => {
         }
     });
 
-    const [isDisruptive, setIsDisruptive] = useState(request && request.isDisruptive);
+    const roles = useSelector(state => state.auth.roles);
+    const [ isDisruptive, setIsDisruptive ] = useState(request && request.isDisruptive);
+
 
     const toggleDisruptive = () => {
         setIsDisruptive(prevState => !prevState);
@@ -41,7 +39,7 @@ const Disruptive = (props) => {
                         <label className='list-group-item d-flex gap-2'>
                             <div className='form-check form-switch'>
                                 <input className='form-check-input' type='checkbox' role='switch' id='disruptive'
-                                    disabled={!editable}
+                                    disabled={recordLocked}
                                     {...register('disruptive', { onChange:  toggleDisruptive })}
                                 />
                             </div>
@@ -56,7 +54,7 @@ const Disruptive = (props) => {
                         ?    <div className='mt-2'>
                                 <nav>
                                     <div className='nav nav-tabs' id='nav-tab' role='tablist'>
-                                        <button 
+                                        <button
                                             className='nav-link active'
                                             id='nav-disruptive-access-tab'
                                             data-bs-toggle='tab'
@@ -79,7 +77,7 @@ const Disruptive = (props) => {
                                             tabIndex='-1'>
                                             Operational Impact
                                         </button>
-                                        <button 
+                                        <button
                                             className='nav-link'
                                             id='nav-approvals-tab'
                                             data-bs-toggle='tab'
@@ -97,30 +95,25 @@ const Disruptive = (props) => {
                                 <div className='tab-content' id='nav-tab'>
 
                                     <div className='tab-pane fade active show' id='nav-disruptive-access' role='tabpanel' aria-labelledby='nav-disruptive-access'>
-                                        <DisruptiveAccessSummary request={request} editable={editable} save={onSave} />
-                                    </div>
-
-                                    <div className='tab-pane fade' id='nav-operational-impact' role='tabpanel' aria-labelledby='nav-operational-impact-tab'>
-                                        <OperationalImpact 
-                                            request={request ? request : null}
-                                            save={save} editable={editable} 
-                                            toggleTramDisruptive={toggleTramDisruptive} 
-                                            selectTramDisruptive={selectTramDisruptive}
-                                            toggleBusDisruptive={toggleBusDisruptive}
-                                            selectBusDisruptive={selectBusDisruptive}
-                                            toggleMaintenanceDisruptive={toggleMaintenanceDisruptive}
-                                            selectMaintenanceDisruptive={selectMaintenanceDisruptive}
-                                            toggleResourceDisruptive={toggleResourceDisruptive}
-                                            selectResourceDisruptive={selectResourceDisruptive}
-                                            toggleExternalDisruptive={toggleExternalDisruptive}
-                                            selectExternalDisruptive={selectExternalDisruptive}
-                                            toggleCommunicationDisruptive={toggleCommunicationDisruptive}
-                                            selectCommunicationDisruptive={selectCommunicationDisruptive}
+                                        <DisruptiveAccessSummary
+                                            roles={roles}
+                                            request={request}
+                                            save={onSave}
                                         />
                                     </div>
 
-                                    <div className='tab-pane fade active show' id='nav-approvals' role='tabpanel' aria-labelledby='nav-approvals'>
-                                        <Approvals />
+                                    <div className='tab-pane fade' id='nav-operational-impact' role='tabpanel' aria-labelledby='nav-operational-impact-tab'>
+                                        <OperationalImpact
+                                            roles={roles}
+                                            request={request ? request : null}
+                                            save={save}
+                                        />
+                                    </div>
+
+                                    <div className='tab-pane fade' id='nav-approvals' role='tabpanel' aria-labelledby='nav-approvals'>
+                                        <Approvals
+                                            roles={roles}
+                                        />
                                     </div>
 
                                 </div>

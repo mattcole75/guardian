@@ -1,44 +1,52 @@
 import React from 'react';
-import TramImpactList from './tramImpact/list/tramImpactList';
-import BusImpactList from './busImpact/list/busImpactlist';
-import MaintenanceImpactList from './maintenanceImpact/list/maintenanceImpactList';
-import ResourceImpactList from './resourceImpact/list/resourceImpactList';
-import ExternalImpactList from './externalImpact/list/externalImpactList';
-import CommunicationImpactList from './communicationsImpact/list/communicationImpactList'
+import moment from 'moment';
+import TramImpactList from './tramImpact/tramImpactList';
+import CustomerOperationsList from './customerOperations/customerOperationsList';
+import AdditionalCommunications from './additionalCommunications/additionalCommunications';
+import OperationalConsiderations from './operationalConsiderations/operationalConsiderations';
+import SystemDisruption from './systemDisruption/systemDisruption';
 
 const OperationalImpact = (props) => {
 
-    const {
-        request, editable, toggleTramDisruptive, selectTramDisruptive, toggleBusDisruptive, selectBusDisruptive,
-        toggleMaintenanceDisruptive, selectMaintenanceDisruptive, toggleResourceDisruptive, selectResourceDisruptive,
-        toggleExternalDisruptive, selectExternalDisruptive, toggleCommunicationDisruptive, selectCommunicationDisruptive
-    } = props;
+    const { save, roles, request, recordLocked } = props;
+    const { disruptionSubmittedDate, disruptionSubmittedStatus } = request;
+    const isPlanner = roles.includes('planner');
+
+    const onSubmit = () => {
+        save({ 
+            disruptionSubmittedStatus: 'Submitted',
+            disruptionSubmittedDate: disruptionSubmittedDate ? disruptionSubmittedDate : moment().format()
+        });
+    }
 
     return (
         <div>
             
             <div className='form-floating mb-3 p-2 text-start'>
-                {/* Disruption */}
+                
                 { request
                     ?   <div>
                             <div className='border-bottom'>
-                                <TramImpactList request={request} editable={editable} toggle={toggleTramDisruptive} select={selectTramDisruptive} />
+                                <TramImpactList save={save} roles={roles} request={request} recordLocked={recordLocked} />
+                            </div>
+                            <div className='border-bottom mt-2'>
+                                <CustomerOperationsList save={save} roles={roles} request={request} recordLocked={recordLocked} />
                             </div>
                             <div className='border-bottom'>
-                                <BusImpactList request={request} editable={editable} toggle={toggleBusDisruptive} select={selectBusDisruptive} />
+                                <AdditionalCommunications save={save} roles={roles} request={request} recordLocked={recordLocked} />
                             </div>
                             <div className='border-bottom'>
-                                <MaintenanceImpactList request={request} editable={editable} toggle={toggleMaintenanceDisruptive} select={selectMaintenanceDisruptive} />
+                                <SystemDisruption save={save} roles={roles} request={request} recordLocked={recordLocked} />
                             </div>
-                            <div className='border-bottom'>
-                                <ResourceImpactList request={request} editable={editable} toggle={toggleResourceDisruptive} select={selectResourceDisruptive} />
+                            <div className='border-bottom mt-2'>
+                                <OperationalConsiderations save={save} roles={roles} request={request} recordLocked={recordLocked} />
                             </div>
-                            <div className='border-bottom'>
-                                <ExternalImpactList request={request} editable={editable} toggle={toggleExternalDisruptive} select={selectExternalDisruptive} />
-                            </div>
-                            <div>
-                                <CommunicationImpactList request={request} editable={editable} toggle={toggleCommunicationDisruptive} select={selectCommunicationDisruptive} />
-                            </div>
+                            { (isPlanner === true && (disruptionSubmittedStatus == null || disruptionSubmittedStatus === 'Not Submitted' || disruptionSubmittedStatus === 'Rejected'))// and disription status not submitted or rejected and request status is good
+                                ?   <div>
+                                        <button className='w-100 btn btn-lg btn-secondary' type='button' onClick={ onSubmit }>Submit for Approval</button>
+                                    </div>
+                                :   null
+                            }
                         </div>
                     :   null
                 }

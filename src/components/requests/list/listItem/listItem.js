@@ -71,8 +71,8 @@ switch(request.status) {
                         <div className='btn' role='button' data-bs-toggle='dropdown' aria-expanded='false'>
                             <span className='bi-three-dots-vertical fs-5' />
                         </div>
-                        <ul className='dropdown-menu fs-7'>
-                            <li><Link className='dropdown-item' to={`/request/${Object.keys(item)}`} >Edit</Link></li>
+                        <ul className='dropdown-menu'>
+                            <li><Link className='dropdown-item' to={`/request/${Object.keys(item)}`}>Edit</Link></li>
                             <li><button type='button' className='dropdown-item' onClick={() => {}}>Delete</button></li>
                         </ul>
                     </div>
@@ -86,7 +86,7 @@ switch(request.status) {
                 :   null
             }
             <small className={statusCSS.join(' ')}>{request.status}</small>
-            <small> - Last updated: {moment(request.edited).fromNow()}</small>
+            <small> - Last updated: {moment(request.updated).fromNow()}</small>
         </div>
     );
 }
