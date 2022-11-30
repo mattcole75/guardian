@@ -1,11 +1,12 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { debounce } from 'debounce';
 
 const Hazards = (props) => {
 
     const { request, save, recordLocked } = props;
 
-    const { register, handleSubmit } = useForm({ 
+    const { register, getValues } = useForm({ 
         mode: 'onChange',
         defaultValues: {
             additionalHazards: request && request.additionalHazards,
@@ -40,25 +41,28 @@ const Hazards = (props) => {
 
     const toggleAdditionalHazrds = () => {
         setAdditionalHazards(prevState => !prevState);
+        onUpdate();
     }
 
-    const onSave = useCallback((data) => {
+    // eslint-disable-next-line
+    const onUpdate = debounce(() => {
 
-        let updatedHazards = [];
-        const keys = Object.keys(data);
-        keys.forEach((key, index) => {
-            if(data[key] && key !== 'additionalHazards' && key !== 'additionalHazardsDescription')
-                updatedHazards.push(key);
-        });
+            const data = getValues();
 
-        save({
-            hazards: updatedHazards,
-            additionalHazards: data.additionalHazards,
-            additionalHazardsDescription: data.additionalHazardsDescription
-        }, 'SAVE_HAZARD_DETAILS');
+            let updatedHazards = [];
+            const keys = Object.keys(data);
+            keys.forEach((key, index) => {
+                if(data[key] && key !== 'additionalHazards' && key !== 'additionalHazardsDescription')
+                    updatedHazards.push(key);
+            });
 
-    }, [save]);
+            save({
+                hazards: updatedHazards,
+                additionalHazards: data.additionalHazards,
+                additionalHazardsDescription: data.additionalHazardsDescription
+            }, 'SAVE_HAZARD_DETAILS');
 
+        }, 1000);
 
     return (
         <div>
@@ -71,7 +75,7 @@ const Hazards = (props) => {
                         role='switch'
                         id='withinHazardZone'
                         disabled={recordLocked}
-                        { ...register('withinHazardZone', { required: false })}
+                        { ...register('withinHazardZone', { required: false, onChange: onUpdate })}
                     />
                     <label className='form-check-label' htmlFor='withinHazardZone'>
                         Working within the Metrolink Hazard Zone
@@ -85,7 +89,7 @@ const Hazards = (props) => {
                         role='switch'
                         id='within275OLE'
                         disabled={recordLocked}
-                        { ...register('within275OLE', { required: false })}
+                        { ...register('within275OLE', { required: false, onChange: onUpdate })}
                     />
                     <label className='form-check-label' htmlFor='within275OLE'>
                         Working within 2.75<abbr title='Metric Meters' className='initialism'>m</abbr> of any <abbr title='Overhead Line Equipment' className='initialism'>OLE</abbr>
@@ -99,7 +103,7 @@ const Hazards = (props) => {
                         role='switch'
                         id='withinSubstation'
                         disabled={recordLocked}
-                        { ...register('withinSubstation', { required: false })}
+                        { ...register('withinSubstation', { required: false, onChange: onUpdate })}
                     />
                     <label className='form-check-label' htmlFor='withinSubstation'>
                         Working within a Traction Substation
@@ -113,7 +117,7 @@ const Hazards = (props) => {
                         role='switch'
                         id='chapter8Protection'
                         disabled={recordLocked}
-                        { ...register('chapter8Protection', { required: false })}
+                        { ...register('chapter8Protection', { required: false, onChange: onUpdate })}
                     />
                     <label className='form-check-label' htmlFor='chapter8Protection'>
                             Working on street requiring <abbr title='Traffic Signs Manual Chapter 8' className='initialism'>Chapter 8</abbr> signage and protection
@@ -127,7 +131,7 @@ const Hazards = (props) => {
                         role='switch'
                         id='adjacentToLines'
                         disabled={recordLocked}
-                        { ...register('adjacentToLines', { required: false })}
+                        { ...register('adjacentToLines', { required: false, onChange: onUpdate })}
                     />
                     <label className='form-check-label' htmlFor='adjacentToLines'>
                         Adjacent to open <abbr title='e.g. Adjacent to Network Rail Intrastructure' className='initialism'>lines</abbr>
@@ -141,7 +145,7 @@ const Hazards = (props) => {
                         role='switch'
                         id='adjacentToWater'
                         disabled={recordLocked}
-                        { ...register('adjacentToWater', { required: false })}
+                        { ...register('adjacentToWater', { required: false, onChange: onUpdate })}
                     />
                     <label className='form-check-label' htmlFor='adjacentToWater'>
                         Adjacent to or above <abbr title='e.g. adjacent to or above a body of water' className='initialism'>water</abbr>
@@ -155,7 +159,7 @@ const Hazards = (props) => {
                         role='switch'
                         id='liftingPlan'
                         disabled={recordLocked}
-                        { ...register('liftingPlan', { required: false })}
+                        { ...register('liftingPlan', { required: false, onChange: onUpdate })}
                     />
                     <label className='form-check-label' htmlFor='liftingPlan'>
                         Requires a lifting plan
@@ -169,7 +173,7 @@ const Hazards = (props) => {
                         role='switch'
                         id='trackPlant'
                         disabled={recordLocked}
-                        { ...register('trackPlant', { required: false })}
+                        { ...register('trackPlant', { required: false, onChange: onUpdate })}
                     />
                     <label className='form-check-label' htmlFor='trackPlant'>
                         Working with on-track plant
@@ -183,7 +187,7 @@ const Hazards = (props) => {
                         role='switch'
                         id='withinSER'
                         disabled={recordLocked}
-                        { ...register('withinSER', { required: false })}
+                        { ...register('withinSER', { required: false, onChange: onUpdate })}
                     />
                     <label className='form-check-label' htmlFor='withinSER'>
                         Working within a Site Equipment Room
@@ -197,7 +201,7 @@ const Hazards = (props) => {
                         role='switch'
                         id='withinSERWithFireSuppression'
                         disabled={recordLocked}
-                        { ...register('withinSERWithFireSuppression', { required: false })}
+                        { ...register('withinSERWithFireSuppression', { required: false, onChange: onUpdate })}
                     />
                     <label className='form-check-label' htmlFor='withinSERWithFireSuppression'>
                         Working within an Equipment Room with Fire Suppression
@@ -211,7 +215,7 @@ const Hazards = (props) => {
                         role='switch'
                         id='onPlatform'
                         disabled={recordLocked}
-                        { ...register('onPlatform', { required: false })}
+                        { ...register('onPlatform', { required: false, onChange: onUpdate })}
                     />
                     <label className='form-check-label' htmlFor='onPlatform'>
                         Working on a Tram Stop Platform
@@ -225,7 +229,7 @@ const Hazards = (props) => {
                         role='switch'
                         id='inDepotWorkshop'
                         disabled={recordLocked}
-                        { ...register('inDepotWorkshop', { required: false })}
+                        { ...register('inDepotWorkshop', { required: false, onChange: onUpdate })}
                     />
                     <label className='form-check-label' htmlFor='inDepotWorkshop'>
                         Working in Depot Work Shops
@@ -239,7 +243,7 @@ const Hazards = (props) => {
                         role='switch'
                         id='onDepotSidings'
                         disabled={recordLocked}
-                        { ...register('onDepotSidings', { required: false })}
+                        { ...register('onDepotSidings', { required: false, onChange: onUpdate })}
                     />
                     <label className='form-check-label' htmlFor='onDepotSidings'>
                         Working on Depot Sidings
@@ -253,7 +257,7 @@ const Hazards = (props) => {
                         role='switch'
                         id='tramsInOperation'
                         disabled={recordLocked}
-                        { ...register('tramsInOperation', { required: false })}
+                        { ...register('tramsInOperation', { required: false, onChange: onUpdate })}
                     />
                     <label className='form-check-label' htmlFor='tramsInOperation'>
                         Working while Trams Operational
@@ -267,7 +271,7 @@ const Hazards = (props) => {
                         role='switch'
                         id='workingAtHeight'
                         disabled={recordLocked}
-                        { ...register('workingAtHeight', { required: false })}
+                        { ...register('workingAtHeight', { required: false, onChange: onUpdate })}
                     />
                     <label className='form-check-label' htmlFor='workingAtHeight'>
                         Working at Height
@@ -281,7 +285,7 @@ const Hazards = (props) => {
                         role='switch'
                         id='poweredAccessEquipment'
                         disabled={recordLocked}
-                        { ...register('poweredAccessEquipment', { required: false })}
+                        { ...register('poweredAccessEquipment', { required: false, onChange: onUpdate })}
                     />
                     <label className='form-check-label' htmlFor='poweredAccessEquipment'>
                         Working with Powered Access Equipment <abbr title='International Powered Access Federation' className='initialism'>(IPAF)</abbr>
@@ -295,7 +299,7 @@ const Hazards = (props) => {
                         role='switch'
                         id='prefabricatedAccessPlatforms'
                         disabled={recordLocked}
-                        { ...register('prefabricatedAccessPlatforms', { required: false })}
+                        { ...register('prefabricatedAccessPlatforms', { required: false, onChange: onUpdate })}
                     />
                     <label className='form-check-label' htmlFor='prefabricatedAccessPlatforms'>
                         Working with Prefabricated Access Platforms <abbr title="Prefabricated Access Suppliers' and Manufacturers' Association" className='initialism'>(PASMA)</abbr>
@@ -309,7 +313,7 @@ const Hazards = (props) => {
                         role='switch'
                         id='confinedSpaces'
                         disabled={recordLocked}
-                        { ...register('confinedSpaces', { required: false })}
+                        { ...register('confinedSpaces', { required: false, onChange: onUpdate })}
                     />
                     <label className='form-check-label' htmlFor='confinedSpaces'>
                         Working in Confined Spaces
@@ -323,7 +327,7 @@ const Hazards = (props) => {
                         role='switch'
                         id='lvElectrical'
                         disabled={recordLocked}
-                        { ...register('lvElectrical', { required: false })}
+                        { ...register('lvElectrical', { required: false, onChange: onUpdate })}
                     />
                     <label className='form-check-label' htmlFor='lvElectrical'>
                         Working on <abbr title='Low Volatge' className='initialism'>LV</abbr> Electrical
@@ -337,7 +341,7 @@ const Hazards = (props) => {
                         role='switch'
                         id='excavationRequired'
                         disabled={recordLocked}
-                        { ...register('excavationRequired', { required: false })}
+                        { ...register('excavationRequired', { required: false, onChange: onUpdate })}
                     />
                     <label className='form-check-label' htmlFor='excavationRequired'>
                         Excavation requiring permission to Dig
@@ -351,7 +355,7 @@ const Hazards = (props) => {
                         role='switch'
                         id='hotWorks'
                         disabled={recordLocked}
-                        { ...register('hotWorks', { required: false })}
+                        { ...register('hotWorks', { required: false, onChange: onUpdate })}
                     />
                     <label className='form-check-label' htmlFor='hotWorks'>
                         Hot works (e.g., Welding)
@@ -364,7 +368,7 @@ const Hazards = (props) => {
                         role='switch'
                         id='testTrams'
                         disabled={recordLocked}
-                        { ...register('testTrams', { required: false })}
+                        { ...register('testTrams', { required: false, onChange: onUpdate })}
                     />
                     <label className='form-check-label' htmlFor='testTrams'>
                         Working with a Test Tram(s)
@@ -378,7 +382,7 @@ const Hazards = (props) => {
                         role='switch'
                         id='accessingChampbersDucts'
                         disabled={recordLocked}
-                        { ...register('accessingChampbersDucts', { required: false })}
+                        { ...register('accessingChampbersDucts', { required: false, onChange: onUpdate })}
                     />
                     <label className='form-check-label' htmlFor='accessingChampbersDucts'>
                         Accessing Chambers - Duct / Cable routes
@@ -405,7 +409,7 @@ const Hazards = (props) => {
                         ?   <div className='form-floating mt-1'>
                                 <textarea className='form-control' id='additionalHazardsDescription'  rows='5' style={{height:'auto'}} placeholder='Electrical Isolation Requirements' 
                                     disabled={recordLocked} required={additionalHazards}
-                                    {...register('additionalHazardsDescription', { minLength: 5, required: additionalHazards })}
+                                    {...register('additionalHazardsDescription', { minLength: 5, required: additionalHazards, onChange: onUpdate })}
                                 />
                                 <label htmlFor='additionalHazardsDescription' className='form-label'>
                                     Additional Hazards Descriptions
@@ -415,13 +419,6 @@ const Hazards = (props) => {
                     }
                 </div>
             </div>
-
-            {!recordLocked 
-                ? <div>
-                    <button className='w-100 btn btn-lg btn-secondary' type='button' onClick={handleSubmit(onSave)}>Save Hazard Details</button>
-                </div>
-                : null
-            }
         </div>
     );
 }

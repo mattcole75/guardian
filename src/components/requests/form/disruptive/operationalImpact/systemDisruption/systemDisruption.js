@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { debounce } from 'debounce';
 
@@ -6,7 +6,7 @@ const SystemDisruption = (props) => {
 
     const { save, roles, request } = props;
     const { systemDisruptionItems, disruptionSubmittedStatus } = request;
-    
+
     const isPlanner = roles.includes('planner');
 
     let isLocked = false;
@@ -19,12 +19,9 @@ const SystemDisruption = (props) => {
         defaultValues: systemDisruptionItems ? systemDisruptionItems : null
     });
 
-    // eslint-disable-next-line
-    const onUpdate = useCallback(
-        debounce(() => {
-            save({ systemDisruptionItems: getValues() });
-        }, 1000), []
-    );
+    const onUpdate = debounce(() => {
+        save({ systemDisruptionItems: getValues() });
+    }, 1000);
 
     return (
         <div>

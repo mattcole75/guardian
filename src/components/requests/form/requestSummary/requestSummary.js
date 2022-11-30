@@ -1,11 +1,12 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { debounce } from 'debounce';
 
 const RequestSummary = (props) => {
 
     const { request, save, recordLocked } = props;
 
-    const { register, handleSubmit } = useForm({
+    const { register, getValues } = useForm({
         mode: 'onChange',
         defaultValues: {
             accessRequestTitle: request && request.accessRequestTitle,
@@ -23,11 +24,12 @@ const RequestSummary = (props) => {
 
     const toggleAssociatedWithProject = () => {
         setAssociatedWithProject(prevState => !prevState);
+        onUpdate();
     }
 
-    const onSave = useCallback((data) => {
-        save(data, 'SAVE_REQUEST');
-    }, [save]);
+    const onUpdate = debounce(() => {
+        save(getValues(), 'SAVE_REQUEST');
+    }, 2000);
 
     return (
         <div>
@@ -36,25 +38,25 @@ const RequestSummary = (props) => {
                 <div className='form-floating mb-3'>
                     <input type='text' className='form-control' id='accessRequestTitle' autoComplete='off' placeholder='Request title' required 
                         disabled={recordLocked}
-                        {...register('accessRequestTitle', { required: true, minLength: 3 })} />
+                        {...register('accessRequestTitle', { required: true, minLength: 3, onChange: onUpdate })} />
                     <label htmlFor='accessRequestTitle' className='form-label'>Title</label>
                 </div>
                 <div className='form-floating mb-3'>
                     <textarea className='form-control' id='accessRequestDescription'  rows='5' style={{height:'auto'}} placeholder='Request description' required 
                         disabled={recordLocked}
-                        {...register('accessRequestDescription', { required: true, minLength: 5 })} />
+                        {...register('accessRequestDescription', { required: true, minLength: 5, onChange: onUpdate })} />
                     <label htmlFor='accessRequestDescription' className='form-label'>Description</label>
                 </div>
                 <div className='form-floating mb-3'>
                     <input type='text' className='form-control' id='accessRequestCompetentPerson' autoComplete='off' placeholder='Competent person' required 
                         disabled={recordLocked}
-                        {...register('accessRequestCompetentPerson', { required: true, minLength: 3 })} />
+                        {...register('accessRequestCompetentPerson', { required: true, minLength: 3, onChange: onUpdate })} />
                     <label htmlFor='accessRequestCompetentPerson' className='form-label'>Competent Person</label>
                 </div>
                 <div className='form-floating mb-3'>
                     <input type='text' className='form-control' id='accessRequestCompetentPersonPhoneNumber' autoComplete='off' placeholder='Site contact number' required 
                         disabled={recordLocked}
-                        {...register('accessRequestCompetentPersonPhoneNumber', { required: true, minLength: 3 })} />
+                        {...register('accessRequestCompetentPersonPhoneNumber', { required: true, minLength: 3, onChange: onUpdate })} />
                     <label htmlFor='accessRequestCompetentPersonPhoneNumber' className='form-label'>Competent Person Phone Number</label>
                 </div>
 
@@ -79,19 +81,19 @@ const RequestSummary = (props) => {
                                 <div className='form-floating mb-1'>
                                     <input type='text' className='form-control' id='projectTitle' autoComplete='off' placeholder='Project title' required 
                                         disabled={recordLocked}
-                                        {...register('projectTitle', { required: true, minLength: 3 })} />
+                                        {...register('projectTitle', { required: true, minLength: 3, onChange: onUpdate })} />
                                     <label htmlFor='projectTitle' className='form-label'>Project Title</label>
                                 </div>
                                 <div className='form-floating mb-1'>
                                     <input type='text' className='form-control' id='projectOrganisation' autoComplete='off' placeholder='Project organisation' required
                                         disabled={recordLocked}
-                                        {...register('projectOrganisation', { required: true })} />
+                                        {...register('projectOrganisation', { required: true, onChange: onUpdate })} />
                                     <label htmlFor='projectOrganisation' className='form-label'>Project Organisation</label>
                                 </div>
                                 <div className='form-floating'>
                                     <select className='form-select' id='projectRAMs' required
                                         disabled={recordLocked}
-                                        {...register('projectRAMs', { required: true })}>
+                                        {...register('projectRAMs', { required: true, onChange: onUpdate })}>
                                         <option value=''>Choose...</option>
                                         <option>Approved by KAM</option>
                                         <option>Submitted to KAM</option>
@@ -103,15 +105,7 @@ const RequestSummary = (props) => {
                         :   null
                     }
                 </div>
-
             </div>
-
-            {!recordLocked
-                ? <div>
-                    <button className='w-100 btn btn-lg btn-secondary' type='button' onClick={handleSubmit(onSave)}>Save Access Request Summary</button>
-                </div>
-                : null
-            }
         </div>
     );
 }

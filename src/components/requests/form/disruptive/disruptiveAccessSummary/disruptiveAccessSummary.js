@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { debounce } from 'debounce';
 
@@ -21,12 +21,9 @@ const DisruptiveAccessSummary = (props) => {
         
     });
 
-     // eslint-disable-next-line
-     const onUpdate = useCallback(
-        debounce(() => {
-            save({ systemDisruptionItems: getValues() });
-        }, 1000), []
-    );
+     const onUpdate = debounce(() => {
+        save({ disruptiveAccessSummary: getValues() });
+    }, 1000);
 
     return (
         <form className='p-3' disabled={true}>

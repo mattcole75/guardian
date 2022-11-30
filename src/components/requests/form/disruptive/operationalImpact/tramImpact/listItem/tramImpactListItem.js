@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { debounce } from 'debounce';
 
@@ -13,12 +13,9 @@ const TramImpactListItem = (props) => {
         defaultValues: item
     });
 
-    // eslint-disable-next-line
-    const onUpdate = useCallback(
-        debounce(() => {
-            updateTramImpactItem(getValues(), index);
-        }, 1000), []
-    );
+    const onUpdate = debounce(() => {
+        updateTramImpactItem(getValues(), index);
+    }, 1000);
 
     const onDelete = () => {
         deleteTramImpactItem(index);
@@ -71,7 +68,7 @@ const TramImpactListItem = (props) => {
                 <div className='text-center'>
                     <input className='form-control' type='number' id='frequency'
                         disabled={(isPlanner === false && isLocked === false) || isLocked}
-                        { ...register('frequency ', { onChange: onUpdate }) }
+                        { ...register('frequency', { onChange: onUpdate }) }
                     />
                 </div>
             </td>

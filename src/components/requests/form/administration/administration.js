@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { debounce } from 'debounce';
 import { useSelector } from 'react-redux';
 import Comment from '../../comment/comment';
 import moment from 'moment';
@@ -14,7 +15,7 @@ const Administration = (props) => {
     const [comment, setComment] = useState('');
     const [commentButtonEnabled, setCommentButtonEnabled] = useState(false);
 
-    const { register, handleSubmit, formState } = useForm({
+    const { register, getValues } = useForm({
         mode: 'onChange',
         defaultValues: {
             assignedPlanner: request && request.assignedPlanner
@@ -28,9 +29,10 @@ const Administration = (props) => {
             setCommentButtonEnabled(false);
     }, [comment]);
 
-    const onSave = useCallback((data) => {
+    const onUpdate = debounce(() => {
+        const data = getValues()
         save({ ...data, status: 'Under Review' }, 'SAVE_REQUEST');
-    }, [save]);
+    }, 1000);
 
     const onSaveComment = useCallback(() => {
 
@@ -50,8 +52,6 @@ const Administration = (props) => {
         
     }, [comment, displayName, request, save]);
 
-
-
     return (
         <div>
             <div className='mb-3'>
@@ -59,7 +59,7 @@ const Administration = (props) => {
                 {/* Administration section */}
                 <div className='form-floating mb-3'>
                     <select className='form-select' id='assignedPlanner' required
-                        {...register('assignedPlanner', { required: true })}>
+                        {...register('assignedPlanner', { required: true, onChange: onUpdate })}>
                         <option value=''>Choose...</option>
                         {
                             planners.map((item, index) => (
@@ -99,10 +99,6 @@ const Administration = (props) => {
                         }
                     </div>
                 </div>
-            </div>
-
-            <div>
-                <button className='w-100 btn btn-lg btn-secondary mb-3' type='button' disabled={!formState.isValid} onClick={handleSubmit(onSave)}>Save Administration Details</button>
             </div>
         </div>
     );

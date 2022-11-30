@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { debounce } from 'debounce';
 
@@ -13,12 +13,9 @@ const CustomerOperationListItem = (props) => {
         defaultValues: item
     });
 
-    // eslint-disable-next-line
-    const onUpdate = useCallback(
-        debounce(() => {
-            updateCustomerOperationItem(getValues(), index);
-        }, 1000), []
-    );
+    const onUpdate = debounce(() => {
+        updateCustomerOperationItem(getValues(), index);
+    }, 1000);
 
     const onDelete = () => {
         deleteCustomerOperationItem(index);

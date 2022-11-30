@@ -25,7 +25,8 @@ const CustomerOperationsList = (props) => {
         updatedCustomerOperationItem.push({
             stopDisrupted: '',
             numberOfStaff: '2',
-            wellfareRequired: false
+            wellfareRequired: false,
+            securityRequired: false
         });
         // update state with new item
         save({ customerOperationDisruptionItems: updatedCustomerOperationItem });
@@ -96,8 +97,7 @@ const CustomerOperationsList = (props) => {
                         </table>
                     </div>
                 : <div className='alert alert-warning text-sm-center' role='alert'>You have no customer operation disruptions</div>
-            }
-            
+            }   
         </div>
     );
 }

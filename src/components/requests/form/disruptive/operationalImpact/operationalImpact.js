@@ -21,9 +21,7 @@ const OperationalImpact = (props) => {
 
     return (
         <div>
-            
-            <div className='form-floating mb-3 p-2 text-start'>
-                
+            <div className='form-floating mb-3 p-2 text-start'>   
                 { request
                     ?   <div>
                             <div className='border-bottom'>

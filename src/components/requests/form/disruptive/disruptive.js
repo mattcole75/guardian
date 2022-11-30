@@ -45,10 +45,12 @@ const Disruptive = (props) => {
                             </div>
                             <span className='text-start'>
                                 Is this Access Request likely to cause disruption?
-                                <small className='d-block text-muted'>Indicate if this access request is likely to cause disruption to Metrolink services</small>
+                                <small className='d-block text-muted'>Indicate if this access request is likely to cause disruption to Metrolink services. A Metrolink representative will review and compile a list of requirements for the proposed disruptive access which will be agreed or rejected by TfGM.</small>
                             </span>
                         </label>
                     </div>
+
+                    <p className='h4 mt-2'>For official use only</p>
                     
                     { isDisruptive
                         ?    <div className='mt-2'>

@@ -8,8 +8,8 @@ const LocationLimits = (props) => {
     return (
         <div>
             {!recordLocked
-                ?  <div className='text-start mb-3' role='group' aria-label='Basic example'>
-                    <button type='button' className='btn btn-success' onClick={toggle}>Add Location Limit Item</button>
+                ?  <div className='text-end mb-3' role='group' aria-label='Basic example'>
+                    <button type='button' className='btn btn-primary' onClick={toggle}>Add Location Limit</button>
                 </div>
                 : null
             }

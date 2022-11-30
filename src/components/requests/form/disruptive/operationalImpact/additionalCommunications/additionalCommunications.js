@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { debounce } from 'debounce';
 
@@ -20,12 +20,9 @@ const AdditionalCommunications = (props) => {
         defaultValues: communicationDisruptionItems ? communicationDisruptionItems : null
     });
 
-    // eslint-disable-next-line
-    const onUpdate = useCallback(
-        debounce(() => {
-            save({ communicationDisruptionItems: getValues() });
-        }, 1000), []
-    );
+    const onUpdate = debounce(() => {
+        save({ communicationDisruptionItems: getValues() });
+    }, 1000);
 
     return (
         <div>
@@ -89,7 +86,6 @@ const AdditionalCommunications = (props) => {
                                     />
                                 </div>
                             </td>
-                        
                         </tr>
                     </tbody>
                 </table>

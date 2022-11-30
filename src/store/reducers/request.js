@@ -44,7 +44,10 @@ const requestUpdateSuccess = (state, action) => {
     // if the user has refreshed the request page using the browser there will be no requests in state  
     if(state.requests.length > 0) {
         const requestIndex = state.requests.findIndex(req => req.hasOwnProperty(action.id));
+
+        // updatedRequest = { [action.id]: { ...state.request, ...action.request } };
         updatedRequest = { [action.id]: { ...state.requests[requestIndex][action.id], ...action.request } };
+
         updatedRequests = [ ...state.requests ];
         updatedRequests[requestIndex] = updatedRequest;
     } else {

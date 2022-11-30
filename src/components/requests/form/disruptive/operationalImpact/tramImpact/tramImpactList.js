@@ -44,9 +44,9 @@ const TramImpactList = (props) => {
 
     const updateTramImpactItem = (data, index) => {
         // create a local copy
-        const updatedTramImpactItems = [ ...tramServiceDisruptionItems ];  
+        const updatedTramImpactItems = [ ...tramServiceDisruptionItems ];
         // update the item at the specified array index with the given data
-        updatedTramImpactItems[index] = data;
+        updatedTramImpactItems[index] = data;        
         // update database
         save({ tramServiceDisruptionItems: updatedTramImpactItems });
     };
@@ -102,7 +102,6 @@ const TramImpactList = (props) => {
                     </div>
                 : <div className='alert alert-warning text-sm-center' role='alert'>You have no tram service disruptions</div>
             }
-            
         </div>
     );
 }

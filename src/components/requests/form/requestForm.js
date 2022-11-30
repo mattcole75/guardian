@@ -255,11 +255,11 @@ const Request = () => {
                             request
                             ?   <div className='accordion-item'>
                                     <h2 className='accordion-header' id='panelsStayOpen-headingFinance'>
-                                        <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseFinance' aria-expanded='true' aria-controls='panelsStayOpen-collapseFinance'>
+                                        <button className='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseFinance' aria-expanded='false' aria-controls='panelsStayOpen-collapseFinance'>
                                             Finance
                                         </button>
                                     </h2>
-                                    <div id='panelsStayOpen-collapseFinance' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingFinance'>
+                                    <div id='panelsStayOpen-collapseFinance' className='accordion-collapse collapse' aria-labelledby='panelsStayOpen-headingFinance'>
                                         <div className='accordion-body'>
                                             <Finance request={request ? request[key] : null} save={saveHandler} recordLocked={recordLocked} />
                                         </div>
