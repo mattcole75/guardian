@@ -4,14 +4,14 @@ import { debounce } from 'debounce';
 
 const DisruptiveAccessSummary = (props) => {
 
-    const { request, save, roles } = props;
+    const { recordLocked, request, save, roles } = props;
 
     const { disruptiveAccessSummary, disruptionSubmittedStatus } = request;
     
     const isPlanner = roles.includes('planner');
 
     let isLocked = false;
-    if(disruptionSubmittedStatus === 'Submitted' || disruptionSubmittedStatus === 'Approved'){
+    if(disruptionSubmittedStatus === 'Submitted' || disruptionSubmittedStatus === 'Approved' || recordLocked){
         isLocked = true;
     }
 

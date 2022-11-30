@@ -1,6 +1,8 @@
 import React from 'react';
 
-const Approvals = () => {
+const Approvals = (props) => {
+
+    // const { recordLocked } = props;
 
     return (
         <div className='m-3'>

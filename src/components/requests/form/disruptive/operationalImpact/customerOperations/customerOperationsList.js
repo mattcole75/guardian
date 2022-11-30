@@ -3,14 +3,14 @@ import CustomerOperationListItem from './listItem/customerOperationListItem';
 
 const CustomerOperationsList = (props) => {
 
-    const { save, roles, request } = props;
+    const { save, roles, request, recordLocked } = props;
 
     const { customerOperationDisruptionItems, disruptionSubmittedStatus } = request;
 
     const isPlanner = roles.includes('planner');
 
     let isLocked = false;
-    if(disruptionSubmittedStatus === 'Submitted' || disruptionSubmittedStatus === 'Approved'){
+    if(disruptionSubmittedStatus === 'Submitted' || disruptionSubmittedStatus === 'Approved' || recordLocked){
         isLocked = true;
     }
     

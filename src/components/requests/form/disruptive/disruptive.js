@@ -98,6 +98,7 @@ const Disruptive = (props) => {
 
                                     <div className='tab-pane fade active show' id='nav-disruptive-access' role='tabpanel' aria-labelledby='nav-disruptive-access'>
                                         <DisruptiveAccessSummary
+                                            recordLocked={recordLocked}
                                             roles={roles}
                                             request={request}
                                             save={onSave}
@@ -106,6 +107,7 @@ const Disruptive = (props) => {
 
                                     <div className='tab-pane fade' id='nav-operational-impact' role='tabpanel' aria-labelledby='nav-operational-impact-tab'>
                                         <OperationalImpact
+                                            recordLocked={recordLocked}
                                             roles={roles}
                                             request={request ? request : null}
                                             save={save}
@@ -114,6 +116,7 @@ const Disruptive = (props) => {
 
                                     <div className='tab-pane fade' id='nav-approvals' role='tabpanel' aria-labelledby='nav-approvals'>
                                         <Approvals
+                                            recordLocked={recordLocked}
                                             roles={roles}
                                         />
                                     </div>

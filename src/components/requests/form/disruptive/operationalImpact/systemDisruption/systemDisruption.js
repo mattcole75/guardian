@@ -4,13 +4,13 @@ import { debounce } from 'debounce';
 
 const SystemDisruption = (props) => {
 
-    const { save, roles, request } = props;
+    const { save, roles, request, recordLocked } = props;
     const { systemDisruptionItems, disruptionSubmittedStatus } = request;
 
     const isPlanner = roles.includes('planner');
 
     let isLocked = false;
-    if(disruptionSubmittedStatus === 'Submitted' || disruptionSubmittedStatus === 'Approved'){
+    if(disruptionSubmittedStatus === 'Submitted' || disruptionSubmittedStatus === 'Approved' || recordLocked){
         isLocked = true;
     }
 

@@ -12,7 +12,8 @@ const AdminForm = (props) => {
             user: user.roles.includes('user') ? true : false,
             coordinator: user.roles.includes('coordinator') ? true : false,
             planner: user.roles.includes('planner') ? true : false,
-            technicalReviewer: user.roles.includes('technicalReviewer') ? true : false,
+            technicalAuthority: user.roles.includes('technicalAuthority') ? true : false,
+            disruptionAuthority: user.roles.includes('disruptionAuthority') ? true : false,
             administrator: user.roles.includes('administrator') ? true : false,
             disabled: !user.disabled
         }
@@ -154,10 +155,20 @@ const AdminForm = (props) => {
                             className="form-check-input"
                             type="checkbox"
                             role="switch"
-                            id="technicalReviewer"
-                            { ...register('technicalReviewer', { required: false })}
+                            id="technicalAuthority"
+                            { ...register('technicalAuthority', { required: false })}
                         />
-                        <label className="form-check-label" htmlFor="technicalReviewer">Technical Reviewer</label>
+                        <label className="form-check-label" htmlFor="technicalAuthority">Technical Authority</label>
+                    </div>
+                    <div className="form-check form-switch primary text-start">
+                        <input
+                            className="form-check-input"
+                            type="checkbox"
+                            role="switch"
+                            id="disruptionAuthority"
+                            { ...register('disruptionAuthority', { required: false })}
+                        />
+                        <label className="form-check-label" htmlFor="disruptionAuthority">Disruption Authority</label>
                     </div>
                     <div className="form-check form-switch primary text-start">
                         <input 
