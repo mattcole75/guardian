@@ -73,6 +73,13 @@ const Request = () => {
         }
     }, [uid, onGetRequest, idToken, localId]);
 
+    const disruptive = {
+        requestorName: (key && request[key].requestorName) ? request[key].requestorName : null,
+        accessRequestCreated: (key && request[key].created) ? request[key].created : null,
+        disruptionSubmittedDate: (key && request[key].disruptionSubmittedDate) ? request[key].disruptionSubmittedDate : null,
+        accessFirstDay: (key && request[key].accessFirstDay) ? request[key].accessFirstDay : null
+    }
+
     // determin if the record is editable based on status
     useEffect(() => {
         if(request) {
@@ -279,7 +286,8 @@ const Request = () => {
                                     <div id='panelsStayOpen-collapseDisruptive' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingDisruptive'>
                                         <div className='accordion-body'>
                                             <Disruptive 
-                                                request={request ? request[key] : null} 
+                                                request={request ? request[key] : null}
+                                                disruptive={disruptive}
                                                 save={saveHandler}
                                                 recordLocked={recordLocked}
                                             />

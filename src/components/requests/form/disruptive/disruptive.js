@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 
 const Disruptive = (props) => {
 
-    const { request, save, recordLocked } = props;
+    const { request, disruptive, save, recordLocked } = props;
 
     const { register } = useForm({
         mode: 'onChange',
@@ -116,8 +116,11 @@ const Disruptive = (props) => {
 
                                     <div className='tab-pane fade' id='nav-approvals' role='tabpanel' aria-labelledby='nav-approvals'>
                                         <Approvals
+                                            disruptive={disruptive}
                                             recordLocked={recordLocked}
                                             roles={roles}
+                                            request={request}
+                                            save={onSave}
                                         />
                                     </div>
 

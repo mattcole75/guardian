@@ -11,6 +11,8 @@ const RequestSummary = (props) => {
         defaultValues: {
             accessRequestTitle: request && request.accessRequestTitle,
             accessRequestDescription: request && request.accessRequestDescription,
+            accessFirstDay: request && request.accessFirstDay,
+            accessLastDay: request && request.accessLastDay,
             accessRequestCompetentPerson: request && request.accessRequestCompetentPerson,
             accessRequestCompetentPersonPhoneNumber: request && request.accessRequestCompetentPersonPhoneNumber,
             associatedWithProject: request && request.associatedWithProject,
@@ -46,6 +48,22 @@ const RequestSummary = (props) => {
                         disabled={recordLocked}
                         {...register('accessRequestDescription', { required: true, minLength: 5, onChange: onUpdate })} />
                     <label htmlFor='accessRequestDescription' className='form-label'>Description</label>
+                </div>
+                <div className='row g-2 mb-3'>
+                    <div className='form-floating  col-sm-6'>
+                        <input type='date' className='form-control' id='accessFirstDay' placeholder='First day of access' required
+                            disabled={recordLocked}
+                            {...register('accessFirstDay', { required: true, onChange: onUpdate })}
+                        />
+                        <label htmlFor='accessFirstDay' className='form-label'>Access First day</label>
+                    </div>
+                    <div className='form-floating col-sm-6 mb-1'>
+                        <input type='Date' className='form-control' id='accessLastDay' placeholder='Last day of access' required
+                            disabled={recordLocked}
+                            {...register('accessLastDay', { required: true, onChange: onUpdate })}
+                        />
+                        <label htmlFor='accessLastDay' className='form-label'>Access Last day</label>
+                    </div>
                 </div>
                 <div className='form-floating mb-3'>
                     <input type='text' className='form-control' id='accessRequestCompetentPerson' autoComplete='off' placeholder='Competent person' required 

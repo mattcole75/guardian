@@ -25,7 +25,7 @@ const OperationalConsiderations = (props) => {
     }, 2000);
 
     return (
-        <div className='mb-2'>
+        <div className=''>
             <div className='row g-2 p-1'>
                 <h3 className='h5 text-muted'>Operational Considerations</h3>
             </div>

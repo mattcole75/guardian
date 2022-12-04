@@ -1,156 +1,74 @@
 import React from 'react';
+import { useForm } from 'react-hook-form';
+import moment from 'moment';
+// import moment from 'moment';
 
 const Approvals = (props) => {
 
-    // const { recordLocked } = props;
+    const { save, roles, request, recordLocked } = props;
+    const { disruptionSubmittedDate, disruptionStatus } = request;
+    const isPlanner = roles.includes('planner');
+    const isDisruptiveAuthority = roles.includes('disruptiveAuthority');
+
+    const { register, getValues } = useForm({
+        mode: 'onChange',
+        // defaultValues: operationalConsiderationDisriptionItem ? operationalConsiderationDisriptionItem : null
+    });
+
+    let isLocked = false;
+    if(disruptionStatus === 'Submitted' || disruptionStatus === 'Approved' || recordLocked){
+        isLocked = true;
+    }
+
+    const onSubmit = () => {
+        save({ 
+            disruptionStatus: 'Submitted',
+            disruptionSubmittedDate: disruptionSubmittedDate ? disruptionSubmittedDate : moment().format()
+        });
+    }
 
     return (
         <div className='m-3'>
             <div className='row border rounded mb-2 p-2'>
                 <div className='form-floating text-start'>
-                    <h3 className='h5 text-muted'>Approvals</h3>
-                    <div>
-                        <table className='w-100 table table-sm table-hover table-borderless align-middle bg-light border-start border-end border-top shadow-sm fs-7'>
-                            <thead className='border-bottom'>
-                                <tr>
-                                    <th className='ps-3 pe-3'><div className='table-item_col'>Task</div></th>
-                                    <th className='ps-3 pe-3'><div className='table-item_col'>Status</div></th>
-                                    <th className='ps-3 pe-3'><div className='table-item_col'>Date</div></th>
-                                    <th className='ps-3 pe-3'><div className='table-item_col'>Compliance</div></th>
-                                    <th className='ps-3 pe-3'></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr className='border-bottom'>
-                                    <td className='ps-3 pe-3'>
-                                        <div className='table-item_col'>
-                                            Disruptive request raised
-                                        </div>
-                                    </td>
-                                    <td className='ps-3 pe-3'>
-                                        <div className='table-item_col'>
-                                            Raised by Joe Bloggs
-                                        </div>
-                                    </td>
-                                    <td className='ps-3 pe-3'>
-                                        <div className='table-item_col'>
-                                            28 Oct 2022 09:23
-                                        </div>
-                                    </td>
-                                    <td className='ps-3 pe-3'>
-                                        <div className='table-item_col'>
-                                            Non-Compliant
-                                        </div>
-                                    </td>
-                                    <td className='ps-3 pe-3 text-end'>
-                                    </td>
-                                </tr>
-                                <tr className='border-bottom'>
-                                    <td className='ps-3 pe-3'>
-                                        <div className='table-item_col'>
-                                            KAM proposes operational plan
-                                        </div>
-                                    </td>
-                                    <td className='ps-3 pe-3'>
-                                        <div className='table-item_col'>
-                                            Submitted by John Doe
-                                        </div>
-                                    </td>
-                                    <td className='ps-3 pe-3'>
-                                        <div className='table-item_col'>
-                                            15 Nov 2022 13:45
-                                        </div>
-                                    </td>
-                                    <td className='ps-3 pe-3'>
-                                        <div className='table-item_col'>
-                                            Compliant
-                                        </div>
-                                    </td>
-                                    <td className='ps-3 pe-3 text-end'>
-                                        <div className='dropdown'>
-                                            <div className='table-item_col'>
-                                                <div className='btn' role='button' data-bs-toggle='dropdown' aria-expanded='false'>
-                                                    <span className='bi-three-dots-vertical fs-7' />
-                                                </div>
-                                                <ul className='dropdown-menu fs-7'>
-                                                    <li><button type='button' className='dropdown-item' onClick={ () => {} }>Plan Submitted</button></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr className='border-bottom'>
-                                    <td className='ps-3 pe-3'>
-                                        <div className='table-item_col'>
-                                            TfGM Review and Approve Plan
-                                        </div>
-                                    </td>
-                                    <td className='ps-3 pe-3'>
-                                        <div className='table-item_col'>
-                                            Approved by Joe Bloggs
-                                        </div>
-                                    </td>
-                                    <td className='ps-3 pe-3'>
-                                        <div className='table-item_col'>
-                                            17 Nov 2022 17:34
-                                        </div>
-                                    </td>
-                                    <td className='ps-3 pe-3'>
-                                        <div className='table-item_col'>
-                                            Compliant
-                                        </div>
-                                    </td>
-                                    <td className='ps-3 pe-3 text-end'>
-                                        <div className='dropdown'>
-                                            <div className='table-item_col'>
-                                                <div className='btn' role='button' data-bs-toggle='dropdown' aria-expanded='false'>
-                                                    <span className='bi-three-dots-vertical fs-7' />
-                                                </div>
-                                                <ul className='dropdown-menu fs-7'>
-                                                    <li><button type='button' className='dropdown-item' onClick={ () => {} }>Plan Approved</button></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
+                    <h3 className='h5 text-muted'>Submit Disruptive for Approval</h3>
+                    <div className='border-bottom mb-3'>
+                        <div className='form-floating mb-3'>
+                            <textarea className='form-control' id='disruptiveSubmissionNotes'  rows='5' style={{height:'auto'}} placeholder='Request description' required 
+                                disabled={(isPlanner === false && isLocked === false) || isLocked}
+                                {...register('disruptiveSubmissionNotes', { required: true, minLength: 5 })}
+                            />
+                            <label htmlFor='disruptiveSubmissionNotes' className='form-label'>Disruptive Submission Notes</label>
+                        </div>
+                        { (isPlanner === true && isLocked === false) || isLocked
+                            ?   <div className='form-floating mb-3'>
+                                    <button className='w-100 btn btn-lg btn-primary' type='button' disabled={false} onClick={() => {}}>Submit for Approval</button>
+                                </div>
+                            :   null
+                        }
+                        <p>Submitted by person on this date</p>
+                    </div>
 
-                                <tr className='border-bottom'>
-                                    <td className='ps-3 pe-3'>
-                                        <div className='table-item_col'>
-                                            Plan Enforced
-                                        </div>
-                                    </td>
-                                    <td className='ps-3 pe-3'>
-                                        <div className='table-item_col'>
-                                            Confirmed by John Doe
-                                        </div>
-                                    </td>
-                                    <td className='ps-3 pe-3'>
-                                        <div className='table-item_col'>
-                                            20 Nov 2022 17:34
-                                        </div>
-                                    </td>
-                                    <td className='ps-3 pe-3'>
-                                        <div className='table-item_col'>
-                                            Compliant
-                                        </div>
-                                    </td>
-                                    <td className='ps-3 pe-3 text-end'>
-                                        <div className='dropdown'>
-                                            <div className='table-item_col'>
-                                                <div className='btn' role='button' data-bs-toggle='dropdown' aria-expanded='false'>
-                                                    <span className='bi-three-dots-vertical fs-7' />
-                                                </div>
-                                                <ul className='dropdown-menu fs-7'>
-                                                    <li><button type='button' className='dropdown-item' onClick={ () => {} }>Plan Enforced</button></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                            </tbody>
-                        </table>
+                    <h3 className='h5 text-muted'>Disruption Authority Approval</h3>
+                    <div className='mb-3'>
+                        <div className='form-floating mb-3'>
+                            <textarea className='form-control' id='disruptiveSubmissionNotes'  rows='5' style={{height:'auto'}} placeholder='Request description' required 
+                                disabled={(isPlanner === false && isLocked === false) || isLocked}
+                                {...register('disruptiveSubmissionNotes', { required: true, minLength: 5 })}
+                            />
+                            <label htmlFor='disruptiveSubmissionNotes' className='form-label'>Disruption Authority Notes</label>
+                            {
+                            <div className='row g-2 mt-2'>
+                                <div className='form-floating  col-sm-6'>
+                                    <button className='w-100 btn btn-lg btn-success' type='button' disabled={false} onClick={() => {}}>Approved</button>
+                                </div>
+                                <div className='form-floating col-sm-6 mb-1'>
+                                    <button className='w-100 btn btn-lg btn-danger' type='button' disabled={false} onClick={() => {}}>Declined</button>
+                                </div>
+                            </div>
+                            }
+                            <p>Approved/Rejected by person on this date</p>
+                        </div>
                     </div>
                 </div>
             </div>
