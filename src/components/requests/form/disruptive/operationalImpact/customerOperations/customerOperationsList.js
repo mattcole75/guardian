@@ -3,14 +3,14 @@ import CustomerOperationListItem from './listItem/customerOperationListItem';
 
 const CustomerOperationsList = (props) => {
 
-    const { save, roles, request, recordLocked } = props;
+    const { save, roles, request } = props;
 
-    const { customerOperationDisruptionItems, disruptionSubmittedStatus } = request;
+    const { customerOperationDisruptionItems, disruptiveStatus } = request;
 
     const isPlanner = roles.includes('planner');
 
     let isLocked = false;
-    if(disruptionSubmittedStatus === 'Submitted' || disruptionSubmittedStatus === 'Approved' || recordLocked){
+    if(disruptiveStatus === 'Submitted' || disruptiveStatus === 'Approved'){
         isLocked = true;
     }
     
@@ -57,7 +57,7 @@ const CustomerOperationsList = (props) => {
                     <h3 className='h5 text-muted'>Customer Operations</h3>
                 </div>
                 
-                { (isPlanner === true && isLocked === false)
+                { (isPlanner && !isLocked)
                     ?   <div className='form-floating w-25'>
                             <div className='btn-group float-end' role="group" aria-label='Basic example'>
                                 <button type='button' className='btn btn-sm btn-primary' onClick={ addCustomerOperationItem }>Add</button>

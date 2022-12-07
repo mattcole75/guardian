@@ -4,14 +4,14 @@ import { debounce } from 'debounce';
 
 const OperationalConsiderations = (props) => {
 
-    const { save, roles, request, recordLocked } = props;
+    const { save, roles, request } = props;
 
-    const { operationalConsiderationDisriptionItem, disruptionSubmittedStatus } = request;
+    const { operationalConsiderationDisriptionItem, disruptiveStatus } = request;
 
     const isPlanner = roles.includes('planner');
 
     let isLocked = false;
-    if(disruptionSubmittedStatus === 'Submitted' || disruptionSubmittedStatus === 'Approved' || recordLocked){
+    if(disruptiveStatus === 'Submitted' || disruptiveStatus === 'Approved') {
         isLocked = true;
     }
 
@@ -35,7 +35,7 @@ const OperationalConsiderations = (props) => {
                 {/* Special Events */}
                 <div className='form-floating mb-1 col-sm-6'>
                     <select className='form-select' id='specialEventType'
-                         disabled={(isPlanner === false && isLocked === false) || isLocked}
+                        disabled={ (!isPlanner && !isLocked) || isLocked }
                         {...register('specialEventType', { onChange: onUpdate })}
                         >
                         <option value=''>Choose...</option>
@@ -50,7 +50,7 @@ const OperationalConsiderations = (props) => {
                 </div>
                 <div className='form-floating col-sm-6 mb-1'>
                     <input type='text' className='form-control' id='specialEvent'
-                         disabled={(isPlanner === false && isLocked === false) || isLocked} 
+                        disabled={ (!isPlanner && !isLocked) || isLocked } 
                         {...register('specialEvent', { onChange: onUpdate })}
                     />
                     <label htmlFor='specialEvent' className='form-label'>Special Event</label>
@@ -59,7 +59,7 @@ const OperationalConsiderations = (props) => {
                 {/* Depot Access and Egress */}
                 <div className='form-floating mb-1'>
                     <textarea className='form-control' id='depotAccessEgressDetails'  rows='3' style={{height:'auto'}} 
-                         disabled={(isPlanner === false && isLocked === false) || isLocked}
+                        disabled={ (!isPlanner && !isLocked) || isLocked }
                         {...register('depotAccessEgressDetails', { minLength: 5, onChange: onUpdate })} 
                     />
                     <label htmlFor='depotAccessEgressDetails' className='form-label'>Depot Access/Egress</label>
@@ -68,7 +68,7 @@ const OperationalConsiderations = (props) => {
                 {/* Rail Replacement */}
                 <div className='form-floating mb-1'>
                     <textarea className='form-control' id='railReplacementDetails'  rows='3' style={{height:'auto'}}
-                         disabled={(isPlanner === false && isLocked === false) || isLocked}
+                        disabled={ (!isPlanner && !isLocked) || isLocked }
                         {...register('railReplacementDetails', { minLength: 5, onChange: onUpdate })} 
                     />
                     <label htmlFor='railReplacementDetails' className='form-label'>Rail Replacment Details</label>
@@ -77,7 +77,7 @@ const OperationalConsiderations = (props) => {
                 {/* Speed Restrictions */}
                 <div className='form-floating mb-1'>
                     <textarea className='form-control' id='speedRestrictionDetails'  rows='3' style={{height:'auto'}} 
-                         disabled={(isPlanner === false && isLocked === false) || isLocked}
+                        disabled={ (!isPlanner && !isLocked) || isLocked }
                         {...register('speedRestrictionDetails', { minLength: 5, onChange: onUpdate })} 
                     />
                     <label htmlFor='speedRestrictionDetails' className='form-label'>Speed Restriction Details</label>
@@ -86,7 +86,7 @@ const OperationalConsiderations = (props) => {
                 {/* Additional Considerations */}
                 <div className='form-floating mb-1'>
                     <textarea className='form-control' id='additionalConsiderations'  rows='3' style={{height:'auto'}} 
-                         disabled={(isPlanner === false && isLocked === false) || isLocked}
+                        disabled={ (!isPlanner && !isLocked) || isLocked }
                         {...register('additionalConsiderations', { minLength: 5, onChange: onUpdate })} 
                     />
                     <label htmlFor='additionalConsiderations' className='form-label'>Additional Considerations</label>

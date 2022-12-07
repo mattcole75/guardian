@@ -4,14 +4,14 @@ import { debounce } from 'debounce';
 
 const AdditionalCommunications = (props) => {
 
-    const { save, roles, request, recordLocked } = props;
+    const { save, roles, request } = props;
 
-    const { communicationDisruptionItems, disruptionSubmittedStatus } = request;
+    const { communicationDisruptionItems, disruptiveStatus } = request;
     
     const isPlanner = roles.includes('planner');
 
     let isLocked = false;
-    if(disruptionSubmittedStatus === 'Submitted' || disruptionSubmittedStatus === 'Approved' || recordLocked){
+    if(disruptiveStatus === 'Submitted' || disruptiveStatus === 'Approved'){
         isLocked = true;
     }
 
@@ -45,7 +45,7 @@ const AdditionalCommunications = (props) => {
                             <td className='ps-3 pe-3'>
                                 <div className='form-check form-switch text-center fs-5'>
                                     <input className='form-check-input' type='checkbox' role='switch' id='additionalSignage'
-                                        disabled={(isPlanner === false && isLocked === false) || isLocked}
+                                         disabled={ (!isPlanner && !isLocked) || isLocked }
                                         { ...register('additionalSignage', { onChange: onUpdate }) }
                                     />
                                 </div>
@@ -54,7 +54,7 @@ const AdditionalCommunications = (props) => {
                             <td className='ps-3 pe-3'>
                                 <div className='form-check form-switch text-center fs-5'>
                                     <input className='form-check-input' type='checkbox' role='switch' id='additionalCustomer'
-                                        disabled={(isPlanner === false && isLocked === false) || isLocked}
+                                         disabled={ (!isPlanner && !isLocked) || isLocked }
                                         { ...register('additionalCustomer', { onChange: onUpdate }) }
                                     />
                                 </div>
@@ -63,7 +63,7 @@ const AdditionalCommunications = (props) => {
                             <td className='ps-3 pe-3'>
                                 <div className='form-check form-switch text-center fs-5'>
                                     <input className='form-check-input' type='checkbox' role='switch' id='additionalDriver'
-                                       disabled={(isPlanner === false && isLocked === false) || isLocked}
+                                        disabled={ (!isPlanner && !isLocked) || isLocked }
                                         { ...register('additionalDriver', { onChange: onUpdate }) }
                                     />
                                 </div>
@@ -72,7 +72,7 @@ const AdditionalCommunications = (props) => {
                             <td className='ps-3 pe-3'>
                                 <div className='form-check form-switch text-center fs-5'>
                                     <input className='form-check-input' type='checkbox' role='switch' id='additionalCSR'
-                                       disabled={(isPlanner === false && isLocked === false) || isLocked}
+                                        disabled={ (!isPlanner && !isLocked) || isLocked }
                                         { ...register('additionalCSR', { onChange: onUpdate }) }
                                     />
                                 </div>
@@ -81,7 +81,7 @@ const AdditionalCommunications = (props) => {
                             <td className='ps-3 pe-3'>
                                 <div className='form-check form-switch text-center fs-5'>
                                     <input className='form-check-input' type='checkbox' role='switch' id='additionalEngineering'
-                                       disabled={(isPlanner === false && isLocked === false) || isLocked}
+                                        disabled={ (!isPlanner && !isLocked) || isLocked }
                                         { ...register('additionalEngineering', { onChange: onUpdate }) }
                                     />
                                 </div>

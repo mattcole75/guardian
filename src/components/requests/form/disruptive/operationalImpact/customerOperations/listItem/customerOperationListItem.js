@@ -26,7 +26,7 @@ const CustomerOperationListItem = (props) => {
             <td className='ps-3 pe-3'>
                 <div className='table-item_col'>
                     <select className='form-select form-select-sm' id='stopDisrupted'
-                        disabled={(isPlanner === false && isLocked === false) || isLocked}
+                        disabled={ (!isPlanner && !isLocked) || isLocked }
                         { ...register('stopDisrupted', { onChange: onUpdate })}>
                         <option value=''>Choose...</option>
                         {
@@ -41,7 +41,7 @@ const CustomerOperationListItem = (props) => {
             <td className='ps-3 pe-3 w-15'>
                 <div className='text-center'>
                     <input className='form-control' type='number' id='numberOfStaff'
-                        disabled={(isPlanner === false && isLocked === false) || isLocked}
+                        disabled={ (!isPlanner && !isLocked) || isLocked }
                         { ...register('numberOfStaff', { onChange: onUpdate }) }
                     />
                 </div>
@@ -50,7 +50,7 @@ const CustomerOperationListItem = (props) => {
             <td className='ps-3 pe-3'>
                 <div className='form-check form-switch text-center fs-5'>
                     <input className='form-check-input' type='checkbox' role='switch' id='wellfareRequired'
-                        disabled={(isPlanner === false && isLocked === false) || isLocked}
+                        disabled={ (!isPlanner && !isLocked) || isLocked }
                         { ...register('wellfareRequired', { onChange: onUpdate }) }
                     />
                 </div>
@@ -59,14 +59,14 @@ const CustomerOperationListItem = (props) => {
             <td className='ps-3 pe-3'>
                 <div className='form-check form-switch text-center fs-5'>
                     <input className='form-check-input' type='checkbox' role='switch' id='securityRequired'
-                        disabled={(isPlanner === false && isLocked === false) || isLocked}
+                        disabled={ (!isPlanner && !isLocked) || isLocked }
                         { ...register('securityRequired', { onChange: onUpdate }) }
                     />
                 </div>
             </td>
 
             <td className='ps-3 pe-3 text-end'>
-                {(isPlanner === true && isLocked === false)
+                {(isPlanner && !isLocked)
                     ?   <div className='table-item_col'>
                             <div className='btn' role='button' onClick={ onDelete }>
                                 <span className='bi-trash fs-5 trash-icon' />

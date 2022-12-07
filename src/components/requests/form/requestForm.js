@@ -13,6 +13,7 @@ import LocationLimitForm from './locationLimits/locationLimitForm';
 import Hazards from './hazards/hazards';
 import Comment from '../comment/comment';
 import Finance from './finance/finance';
+import Compliance from './compliance/compliance';
 
 import Modal from '../../ui/modal/modal';
 import Backdrop from '../../ui/backdrop/backdrop';
@@ -41,11 +42,12 @@ const Request = () => {
     const [recordLocked, setRecordLocked] = useState(false);
     const [comment, setComment] = useState('');
     const [commentButtonEnabled, setCommentButtonEnabled] = useState(false);
+    const [grantButtonDisabled, setGrantButtonDisabled] = useState(true);
 
     const loading = useSelector(state => state.requests.loading);
     const error = useSelector(state => state.requests.error);
     
-    const {idToken, localId, displayName, phoneNumber, email, organisation, roles } = useSelector(state => state.auth);
+    const { idToken, localId, displayName, phoneNumber, email, organisation, roles } = useSelector(state => state.auth);
     const request = useSelector(state => state.requests.request);
 
     const isPlanner = roles.includes('planner');
@@ -74,10 +76,14 @@ const Request = () => {
     }, [uid, onGetRequest, idToken, localId]);
 
     const disruptive = {
+        disruptiveStatus: (key && request[key].disruptiveStatus) ? request[key].disruptiveStatus : null,
         requestorName: (key && request[key].requestorName) ? request[key].requestorName : null,
         accessRequestCreated: (key && request[key].created) ? request[key].created : null,
         disruptionSubmittedDate: (key && request[key].disruptionSubmittedDate) ? request[key].disruptionSubmittedDate : null,
-        accessFirstDay: (key && request[key].accessFirstDay) ? request[key].accessFirstDay : null
+        accessFirstDay: (key && request[key].accessFirstDay) ? request[key].accessFirstDay : null,
+        disruptionSubmittedBy: (key && request[key].disruptionSubmittedBy) ? request[key].disruptionSubmittedBy : null,
+        disruptiveAuthorityUpdatedBy: (key && request[key].disruptiveAuthorityUpdatedBy) ? request[key].disruptiveAuthorityUpdatedBy : null,
+        disruptionAuthorityUpdatedDate: (key && request[key].disruptionAuthorityUpdatedDate) ? request[key].disruptionAuthorityUpdatedDate : null,
     }
 
     // determin if the record is editable based on status
@@ -97,6 +103,13 @@ const Request = () => {
             setCommentButtonEnabled(false);
     },[comment]);
 
+    useEffect(() => {
+        if(request && request[key].disruptiveStatus === 'Approved')
+            setGrantButtonDisabled(false);
+        else
+            setGrantButtonDisabled(true);
+    }, [request, key]);
+
     // save the access request, this may be a new record or an update to an existing record
     const saveHandler = useCallback((data) => {
 
@@ -115,7 +128,14 @@ const Request = () => {
 
     const submitRequestHandler = useCallback((status) => {
         if(request) {
-            onUpdate(key, idToken, localId, { status: status }, 'UPDATE_REQUEST_STATUS');
+            switch (status) {
+                case 'Denied':
+                    onUpdate(key, idToken, localId, { status: status, disruptiveStatus: 'Draft' }, 'UPDATE_REQUEST_STATUS');
+                break;
+                default:
+                    onUpdate(key, idToken, localId, { status: status }, 'UPDATE_REQUEST_STATUS');
+            }
+            
             setRedirect(<Navigate to='/requests' />);
         }
     }, [request, onUpdate, key, idToken, localId]);
@@ -234,6 +254,23 @@ const Request = () => {
                                     <div id='panelsStayOpen-collapseRequestor' className='accordion-collapse collapse' aria-labelledby='panelsStayOpen-headingRequestor'>
                                         <div className='accordion-body'>
                                             <Requestor request={request[key]} />
+                                        </div>
+                                    </div>
+                                </div>
+                            :   null
+                        }
+
+                        {/* details about the requests compliance */}
+                        { request
+                            ?   <div className='accordion-item'>
+                                    <h2 className='accordion-header' id='panelsStayOpen-headingCompliance'>
+                                        <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseCompliance' aria-expanded='true' aria-controls='panelsStayOpen-collapseCompliance'>
+                                            Compliance
+                                        </button>
+                                    </h2>
+                                    <div id='panelsStayOpen-collapseCompliance' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingCompliance'>
+                                        <div className='accordion-body'>
+                                            <Compliance disruptive={disruptive} />
                                         </div>
                                     </div>
                                 </div>
@@ -384,7 +421,7 @@ const Request = () => {
                 { (request && isPlanner === true)
                     ?   <div>
                             {request && request[key].status !== 'Approved'
-                                ? <button className='w-100 btn btn-lg btn-success mb-3' type='button' disabled={false} onClick={() => {submitRequestHandler('Granted')}}>Grant Access</button>
+                                ? <button className='w-100 btn btn-lg btn-success mb-3' type='button' disabled={grantButtonDisabled} onClick={() => {submitRequestHandler('Granted')}}>Grant Access</button>
                                 : null
                             }
                             <button className='w-100 btn btn-lg btn-danger' type='button' disabled={false} onClick={() => {submitRequestHandler('Denied')}}>Deny Access</button>

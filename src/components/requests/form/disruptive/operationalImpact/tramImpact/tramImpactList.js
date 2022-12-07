@@ -3,14 +3,14 @@ import TramImpactItem from './listItem/tramImpactListItem';
 
 const TramImpactList = (props) => {
 
-    const { save, roles, request, recordLocked } = props;
+    const { save, roles, request } = props;
 
-    const { tramServiceDisruptionItems, disruptionSubmittedStatus } = request;
+    const { tramServiceDisruptionItems, disruptiveStatus } = request;
 
     const isPlanner = roles.includes('planner');
 
     let isLocked = false;
-    if(disruptionSubmittedStatus === 'Submitted' || disruptionSubmittedStatus === 'Approved' || recordLocked){
+    if(disruptiveStatus === 'Submitted' || disruptiveStatus === 'Approved'){
         isLocked = true;
     }
 
@@ -58,7 +58,7 @@ const TramImpactList = (props) => {
                     <h3 className='h5 text-muted'>Tram Service Impact</h3>
                 </div>
                     
-                { (isPlanner === true && isLocked === false)
+                { (isPlanner && !isLocked)
                     ?   <div className='form-floating w-25'>
                             <div className='btn-group float-end' role="group" aria-label='Basic example'>
                                 <button type='button' className='btn btn-sm btn-primary' onClick={ addTramImpactItem }>Add</button>

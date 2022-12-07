@@ -22,7 +22,10 @@ const Disruptive = (props) => {
 
     const toggleDisruptive = () => {
         setIsDisruptive(prevState => !prevState);
-        onSave({ isDisruptive: !isDisruptive });
+        onSave({
+            isDisruptive: !isDisruptive,
+            disruptiveStatus: isDisruptive ? 'cancelled' : 'notified'
+        });
     }
 
     const onSave = useCallback((data) => {
@@ -50,7 +53,7 @@ const Disruptive = (props) => {
                         </label>
                     </div>
 
-                    <p className='h4 mt-2'>For official use only</p>
+                    <p className='h4 mt-2'>For authorised use only</p>
                     
                     { isDisruptive
                         ?    <div className='mt-2'>

@@ -4,14 +4,14 @@ import { debounce } from 'debounce';
 
 const DisruptiveAccessSummary = (props) => {
 
-    const { recordLocked, request, save, roles } = props;
+    const { request, save, roles } = props;
 
-    const { disruptiveAccessSummary, disruptionSubmittedStatus } = request;
+    const { disruptiveAccessSummary, disruptiveStatus } = request;
     
     const isPlanner = roles.includes('planner');
 
     let isLocked = false;
-    if(disruptionSubmittedStatus === 'Submitted' || disruptionSubmittedStatus === 'Approved' || recordLocked){
+    if(disruptiveStatus === 'Submitted' || disruptiveStatus === 'Approved'){
         isLocked = true;
     }
 
@@ -27,7 +27,7 @@ const DisruptiveAccessSummary = (props) => {
 
     return (
         <form className='p-3' disabled={true}>
-            <fieldset disabled={(isPlanner === false && isLocked === false) || isLocked === true}>
+            <fieldset disabled={ (!isPlanner && !isLocked) || isLocked }>
 
                 <div className='text-sm-start'>
                     <h3 className='h5 text-muted'>Disruptive Access Summary</h3>

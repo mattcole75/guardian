@@ -141,10 +141,13 @@ export const getRequests = (idToken, localId, startDate, endDate, statusFilter, 
         }};
 
         if(roles.includes('coordinator'))
-            url = '/coordinatorrequests'
+            url = '/coordinatorrequests';
         
         if(roles.includes('planner'))
-            url = '/plannerrequests'
+            url = '/plannerrequests';
+        
+        if(roles.includes('disruptionAuthority'))
+            url = '/disruptionauthorityrequests'
 
         dispatch(requestStart());
 

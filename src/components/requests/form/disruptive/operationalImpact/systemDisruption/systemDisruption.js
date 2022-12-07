@@ -4,13 +4,13 @@ import { debounce } from 'debounce';
 
 const SystemDisruption = (props) => {
 
-    const { save, roles, request, recordLocked } = props;
-    const { systemDisruptionItems, disruptionSubmittedStatus } = request;
+    const { save, roles, request } = props;
+    const { systemDisruptionItems, disruptiveStatus } = request;
 
     const isPlanner = roles.includes('planner');
 
     let isLocked = false;
-    if(disruptionSubmittedStatus === 'Submitted' || disruptionSubmittedStatus === 'Approved' || recordLocked){
+    if(disruptiveStatus === 'Submitted' || disruptiveStatus === 'Approved'){
         isLocked = true;
     }
 
@@ -47,7 +47,7 @@ const SystemDisruption = (props) => {
                             <td className='ps-3 pe-3'>
                                 <div className='form-check form-switch text-center fs-5'>
                                     <input className='form-check-input' type='checkbox' role='switch' id='signallingDisruption'
-                                         disabled={(isPlanner === false && isLocked === false) || isLocked}
+                                         disabled={ (!isPlanner && !isLocked) || isLocked }
                                         { ...register('signallingDisruption', { onChange: onUpdate }) }
                                     />
                                 </div>
@@ -56,7 +56,7 @@ const SystemDisruption = (props) => {
                             <td className='ps-3 pe-3'>
                                 <div className='form-check form-switch text-center fs-5'>
                                     <input className='form-check-input' type='checkbox' role='switch' id='telecomsDisruption'
-                                         disabled={(isPlanner === false && isLocked === false) || isLocked}
+                                         disabled={ (!isPlanner && !isLocked) || isLocked }
                                         { ...register('telecomsDisruption', { onChange: onUpdate }) }
                                     />
                                 </div>
@@ -65,7 +65,7 @@ const SystemDisruption = (props) => {
                             <td className='ps-3 pe-3'>
                                 <div className='form-check form-switch text-center fs-5'>
                                     <input className='form-check-input' type='checkbox' role='switch' id='tvmDisruption'
-                                         disabled={(isPlanner === false && isLocked === false) || isLocked}
+                                         disabled={ (!isPlanner && !isLocked) || isLocked }
                                         { ...register('tvmDisruption', { onChange: onUpdate }) }
                                     />
                                 </div>
@@ -74,7 +74,7 @@ const SystemDisruption = (props) => {
                             <td className='ps-3 pe-3'>
                                 <div className='form-check form-switch text-center fs-5'>
                                     <input className='form-check-input' type='checkbox' role='switch' id='cctvDisruption'
-                                         disabled={(isPlanner === false && isLocked === false) || isLocked}
+                                         disabled={ (!isPlanner && !isLocked) || isLocked }
                                         { ...register('cctvDisruption', { onChange: onUpdate }) }
                                     />
                                 </div>
@@ -83,7 +83,7 @@ const SystemDisruption = (props) => {
                             <td className='ps-3 pe-3'>
                                 <div className='form-check form-switch text-center fs-5'>
                                     <input className='form-check-input' type='checkbox' role='switch' id='paDisruption'
-                                        disabled={(isPlanner === false && isLocked === false) || isLocked}
+                                        disabled={ (!isPlanner && !isLocked) || isLocked }
                                         { ...register('paDisruption', { onChange: onUpdate }) }
                                     />
                                 </div>
@@ -92,7 +92,7 @@ const SystemDisruption = (props) => {
                             <td className='ps-3 pe-3'>
                                 <div className='form-check form-switch text-center fs-5'>
                                     <input className='form-check-input' type='checkbox' role='switch' id='pidsDisruption'
-                                        disabled={(isPlanner === false && isLocked === false) || isLocked}
+                                        disabled={ (!isPlanner && !isLocked) || isLocked }
                                         { ...register('pidsDisruption', { onChange: onUpdate }) }
                                     />
                                 </div>
@@ -101,7 +101,7 @@ const SystemDisruption = (props) => {
                             <td className='ps-3 pe-3'>
                                 <div className='form-check form-switch text-center fs-5'>
                                     <input className='form-check-input' type='checkbox' role='switch' id='lightingDisruption'
-                                         disabled={(isPlanner === false && isLocked === false) || isLocked}
+                                         disabled={ (!isPlanner && !isLocked) || isLocked }
                                         { ...register('lightingDisruption', { onChange: onUpdate }) }
                                     />
                                 </div>
@@ -110,7 +110,7 @@ const SystemDisruption = (props) => {
                             <td className='ps-3 pe-3'>
                                 <div className='form-check form-switch text-center fs-5'>
                                     <input className='form-check-input' type='checkbox' role='switch' id='utc'
-                                         disabled={(isPlanner === false && isLocked === false) || isLocked}
+                                         disabled={ (!isPlanner && !isLocked) || isLocked }
                                         { ...register('utc', { onChange: onUpdate }) }
                                     />
                                 </div>
