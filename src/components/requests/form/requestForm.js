@@ -104,7 +104,11 @@ const Request = () => {
     },[comment]);
 
     useEffect(() => {
-        if(request && request[key].disruptiveStatus === 'Approved')
+        console.log(request && request[key].isDisruptive);
+
+        if(request && request[key].isDisruptive && request[key].disruptiveStatus === 'Approved')
+            setGrantButtonDisabled(false);
+        else if( request && (request[key].isDisruptive == null || request[key].isDisruptive === false ))
             setGrantButtonDisabled(false);
         else
             setGrantButtonDisabled(true);
