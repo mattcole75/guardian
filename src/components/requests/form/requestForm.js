@@ -43,6 +43,7 @@ const Request = () => {
     const [comment, setComment] = useState('');
     const [commentButtonEnabled, setCommentButtonEnabled] = useState(false);
     const [grantButtonDisabled, setGrantButtonDisabled] = useState(true);
+    const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
 
     const loading = useSelector(state => state.requests.loading);
     const error = useSelector(state => state.requests.error);
@@ -104,21 +105,27 @@ const Request = () => {
     },[comment]);
 
     useEffect(() => {
-        console.log(request && request[key].isDisruptive);
+        if(request && request[key].locationLimitItems && request[key].locationLimitItems.length > 0)
+            setSubmitButtonDisabled(false);
+        else
+            setSubmitButtonDisabled(true);
+    }, [key, request]);
 
+    useEffect(() => {
         if(request && request[key].isDisruptive && request[key].disruptiveStatus === 'Approved')
             setGrantButtonDisabled(false);
         else if( request && (request[key].isDisruptive == null || request[key].isDisruptive === false ))
             setGrantButtonDisabled(false);
         else
             setGrantButtonDisabled(true);
+
     }, [request, key]);
 
     // save the access request, this may be a new record or an update to an existing record
     const saveHandler = useCallback((data) => {
 
         if(request){
-            onUpdate(key, idToken, localId, data, 'UPDATE_REQUEST');
+            onUpdate(key, idToken, localId, { ...request[key], ...data }, 'UPDATE_REQUEST');
         }
         else {
             onCreate(idToken, localId, { ...data, 
@@ -252,7 +259,7 @@ const Request = () => {
                             ?   <div className='accordion-item'>
                                     <h2 className='accordion-header' id='panelsStayOpen-headingRequestor'>
                                         <button className='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseRequestor' aria-expanded='false' aria-controls='panelsStayOpen-collapseRequestor'>
-                                            Requestor Details
+                                            <h3 className='h5 m-0 text-muted'>Requestor Details</h3>
                                         </button>
                                     </h2>
                                     <div id='panelsStayOpen-collapseRequestor' className='accordion-collapse collapse' aria-labelledby='panelsStayOpen-headingRequestor'>
@@ -269,7 +276,7 @@ const Request = () => {
                             ?   <div className='accordion-item'>
                                     <h2 className='accordion-header' id='panelsStayOpen-headingCompliance'>
                                         <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseCompliance' aria-expanded='true' aria-controls='panelsStayOpen-collapseCompliance'>
-                                            Compliance
+                                            <h3 className='h5 m-0 text-muted'>Compliance</h3>
                                         </button>
                                     </h2>
                                     <div id='panelsStayOpen-collapseCompliance' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingCompliance'>
@@ -286,7 +293,7 @@ const Request = () => {
                             ?   <div className='accordion-item'>
                                     <h2 className='accordion-header' id='panelsStayOpen-headingSummary'>
                                         <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseSummary' aria-expanded='true' aria-controls='panelsStayOpen-collapseSummary'>
-                                            Access Request Summary
+                                            <h3 className='h5 m-0 text-muted'>Access Request Summary</h3>
                                         </button>
                                     </h2>
                                     <div id='panelsStayOpen-collapseSummary' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingSummary'>
@@ -304,7 +311,7 @@ const Request = () => {
                             ?   <div className='accordion-item'>
                                     <h2 className='accordion-header' id='panelsStayOpen-headingFinance'>
                                         <button className='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseFinance' aria-expanded='false' aria-controls='panelsStayOpen-collapseFinance'>
-                                            Finance
+                                            <h3 className='h5 m-0 text-muted'>Finance</h3>
                                         </button>
                                     </h2>
                                     <div id='panelsStayOpen-collapseFinance' className='accordion-collapse collapse' aria-labelledby='panelsStayOpen-headingFinance'>
@@ -321,7 +328,7 @@ const Request = () => {
                             ?   <div className='accordion-item'>
                                     <h2 className='accordion-header' id='panelsStayOpen-headingDisruptive'>
                                         <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseDisruptive' aria-expanded='true' aria-controls='panelsStayOpen-collapseDisruptive'>
-                                            Disruptive Details
+                                            <h3 className='h5 m-0 text-muted'> Disruptive Details</h3>
                                         </button>
                                     </h2>
                                     <div id='panelsStayOpen-collapseDisruptive' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingDisruptive'>
@@ -343,7 +350,7 @@ const Request = () => {
                             ?   <div className='accordion-item'>
                                     <h2 className='accordion-header' id='panelsStayOpen-headingLocationLimits'>
                                         <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseLocationLimits' aria-expanded='true' aria-controls='panelsStayOpen-collapseLocationLimits'>
-                                            Location Limits
+                                            <h3 className='h5 m-0 text-muted'>Location Limits</h3>
                                         </button>
                                     </h2>
                                     <div id='panelsStayOpen-collapseLocationLimits' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingLocationLimits'>
@@ -366,7 +373,7 @@ const Request = () => {
                             ?   <div className='accordion-item'>
                                     <h2 className='accordion-header' id='panelsStayOpen-headingHazards'>
                                         <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseHazards' aria-expanded='true' aria-controls='panelsStayOpen-collapseHazards'>
-                                            Hazards
+                                            <h3 className='h5 m-0 text-muted'>Hazards</h3>
                                         </button>
                                     </h2>
                                     <div id='panelsStayOpen-collapseHazards' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingHazards'>
@@ -389,15 +396,14 @@ const Request = () => {
                             ?    <div className='accordion-item'>
                                     <h2 className='accordion-header' id='panelsStayOpen-headingComments'>
                                         <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseComments' aria-expanded='true' aria-controls='panelsStayOpen-collapseComments'>
-                                            Comments
+                                            <h3 className='h5 m-0 text-muted'>Comments</h3>
                                         </button>
                                     </h2>
                                     <div id='panelsStayOpen-collapseComments' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingComments'>
                                         <div className='accordion-body'>
                                             <div className='border rounded p-1 mb-1 bg-light'>
                                                 <div className='text-sm-start p-2'>
-                                                    <div className='mb-1'>
-                                                        <label htmlFor='comment' className='form-label'>Comments</label>
+                                                    <div className='mb-2'>
                                                         <input type='text' className='form-control' id='comment' value={comment} autoComplete='off' onChange={(event => {setComment(event.target.value)})} placeholder='Type your message here' />
                                                     </div>
                                                     <div className='text-sm-end'>
@@ -419,7 +425,7 @@ const Request = () => {
                     </div>                        
                 </div>
                 { (!recordLocked && request && (request[key].requestorName === displayName))
-                    ?   <button className='w-100 btn btn-lg btn-primary mb-3' type='button' disabled={false} onClick={() => {submitRequestHandler('Submitted')}}>Submit For Approval</button>
+                    ?   <button className='w-100 btn btn-lg btn-primary mb-3' type='button' disabled={submitButtonDisabled} onClick={() => {submitRequestHandler('Submitted')}}>Submit For Approval</button>
                     :   null
                 }
                 { (request && isPlanner === true)

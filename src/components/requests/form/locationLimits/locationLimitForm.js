@@ -125,8 +125,11 @@ const LocationLimitForm = (props) => {
 
     const onDelete = useCallback(() => {
 
-        request.locationLimitItems.splice(index, 1);
-        let updatedLocationLimitItems = request.locationLimitItems;
+        let updatedLocationLimitItems = [ ...request.locationLimitItems ];
+        // console.log('array', updatedLocationLimitItems);
+        // console.log()
+        updatedLocationLimitItems.splice(index, 1);
+
         save({locationLimitItems: updatedLocationLimitItems}, 'SAVE_LOCATION_LIMIT');
         toggle();
 
