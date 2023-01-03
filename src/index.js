@@ -5,15 +5,17 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit'
 import App from './App';
 import authReducer from './store/reducers/auth';
-import requestsReducer from './store/reducers/request';
+import accessRequestReducer from './store/reducers/accessRequest';
 import publicViewReducer from './store/reducers/publicView';
+import disruptiveReducer from './store/reducers/disruptive';
 // import reportWebVitals from './reportWebVitals';
 
 const store = configureStore({
     reducer: {
         auth: authReducer,
-        requests: requestsReducer,
-        publicView: publicViewReducer
+        accessRequest: accessRequestReducer,
+        publicView: publicViewReducer,
+        disruptive: disruptiveReducer
     }
 });
 

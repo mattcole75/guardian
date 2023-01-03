@@ -31,3 +31,25 @@ export const elementDisabled = (roles, requestStatus, isDisrupted, disruptionSta
             return true; // disabled
     }
 }
+
+export const determinStartDate = (arr) => {
+    const startDate = new Date(
+        Math.min(
+          ...arr.map(ele => {
+            return new Date(ele.locationLimitStartDate);
+          }),
+        ),
+    );
+    return startDate;
+}
+
+export const determinEndDate = (arr) => {
+    const endDate = new Date(
+        Math.max(
+          ...arr.map(ele => {
+            return Date.parse(ele.locationLimitEndDate);
+          }),
+        ),
+    );
+    return endDate;
+}

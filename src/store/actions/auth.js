@@ -145,7 +145,6 @@ export const recoverPassword = (authData, identifier) => {
 
         direct.post('https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=' + apikey, authData)
             .then(res => {
-                console.log('action', res.data.email);
                 dispatch(authRecoverPasswordSuccess(res.data.email, identifier));
                 dispatch(authFinish());
             })

@@ -1,5 +1,5 @@
 import React from 'react';
-import BackDrop from '../backdrop/backdrop';
+import BackDrop from '../backdrop/backdropDark';
 
 const modal = (props) => (
     <React.Fragment>

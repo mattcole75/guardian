@@ -141,6 +141,10 @@
   color: #dc3545;
 }
 
+.access-icon-submitted {
+  color: #f0ad12;
+}
+
 .form-request .checkbox {
   font-weight: 400;
 }
@@ -169,6 +173,16 @@
     z-index: 100 ;
     left: 0;
     top: 0;
+}
+
+.modal-backdrop_dark {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1050;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, .7);
 }
 
 .modalb {
