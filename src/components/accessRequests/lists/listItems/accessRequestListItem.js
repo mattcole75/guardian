@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 
-const ListItem = (props) => {
+const AccessRequestListItem = (props) => {
     
 const { item, isPlanner } = props;
 const accessRequests  = item[Object.keys(item)];
@@ -93,4 +93,4 @@ switch(accessRequests.status) {
     );
 }
 
-export default ListItem;
+export default AccessRequestListItem;

@@ -36,12 +36,28 @@ const DisruptiveForm = (props) => {
     }, [displayName, disruptive, eventLog, id, logEvent, save, toggle]);
 
     const onDecline = useCallback(() => {
-
-    }, []);
+        // Create a copy of the access request event log
+        let updatedEventLogItems = [ ...eventLog ];
+        // update the disruptive status
+        save(id, { status: 'Declined'} );
+        // add new event to the access request event log
+        updatedEventLogItems.push({ user: displayName, logged: moment().format(), event: disruptive[id].summary.disruptiveTitle + ' disruptive declined' });
+        logEvent({ eventLog: updatedEventLogItems }, 'SAVE_ACCESS_REQUEST');
+        // close the modal
+        toggle();
+    }, [displayName, disruptive, eventLog, id, logEvent, save, toggle]);
 
     const onApprove = useCallback(() => {
-
-    }, []);
+        // Create a copy of the access request event log
+        let updatedEventLogItems = [ ...eventLog ];
+        // update the disruptive status
+        save(id, { status: 'Approved'} );
+        // add new event to the access request event log
+        updatedEventLogItems.push({ user: displayName, logged: moment().format(), event: disruptive[id].summary.disruptiveTitle + ' disruptive approved' });
+        logEvent({ eventLog: updatedEventLogItems }, 'SAVE_ACCESS_REQUEST');
+        // close the modal
+        toggle();
+    }, [displayName, disruptive, eventLog, id, logEvent, save, toggle]);
 
     return (
         <div className='form-request my-1'>
@@ -69,10 +85,10 @@ const DisruptiveForm = (props) => {
             { isDisruptionAuthority === true
                 ?   <div>
                         <div className='form-floating mt-3'>
-                            <button className='w-100 btn btn-lg btn-success' type='button' onClick={ toggle }>Approve</button>
+                            <button className='w-100 btn btn-lg btn-success' type='button' onClick={ onApprove }>Approve</button>
                         </div>
                         <div className='form-floating mt-3'>
-                            <button className='w-100 btn btn-lg btn-danger' type='button' onClick={ toggle }>Decline</button>
+                            <button className='w-100 btn btn-lg btn-danger' type='button' onClick={ onDecline }>Decline</button>
                         </div>
                     </div>
                 :   null

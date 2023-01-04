@@ -76,7 +76,7 @@ const accessRequestStateReset = () => {
     };
 }
 
-export const createAccessRequest = (idToken, localId, data, identifier) => {
+export const userCreateAccessRequest = (idToken, localId, data, identifier) => {
 
     return dispatch => {
 
@@ -100,7 +100,7 @@ export const createAccessRequest = (idToken, localId, data, identifier) => {
     };
 }
 
-export const updateAccessRequest = (id, idToken, localId, data, identifier) => {
+export const userUpdateAccessRequest = (id, idToken, localId, data, identifier) => {
     
     return dispatch => {
         
@@ -125,32 +125,22 @@ export const updateAccessRequest = (id, idToken, localId, data, identifier) => {
     };
 }
 
-export const getAccessRequests = (idToken, localId, startDate, endDate, statusFilter, plannerFilter, roles, identifier) => {
+export const userGetAccessRequests = (idToken, localId, identifier) => {
 
     return dispatch => {
 
-        let url = '/accessrequests';
         let headers = { headers: {
             idToken: idToken,
             localId: localId,
-            startDate: startDate,
-            endDate: endDate,
-            statusFilter: statusFilter,
-            plannerFilter: plannerFilter
+            startDate: '',
+            endDate: '',
+            statusFilter: '',
+            plannerFilter: ''
         }};
-
-        if(roles.includes('coordinator'))
-            url = '/coordinatoraccessrequests';
-        
-        if(roles.includes('planner'))
-            url = '/planneraccessrequests';
-        
-        if(roles.includes('disruptionAuthority'))
-            url = '/disruptionauthorityaccessrequests'
 
         dispatch(accessRequestStart());
 
-        axios.get(url, headers)
+        axios.get('/accessrequests', headers)
         .then(res => {
             dispatch(getAccessRequestsSuccess(res.data.result, identifier));
         })
@@ -163,7 +153,35 @@ export const getAccessRequests = (idToken, localId, startDate, endDate, statusFi
     };
 }
 
-export const getAccessRequest = (idToken, localId, uid, identifier) => {
+export const plannerGetAccessRequests = (idToken, localId, startDate, endDate, statusFilter, planner, identifier) => {
+
+    return dispatch => {
+        
+        let headers = { headers: {
+            idToken: idToken,
+            localId: localId,
+            startDate: startDate,
+            endDate: endDate,
+            statusFilter: statusFilter,
+            plannerFilter: planner
+        }};
+
+        dispatch(accessRequestStart());
+
+        axios.get('/planneraccessrequests', headers)
+        .then(res => {
+            dispatch(getAccessRequestsSuccess(res.data.result, identifier));
+        })
+        .then(() => {
+            dispatch(accessRequestFinish());
+        })
+        .catch(err => {
+            dispatch(accessRequestFail(err.message));
+        });
+    };
+}
+
+export const userGetAccessRequest = (idToken, localId, uid, identifier) => {
     
     return dispatch => {
 
@@ -195,7 +213,7 @@ export const selectLocationLimit = (elementIndex, identifier) => {
     };
 }
 
-export const getPlanners = (idToken, localId, identifier) => {
+export const plannerGetPlanners = (idToken, localId, identifier) => {
 
     return dispatch => {
 

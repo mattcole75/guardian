@@ -71,9 +71,9 @@ const AccessRequestForm = () => {
         
     
 
-    const onCreateAccessRequest = useCallback((idToken, localId, data, identifier) => dispatch(action.createAccessRequest(idToken, localId, data, identifier)), [dispatch]);
-    const onGetAccessRequest = useCallback((idToken, localId, uid, identifier) => dispatch(action.getAccessRequest(idToken, localId, uid, identifier)), [dispatch]);
-    const onUpdateAccessRequest = useCallback((id, idToken, localId, data, identifier) => dispatch(action.updateAccessRequest(id, idToken, localId, data, identifier)), [dispatch]);
+    const onCreateAccessRequest = useCallback((idToken, localId, data, identifier) => dispatch(action.userCreateAccessRequest(idToken, localId, data, identifier)), [dispatch]);
+    const onGetAccessRequest = useCallback((idToken, localId, uid, identifier) => dispatch(action.userGetAccessRequest(idToken, localId, uid, identifier)), [dispatch]);
+    const onUpdateAccessRequest = useCallback((id, idToken, localId, data, identifier) => dispatch(action.userUpdateAccessRequest(id, idToken, localId, data, identifier)), [dispatch]);
     const onLocationLimitItemSelect = useCallback((index, identifier) => dispatch(action.selectLocationLimit(index, identifier)), [dispatch]);
     const onGetDisruptives = useCallback((idToken, localId, uid, identifier) => dispatch(action.getDisruptives(idToken, localId, uid, identifier)), [dispatch]);
     const onUpdateDisruptive = useCallback((id, idToken, localId, data, identifier) => dispatch(action.updateDisruptive(id, idToken, localId, data, identifier)), [dispatch]);

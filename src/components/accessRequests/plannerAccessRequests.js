@@ -6,10 +6,10 @@ import Backdrop from "../ui/backdrop/backdrop";
 import Spinner from "../ui/spinner/spinner";
 
 import Filter from "./filter/filter";
-import List from "./list/list";
+import PlannerList from "./lists/plannerList/plannerList";
 
 
-const AccessRequests = () => {
+const PlannerAccessRequests = () => {
 
     const dispatch = useDispatch();
     
@@ -20,7 +20,14 @@ const AccessRequests = () => {
     const localId = useSelector(state => state.auth.localId);
     const roles = useSelector(state => state.auth.roles);
 
-    const onGetPlanners = useCallback((idToken, localId, identifier) => dispatch(action.getPlanners(idToken, localId, identifier)), [dispatch]);
+    const onGetPlanners = useCallback((idToken, localId, identifier) => dispatch(action.plannerGetPlanners(idToken, localId, identifier)), [dispatch]);
+    // const onGetAccessRequests = useCallback((idToken, localId, startDate, endDate, statusFilter, identifier) => dispatch(action.userGetAccessRequests(idToken, localId, startDate, endDate, statusFilter, identifier)), [dispatch]);
+
+    // a side effect to query the database and return to state a list of requests
+    // useEffect(() => {
+    //     onGetAccessRequests(idToken, localId, null, null, '', '', 'GET_ACCESS_REQUESTS');
+    // },[idToken, localId, onGetAccessRequests, roles]);
+
     
     // side effect to return a list of planners if the user has the planner or coordinator role asigned
     useEffect(() => {
@@ -43,14 +50,17 @@ const AccessRequests = () => {
                 </div>
             }
             {/* The list Filter Component */}
-            <Filter />
+            {roles.includes('planner')
+                ?   <Filter />
+                :   null
+            }
 
             {/* The List Component */}
             <div className="row">
-                <List accessRequests={accessRequests} />
+                <PlannerList accessRequests={accessRequests} />
             </div>
         </div>
     )
 }
 
-export default AccessRequests;
+export default PlannerAccessRequests;

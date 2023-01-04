@@ -128,7 +128,29 @@ export const getDisruptives = (idToken, localId, uid, identifier) => {
             }
         })
         .then(res => {
-            console.log(res.data.result);
+            dispatch(disruptivesGetSuccess(res.data.result, identifier))
+        })
+        .then(() => {
+            dispatch(disruptiveFinish());
+        })
+        .catch(err => {
+            dispatch(disruptiveFail(err.message));
+        })
+    };
+}
+
+export const getDisruptiveReviewList = (idToken, localId, identifier) => {
+    
+    return dispatch => {
+        dispatch(disruptiveStart());
+
+        axios.get('/disruptivesforreview', { 
+            headers: {
+                idToken: idToken,
+                localId: localId
+            }
+        })
+        .then(res => {
             dispatch(disruptivesGetSuccess(res.data.result, identifier))
         })
         .then(() => {

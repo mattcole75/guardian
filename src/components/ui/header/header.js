@@ -4,7 +4,15 @@ import logo from '../../../assets/kam.webp';
 
 const Header = (props) => {
 
-    const { isAuthenticated, isAdministrator } = props;
+    const { isAuthenticated, roles } = props;
+
+    const isUser = roles.includes('user');
+    const isCoordinator = roles.includes('coordinator');
+    const isPlanner = roles.includes('planner');
+    const isDisruptionAuthority = roles.includes('disruptionAuthority');
+    const isAdministrator = roles.includes('administrator');
+    
+
     return (
         <header>
             <div className='px-3 py-2 bg-dark text-white'>
@@ -28,7 +36,14 @@ const Header = (props) => {
                             </a>
                         </div>
                         
-                        <Navigation isAuthenticated={isAuthenticated} isAdministrator={isAdministrator} />
+                        <Navigation 
+                            isAuthenticated={isAuthenticated}
+                            isUser={isUser}
+                            isCoordinator={isCoordinator}
+                            isPlanner={isPlanner}
+                            isDisruptionAuthority={isDisruptionAuthority}
+                            isAdministrator={isAdministrator}
+                        />
                     </div>
                 </div>
             </div>

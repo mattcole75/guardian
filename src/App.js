@@ -22,14 +22,17 @@ const Logout = React.lazy(() => {
 const Account = React.lazy(() => {
     return import('./pages/auth/account');
 });
-const AccessRequests = React.lazy(() => {
-    return import('./pages/accessRequests/accessRequests');
+const UserAccessRequests = React.lazy(() => {
+    return import('./pages/accessRequests/userAccessRequests');
+});
+const PlannerAccessRequests = React.lazy(() => {
+    return import('./pages/accessRequests/plannerAccessRequests');
+});
+const DisruptiveAuthorityAccessRequests = React.lazy(() => {
+    return import('./pages/accessRequests/disruptionAuthorityAccessRequests');
 });
 const AccessRequest = React.lazy(() => {
     return import('./pages/accessRequests/accessRequest');
-});
-const Disruptive = React.lazy(() => {
-	return import('./pages/accessRequests/disruptive');
 });
 const Pricing = React.lazy(() => {
     return import('./pages/pricing');
@@ -63,9 +66,10 @@ const App = () => {
             <Route path='/pricing' element={ <Pricing /> } />
 			<Route path='/faq' element={ () => <FAQ /> } />
             { isAuthenticated && <Route path='/logout' element={ <Logout /> } /> }
-			{ isAuthenticated && <Route path='/accessrequests' element={ <AccessRequests /> } /> }
+			{ isAuthenticated && <Route path='/accessrequests' element={ <UserAccessRequests /> } /> }
+			{ isAuthenticated && <Route path='/planneraccessrequests' element={ <PlannerAccessRequests /> } /> }
+			{ isAuthenticated && <Route path='/disruptiveaccessrequests' element={ <DisruptiveAuthorityAccessRequests /> } /> }
 			{ isAuthenticated && <Route path='/accessrequest/:uid' element={ <AccessRequest /> } /> }
-			{ isAuthenticated && <Route path='/disruptive/:uid' element={ <Disruptive /> } /> }
 			{ isAuthenticated && <Route path='/account' element={ <Account /> } /> }
 			{ isAuthenticated && isAdministrator && <Route path='/users' element={ <Users /> } /> }
 			<Route path='*' element={ <Index /> } />
