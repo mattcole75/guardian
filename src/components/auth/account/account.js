@@ -115,8 +115,8 @@ const Account = () => {
             {spinner}
             {error &&
                 <div className='alert alert-danger' role='alert'>
-                    {error}
-                </div>    
+                    {error.response.data.message}
+                </div>
             }
             {modal}
 

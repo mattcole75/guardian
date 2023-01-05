@@ -24,6 +24,13 @@ const authSuccess = (idToken, localId, displayName, phoneNumber, email, organisa
     };
 }
 
+const authAccountCreateSuccess = (identifier) => {
+    return {
+        type: type.AUTH_CREATE_ACCOUNT_SUCCESS,
+        identifier: identifier
+    }
+}
+
 const authGetUsersSuccess = (users, identifier) => {
     return {
         type: type.USERS_GET_SUCCESS,
@@ -92,16 +99,20 @@ const deleteLocalStorage = () => {
     localStorage.removeItem('roles');   
 }
 
-export const signup = (authData) => {
+export const signup = (authData, identifier) => {
     return dispatch => {
 
         dispatch(authStart());
         axios.post('/user', authData)
             .then(res => {
+                if(res.status === 201)
+                    dispatch(authAccountCreateSuccess(identifier));
+            })
+            .then(() => {
                 dispatch(authFinish());
             })
             .catch(err => {
-                dispatch(authFail(err.message)); 
+                dispatch(authFail(err)); 
             });
     };
 }

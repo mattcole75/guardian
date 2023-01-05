@@ -35,6 +35,13 @@ const authSuccess = (state, action) => {
     };
 }
 
+const authCreateAccountSuccess = (state, action) => {
+    return { ...state,
+        error: null,
+        identifier: action.identifier
+    };
+}
+
 const authUsersSuccess = (state, action) => {
     return { ...state,
         error: null,
@@ -107,6 +114,7 @@ const reducer = (state = initialState, action) => {
     switch (action.type) {
         case type.AUTH_START: return authStart(state);
         case type.AUTH_SUCCESS: return authSuccess(state, action);
+        case type.AUTH_CREATE_ACCOUNT_SUCCESS: return authCreateAccountSuccess(state, action);
         case type.USERS_GET_SUCCESS: return authUsersSuccess(state, action);
         case type.AUTH_ADMIN_PATCH_SUCCESS: return authAdminPatchSuccess(state, action);
         case type.AUTH_RECOVER_PASSWORD_SUCCESS: return authRecoverPasswordSuccess(state, action);

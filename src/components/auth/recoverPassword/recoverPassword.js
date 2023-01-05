@@ -33,11 +33,9 @@ const RecoverPassword = () => {
     }
 
     useEffect(() => {
-
         if((!loading && !error && email === getValues('email')) || error) {
             setInfoMsg('Request for password reset recieved. If your email is registered on the system you will recieve an email link that will enable you to reset your password.')
         }
-
     }, [loading, error, email, getValues]);
 
     return (
@@ -45,11 +43,11 @@ const RecoverPassword = () => {
             {isAuthenticated && <Navigate to={authRedirectPath} />}
             <Backdrop show={loading} />
                 {spinner}
-            {/* {error &&
+                {error &&
                 <div className='alert alert-danger' role='alert'>
-                    {error.message}
+                    {error.response.data.message}
                 </div>
-            } */}
+            }
             {infoMsg &&
                 <div class="alert alert-primary" role="alert">
                     {infoMsg}
