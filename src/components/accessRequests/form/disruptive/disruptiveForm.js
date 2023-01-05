@@ -63,19 +63,19 @@ const DisruptiveForm = (props) => {
         <div className='form-request my-1'>
             <h1 className='h3 mb-3 fw-normal text-start'>Disruptive</h1>
             
-            <DisruptiveSummary save={save} roles={roles} id={id} summary={ disruptive ? disruptive[id].summary : null } status={ disruptive[id].status } />
+            <DisruptiveSummary save={save} roles={roles} id={id} summary={ disruptive ? disruptive[id].summary : null } status={ disruptive ? disruptive[id].status : null } />
 
-            <TramImpactList save={save} roles={roles} id={id} tramImpactItems={ disruptive ? disruptive[id].tramImpactItems : null } status={ disruptive[id].status } />
+            <TramImpactList save={save} roles={roles} id={id} tramImpactItems={ disruptive ? disruptive[id].tramImpactItems : null }status={ disruptive ? disruptive[id].status : null } />
 
-            <OperationImpactList save={save} roles={roles} id={id} operationImpactItems={ disruptive ? disruptive[id].operationImpactItems : null } status={ disruptive[id].status } />
+            <OperationImpactList save={save} roles={roles} id={id} operationImpactItems={ disruptive ? disruptive[id].operationImpactItems : null }status={ disruptive ? disruptive[id].status : null } />
 
-            <AdditionalCommunication save={save} roles={roles} id={id} additionalCommunication={ disruptive ? disruptive[id].additionalCommunication : null } status={ disruptive[id].status } />
+            <AdditionalCommunication save={save} roles={roles} id={id} additionalCommunication={ disruptive ? disruptive[id].additionalCommunication : null }status={ disruptive ? disruptive[id].status : null } />
 
-            <SystemDisruption save={save} roles={roles} id={id} systemDisruption={ disruptive ? disruptive[id].systemDisruption : null } status={ disruptive[id].status } />
+            <SystemDisruption save={save} roles={roles} id={id} systemDisruption={ disruptive ? disruptive[id].systemDisruption : null }status={ disruptive ? disruptive[id].status : null } />
 
-            <OperationalConsiderations save={save} roles={roles} id={id} operationalConsiderations={ disruptive ? disruptive[id].operationalConsiderations : null } status={ disruptive[id].status } />
+            <OperationalConsiderations save={save} roles={roles} id={id} operationalConsiderations={ disruptive ? disruptive[id].operationalConsiderations : null }status={ disruptive ? disruptive[id].status : null } />
 
-            { isPlanner === true && (disruptive[id].status === 'Draft' || disruptive[id].status === 'Declined')
+            { isPlanner === true && disruptive && (disruptive[id].status === 'Draft' || disruptive[id].status === 'Declined')
                 ?   <div className='form-floating mt-3'>
                         <button className='w-100 btn btn-lg btn-primary' type='button' onClick={ onSubmit }>Submit For Approval</button>
                     </div>

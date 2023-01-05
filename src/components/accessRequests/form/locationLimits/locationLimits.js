@@ -32,7 +32,7 @@ const LocationLimits = (props) => {
 
             </div>
             
-           { accessRequest && accessRequest.locationLimitItems.length > 0
+           { accessRequest && accessRequest.locationLimitItems && accessRequest.locationLimitItems.length > 0
                 ?   <div className='list-group mb-3 text-start'>
                         {
                             (accessRequest && accessRequest.locationLimitItems) && accessRequest.locationLimitItems.map((item, index) => {

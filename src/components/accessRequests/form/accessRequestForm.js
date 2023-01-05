@@ -190,7 +190,7 @@ const AccessRequestForm = () => {
                         updated: moment().format(),
                         eventLog: updatedEventLogItems
                     }, 'UPDATE_ACCESS_REQUEST_STATUS');
-                break;
+                    break;
                 default:
                     onUpdateAccessRequest(key, idToken, localId, { 
                         status: status,
@@ -198,8 +198,21 @@ const AccessRequestForm = () => {
                         eventLog: updatedEventLogItems
                     }, 'UPDATE_ACCESS_REQUEST_STATUS');
             }
+            // determine redirect based on operation
+            switch (status) {
+                case 'Submitted':
+                    setRedirect(<Navigate to='/accessrequests' />);
+                    break;
+                case 'Granted':
+                    setRedirect(<Navigate to='/planneraccessrequests' />);
+                    break;
+                case 'Denied':
+                    setRedirect(<Navigate to='/planneraccessrequests' />);
+                    break;
+                default:
+                    setRedirect(<Navigate to='/accessrequests' />);    
+            }
             
-            setRedirect(<Navigate to='/accessrequests' />);
         }
     }, [accessRequest, displayName, onUpdateAccessRequest, key, idToken, localId]);
 
@@ -430,7 +443,7 @@ const AccessRequestForm = () => {
                         }
 
                         {/* Details for a disruptives */}
-                        { accessRequest
+                        { accessRequest && accessRequest[key].summary.isDisruptive === true
                             ?   <div className='accordion-item'>
                                     <h2 className='accordion-header' id='panelsStayOpen-headingDisruptive'>
                                         <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseDisruptive' aria-expanded='true' aria-controls='panelsStayOpen-collapseDisruptive'>
