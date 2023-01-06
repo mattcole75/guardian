@@ -69,8 +69,6 @@ const AccessRequestForm = () => {
         key = Object.keys(accessRequest)[0];
     }
         
-    
-
     const onCreateAccessRequest = useCallback((idToken, localId, data, identifier) => dispatch(action.userCreateAccessRequest(idToken, localId, data, identifier)), [dispatch]);
     const onGetAccessRequest = useCallback((idToken, localId, uid, identifier) => dispatch(action.userGetAccessRequest(idToken, localId, uid, identifier)), [dispatch]);
     const onUpdateAccessRequest = useCallback((id, idToken, localId, data, identifier) => dispatch(action.userUpdateAccessRequest(id, idToken, localId, data, identifier)), [dispatch]);
@@ -85,7 +83,7 @@ const AccessRequestForm = () => {
         if(uid !== 'new') {
             // get access request from db
             onGetAccessRequest(idToken, localId, uid, 'GET_ACCESS_REQUEST');
-            onGetDisruptives(idToken, localId, uid, 'GET_DISRUPTIVES')
+            onGetDisruptives(idToken, localId, uid, 'GET_DISRUPTIVES');
         }
     }, [uid, idToken, localId, onGetAccessRequest, onGetDisruptives]);
 
@@ -119,6 +117,7 @@ const AccessRequestForm = () => {
     useEffect(() => {
 
         let allLocationLimitItemsConfirmed = true;
+        let allDisruptedItemsApproved = true;
 
         if(accessRequest && accessRequest[key].locationLimitItems && accessRequest[key].locationLimitItems.length > 0) {
             accessRequest[key].locationLimitItems.forEach(ele => {
@@ -126,14 +125,22 @@ const AccessRequestForm = () => {
                     allLocationLimitItemsConfirmed = false;
             });
         }
+        
+        if(accessRequest && accessRequest[key].summary.isDisruptive === true) {
+            if(disruptives && disruptives.length > 0) {
+                disruptives.forEach(ele => {
+                    if(ele[Object.keys(ele)].status !== 'Approved')
+                        allDisruptedItemsApproved = false;
+                });
+            }
+            
+        }
 
-        if(accessRequest && accessRequest[key].isDisruptive && accessRequest[key].disruptiveStatus === 'Approved')
-            setGrantButtonDisabled(false);
-        else if(allLocationLimitItemsConfirmed === true)
+        if(allLocationLimitItemsConfirmed === true && allDisruptedItemsApproved === true)
             setGrantButtonDisabled(false);
         else
             setGrantButtonDisabled(true);
-    }, [accessRequest, key]);
+    }, [accessRequest, disruptives, key]);
 
     // save the access request, this may be a new record or an update to an existing record
     const saveAccessRequestHandler = useCallback((data) => {
@@ -168,13 +175,13 @@ const AccessRequestForm = () => {
             onUpdateDisruptive(id, idToken, localId, { ...disruptive[id], ...data }, 'UPDATE_DISRUPTIVE');
         } else {
             onCreateDisruptive(idToken, localId, { 
-                accessRequestId: uid,
+                accessRequestId: Object.keys(accessRequest)[0],
                 createdBy: displayName,
                 status: 'Draft',
                 ...data
             }, 'CREATE_DISRUPTIVE');
         }
-    }, [displayName, disruptive, idToken, localId, onCreateDisruptive, onUpdateDisruptive, uid]);
+    }, [accessRequest, displayName, disruptive, idToken, localId, onCreateDisruptive, onUpdateDisruptive]);
 
     const submitRequestHandler = useCallback((status) => {
 

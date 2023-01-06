@@ -39,7 +39,7 @@ const Administration = (props) => {
             logged: moment().format(),
             event: 'Planner (' + data.assignedPlanner + ') assigned to Access Request' });
 
-        save({ administration: { ...data }, status: 'Under Review', eventLog: updatedEventLogItems }, 'SAVE_ACCESS_REQUEST');
+        save({ administration: { ...data }, eventLog: updatedEventLogItems }, 'SAVE_ACCESS_REQUEST');
     }, 1000);
 
     const onSaveComment = useCallback(() => {

@@ -287,8 +287,8 @@ const LocationLimitForm = (props) => {
                                 />
                             </div>
                             <span className='text-start'>
-                                Electrical Isolation Required
-                                <small className='d-block text-muted'>Indicate if this Access Request will require an (OLE) Electrical Isolation</small>
+                                Electrical Resource Required
+                                <small className='d-block text-muted'>Indicate if this Access Request will require an electrical resource</small>
                             </span>
                         </label>
                     </div>
@@ -405,9 +405,9 @@ const LocationLimitForm = (props) => {
                     <button className='w-100 btn btn-lg btn-secondary' type='button' onClick={toggle}>Close</button>
                 </div>
                 {accessRequest && !recordLocked
-                    ?   <div className='form-floating'>
-                        <button className='w-100 btn btn-lg btn-danger' type='button' onClick={handleSubmit(onDelete)}>Delete</button>
-                    </div>
+                    ?   <div className='form-floating mb-3'>
+                            <button className='w-100 btn btn-lg btn-danger' type='button' onClick={handleSubmit(onDelete)}>Delete</button>
+                        </div>
                     :   null
                 }
                 {accessRequest && roles.includes('planner')

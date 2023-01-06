@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 const DisruptiveListItem = (props) => {
@@ -34,16 +34,17 @@ switch(disruptive.status) {
     return (
         <div className="list-group-item list-group-item-action">
             <div className="d-flex w-100 justify-content-between">
-                <h5 className="h5 mb-1">{disruptive.summary.disruptiveTitle}</h5>
-                <Link className='btn btn-sm btn-primary' to={`/accessrequest/${disruptive.accessRequestId}`}>Open</Link>
+                <h5 className="h5 mb-1">{disruptive && disruptive.summary.disruptiveTitle}</h5>
+                <a href={`/accessrequest/${disruptive.accessRequestId}`} className='btn btn-sm btn-primary'>Open</a>
+                {/* <Link className='btn btn-sm btn-primary' to={`/accessrequest/${disruptive.accessRequestId}`}>Open</Link> */}
             </div>
             <div className='row g-2'>
-                <p className="mb-1 form-floating col-sm-6">Raised: <small className="text-muted">{moment(disruptive.created).format('DD/MM/YYYY HH:mm')}</small></p>
+                <p className="mb-1 form-floating col-sm-6">Raised: <small className="text-muted">{disruptive && moment(disruptive.created).format('DD/MM/YYYY HH:mm')}</small></p>
                 <p className="mb-1 form-floating  col-sm-6">Start Date: <small className="text-muted">{moment(disruptive.summary.disruptiveStartDate).format('DD/MM/YYYY')}</small></p>
             </div>
             <div className='row g-2 mb-3'>
-                <p className="mb-1 form-floating  col-sm-6">Raised by: <small className="text-muted">{disruptive.createdBy}</small></p>
-                <p className="mb-1 form-floating  col-sm-6">End Date: <small className="text-muted">{moment(disruptive.summary.disruptiveEndDate).format('DD/MM/YYYY')}</small></p>
+                <p className="mb-1 form-floating  col-sm-6">Raised by: <small className="text-muted">{disruptive && disruptive.createdBy}</small></p>
+                <p className="mb-1 form-floating  col-sm-6">End Date: <small className="text-muted">{disruptive && moment(disruptive.summary.disruptiveEndDate).format('DD/MM/YYYY')}</small></p>
             </div>
             
             <small className={statusCSS.join(' ')}>{disruptive.status}</small>
