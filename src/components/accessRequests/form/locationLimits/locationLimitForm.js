@@ -410,7 +410,7 @@ const LocationLimitForm = (props) => {
                         </div>
                     :   null
                 }
-                {accessRequest && roles.includes('planner')
+                {accessRequest && roles.includes('planner') && accessRequest.requestor.requestorName !== displayName
                     ?   <div>
                             <div className='form-floating mb-3'>
                                 <button className='w-100 btn btn-lg btn-success' type='button' disabled={!formState.isValid} onClick={handleSubmit(onConfirm)}>Confirm</button>

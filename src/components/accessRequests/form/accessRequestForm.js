@@ -132,8 +132,9 @@ const AccessRequestForm = () => {
                     if(ele[Object.keys(ele)].status !== 'Approved')
                         allDisruptedItemsApproved = false;
                 });
+            } else {
+                allDisruptedItemsApproved = false;
             }
-            
         }
 
         if(allLocationLimitItemsConfirmed === true && allDisruptedItemsApproved === true)
@@ -341,7 +342,7 @@ const AccessRequestForm = () => {
 
                     <div className='accordion' id='accordionPanels'>
                         {/* This section is for planners and coordinators to discuss the access request */}
-                        { accessRequest && (isCoordinator || isPlanner)
+                        { accessRequest && (isCoordinator || isPlanner) && (accessRequest[key].requestor.requestorName !== displayName)
                             ?   <div className='accordion-item'>
                                     <h2 className='accordion-header' id='panelsStayOpen-headingAdministration'>
                                         <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseAdministration' aria-expanded='true' aria-controls='panelsStayOpen-collapseAdministration'>
@@ -531,13 +532,17 @@ const AccessRequestForm = () => {
                     ?   <button className='w-100 btn btn-lg btn-primary mb-3' type='button' disabled={submitButtonDisabled} onClick={ () => { submitRequestHandler('Submitted') } }>Submit For Approval</button>
                     :   null
                 }
-                { (accessRequest && isPlanner === true)
+                { (accessRequest && isPlanner === true) && (accessRequest[key].requestor.requestorName !== displayName)
                     ?   <div>
-                            {accessRequest && accessRequest[key].status !== 'Approved'
-                                ? <button className='w-100 btn btn-lg btn-success mb-3' type='button' disabled={ grantButtonDisabled } onClick={() => { submitRequestHandler('Granted')}}>Grant Access</button>
-                                : null
+                            {accessRequest && accessRequest[key].status === 'Submitted' && accessRequest[key].status !== 'Approved'
+                                ?   <button className='w-100 btn btn-lg btn-success mb-3' type='button' disabled={ grantButtonDisabled } onClick={() => { submitRequestHandler('Granted')}}>Grant Access</button>
+                                :   null
                             }
-                            <button className='w-100 btn btn-lg btn-danger' type='button' disabled={false} onClick={ () => { submitRequestHandler('Denied') } }>Deny Access</button>
+                            {accessRequest && accessRequest[key].status !== 'Draft'
+                                ?   <button className='w-100 btn btn-lg btn-danger' type='button' disabled={false} onClick={ () => { submitRequestHandler('Denied') } }>Deny Access</button>
+                                :   null
+                            }
+                            
                         </div>
                     :   null
                 }

@@ -25,7 +25,7 @@ const DisruptiveListItem = (props) => {
             iconStyle.push('access-icon-submitted');
             badgeStyle.push('bg-warning text-dark');
             break;
-        case 'Denied':
+        case 'Declined':
             iconStyle.push('access-icon-decline');
             badgeStyle.push('bg-danger');
             break;
