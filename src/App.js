@@ -28,6 +28,9 @@ const UserAccessRequests = React.lazy(() => {
 const PlannerAccessRequests = React.lazy(() => {
     return import('./pages/accessRequests/plannerAccessRequests');
 });
+const PlannerClosedAccessRequests = React.lazy(() => {
+	return import('./pages/accessRequests/plannerClosedAccessRequests');
+})
 const DisruptiveAuthorityAccessRequests = React.lazy(() => {
     return import('./pages/accessRequests/disruptionAuthorityAccessRequests');
 });
@@ -68,6 +71,7 @@ const App = () => {
             { isAuthenticated && <Route path='/logout' element={ <Logout /> } /> }
 			{ isAuthenticated && <Route path='/accessrequests' element={ <UserAccessRequests /> } /> }
 			{ isAuthenticated && <Route path='/planneraccessrequests' element={ <PlannerAccessRequests /> } /> }
+			{ isAuthenticated && <Route path='/plannerclosedaccessrequests' element={ <PlannerClosedAccessRequests /> } /> }
 			{ isAuthenticated && <Route path='/disruptiveaccessrequests' element={ <DisruptiveAuthorityAccessRequests /> } /> }
 			{ isAuthenticated && <Route path='/accessrequest/:uid' element={ <AccessRequest /> } /> }
 			{ isAuthenticated && <Route path='/account' element={ <Account /> } /> }

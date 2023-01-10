@@ -181,6 +181,30 @@ export const plannerGetAccessRequests = (idToken, localId, startDate, endDate, s
     };
 }
 
+export const plannerGetClosedAccessRequests = (idToken, localId, identifier) => {
+
+    return dispatch => {
+
+        let headers = { headers: {
+            idToken: idToken,
+            localId: localId
+        }};
+
+        dispatch(accessRequestStart());
+
+        axios.get('/closedaccessrequest', headers)
+        .then(res => {
+            dispatch(getAccessRequestsSuccess(res.data.result, identifier));
+        })
+        .then(() => {
+            dispatch(accessRequestFinish());
+        })
+        .catch(err => {
+            dispatch(accessRequestFail(err.message));
+        });
+    };
+}
+
 export const userGetAccessRequest = (idToken, localId, uid, identifier) => {
     
     return dispatch => {

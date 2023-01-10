@@ -23,6 +23,10 @@ const navigationItems = (props) => (
 									? <DropdownNavigationItem link='/planneraccessrequests' icon='bi-check2-square'> Access Requests for Review</DropdownNavigationItem>
 									: null
 								}
+								{props.isPlanner
+									? <DropdownNavigationItem link='/plannerclosedaccessrequests' icon='bi-check-square'> Access Requests for Closing</DropdownNavigationItem>
+									: null
+								}
 								{props.isDisruptionAuthority
 									? <DropdownNavigationItem link='/disruptiveaccessrequests' icon='bi-cone-striped'> Diruptives for Review</DropdownNavigationItem>
 									: null

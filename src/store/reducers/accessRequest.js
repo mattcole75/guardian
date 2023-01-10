@@ -51,6 +51,9 @@ const accessRequestUpdateSuccess = (state, action) => {
             updatedAccessRequest = null;
             updatedAccessRequests = state.accessRequests.filter(req => Object.keys(req)[0] !== action.id );
             // updatedAccessRequests = state.accessRequests.filter(req => req.id === action.id );
+        } else if(action.accessRequest.status === 'Closed') {
+            updatedAccessRequest = null;
+            updatedAccessRequests = state.accessRequests.filter(req => Object.keys(req)[0] !== action.id );
         } else {
             updatedAccessRequest = { [action.id]: { ...state.accessRequests[accessRequestIndex][action.id], ...action.accessRequest } };
 

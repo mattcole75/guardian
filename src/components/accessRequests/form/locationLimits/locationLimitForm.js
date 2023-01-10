@@ -4,7 +4,8 @@ import { useSelector } from 'react-redux';
 import locationList from '../../../../data/locations';
 import LocationListItem from './locationListItem';
 import moment from 'moment';
-import { determinStartDate } from '../../../../shared/utility';
+import { determinStartDate, determinEndDate } from '../../../../shared/utility';
+
 
 const LocationLimitForm = (props) => {
 
@@ -103,6 +104,10 @@ const LocationLimitForm = (props) => {
             updatedEventLogItems.push(createComplianceLog(updatedLocationLimitItems));
             //commit to db
             save({
+                summary: {
+                    accessFirstDay: moment(determinStartDate(updatedLocationLimitItems)).format('YYYY-MM-DD'),
+                    accessLastDay: moment(determinEndDate(updatedLocationLimitItems)).format('YYYY-MM-DD')
+                },
                 locationLimitItems: updatedLocationLimitItems,
                 eventLog: updatedEventLogItems
             }, 'SAVE_LOCATION_LIMIT');
@@ -119,6 +124,10 @@ const LocationLimitForm = (props) => {
             updatedEventLogItems.push(createComplianceLog(updatedLocationLimitItems));
             // commit to db
             save({
+                summary: {
+                    accessFirstDay: moment(determinStartDate(updatedLocationLimitItems)).format('YYYY-MM-DD'),
+                    accessLastDay: moment(determinEndDate(updatedLocationLimitItems)).format('YYYY-MM-DD')
+                },
                 locationLimitItems: updatedLocationLimitItems,
                 eventLog: updatedEventLogItems
             }, 'SAVE_LOCATION_LIMIT');

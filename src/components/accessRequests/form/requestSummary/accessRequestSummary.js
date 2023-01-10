@@ -78,14 +78,16 @@ const AccessRequestSummary = (props) => {
                 {summary != null
                     ?   <div className='row g-2 mb-3'>
                             <div className='form-floating  col-sm-6'>
-                                <input type='date' className='form-control' id='accessFirstDay' placeholder='First day of access'
-                                    value={ startDate } disabled={ true }
+                                <input type='date' className='form-control' id='accessFirstDay' placeholder='First day of access' disabled
+                                    value={ startDate } 
+                                    // {...register('accessFirstDay' )}
                                 />
                                 <label htmlFor='accessFirstDay' className='form-label'>Access First day</label>
                             </div>
                             <div className='form-floating col-sm-6 mb-1'>
-                                <input type='date' className='form-control' id='accessLastDay' placeholder='Last day of access'
-                                    value={ endDate } disabled={ true }
+                                <input type='date' className='form-control' id='accessLastDay' placeholder='Last day of access' disabled
+                                    value={ endDate } 
+                                    // {...register('accessLastDay' )}
                                 />
                                 <label htmlFor='accessLastDay' className='form-label'>Access Last day</label>
                             </div>

@@ -56,7 +56,7 @@ const PlannerAccessRequests = () => {
         const index = accessRequests.findIndex(req => req.hasOwnProperty(deleteId))
         //copy the event log array and add delete event
         let updatedEventLogItems = [ ...accessRequests[index][deleteId].eventLog ];
-        updatedEventLogItems.push({ user: displayName, logged: moment().format(), event: 'Access Request Deleted ' });
+        updatedEventLogItems.push({ user: displayName, logged: moment().format(), event: 'Access Request Deleted' });
 
         onUpdateAccessRequest(deleteId, idToken, localId, {
             inuse: false, 
@@ -75,7 +75,7 @@ const PlannerAccessRequests = () => {
             content={
                 <div className='modal-content'>
                     <div className='modal-body p-4 text-center'>
-                        <h5 className='mb-0'>Delete Access Request?</h5>
+                        <h5 className='mb-0'>Delete Access Request</h5>
                         <p className='mb-0'>Are you sure you want to delete this Access Request?</p>
                     </div>
                     <div className='flex-nowrap p-0'>

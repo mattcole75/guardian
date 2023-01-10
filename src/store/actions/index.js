@@ -18,6 +18,7 @@ export {
     userUpdateAccessRequest,
     userGetAccessRequests,
     plannerGetAccessRequests,
+    plannerGetClosedAccessRequests,
     userGetAccessRequest,
     plannerGetPlanners,
     selectLocationLimit,
