@@ -43,13 +43,20 @@ const accessRequestUpdateSuccess = (state, action) => {
     // check that there are requestes currently held in state.  
     // if the user has refreshed the request page using the browser there will be no requests in state  
     if(state.accessRequests.length > 0) {
+        // find the element index in the array
         const accessRequestIndex = state.accessRequests.findIndex(req => req.hasOwnProperty(action.id));
+        // check if this is a deletee
+        if(action.accessRequest.inuse != null && action.accessRequest.inuse === false) {
+            // null the accessRequest and remove the access request from the array
+            updatedAccessRequest = null;
+            updatedAccessRequests = state.accessRequests.filter(req => Object.keys(req)[0] !== action.id );
+            // updatedAccessRequests = state.accessRequests.filter(req => req.id === action.id );
+        } else {
+            updatedAccessRequest = { [action.id]: { ...state.accessRequests[accessRequestIndex][action.id], ...action.accessRequest } };
 
-        // updatedRequest = { [action.id]: { ...state.request, ...action.request } };
-        updatedAccessRequest = { [action.id]: { ...state.accessRequests[accessRequestIndex][action.id], ...action.accessRequest } };
-
-        updatedAccessRequests = [ ...state.accessRequests ];
-        updatedAccessRequests[accessRequestIndex] = updatedAccessRequest;
+            updatedAccessRequests = [ ...state.accessRequests ];
+            updatedAccessRequests[accessRequestIndex] = updatedAccessRequest;
+        }
     } else {
         updatedAccessRequest = { [action.id]: { ...action.accessRequest } };
     }

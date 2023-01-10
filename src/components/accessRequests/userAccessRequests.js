@@ -16,9 +16,8 @@ const UserAccessRequests = () => {
     const loading = useSelector(state => state.accessRequest.loading);
     const error = useSelector(state => state.accessRequest.error);
     const accessRequests = useSelector(state => state.accessRequest.accessRequests);
-    const idToken = useSelector(state => state.auth.idToken);
-    const localId = useSelector(state => state.auth.localId);
-    const roles = useSelector(state => state.auth.roles);
+
+    const { idToken, localId, roles, displayName } = useSelector(state => state.auth);
 
     const onGetPlanners = useCallback((idToken, localId, identifier) => dispatch(action.plannerGetPlanners(idToken, localId, identifier)), [dispatch]);
     const onGetAccessRequests = useCallback((idToken, localId, identifier) => dispatch(action.userGetAccessRequests(idToken, localId, identifier)), [dispatch]);
@@ -57,7 +56,7 @@ const UserAccessRequests = () => {
 
             {/* The List Component */}
             <div className="row">
-                <UserList accessRequests={accessRequests} />
+                <UserList accessRequests={accessRequests} displayName={displayName} />
             </div>
         </div>
     )

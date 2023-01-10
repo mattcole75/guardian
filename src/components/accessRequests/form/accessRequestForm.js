@@ -194,7 +194,6 @@ const AccessRequestForm = () => {
                 case 'Denied':
                     onUpdateAccessRequest(key, idToken, localId, {
                         status: status, 
-                        disruptiveStatus: 'Draft',
                         updated: moment().format(),
                         eventLog: updatedEventLogItems
                     }, 'UPDATE_ACCESS_REQUEST_STATUS');

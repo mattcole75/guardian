@@ -5,7 +5,7 @@ import AccessRequestListItem from '../listItems/accessRequestListItem';
 
 const UserList = (props) => {
 
-    const { accessRequests } = props;
+    const { accessRequests, displayName } = props;
     const roles = useSelector(state => state.auth.roles);
 
     const isPlanner = roles.includes('planner');
@@ -26,7 +26,7 @@ const UserList = (props) => {
             { accessRequests.length > 0
                 ?   <div className='list-group shadow'>
                         {accessRequests.map((item, index) => (
-                            <AccessRequestListItem key={index} item={item} isPlanner={isPlanner} />
+                            <AccessRequestListItem key={index} item={item} isPlanner={isPlanner} displayName={displayName} />
                         ))}
                     </div>
                 :   <div className='alert alert-warning text-sm-center' role='alert'>You have no Access Requests</div>

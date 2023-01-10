@@ -4,7 +4,7 @@ import moment from 'moment';
 
 const AccessRequestListItem = (props) => {
     
-const { item, isPlanner } = props;
+const { item, isPlanner, deleteRequestHandler, displayName } = props;
 const accessRequests  = item[Object.keys(item)];
 
 const dates = useMemo(() => [], []);
@@ -32,6 +32,9 @@ useEffect(() => {
     
 }, [accessRequests, dates, locations]);
 
+const onDelete = () => {
+    deleteRequestHandler(Object.keys(item)[0]);
+}
 
 let statusCSS = [];
 statusCSS.push('badge d-inline-block mb-2 text-nowrap');
@@ -57,12 +60,11 @@ switch(accessRequests.status) {
 }
 
     return (
-
         <div className="list-group-item list-group-item-action">
             <div className="d-flex w-100 justify-content-between">
                 <h5 className="h5 mb-1">{accessRequests.summary.accessRequestTitle}</h5>
 
-                {isPlanner
+                {isPlanner && accessRequests.requestor.requestorName !== displayName
                     ?   <div>
                             <div className='dropdown text-end'>
                                 <div className='btn' role='button' data-bs-toggle='dropdown' aria-expanded='false'>
@@ -70,10 +72,7 @@ switch(accessRequests.status) {
                                 </div>
                                 <ul className='dropdown-menu'>
                                     <li><Link className='dropdown-item' to={`/accessrequest/${Object.keys(item)}`}>Open</Link></li>
-                                    {accessRequests.summary.isDisruptive === true
-                                        ?   <li><Link className='dropdown-item' to={`/disruptive/${Object.keys(item)}`}>Manage Disruptive</Link></li>
-                                        :   null
-                                    }
+                                    <li><button className='dropdown-item' onClick={onDelete}>Delete</button></li>
                                 </ul>
                             </div>
                         </div>

@@ -220,10 +220,9 @@ const LocationLimitForm = (props) => {
                     <select className='form-select' id='locationLimitAccessType' required disabled={recordLocked}
                         {...register('locationLimitAccessType', { required: true })}>
                         <option value=''>Choose...</option>
-                        <option>Access</option>
-                        <option>Egress</option>
-                        <option>Maintenance</option>
                         <option>Possession</option>
+                        <option>Possession and Isolation</option>
+                        <option>Semi Protected Worksite</option>
                     </select>
                     <label htmlFor='locationLimitAccessType'>Access Type</label>
                 </div>

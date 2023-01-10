@@ -65,31 +65,36 @@ const DisruptiveForm = (props) => {
             
             <DisruptiveSummary save={save} roles={roles} id={id} summary={ disruptive ? disruptive[id].summary : null } status={ disruptive ? disruptive[id].status : null } />
 
-            <TramImpactList save={save} roles={roles} id={id} tramImpactItems={ disruptive ? disruptive[id].tramImpactItems : null }status={ disruptive ? disruptive[id].status : null } />
-
-            <OperationImpactList save={save} roles={roles} id={id} operationImpactItems={ disruptive ? disruptive[id].operationImpactItems : null }status={ disruptive ? disruptive[id].status : null } />
-
-            <AdditionalCommunication save={save} roles={roles} id={id} additionalCommunication={ disruptive ? disruptive[id].additionalCommunication : null }status={ disruptive ? disruptive[id].status : null } />
-
-            <SystemDisruption save={save} roles={roles} id={id} systemDisruption={ disruptive ? disruptive[id].systemDisruption : null }status={ disruptive ? disruptive[id].status : null } />
-
-            <OperationalConsiderations save={save} roles={roles} id={id} operationalConsiderations={ disruptive ? disruptive[id].operationalConsiderations : null }status={ disruptive ? disruptive[id].status : null } />
-
-            { isPlanner === true && disruptive && (disruptive[id].status === 'Draft' || disruptive[id].status === 'Declined')
-                ?   <div className='form-floating mt-3'>
-                        <button className='w-100 btn btn-lg btn-primary' type='button' onClick={ onSubmit }>Submit For Approval</button>
-                    </div>
-                :   null
-            }
-
-            { isDisruptionAuthority === true
+            {disruptive
                 ?   <div>
-                        <div className='form-floating mt-3'>
-                            <button className='w-100 btn btn-lg btn-success' type='button' onClick={ onApprove }>Approve</button>
-                        </div>
-                        <div className='form-floating mt-3'>
-                            <button className='w-100 btn btn-lg btn-danger' type='button' onClick={ onDecline }>Decline</button>
-                        </div>
+                        <TramImpactList save={save} roles={roles} id={id} tramImpactItems={ disruptive ? disruptive[id].tramImpactItems : null }status={ disruptive ? disruptive[id].status : null } />
+
+                        <OperationImpactList save={save} roles={roles} id={id} operationImpactItems={ disruptive ? disruptive[id].operationImpactItems : null }status={ disruptive ? disruptive[id].status : null } />
+
+                        <AdditionalCommunication save={save} roles={roles} id={id} additionalCommunication={ disruptive ? disruptive[id].additionalCommunication : null }status={ disruptive ? disruptive[id].status : null } />
+
+                        <SystemDisruption save={save} roles={roles} id={id} systemDisruption={ disruptive ? disruptive[id].systemDisruption : null }status={ disruptive ? disruptive[id].status : null } />
+
+                        <OperationalConsiderations save={save} roles={roles} id={id} operationalConsiderations={ disruptive ? disruptive[id].operationalConsiderations : null }status={ disruptive ? disruptive[id].status : null } />
+
+                        { isPlanner === true && disruptive && (disruptive[id].status === 'Draft' || disruptive[id].status === 'Declined')
+                            ?   <div className='form-floating mt-3'>
+                                    <button className='w-100 btn btn-lg btn-primary' type='button' onClick={ onSubmit }>Submit For Approval</button>
+                                </div>
+                            :   null
+                        }
+
+                        { isDisruptionAuthority === true
+                            ?   <div>
+                                    <div className='form-floating mt-3'>
+                                        <button className='w-100 btn btn-lg btn-success' type='button' onClick={ onApprove }>Approve</button>
+                                    </div>
+                                    <div className='form-floating mt-3'>
+                                        <button className='w-100 btn btn-lg btn-danger' type='button' onClick={ onDecline }>Decline</button>
+                                    </div>
+                                </div>
+                            :   null
+                        }
                     </div>
                 :   null
             }
