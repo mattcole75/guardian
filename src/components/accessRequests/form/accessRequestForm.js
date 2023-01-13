@@ -77,15 +77,28 @@ const AccessRequestForm = () => {
     const onUpdateDisruptive = useCallback((id, idToken, localId, data, identifier) => dispatch(action.updateDisruptive(id, idToken, localId, data, identifier)), [dispatch]);
     const onCreateDisruptive = useCallback((idtoken, localId, data, identifier) => dispatch(action.createDisruptive(idtoken, localId, data, identifier)),[dispatch]);
     const onDisruptionSelect = useCallback((disruptive, identifier) => dispatch(action.selectDisruptive(disruptive, identifier)), [dispatch]);
-
+    const onGetPlanners = useCallback((idToken, localId, identifier) => dispatch(action.plannerGetPlanners(idToken, localId, identifier)), [dispatch]);
+    
     // load access request if it's not new
     useEffect (() => {
         if(uid !== 'new') {
             // get access request from db
+            // if(roles.includes('planner') || roles.includes('coordinator'))
+            onGetPlanners(idToken, localId, 'GET_PLANNERS');
+                
             onGetAccessRequest(idToken, localId, uid, 'GET_ACCESS_REQUEST');
             onGetDisruptives(idToken, localId, uid, 'GET_DISRUPTIVES');
         }
-    }, [uid, idToken, localId, onGetAccessRequest, onGetDisruptives]);
+    }, [uid, idToken, localId, onGetAccessRequest, onGetDisruptives, roles, onGetPlanners]);
+
+    // if a user tries to view another users access request then redirect
+    useEffect(() => {
+
+        if(!roles.includes('coordinator') && !roles.includes('planner') && !roles.includes('disruptionAuthority'))
+            if(accessRequest != null && accessRequest[key].requestor.requestorName !== displayName)
+                setRedirect(<Navigate to='/forbidden' />);
+
+    }, [accessRequest, displayName, key, roles]);
 
     // determin if the record is editable based on status
     useEffect(() => {
@@ -281,6 +294,7 @@ const AccessRequestForm = () => {
                 />
             }/>
     }
+
     if(viewDisruptive) {
         modal = <Modal 
             show={ viewDisruptive }

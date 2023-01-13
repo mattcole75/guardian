@@ -18,10 +18,7 @@ switch(disruptive.status) {
     case 'Submitted':
         statusCSS.push('bg-warning text-dark');
         break;
-    case 'Under Review':
-        statusCSS.push('bg-warning text-dark');
-        break;
-    case 'Denied':
+    case 'Declined':
         statusCSS.push('bg-danger');
         break;
     case 'Approved':

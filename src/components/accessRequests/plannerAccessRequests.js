@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import * as action from '../../store/actions/index';
@@ -20,24 +20,10 @@ const PlannerAccessRequests = () => {
     const accessRequests = useSelector(state => state.accessRequest.accessRequests);
     const { idToken, localId, displayName, roles } = useSelector(state => state.auth);
 
-    const onGetPlanners = useCallback((idToken, localId, identifier) => dispatch(action.plannerGetPlanners(idToken, localId, identifier)), [dispatch]);
     const onUpdateAccessRequest = useCallback((id, idToken, localId, data, identifier) => dispatch(action.userUpdateAccessRequest(id, idToken, localId, data, identifier)), [dispatch]);
 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [deleteId, setDeleteId] = useState(null);
-    // const onGetAccessRequests = useCallback((idToken, localId, startDate, endDate, statusFilter, identifier) => dispatch(action.userGetAccessRequests(idToken, localId, startDate, endDate, statusFilter, identifier)), [dispatch]);
-
-    // a side effect to query the database and return to state a list of requests
-    // useEffect(() => {
-    //     onGetAccessRequests(idToken, localId, null, null, '', '', 'GET_ACCESS_REQUESTS');
-    // },[idToken, localId, onGetAccessRequests, roles]);
-
-    
-    // side effect to return a list of planners if the user has the planner or coordinator role asigned
-    useEffect(() => {
-        if(roles.includes('planner') || roles.includes('coordinator'))
-            onGetPlanners(idToken, localId, 'GET_PLANNERS');
-    }, [idToken, localId, onGetPlanners, roles]);
 
     const toggleDeleteModal = () => {
         setShowDeleteModal(preState => !preState);

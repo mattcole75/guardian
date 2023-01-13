@@ -232,6 +232,7 @@ const LocationLimitForm = (props) => {
                         <option>Possession</option>
                         <option>Possession and Isolation</option>
                         <option>Semi Protected Worksite</option>
+                        <option>Blockade</option>
                     </select>
                     <label htmlFor='locationLimitAccessType'>Access Type</label>
                 </div>

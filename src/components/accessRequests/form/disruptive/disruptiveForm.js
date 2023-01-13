@@ -42,7 +42,7 @@ const DisruptiveForm = (props) => {
         save(id, { status: 'Declined'} );
         // add new event to the access request event log
         updatedEventLogItems.push({ user: displayName, logged: moment().format(), event: disruptive[id].summary.disruptiveTitle + ' disruptive declined' });
-        logEvent({ eventLog: updatedEventLogItems }, 'SAVE_ACCESS_REQUEST');
+        logEvent({ status: 'Submitted', eventLog: updatedEventLogItems }, 'SAVE_ACCESS_REQUEST');
         // close the modal
         toggle();
     }, [displayName, disruptive, eventLog, id, logEvent, save, toggle]);

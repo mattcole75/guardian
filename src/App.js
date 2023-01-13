@@ -46,6 +46,9 @@ const FAQ = React.lazy(() => {
 const Users = React.lazy(() => {
 	return import ('./pages/auth/users');
 });
+const Forbidden = React.lazy(() => {
+	return import('./pages/forbidden');
+});
 
 const App = () => {
 
@@ -67,6 +70,7 @@ const App = () => {
 			<Route path='/recoverPassword' element={ <RecoverPassword /> } />
 			<Route path='/signup' element={ <Signup /> } />
             <Route path='/pricing' element={ <Pricing /> } />
+            <Route path='/forbidden' element={ <Forbidden /> } />
 			<Route path='/faq' element={ () => <FAQ /> } />
             { isAuthenticated && <Route path='/logout' element={ <Logout /> } /> }
 			{ isAuthenticated && <Route path='/accessrequests' element={ <UserAccessRequests /> } /> }

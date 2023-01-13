@@ -124,6 +124,11 @@
   color: red;
 }
 
+.forbiddenIcon {
+  font-size: 5rem;
+  color: #dc3545;
+}
+
 .form-request-icon {
   font-size: 5rem;
   color: darkslategray;
