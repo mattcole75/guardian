@@ -103,6 +103,7 @@ export const signup = (authData, identifier) => {
     return dispatch => {
 
         dispatch(authStart());
+
         axios.post('/user', authData)
             .then(res => {
                 if(res.status === 201)
@@ -112,7 +113,31 @@ export const signup = (authData, identifier) => {
                 dispatch(authFinish());
             })
             .catch(err => {
-                dispatch(authFail(err)); 
+                console.log(err);
+
+                if(err.response.data) {
+                    const { message } = err.response.data;
+
+                    switch (message) {
+                        case 'auth/email-already-exists } - The email address is already in use by another account.':
+                            dispatch(authFail('Email address already in use'));
+                            break;
+                        case 'auth/phone-number-already-exists } - The user with the provided phone number already exists.':
+                            dispatch(authFail('Phone number already in use'));
+                            break;
+                        case 'OPERATION_NOT_ALLOWED':
+                            dispatch(authFail('Website is currently down, please try again later'));
+                            break;
+                        case 'TOO_MANY_ATTEMPTS_TRY_LATER':
+                            dispatch(authFail('Too many failed login attempts, please try again later'));
+                            break;
+                        default:
+                            dispatch(authFail('Unknown error please report the following to the administrator: ' + message)); 
+
+                    }
+                } else {
+                    dispatch(authFail(err.message)); 
+                }
             });
     };
 }
@@ -123,20 +148,22 @@ export const login = (authData, identifier) => {
         dispatch(authStart());
 
         direct.post('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + apikey, authData)
-            .then(resA => {
-                const { idToken, localId, expiresIn } = resA.data
+            .then(res => {
+                
+                const { idToken, localId, expiresIn } = res.data
                 axios.get('/user' , {
                     headers: {
                         idToken: idToken,
                         localId: localId
                     }
                 })
-                .then(resB => {
-                    const { displayName, phoneNumber, email, organisation, roles } = resB.data.data;
-
+                .then(user => {
+                    const { displayName, phoneNumber, email, organisation, roles } = user.data.data;
                     setLocalStorage(idToken, localId, displayName, phoneNumber, email, organisation, roles, expiresIn);
                     dispatch(authSuccess(idToken, localId, displayName, phoneNumber, email, organisation, roles, identifier));
                     dispatch(checkAuthTimeout(expiresIn));
+                })
+                .then(() => {
                     dispatch(authFinish());
                 })
                 .catch(err => {
@@ -144,7 +171,27 @@ export const login = (authData, identifier) => {
                 })
             })
             .catch(err => {
-                dispatch(authFail(err.message)); 
+                if(err.response.data) {
+                    const { error } = err.response.data;
+
+                    switch (error.message) {
+                        case 'EMAIL_NOT_FOUND':
+                            dispatch(authFail('Incorrect email address or password'));
+                            break;
+                        case 'INVALID_PASSWORD':
+                            dispatch(authFail('Incorrect email address or password'));
+                            break;
+                        case 'USER_DISABLED':
+                            dispatch(authFail('Account disabled, please cantact the administrator'));
+                            break;
+                        default:
+                            dispatch(authFail('Unknown error please report the following to the administrator: ' + error.message)); 
+
+                    }
+                } else {
+                    dispatch(authFail(err.message)); 
+                }
+                
             });
     };
 }
@@ -157,6 +204,8 @@ export const recoverPassword = (authData, identifier) => {
         direct.post('https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=' + apikey, authData)
             .then(res => {
                 dispatch(authRecoverPasswordSuccess(res.data.email, identifier));
+            })
+            .then(() => {
                 dispatch(authFinish());
             })
             .catch(err => {

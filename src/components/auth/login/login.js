@@ -36,7 +36,7 @@ const Login = () => {
                 {spinner}
             {error &&
                 <div className='alert alert-danger' role='alert'>
-                    {error.response.data.message}
+                    {error}
                 </div>
             }
             <form className='was-validated' onSubmit={handleSubmit(loginHandler)}>

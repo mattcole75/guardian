@@ -67,7 +67,7 @@ const Signup = () => {
             {redirect && <Navigate to='/login' />}
             {error &&
                 <div className='alert alert-danger' role='alert'>
-                    {error.response.data.message}
+                    {error}
                 </div>
             }
             {modal}
