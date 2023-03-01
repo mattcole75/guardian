@@ -71,14 +71,15 @@ const Signup = () => {
                 </div>
             }
             {modal}
+
             <form className='was-validated' onSubmit={handleSubmit(signupHandler)}>
                 <i className='bi-person-plus form-auth-icon'></i>
                 <h1 className='h3 mb-3 fw-normal'>Sign-up</h1>
 
-                <div className='form-floating mb-3'>
+                <div className='form-floating'>
                     <input 
                         type='text'
-                        className='form-control'
+                        className='form-control form-auth-ele-top'
                         id='displayName'
                         placeholder='Your name'
                         required
@@ -90,10 +91,10 @@ const Signup = () => {
                     <label htmlFor='displayName' className='form-label'>Display Name</label>
                 </div>
 
-                <div className='input-group mb-3'>
+                <div className='input-group'>
 
                     <div className='form-floating col-md-3'>
-                        <select className='form-select' id='countryCode'
+                        <select className='form-select form-auth-ele-mid' id='countryCode'
                             onChange={event => setCountryCode(event.target.value)} value={countryCode}>
                             <option value='+44'>+44 UK</option>
                             <option value='+33'>+33 France</option>
@@ -105,7 +106,7 @@ const Signup = () => {
                     <div className='form-floating col-md-9'>
                         <input 
                             type='tel'
-                            className='form-control'
+                            className='form-control form-auth-ele-mid1'
                             id='phoneNumber'
                             placeholder='+440'
                             required
@@ -119,10 +120,10 @@ const Signup = () => {
                     </div>
                 </div>
 
-                <div className='form-floating mb-3'>
+                <div className='form-floating'>
                     <input 
                         type='email'
-                        className='form-control'
+                        className='form-control form-auth-ele-mid'
                         id='email'
                         placeholder='name@example.com'
                         required
@@ -131,10 +132,10 @@ const Signup = () => {
                     <label htmlFor='email' className='form-label'>Email Address</label>
                 </div>
 
-                <div className='form-floating mb-3'>
+                <div className='form-floating'>
                     <input 
                         type='text'
-                        className='form-control'
+                        className='form-control form-auth-ele-mid'
                         id='organisation'
                         placeholder='Your organisation'
                         required
@@ -149,7 +150,7 @@ const Signup = () => {
                 <div className='form-floating mb-3'>
                     <input
                         type='password'
-                        className='form-control'
+                        className='form-control form-auth-ele-bot'
                         id='password'
                         placeholder='Password'
                         required

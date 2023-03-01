@@ -39,11 +39,12 @@ const Login = () => {
                     {error}
                 </div>
             }
+
             <form className='was-validated' onSubmit={handleSubmit(loginHandler)}>
-                
                 <i className='bi-person-check form-auth-icon'></i>
                 <h1 className='h3 mb-3 fw-normal'>Login</h1>
-                <div className='form-floating mb-3'>
+                
+                <div className='form-floating'>
                     <input
                         type='email'
                         className='form-control'
