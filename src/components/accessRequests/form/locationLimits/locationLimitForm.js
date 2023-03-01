@@ -189,7 +189,7 @@ const LocationLimitForm = (props) => {
     }, [createComplianceLog, index, accessRequest.eventLog, accessRequest.locationLimitItems, save, toggle]);
 
     return (
-        <div className='form-location my-1 shadow'>
+        <div className='form-location-limit my-1 shadow'>
             <form className='p-1'>
                 <h1 className='h3 mb-3 fw-normal text-start'>Location Limit</h1>
 

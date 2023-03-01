@@ -55,6 +55,9 @@ switch(accessRequests.status) {
     case 'Granted':
         statusCSS.push('bg-success');
         break;
+    case 'Closed':
+        statusCSS.push('bg-secondary')
+        break;
     default:
         break;
 }

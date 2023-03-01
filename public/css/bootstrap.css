@@ -5597,7 +5597,7 @@ textarea.form-control-lg {
 
 @media (min-width: 576px) {
   .modal-dialog {
-    max-width: 800px;
+    /* max-width: 800px; */
     margin: 1.75rem auto;
   }
 

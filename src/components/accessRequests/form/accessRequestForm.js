@@ -83,8 +83,8 @@ const AccessRequestForm = () => {
     useEffect (() => {
         if(uid !== 'new') {
             // get access request from db
-            // if(roles.includes('planner') || roles.includes('coordinator'))
-            onGetPlanners(idToken, localId, 'GET_PLANNERS');
+            if(roles.includes('planner') || roles.includes('coordinator'))
+                onGetPlanners(idToken, localId, 'GET_PLANNERS');
                 
             onGetAccessRequest(idToken, localId, uid, 'GET_ACCESS_REQUEST');
             onGetDisruptives(idToken, localId, uid, 'GET_DISRUPTIVES');
@@ -364,7 +364,7 @@ const AccessRequestForm = () => {
                                     </h2>
                                     <div id='panelsStayOpen-collapseAdministration' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingAdministration'>
                                         <div className='accordion-body'>
-                                            <Administration accessRequest={accessRequest ? accessRequest[key] : null} save={saveAccessRequestHandler} />
+                                            <Administration  accessRequest={accessRequest ? accessRequest[key] : null} save={saveAccessRequestHandler} />
                                         </div>
                                     </div>
                                 </div>

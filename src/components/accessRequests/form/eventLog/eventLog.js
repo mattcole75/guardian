@@ -8,10 +8,11 @@ const EventLog = (props) => {
 
     return (
         
-        <div className='form-floating text-start'>
+        // <div className='form-floating text-start'>
 
-            <div>
-                <table className='w-100 table table-sm table-hover table-borderless align-middle bg-light border-start border-end border-top shadow-sm fs-7 mb-0'>
+            <div className='text-start table-responsive'>
+                {/* <table className='w-100 table table-sm table-hover table-borderless align-middle bg-light border-start border-end border-top shadow-sm fs-7 mb-0'> */}
+                <table className='w-100 table table-hover table-borderless align-middle bg-light border-start border-end border-top shadow-sm fs-7'>
                     <thead className='border-bottom'>
                         <tr>
                             <th className='ps-3 pe-3'><div className='table-item_col'>Date</div></th>
@@ -31,7 +32,7 @@ const EventLog = (props) => {
                     </tbody>
                 </table>
             </div>
-        </div>
+        // </div>
     )
 }
 
