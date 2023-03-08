@@ -49,7 +49,7 @@ const AccessRequestForm = () => {
 
     const accessRequestLoading = useSelector(state => state.accessRequest.loading);
     const accessRequestError = useSelector(state => state.accessRequest.error);
-    const disruptiveLoading = useSelector(state => state.disruptive.loading)
+    const disruptiveLoading = useSelector(state => state.disruptive.loading);
     const disruptiveError = useSelector(state => state.disruptive.error);
     
     const { idToken, localId, displayName, phoneNumber, email, organisation, roles } = useSelector(state => state.auth);
@@ -68,7 +68,7 @@ const AccessRequestForm = () => {
     } else if (accessRequest && uid === 'new') {
         key = Object.keys(accessRequest)[0];
     }
-        
+    
     const onCreateAccessRequest = useCallback((idToken, localId, data, identifier) => dispatch(action.userCreateAccessRequest(idToken, localId, data, identifier)), [dispatch]);
     const onGetAccessRequest = useCallback((idToken, localId, uid, identifier) => dispatch(action.userGetAccessRequest(idToken, localId, uid, identifier)), [dispatch]);
     const onUpdateAccessRequest = useCallback((id, idToken, localId, data, identifier) => dispatch(action.userUpdateAccessRequest(id, idToken, localId, data, identifier)), [dispatch]);

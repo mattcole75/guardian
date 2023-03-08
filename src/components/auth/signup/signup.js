@@ -41,7 +41,7 @@ const Signup = () => {
             show={showModal}
             modalClosed={ toggle }
             content={
-                <div className='modal-content rounded-4 shadow bg-white'>
+                <div className='modal-content form-auth rounded-4 shadow bg-white'>
                     {/* <div className='modal-header border-bottom-0 text-center'> */}
                     <div className='modal-body py-0 mb-3 mt-3'>
                         <h1 className='modal-title fs-5'>Success... New account created</h1>
