@@ -57,7 +57,7 @@ const RecoverPassword = () => {
                 </div>
             }
             {infoMsg &&
-                <div class="alert alert-primary" role="alert">
+                <div className='alert alert-primary' role='alert'>
                     {infoMsg}
                 </div>
             }
