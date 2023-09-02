@@ -33,7 +33,7 @@ const Filter = (props) => {
         <header className='py-3 mb-4 border-bottom'>
             <div className='container d-flex flex-wrap justify-content-center'>
             <div className='d-flex align-items-center mb-3 mb-lg-0 me-lg-5 text-dark text-decoration-none'>
-                <p className='h4'> Date Range:</p>
+                <p className='h4'> Week:</p>
             </div>
             <form className='col-12 col-lg-auto mb-3 mb-lg-0' role='search'>
                 <div className='row g-2 bg-light'>
@@ -48,7 +48,7 @@ const Filter = (props) => {
                                     if(item.inUse === 1) {
                                         return (
                                             <option key={index}
-                                                value={item.id}>{item.id} | {moment(item.start).format('ddd Do MMM')} / {moment(item.end).format('ddd Do MMM')}
+                                                value={item.id}>{item.id} ( {moment(item.start).format('ddd Do MMM')} - {moment(item.end).format('ddd Do MMM')} )
                                             </option>
                                         )
                                     }
