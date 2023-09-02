@@ -139,7 +139,7 @@ const Signup = () => {
 
                 <div className='form-floating'>
                     <input 
-                        type='text' className='form-control form-ele-mid' id='organisation' placeholder='Your organisation' required autoComplete='off' minLength={3} maxLength={32}
+                        type='text' className='form-control form-ele-mid' id='organisation' placeholder='Your organisation' required autoComplete='off' minLength={3} maxLength={64}
                         {...register('organisation', {
                             required: "You must specify an Organisation Name",
                             minLength: {
@@ -147,8 +147,8 @@ const Signup = () => {
                                 message: "Your Organisation Name must have at least 3 characters"
                             },
                             maxLength: {
-                                value: 32,
-                                message: 'Your Organisation Name must have less than 32 characters'
+                                value: 64,
+                                message: 'Your Organisation Name must have less than 64 characters'
                             }
                         }) }
                     />
