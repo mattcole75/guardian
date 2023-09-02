@@ -9,6 +9,9 @@ const Map = (props) => {
 
     return (
         <div className='col'>
+            
+            <p className='h4 text-center'>Metrolink Network Map</p>
+            
             <div className="map-container">
                 {   
                     locationList.map(item => {
