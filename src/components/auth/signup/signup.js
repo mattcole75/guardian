@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { Navigate } from 'react-router-dom';
+import { Navigate, NavLink } from 'react-router-dom';
 import * as action from '../../../store/actions/index';
 
 import Modal from '../../ui/modal/modal';
@@ -20,7 +20,18 @@ const Signup = () => {
 
     const onSignUp = useCallback((authData, identifier) => dispatch(action.signup(authData, identifier)), [dispatch]);
 
-    const { register, handleSubmit, formState } = useForm({ mode: 'onChange' });
+    const { register, watch, handleSubmit, formState: { errors } } = useForm({ mode: 'onBlur' });
+
+    const inputRef = useRef({});
+    inputRef.current = watch('password');
+
+    const [applyValidationCss, setApplyValidationCss] = useState(false);
+
+    useEffect(() => {
+        if(errors.displayName || errors.phoneNumber || errors.organisation || errors.email || errors.password || errors.passwordRepeat)
+            setApplyValidationCss(true);
+        
+    }, [errors]);
 
     const signupHandler = useCallback((data) => {
         onSignUp({...data, phoneNumber: countryCode + data.phoneNumber, returnSecureToken: true}, 'SIGNUP');
@@ -62,7 +73,7 @@ const Signup = () => {
         spinner = <Spinner />;
 
     return (
-        <div className='form-auth my-5'>
+        <div className='form-auth'>
             <Backdrop show={loading} />
                 {spinner}
             {redirect && <Navigate to='/login' />}
@@ -73,96 +84,118 @@ const Signup = () => {
             }
             {modal}
 
-            <form className='was-validated' onSubmit={handleSubmit(signupHandler)}>
+            <form className={ applyValidationCss ? 'was-validated' : '' } onSubmit={handleSubmit(signupHandler)}>
                 <i className='bi-person-plus form-auth-icon'></i>
-                <h1 className='h3 mb-3 fw-normal'>Sign-up</h1>
+                <h1 className='h3 mb-3 fw-normal'>Sign Up</h1>
 
                 <div className='form-floating'>
-                    <input 
-                        type='text'
-                        className='form-control form-auth-ele-top'
-                        id='displayName'
-                        placeholder='Your name'
-                        required
-                        autoComplete='off'
-                        minLength={3}
-                        maxLength={32}
-                        {...register('displayName', { required: true, minLength: 3, maxLength: 32 })}
+                <input type='text' className='form-control form-ele-top' id='displayName' placeholder='Your name' autoComplete='off' required minLength={6} maxLength={32}
+                { ...register('displayName', {
+                    required: "You must specify a Display Name",
+                    minLength: {
+                        value: 6,
+                        message: "Display Name must have at least 6 characters"
+                    },
+                    maxLength: {
+                        value: 32,
+                        message: 'Display Name must have less than 32 characters'
+                    }
+                }) }
+                />
+                <label htmlFor='displayName'>Display Name</label>
+            </div>
+
+            <div className='input-group'>
+                <div className='form-floating col-md-5'>
+                    <select className='form-select form-ele-mid' id='countryCode'
+                        onChange={event => setCountryCode(event.target.value)} value={countryCode}>
+                        <option value='+44'>+44 UK</option>
+                        <option value='+33'>+33 France</option>
+                        <option value='+61'>+61 Australia</option>
+                    </select>
+                    <label htmlFor='countryCode' className='form-label'>Code</label>
+                </div>
+
+                <div className='form-floating col-md-7'>
+                    <input type='tel'className='form-control form-ele-mid1' id='phoneNumber' placeholder='+440' required autoComplete='off' pattern='^\+?(?:\d\s?){10,12}$'
+                        {...register('phoneNumber', { required: 'You must provide a telephone number', pattern: { value: /^\+?(?:\d\s?){10,12}$/, message: "The telephone number's format is incorrect" } })}
                     />
-                    <label htmlFor='displayName' className='form-label'>Display Name</label>
+                    <label htmlFor='phoneNumber' className='form-label'>Phone Number</label>
                 </div>
+            </div>
 
-                <div className='input-group'>
-
-                    <div className='form-floating col-md-3'>
-                        <select className='form-select form-auth-ele-mid' id='countryCode'
-                            onChange={event => setCountryCode(event.target.value)} value={countryCode}>
-                            <option value='+44'>+44 UK</option>
-                            <option value='+33'>+33 France</option>
-                            <option value='+61'>+61 Australia</option>
-                        </select>
-                        <label htmlFor='countryCode' className='form-label'>Code</label>
-                    </div>
-
-                    <div className='form-floating col-md-9'>
-                        <input 
-                            type='tel'
-                            className='form-control form-auth-ele-mid1'
-                            id='phoneNumber'
-                            placeholder='+440'
-                            required
-                            autoComplete='off'
-                            pattern='^\+?(?:\d\s?){10,12}$'
-                            // pattern='^\+[1-9]\d{11,14}$'
-                            {...register('phoneNumber', { required: true, pattern: /^\+?(?:\d\s?){10,12}$/ })}
-                            // {...register('phoneNumber', { required: true, pattern: /^\+[1-9]\d{11,14}$/ })}
-                        />
-                        <label htmlFor='phoneNumber' className='form-label'>Phone Number</label>
-                    </div>
-                </div>
+            <div className='form-floating'>
+                <input type='email' className='form-control form-ele-mid' id='email' placeholder='name@example.com' autoComplete='off' required pattern="[^@]+@[^@]+\.[a-zA-Z]{2,}"
+                { ...register('email', {
+                    required: "You must specify an Email address",
+                    pattern: {
+                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                        message: "Invalid Email Address"
+                    }
+                })}
+                />
+                <label htmlFor='email'>Email Address</label>
+            </div>
 
                 <div className='form-floating'>
                     <input 
-                        type='email'
-                        className='form-control form-auth-ele-mid'
-                        id='email'
-                        placeholder='name@example.com'
-                        required
-                        autoComplete='off'
-                        {...register('email', { required: true, pattern: /^\S+@\S+$/i })} />
-                    <label htmlFor='email' className='form-label'>Email Address</label>
-                </div>
-
-                <div className='form-floating'>
-                    <input 
-                        type='text'
-                        className='form-control form-auth-ele-mid'
-                        id='organisation'
-                        placeholder='Your organisation'
-                        required
-                        autoComplete='off'
-                        minLength={3}
-                        maxLength={32}
-                        {...register('organisation', { required: true, minLength: 3, maxLength: 32 })}
+                        type='text' className='form-control form-ele-mid' id='organisation' placeholder='Your organisation' required autoComplete='off' minLength={3} maxLength={32}
+                        {...register('organisation', {
+                            required: "You must specify an Organisation Name",
+                            minLength: {
+                                value: 3,
+                                message: "Your Organisation Name must have at least 3 characters"
+                            },
+                            maxLength: {
+                                value: 32,
+                                message: 'Your Organisation Name must have less than 32 characters'
+                            }
+                        }) }
                     />
                     <label htmlFor='organisation' className='form-label'>Organisation</label>
                 </div>
 
+                <div className='form-floating'>
+                    <input type='text' className='form-control form-password form-ele-mid' id='password' placeholder='Password' autoComplete='off' required pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$" ref={ inputRef }
+                    { ...register('password', {
+                        required: "You must specify a password",
+                        pattern: {
+                            value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/i,
+                            message: "Minimum eight characters, at least one letter, one number and one special character"
+                        }
+                    }) }
+                    />
+                    <label htmlFor='password'>Password</label>
+                </div>
                 <div className='form-floating mb-3'>
-                    <input
-                        type='password'
-                        className='form-control form-auth-ele-bot'
-                        id='password'
-                        placeholder='Password'
-                        required
-                        autoComplete='off'
-                        minLength={6}
-                        maxLength={255}
-                        {...register('password', { required: true, minLength: 6, maxLength: 255 })} />
-                    <label htmlFor='password' className='form-label'>Password</label>
+                    <input type='text' className='form-control form-password form-ele-bot prevent-validation' id='passwordConfirm' placeholder='Password' autoComplete='off' required
+                    { ...register('passwordRepeat', {
+                        validate: value =>
+                        value === inputRef.current || "The passwords do not match"
+                    }) }
+                    />
+                    <label htmlFor='passwordConfirm'>Confirm Password</label>
                 </div>
 
-                <button className='w-100 btn btn-lg btn-primary' type='submit' disabled={!formState.isValid}>Sign-up</button>
+                { errors.displayName && <p className='form-error mt-1'>{errors.displayName.message}</p> }
+                { errors.phoneNumber && <p className='form-error mt-1'>{errors.phoneNumber.message}</p> }
+                { errors.organisation && <p className='form-error mt-1'>{errors.organisation.message}</p> }
+                { errors.email && <p className='form-error mt-1'>{errors.email.message}</p> }
+                { errors.passwordRepeat && <p className='form-error mt-1'>{errors.passwordRepeat.message}</p> }
+                { errors.password && <p className='form-error '>{errors.password.message}</p> }
+
+                <button className='w-100 btn btn-lg btn-primary' type='submit'>Sign-up</button>
+                <hr />
+                <div>
+                    <figcaption className='blockquote-footer mt-3'>Have an account?</figcaption>
+                    <div className='text-center'>
+                        <NavLink 
+                            to='/login'
+                            className='nav-link'>
+                            Login
+                        </NavLink>
+                    </div>
+                </div>
             </form>
         </div>
     );

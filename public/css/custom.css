@@ -23,41 +23,6 @@
     font-weight: 400;
 }
 
-.form-auth-ele-top {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.form-auth-ele-mid {
-  margin-bottom: -1px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.form-auth-ele-mid1 {
-  margin-bottom: -1px;
-  margin-left: 1px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-
-.form-auth-ele-alone {
-  margin-bottom: -1px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-
-.form-auth-ele-bot {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
-
 .form-auth {
     height: 100%;
     align-items: center;
@@ -65,7 +30,7 @@
     padding-bottom: 40px;
     background-color: #f5f5f5;
     /* width: 100%; */
-    max-width: 30rem;
+    max-width: 25rem;
     padding: 1.5rem;
     margin: auto;
     text-align: center;
@@ -82,12 +47,6 @@
   
 .form-auth .form-floating:focus-within {
     z-index: 2;
-}
-
-.form-auth input[type="email"] {
-    margin-bottom: -1px;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
 }
 
 .form-auth input[type="password"] {
@@ -107,6 +66,39 @@
   padding: 1.5rem;
   margin: auto;
   text-align: center;
+}
+
+.form-ele-top {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-ele-mid {
+  margin-bottom: -1px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-ele-mid1 {
+  margin-bottom: -1px;
+  margin-left: 1px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-ele-bot {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.form-error {
+  color: #bf1650;
+}
+.form-password {
+  -webkit-text-security: square
 }
 
 .form-location-limit-icon {
@@ -145,6 +137,54 @@
   padding: 10px;
   margin: auto;
   text-align: center;
+}
+
+.form-ele-top {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-ele-mid {
+  margin-bottom: -1px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-ele-alone {
+  margin-bottom: -1px;
+  /* border-top-left-radius: 5;
+  border-top-right-radius: 5; */
+  border-bottom-right-radius: .25rem;
+  border-bottom-left-radius: .25rem;
+}
+
+.form-ele-bot {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.form-ele-top-right {
+  margin-bottom: 10px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 0;
+}
+
+.form-ele-bot-left {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.form-ele-bot-right {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
 .admin-info-icon {

@@ -21,7 +21,15 @@ const RecoverPassword = () => {
 
     const onRecoverPassword = useCallback((authData, identifier) => dispatch(action.recoverPassword(authData, identifier)), [dispatch]);
 
-    const { register, handleSubmit, formState, getValues } = useForm({ mode: 'onChange' });
+    const { register, handleSubmit, getValues, formState: { errors } } = useForm({ mode: 'onBlur' });
+
+    const [applyValidationCss, setApplyValidationCss] = useState(false);
+
+    useEffect(() => {
+        if(errors.email)
+            setApplyValidationCss(true);
+        
+    }, [errors]);
 
     const recoverPasswordHandler = useCallback((data) => {
         onRecoverPassword({...data, requestType: 'PASSWORD_RESET'}, 'PASSWORD_RESET');
@@ -53,21 +61,26 @@ const RecoverPassword = () => {
                     {infoMsg}
                 </div>
             }
-            <form className='was-validated' onSubmit={handleSubmit(recoverPasswordHandler)}>
+            <form className={ applyValidationCss ? 'was-validated' : '' } onSubmit={handleSubmit(recoverPasswordHandler)}>
                 
                 <i className='bi-file-person form-auth-icon'></i>
                 <h1 className='h3 mb-3 fw-normal'>Recover Password</h1>
                 <div className='form-floating mb-3'>
-                    <input
-                        type='email'
-                        className='form-control'
-                        id='email' placeholder='name@example.com'
-                        required
-                        autoComplete='off'
-                        {...register('email', { required: true, pattern: /^\S+@\S+$/i })} />
-                    <label htmlFor='email' className='form-label'>Email Address</label>
+                <input type='email' className='form-control' id='email' placeholder='name@example.com' autoComplete='off' required pattern="[^@]+@[^@]+\.[a-zA-Z]{2,}"
+                    { ...register('email', {
+                        required: "You must specify an Email address",
+                        pattern: {
+                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                            message: 'Invalid Email Address'
+                        }
+                    })}
+                    />
+                    <label htmlFor='email'>Email Address</label>
                 </div>
-                <button className='w-100 btn btn-lg btn-primary' type='submit' disabled={!formState.isValid}>Request Link</button>
+
+                { errors.email && <p className='form-error mt-1'>{errors.email.message}</p> }
+
+                <button className='w-100 btn btn-lg btn-primary' type='submit'>Request Link</button>
             </form>
         </div>
     );
