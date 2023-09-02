@@ -174,12 +174,17 @@ export const login = (authData, identifier) => {
                 if(err.response.data) {
                     const { error } = err.response.data;
 
+                    console.log(error.message);
+
                     switch (error.message) {
                         case 'EMAIL_NOT_FOUND':
                             dispatch(authFail('Incorrect email address or password'));
                             break;
                         case 'INVALID_PASSWORD':
                             dispatch(authFail('Incorrect email address or password'));
+                            break;
+                        case 'TOO_MANY_ATTEMPTS_TRY_LATER : Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.':
+                            dispatch(authFail('Too many failed attempts, please try again later'));
                             break;
                         case 'USER_DISABLED':
                             dispatch(authFail('Account disabled, please cantact the administrator'));
