@@ -19,7 +19,7 @@ const RecoverPassword = () => {
     const isAuthenticated = useSelector(state => state.auth.idToken !== null);
     const authRedirectPath = useSelector(state => state.auth.authRedirectPath);
 
-    const onRecoverPassword = useCallback((authData, identifier) => dispatch(action.recoverPassword(authData, identifier)), [dispatch]);
+    const onRecoverPassword = useCallback((authData, identifier) => dispatch(action.authRecoverPassword(authData, identifier)), [dispatch]);
 
     const { register, handleSubmit, getValues, formState: { errors } } = useForm({ mode: 'onBlur' });
 

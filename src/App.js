@@ -19,8 +19,8 @@ const RecoverPassword = React.lazy(() => {
 const Logout = React.lazy(() => {
     return import('./pages/auth/logout');
 });
-const Account = React.lazy(() => {
-    return import('./pages/auth/account');
+const Profile = React.lazy(() => {
+    return import('./components/auth/profile/profile');
 });
 const UserAccessRequests = React.lazy(() => {
     return import('./pages/accessRequests/userAccessRequests');
@@ -78,7 +78,7 @@ const App = () => {
 			{ isAuthenticated && <Route path='/plannerclosedaccessrequests' element={ <PlannerClosedAccessRequests /> } /> }
 			{ isAuthenticated && <Route path='/disruptiveaccessrequests' element={ <DisruptiveAuthorityAccessRequests /> } /> }
 			{ isAuthenticated && <Route path='/accessrequest/:uid' element={ <AccessRequest /> } /> }
-			{ isAuthenticated && <Route path='/account' element={ <Account /> } /> }
+			{ isAuthenticated && <Route path='/profile' element={ <Profile /> } /> }
 			{ isAuthenticated && isAdministrator && <Route path='/users' element={ <Users /> } /> }
 			<Route path='*' element={ <Index /> } />
 		</Routes>

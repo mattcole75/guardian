@@ -1,15 +1,12 @@
 export {
     signup,
     login,
-    recoverPassword,
-    // updateAccount,
-    // passwordRequest,
     logout,
+    authRecoverPassword,
+    authUpdatePassword,
     authSendRequest,
     authGetUsers,
     authAdminPatch,
-    // errorReset,
-    // changeRedirectPath,
     authCheckState
 } from './auth';
 

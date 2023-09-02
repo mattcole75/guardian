@@ -45,10 +45,10 @@ const PublicView = () => {
                     {error}
                 </div>
             }
-            <Filter railWeeks={railWeeks} currentWeek={currentWeek}/>
+            <Filter railWeeks={railWeeks} currentWeek={currentWeek} />
             <div className='row'>
                 <Map requests={publicViewRequests} />
-                <AccessRequestList requests={publicViewRequests} roles={roles}/>
+                <AccessRequestList requests={publicViewRequests} roles={roles} />
             </div>
             
         </div>

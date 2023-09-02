@@ -99,6 +99,7 @@ const deleteLocalStorage = () => {
     localStorage.removeItem('roles');   
 }
 
+// exported functions
 export const signup = (authData, identifier) => {
     return dispatch => {
 
@@ -113,7 +114,6 @@ export const signup = (authData, identifier) => {
                 dispatch(authFinish());
             })
             .catch(err => {
-                console.log(err);
 
                 if(err.response.data) {
                     const { message } = err.response.data;
@@ -201,7 +201,7 @@ export const login = (authData, identifier) => {
     };
 }
 
-export const recoverPassword = (authData, identifier) => {
+export const authRecoverPassword = (authData, identifier) => {
     return dispatch => {
 
         dispatch(authStart());
@@ -215,6 +215,40 @@ export const recoverPassword = (authData, identifier) => {
             })
             .catch(err => {
                 dispatch(authFail(err.message));
+            });
+    };
+}
+
+export const authUpdatePassword = (authData, identifier) => {
+    return dispatch => {
+
+        dispatch(authStart());
+
+        direct.post('https://identitytoolkit.googleapis.com/v1/accounts:update?key=' + apikey, authData)
+            .then(res => {
+                
+                const { idToken, localId, expiresIn } = res.data
+                axios.get('/user' , {
+                    headers: {
+                        idToken: idToken,
+                        localId: localId
+                    }
+                })
+                .then(user => {
+                    const { displayName, phoneNumber, email, organisation, roles } = user.data.data;
+                    setLocalStorage(idToken, localId, displayName, phoneNumber, email, organisation, roles, expiresIn);
+                    dispatch(authSuccess(idToken, localId, displayName, phoneNumber, email, organisation, roles, identifier));
+                    dispatch(checkAuthTimeout(expiresIn));
+                })
+                .then(() => {
+                    dispatch(authFinish());
+                })
+                .catch(err => {
+                    dispatch(authFail(err.message)); 
+                })
+            })
+            .catch(err => {
+                dispatch(authFail(err.message)); 
             });
     };
 }
