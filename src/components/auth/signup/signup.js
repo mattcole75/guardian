@@ -73,7 +73,7 @@ const Signup = () => {
         spinner = <Spinner />;
 
     return (
-        <div className='form-auth'>
+        <div className='form-auth my-5 mt-5'>
             <Backdrop show={loading} />
                 {spinner}
             {redirect && <Navigate to='/login' />}

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import * as action from '../../../../store/actions/index';
 
-const Search = React.memo((props) => {
+const Search = React.memo(() => {
 
     // const { loadUsers } = props;
     const [enteredFilter, setEnteredFilter] = useState('');
@@ -37,9 +37,9 @@ const Search = React.memo((props) => {
         <div className='container d-flex flex-wrap justify-content-center mt-3'>
 
             <div className='d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none'>
-                <h1 className="heading-primary">
-                    <span className='heading-primary_main'>System Users</span>
-                </h1>
+                <div className='form-floating'>
+                    <h3 className='h3 text-muted'>System Users</h3>
+                </div>
             </div>
             
             <form className='col-12 col-lg-auto mb-3 mb-lg-0'>

@@ -5509,10 +5509,10 @@ textarea.form-control-lg {
   width: 100%;
   color: var(--bs-modal-color);
   pointer-events: auto;
-  background-color: var(--bs-modal-bg);
-  background-clip: padding-box;
-  border: var(--bs-modal-border-width) solid var(--bs-modal-border-color);
-  border-radius: var(--bs-modal-border-radius);
+  /* background-color: var(--bs-modal-bg); */
+  /* background-clip: padding-box; */
+  /* border: var(--bs-modal-border-width) solid var(--bs-modal-border-color); */
+  /* border-radius: var(--bs-modal-border-radius); */
   outline: 0;
 }
 
@@ -5559,7 +5559,7 @@ textarea.form-control-lg {
 .modal-body {
   position: relative;
   flex: 1 1 auto;
-  padding: var(--bs-modal-padding);
+  /* padding: var(--bs-modal-padding); */
 }
 
 .modal-footer {

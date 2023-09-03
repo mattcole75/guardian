@@ -38,7 +38,7 @@ const Login = () => {
     }
 
     return (
-        <div className='form-auth'>
+        <div className='form-auth my-5 mt-5'>
             { isAuthenticated ? <Navigate to={ authRedirectPath } /> : null }
             <Backdrop show={ loading } />
             { spinner }
