@@ -1,8 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-const dropdownNavigationItem = (props) => (
-
+const NavigationMenuItem = (props) => (
 	<li>
 		<NavLink 
 			to={props.link}
@@ -13,4 +12,4 @@ const dropdownNavigationItem = (props) => (
 	</li>
 );
 
-export default dropdownNavigationItem;
+export default NavigationMenuItem;

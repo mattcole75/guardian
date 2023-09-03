@@ -32,9 +32,7 @@ const Filter = (props) => {
     return (
         <header className='py-3 mb-4 border-bottom'>
             <div className='container d-flex flex-wrap justify-content-center'>
-            <div className='d-flex align-items-center mb-3 mb-lg-0 me-lg-5 text-dark text-decoration-none'>
-                <p className='h4'> Week:</p>
-            </div>
+            
             <form className='col-12 col-lg-auto mb-3 mb-lg-0' role='search'>
                 <div className='row g-2 bg-light'>
                     
