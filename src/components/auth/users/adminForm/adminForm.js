@@ -89,7 +89,7 @@ const AdminForm = (props) => {
             </ul>
             <form className=''>
 
-                <div className="d-flex gap-2 w-100 justify-content-between">
+                <div className='d-flex gap-2 w-100 justify-content-between'>
                         <div className='text-start'>
                             <h1 className='h3 mb-3 fw-normal text-start'>Account Status</h1>
                         </div>

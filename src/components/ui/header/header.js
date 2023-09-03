@@ -12,13 +12,10 @@ const Header = (props) => {
     const isDisruptionAuthority = roles.includes('disruptionAuthority');
     const isAdministrator = roles.includes('administrator');
 
-    
-
     return (
 
-        // <div className='px-3 py-2 bg-dark text-white'>
         <div className='container'>
-            <header className='navbar sticky-top flex-md-nowrap px-3 py-2 border-bottom'>
+            <header className='navbar sticky-top flex-md-nowrap py-2 border-bottom'>
                 <div className='w-100 d-flex align-items-center justify-content-between navbar-brand col-md-3 col-lg-2 fs-6'>                    
                     <button 
                         className='navbar-toggler d-md-none collapsed'
@@ -51,41 +48,6 @@ const Header = (props) => {
                 </div>
             </header>
         </div>
-
-        // <header>
-        //     <div className='px-3 py-2 bg-dark text-white'>
-        //         <div className='container'>
-        //             <div className='d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start'>
-                        
-        //                 {/* <a href='/' className='d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none'>
-        //                     <img src={logo} alt='logo' />
-        //                 </a> */}
-                        
-        //                 <a href='/' className='d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none'>
-        //                     <h1 className='heading-primary'>
-        //                         <span className="heading-primary_main">Guardian</span>
-        //                         <span className="heading-primary_sub">Planning & Access System</span>
-        //                     </h1>
-        //                 </a>
-
-        //                 <div className='item-hide'>
-        //                     <a href='/' className='d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none'>
-        //                         <img src={logo} alt='logo' />
-        //                     </a>
-        //                 </div>
-                        
-        //                 <Navigation 
-        //                     isAuthenticated={isAuthenticated}
-        //                     isUser={isUser}
-        //                     isCoordinator={isCoordinator}
-        //                     isPlanner={isPlanner}
-        //                     isDisruptionAuthority={isDisruptionAuthority}
-        //                     isAdministrator={isAdministrator}
-        //                 />
-        //             </div>
-        //         </div>
-        //     </div>
-        // </header>
     )
 };
 

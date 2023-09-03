@@ -12,13 +12,14 @@ const UserList = (props) => {
 
     return (
         <div className='mb-2 mt-3'>
-            <div className='row g-2 border-bottom mb-3'>
-                <div className='form-floating  col-sm-6'>
-                    <h3 className='h3 text-muted'>Your Access Requests</h3>
+            {/* <div className='row g-2 border-bottom mb-3'> */}
+            <div className='d-flex gap-2 w-100 justify-content-between mb-3'>
+                <div className=''>
+                    <h3 className='h3 text-muted'>Access Requests</h3>
                 </div>
-                <div className='form-floating  col-sm-6 mt-3 mb-3'>
+                <div className=''>
                     <div className='btn-group float-end' role="group" aria-label='Basic example'>
-                        <Link className='btn btn-primary rounded-5 me-3' to={`/accessrequest/new`}>New Access Request</Link>
+                        <Link className='btn btn-primary rounded-2 me-3' to={`/accessrequest/new`}>New</Link>
                     </div>
                 </div>
             </div>

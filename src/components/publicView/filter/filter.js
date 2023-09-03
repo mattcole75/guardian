@@ -34,7 +34,7 @@ const Filter = (props) => {
             <div className='container d-flex flex-wrap justify-content-center'>
             
             <form className='col-12 col-lg-auto mb-3 mb-lg-0' role='search'>
-                <div className='row g-2 bg-light'>
+                <div className='g-2 bg-light'>
                     
                     <div className='form-floating w-100'>
                         <select className='form-select' id='railweeks'  
