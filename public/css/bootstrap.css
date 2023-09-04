@@ -1869,6 +1869,12 @@ progress {
   vertical-align: bottom;
 }
 
+.table td.fit, 
+.table th.fit {
+    white-space: nowrap;
+    width: 1%;
+}
+
 .table-group-divider {
   border-top: calc(var(--bs-border-width) * 2) solid currentcolor;
 }

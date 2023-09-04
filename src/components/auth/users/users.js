@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as action from '../../../store/actions/index';
-import Search from './search/search';
-import Users from './list/userList';
+import Filter from './filter/filter';
+import Users from './list/list';
 import Backdrop from '../../ui/backdrop/backdrop';
 import Modal from '../../ui/modal/modal';
 import Spinner from '../../ui/spinner/spinner';
@@ -44,31 +44,30 @@ const user = React.memo(() => {
     let modal = null;
     if(editingUser) {
         modal = <Modal
-            show={editingUser}
-            modalClosed={toggleUserEditing}
+            show={ editingUser }
+            modalClosed={ toggleUserEditing }
             content={
                 <AdminForm
-                    toggle={toggleUserEditing}
-                    save={saveHandler}
-                    user={user}
+                    toggle={ toggleUserEditing }
+                    save={ saveHandler }
+                    user={ user }
                 />
             } />;
     }
     
-
     return (
-
-        <section>
-            <Backdrop show={loading} />
-            {spinner}
-            {error &&
+        <section className='container'>
+            <Backdrop show={ loading } />
+            { spinner }
+            { error &&
                 <div className='alert alert-danger' role='alert'>
                     {error}
                 </div>
             }
-            {modal}
+            { modal }
+
             <div className='u-margin-bottom-small'>
-                <Search />
+                <Filter />
             </div>
 
             <div>
