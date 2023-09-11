@@ -5,7 +5,7 @@ import ListItem from '../listItem/listItem';
 
 const List = (props) => {
 
-    const { accessRequests, deleteRequestHandler, displayName } = props;
+    const { accessRequests, closeRequestHandler, deleteRequestHandler, displayName } = props;
     const roles = useSelector(state => state.auth.roles);
 
     const isPlanner = roles.includes('planner');
@@ -25,7 +25,7 @@ const List = (props) => {
                 </thead>
                 <tbody>
                     {   accessRequests.map((item, index) => (
-                            <ListItem key={ index } item={ item } isPlanner={ isPlanner } deleteRequestHandler={ deleteRequestHandler } displayName={ displayName } />
+                            <ListItem key={ index } item={ item } isPlanner={ isPlanner } closeRequestHandler={ closeRequestHandler } deleteRequestHandler={ deleteRequestHandler } displayName={ displayName } />
                         ))
                     }
                 </tbody>

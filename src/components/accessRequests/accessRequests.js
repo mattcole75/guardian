@@ -26,9 +26,15 @@ const AccessRequests = () => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [deleteId, setDeleteId] = useState(null);
     const toggleDeleteModal = () => {
-        setShowDeleteModal(preState => !preState);
+        setShowDeleteModal(prevState => !prevState);
     }
     
+    const [showCloseModal, setClosedModal] = useState(false);
+    const [closeId, setCloseId] = useState(false);
+    const toggleCloseModal = () => {
+        setClosedModal(prevState => !prevState);
+    }
+
     // side effect to return a list of planners if the user has the planner or coordinator role asigned
     useEffect(() => {
         if(roles.includes('planner') || roles.includes('coordinator'))
@@ -42,10 +48,17 @@ const AccessRequests = () => {
         toggleDeleteModal();
     };
 
+    const closeRequestHandler = (id) => {
+        // save id
+        setCloseId(id);
+        // show dialogue
+        toggleCloseModal();
+    };
+
     const deleteAccessRequest = useCallback(() => {
 
         // find item index in array
-        const index = accessRequests.findIndex(req => req.hasOwnProperty(deleteId))
+        const index = accessRequests.findIndex(req => req.hasOwnProperty(deleteId));
         //copy the event log array and add delete event
         let updatedEventLogItems = [ ...accessRequests[index][deleteId].eventLog ];
         updatedEventLogItems.push({ user: displayName, logged: moment().format(), event: 'Access Request Deleted' });
@@ -58,6 +71,23 @@ const AccessRequests = () => {
 
         toggleDeleteModal();
     }, [accessRequests, deleteId, displayName, idToken, localId, onUpdateAccessRequest]);
+
+    const closeAccessRequest = useCallback(() => {
+
+        // find item index in array
+        const index = accessRequests.findIndex(req => req.hasOwnProperty(closeId));
+        //copy the event log array and add delete event
+        let updatedEventLogItems = [ ...accessRequests[index][closeId].eventLog ];
+        updatedEventLogItems.push({ user: displayName, logged: moment().format(), event: 'Access Request Closed' });
+
+        onUpdateAccessRequest(closeId, idToken, localId, {
+            status: 'Closed', 
+            updated: moment().format(),
+            eventLog: updatedEventLogItems
+        }, 'CLOSE_ACCESS_REQUEST');
+
+        toggleCloseModal();
+    }, [accessRequests, closeId, displayName, idToken, localId, onUpdateAccessRequest]);
 
     let modal = null;
     if(showDeleteModal === true) {
@@ -73,6 +103,25 @@ const AccessRequests = () => {
                     <div className='flex-nowrap p-0'>
                         <button type='button' className='btn btn-lg btn-danger fs-6 text-decoration-none col-6 m-0 rounded-0 w-100' onClick={ deleteAccessRequest }><strong>Yes, delete</strong></button>
                         <button type='button' className='btn btn-lg btn-success fs-6 text-decoration-none col-6 m-0 rounded-0 w-100' onClick={ toggleDeleteModal }>Cancel</button>
+                    </div>
+                </div>
+
+            } />;
+    }
+
+    if(showCloseModal === true) {
+        modal = <Modal
+            show={showCloseModal}
+            modalClosed={ toggleCloseModal }
+            content={
+                <div className='modal-content form-auth rounded-4 shadow bg-white'>
+                    <div className='modal-body p-4 text-center'>
+                        <h5 className='mb-0'>Close Access Request</h5>
+                        <p className='mb-0'>Are you sure you want to close this Access Request?</p>
+                    </div>
+                    <div className='flex-nowrap p-0'>
+                        <button type='button' className='btn btn-lg btn-success fs-6 text-decoration-none col-6 m-0 rounded-0 w-100' onClick={ closeAccessRequest }><strong>Yes, close</strong></button>
+                        <button type='button' className='btn btn-lg btn-danger fs-6 text-decoration-none col-6 m-0 rounded-0 w-100' onClick={ toggleCloseModal }>Cancel</button>
                     </div>
                 </div>
 
@@ -101,7 +150,7 @@ const AccessRequests = () => {
 
             {/* The List Component */}
             <div>
-                <List accessRequests={accessRequests} deleteRequestHandler={deleteRequestHandler} displayName={displayName} />
+                <List accessRequests={accessRequests} closeRequestHandler={closeRequestHandler} deleteRequestHandler={deleteRequestHandler} displayName={displayName} />
             </div>
         </div>
     )

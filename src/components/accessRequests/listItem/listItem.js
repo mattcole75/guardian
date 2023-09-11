@@ -3,11 +3,15 @@ import { Link } from 'react-router-dom';
 
 const ListItem = (props) => {
     
-const { item, isPlanner, deleteRequestHandler, displayName } = props;
+const { item, isPlanner, closeRequestHandler, deleteRequestHandler, displayName } = props;
 const accessRequest  = item[Object.keys(item)];
 
 const onDelete = () => {
     deleteRequestHandler(Object.keys(item)[0]);
+}
+
+const onClose = () => {
+    closeRequestHandler(Object.keys(item)[0])
 }
 
 
@@ -53,6 +57,8 @@ switch(accessRequest.status) {
                                 </div>
                                 <ul className='dropdown-menu'>
                                     <li><Link className='dropdown-item' to={ `/accessrequest/${Object.keys(item)}` }>View</Link></li>
+                                    <li><button className='dropdown-item' onClick={ onClose }>Close</button></li>
+                                    <li><hr /></li>
                                     <li><button className='dropdown-item' onClick={ onDelete }>Delete</button></li>
                                 </ul>
                             </div>
