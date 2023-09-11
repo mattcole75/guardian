@@ -1,4 +1,5 @@
 import * as type from '../actions/types';
+
 const initialState = {
     loading: false,
     error: null,

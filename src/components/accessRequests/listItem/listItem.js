@@ -1,14 +1,14 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 const ListItem = (props) => {
     
-const { item, deleteRequestHandler } = props;
+const { item, isPlanner, deleteRequestHandler, displayName } = props;
 const accessRequest  = item[Object.keys(item)];
 
-// useEffect(() => {
-//     console.log('access request', accessRequest);
-// }, [accessRequest]);
+const onDelete = () => {
+    deleteRequestHandler(Object.keys(item)[0]);
+}
 
 
 let statusCSS = [];
@@ -45,7 +45,24 @@ switch(accessRequest.status) {
             <td className='ps-3 pe-3'>{ accessRequest.summary.accessFirstDay ? accessRequest.summary.accessFirstDay : 'Not Set'  }</td>
             <td className='ps-3 pe-3'>{ <small className={statusCSS.join(' ')}>{accessRequest.status}</small> }</td>
             <td className='ps-3 pe-3'>
-                <Link className='btn btn-outline-primary btn-sm' to={`/accessrequest/${Object.keys(item)}` }>View</Link>
+            {isPlanner && accessRequest.requestor.name !== displayName
+                    ?   <div>
+                            <div className='dropdown text-end'>
+                                <div className='btn' role='button' data-bs-toggle='dropdown' aria-expanded='false'>
+                                    <span className='bi-three-dots-vertical fs-5' />
+                                </div>
+                                <ul className='dropdown-menu'>
+                                    <li><Link className='dropdown-item' to={ `/accessrequest/${Object.keys(item)}` }>View</Link></li>
+                                    <li><button className='dropdown-item' onClick={ onDelete }>Delete</button></li>
+                                </ul>
+                            </div>
+                        </div>
+                    :   <Link className='btn btn-outline-primary btn-sm' to={`/accessrequest/${Object.keys(item)}` }>View</Link>
+                }
+                
+                
+                
+                
             </td>
         </tr>
 

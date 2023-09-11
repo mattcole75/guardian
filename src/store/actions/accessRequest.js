@@ -125,34 +125,6 @@ export const userUpdateAccessRequest = (id, idToken, localId, data, identifier) 
     };
 }
 
-// export const userGetAccessRequests = (idToken, localId, identifier) => {
-
-//     return dispatch => {
-
-//         let headers = { headers: {
-//             idToken: idToken,
-//             localId: localId,
-//             startDate: '',
-//             endDate: '',
-//             statusFilter: '',
-//             plannerFilter: ''
-//         }};
-
-//         dispatch(accessRequestStart());
-
-//         axios.get('/accessrequests', headers)
-//         .then(res => {
-//             dispatch(getAccessRequestsSuccess(res.data.result, identifier));
-//         })
-//         .then(() => {
-//             dispatch(accessRequestFinish());
-//         })
-//         .catch(err => {
-//             dispatch(accessRequestFail(err.message));
-//         });
-//     };
-// }
-
 export const userGetAccessRequests = (idToken, localId, startDate, endDate, statusFilter, planner, identifier) => {
 
     return dispatch => {
