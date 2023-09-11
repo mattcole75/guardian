@@ -56,6 +56,8 @@ export const getPublicViewRequests = (idToken, localId, startDate, endDate, iden
         })
         .then(response => {
             dispatch(publicViewSuccess(response.data.result, identifier));
+        })
+        .then(() => {
             dispatch(publicViewFinish());
         })
         .catch(err => {

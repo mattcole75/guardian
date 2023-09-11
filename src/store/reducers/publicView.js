@@ -16,20 +16,19 @@ const publicViewStart = (state) => {
 
 const publicViewSuccess = (state, action) => {
     let newPublicViewRequestItems = [];
-
     for(const key1 in action.requests) {
         let id = Object.keys(action.requests[key1]);
-        for(const key2 in action.requests[key1][id].locationLimitItems) {
+        for(const key2 in action.requests[key1][id].locationItems) {
             newPublicViewRequestItems.push({
-                organisation: action.requests[key1][id].requestorOrganisation,
-                title: action.requests[key1][id].accessRequestTitle || null,
-                startDate: action.requests[key1][id].locationLimitItems[key2].locationLimitStartDate || null,
-                endDate: action.requests[key1][id].locationLimitItems[key2].locationLimitEndDate || null,
-                locations: action.requests[key1][id].locationLimitItems[key2].locations || [],
-                electricalIsolationRequired: action.requests[key1][id].locationLimitItems[key2].electricalIsolationRequired || false,
-                signallingResourceRequired: action.requests[key1][id].locationLimitItems[key2].signallingResourceRequired || false,
-                testTramsRequired: action.requests[key1][id].locationLimitItems[key2].testTramsRequired || false,
-                colocate: action.requests[key1][id].locationLimitItems[key2].colocate || '',
+                organisation: action.requests[key1][id].requestor.organisation,
+                title: action.requests[key1][id].summary.title || null,
+                startDate: action.requests[key1][id].locationItems[key2].startDate || null,
+                endDate: action.requests[key1][id].locationItems[key2].endDate || null,
+                location: action.requests[key1][id].locationItems[key2].location || [],
+                electricalIsolationRequired: action.requests[key1][id].locationItems[key2].electricalIsolationRequired || false,
+                signallingResourceRequired: action.requests[key1][id].locationItems[key2].signallingResourceRequired || false,
+                testTramsRequired: action.requests[key1][id].locationItems[key2].testTramsRequired || false,
+                colocate: action.requests[key1][id].locationItems[key2].colocate || '',
                 status: action.requests[key1][id].status
             })  
         }

@@ -56,11 +56,11 @@ const user = React.memo(() => {
     }
     
     return (
-        <section className='container'>
+        <div className='container'>
             <Backdrop show={ loading } />
             { spinner }
             { error &&
-                <div className='alert alert-danger' role='alert'>
+                <div className='alert alert-danger text-wrap text-break' role='alert'>
                     {error}
                 </div>
             }
@@ -74,7 +74,7 @@ const user = React.memo(() => {
                 <Users users={users} toggle={toggleUserEditing} />
             </div>
 
-        </section>
+        </div>
     )
 
 });

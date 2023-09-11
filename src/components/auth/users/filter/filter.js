@@ -36,42 +36,41 @@ const Filter = React.memo(() => {
     
 
     return (
-
         <div className='border-top border-start border-end rounded-top-1 mt-4 bg-light shadow-sm'>
             <div className='container-fluid d-grid gap-3 align-items-center'>
                 <div className='d-flex align-items-center p-2'>
 
-                <div className='form-floating  col-sm-4'>
-                    <div className='d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none'>
-                        <div className='form-floating'>
-                            <h3 className='h3 text-muted'>Users</h3>
+                    <div className='form-floating  col-sm-4'>
+                        <div className='d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none'>
+                            <div className='form-floating'>
+                                <h5 className='h5 text-muted'>Users</h5>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <form className='flex-grow-1 me-3 form-control-sm' role='search'>
-                    <div className='row g-2'>
-                        
+                    <form className='flex-grow-1 me-3 form-control-sm' role='search'>
+                        <div className='row g-2'>
+                            
 
-                        <div className='form-floating w-100 col-sm-4'>
-                            <form className='col-12 col-lg-auto mb-3 mb-lg-0'>
-                                <input
-                                    type="search"
-                                    className='form-control'
-                                    ref={inputRef}
-                                    placeholder='Search email...'
-                                    aria-label='Search'
-                                    value={enteredFilter}
-                                    onChange={event => setEnteredFilter(event.target.value)}
-                                />
-                            </form>
+                            <div className='form-floating w-100 col-sm-4'>
+                                <form className='col-12 col-lg-auto mb-3 mb-lg-0'>
+                                    <input
+                                        type="search"
+                                        className='form-control'
+                                        ref={inputRef}
+                                        placeholder='Search email...'
+                                        aria-label='Search'
+                                        value={enteredFilter}
+                                        onChange={event => setEnteredFilter(event.target.value)}
+                                    />
+                                </form>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
 
-                <div className='form-floating text-end col-sm-4'>
-                    <button type='button' className='btn btn-light rounded-5 p-0'onClick={ () => onLoadUsers(idToken, localId, enteredFilter.length === 0 ? '' : enteredFilter, 'GET_USERS') }><span className='bi-arrow-clockwise fs-3' /></button>
-                </div>
+                    <div className='form-floating text-end col-sm-4'>
+                        <button type='button' className='btn btn-light rounded-5 p-0'onClick={ () => onLoadUsers(idToken, localId, enteredFilter.length === 0 ? '' : enteredFilter, 'GET_USERS') }><span className='bi-arrow-clockwise fs-3' /></button>
+                    </div>
                 </div>
             </div>
         </div>

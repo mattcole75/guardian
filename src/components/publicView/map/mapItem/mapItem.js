@@ -7,15 +7,19 @@ const mapItem = (props) => {
     let styles = ['badge rounded-pill bg-secondary', 'map-item_' + code.toLowerCase()];
 
     requests.forEach(req => {
-        req.locations && req.locations.forEach(loc => {
 
-            if(loc === name) {
+
+        // req.location && req.location.forEach(loc => {
+
+
+
+            if(req.location === name) {
                 styles.push('location-shadow');
                 styles.push('bg-warning text-dark');
             } else {
                 styles.push('bg-secondary');
             }
-        });
+        // });
     });
 
     return (

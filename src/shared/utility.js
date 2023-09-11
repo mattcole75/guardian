@@ -36,7 +36,7 @@ export const determinStartDate = (arr) => {
     const startDate = new Date(
         Math.min(
           ...arr.map(ele => {
-            return new Date(ele.locationLimitStartDate);
+            return new Date(ele.startDate);
           }),
         ),
     );
@@ -47,7 +47,7 @@ export const determinEndDate = (arr) => {
     const endDate = new Date(
         Math.max(
           ...arr.map(ele => {
-            return Date.parse(ele.locationLimitEndDate);
+            return Date.parse(ele.endDate);
           }),
         ),
     );

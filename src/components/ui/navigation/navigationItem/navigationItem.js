@@ -7,9 +7,9 @@ const navigationItem = (props) => (
 		<NavLink 
 			to={props.link}
 			className={ ({isActive}) => isActive 
-				? 'nav-link text-secondary' 
-				: 'nav-link' }>
-			<i className={ props.icon + ' fs-3 d-block text-sm-center' } />
+				? 'nav-link text-dark' 
+				: 'nav-link text-secondary' } end>
+			<i className={ props.icon + ' fs-3 d-block text-sm-center' }/>
 			{ props.children }
 		</NavLink>
 	</li>

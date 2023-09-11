@@ -49,10 +49,10 @@ const getPlannersSuccess = (planners, identifier) => {
     };
 }
 
-const updateSelectedLocationLimitIndex = (index, identifier) => {
+const updateSelectedLocationIndex = (index, identifier) => {
     return {
-        type: type.ACCESS_REQUEST_LOCATION_LIMIT_INDEX,
-        locationLimitIndex: index,
+        type: type.ACCESS_REQUEST_LOCATION_INDEX,
+        locationIndex: index,
         identifier: identifier
     };
 }
@@ -125,17 +125,45 @@ export const userUpdateAccessRequest = (id, idToken, localId, data, identifier) 
     };
 }
 
-export const userGetAccessRequests = (idToken, localId, identifier) => {
+// export const userGetAccessRequests = (idToken, localId, identifier) => {
+
+//     return dispatch => {
+
+//         let headers = { headers: {
+//             idToken: idToken,
+//             localId: localId,
+//             startDate: '',
+//             endDate: '',
+//             statusFilter: '',
+//             plannerFilter: ''
+//         }};
+
+//         dispatch(accessRequestStart());
+
+//         axios.get('/accessrequests', headers)
+//         .then(res => {
+//             dispatch(getAccessRequestsSuccess(res.data.result, identifier));
+//         })
+//         .then(() => {
+//             dispatch(accessRequestFinish());
+//         })
+//         .catch(err => {
+//             dispatch(accessRequestFail(err.message));
+//         });
+//     };
+// }
+
+export const userGetAccessRequests = (idToken, localId, startDate, endDate, statusFilter, planner, identifier) => {
 
     return dispatch => {
-
+        
         let headers = { headers: {
             idToken: idToken,
             localId: localId,
-            startDate: '',
-            endDate: '',
-            statusFilter: '',
-            plannerFilter: ''
+            startDate: startDate,
+            endDate: endDate,
+            statusFilter: statusFilter,
+            plannerFilter: planner
         }};
 
         dispatch(accessRequestStart());
@@ -153,57 +181,29 @@ export const userGetAccessRequests = (idToken, localId, identifier) => {
     };
 }
 
-export const plannerGetAccessRequests = (idToken, localId, startDate, endDate, statusFilter, planner, identifier) => {
+// export const plannerGetClosedAccessRequests = (idToken, localId, identifier) => {
 
-    return dispatch => {
-        
-        let headers = { headers: {
-            idToken: idToken,
-            localId: localId,
-            startDate: startDate,
-            endDate: endDate,
-            statusFilter: statusFilter,
-            plannerFilter: planner
-        }};
+//     return dispatch => {
 
-        dispatch(accessRequestStart());
+//         let headers = { headers: {
+//             idToken: idToken,
+//             localId: localId
+//         }};
 
-        axios.get('/planneraccessrequests', headers)
-        .then(res => {
-            dispatch(getAccessRequestsSuccess(res.data.result, identifier));
-        })
-        .then(() => {
-            dispatch(accessRequestFinish());
-        })
-        .catch(err => {
-            dispatch(accessRequestFail(err.message));
-        });
-    };
-}
+//         dispatch(accessRequestStart());
 
-export const plannerGetClosedAccessRequests = (idToken, localId, identifier) => {
-
-    return dispatch => {
-
-        let headers = { headers: {
-            idToken: idToken,
-            localId: localId
-        }};
-
-        dispatch(accessRequestStart());
-
-        axios.get('/closedaccessrequest', headers)
-        .then(res => {
-            dispatch(getAccessRequestsSuccess(res.data.result, identifier));
-        })
-        .then(() => {
-            dispatch(accessRequestFinish());
-        })
-        .catch(err => {
-            dispatch(accessRequestFail(err.message));
-        });
-    };
-}
+//         axios.get('/closedaccessrequest', headers)
+//         .then(res => {
+//             dispatch(getAccessRequestsSuccess(res.data.result, identifier));
+//         })
+//         .then(() => {
+//             dispatch(accessRequestFinish());
+//         })
+//         .catch(err => {
+//             dispatch(accessRequestFail(err.message));
+//         });
+//     };
+// }
 
 export const userGetAccessRequest = (idToken, localId, uid, identifier) => {
     
@@ -230,10 +230,10 @@ export const userGetAccessRequest = (idToken, localId, uid, identifier) => {
     };
 }
 
-export const selectLocationLimit = (elementIndex, identifier) => {
+export const selectLocation = (elementIndex, identifier) => {
 
     return dispatch => {
-        dispatch(updateSelectedLocationLimitIndex(elementIndex, identifier));
+        dispatch(updateSelectedLocationIndex(elementIndex, identifier));
     };
 }
 

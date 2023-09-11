@@ -5,7 +5,7 @@ const accessRequestListItem = (props) => {
 
     const { item, roles } = props;
 
-    const { title, organisation, startDate, endDate, locations, status, electricalIsolationRequired, signallingResourceRequired, testTramsRequired, colocate } = item;
+    const { title, organisation, startDate, endDate, location, status, electricalIsolationRequired, signallingResourceRequired, testTramsRequired, colocate } = item;
 
     let statusStyle = ['badge d-inline-block mb-2 text-nowrap h-100 ms-lg-1'];
 
@@ -37,8 +37,8 @@ const accessRequestListItem = (props) => {
                     : null
                 }
                 { roles.includes('planner')
-                    ? <p className='mb-1'>{locations.join(' | ')}</p>
-                    : <h5 className='mb-1'>{locations.join(' | ')}</h5>
+                    ? <p className='mb-1'>{ location }</p>
+                    : <h5 className='mb-1'>{ location }</h5>
                 }
                 <span className={statusStyle.join(' ')}>{status}</span>
             </div>

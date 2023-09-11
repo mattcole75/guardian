@@ -60,7 +60,7 @@ const DisruptiveForm = (props) => {
     }, [displayName, disruptive, eventLog, id, logEvent, save, toggle]);
 
     return (
-        <div className='form-request my-1'>
+        <div className='form-disruptive my-1'>
             <h1 className='h3 mb-3 fw-normal text-start'>Disruptive</h1>
             
             <DisruptiveSummary save={save} roles={roles} id={id} summary={ disruptive ? disruptive[id].summary : null } status={ disruptive ? disruptive[id].status : null } />
@@ -100,7 +100,7 @@ const DisruptiveForm = (props) => {
             }
 
             <div className='form-floating mt-3'>
-                <button className='w-100 btn btn-lg btn-secondary' type='button' onClick={toggle}>Close</button>
+                <button className='w-100 btn btn-lg btn-secondary' type='button' onClick={ toggle }>Close</button>
             </div>
 
         </div>

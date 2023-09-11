@@ -2,14 +2,13 @@ import React, { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import * as action from '../../store/actions/index';
 
+import Filter from "./filter/filter";
+import List from "./lists/list";
 import Backdrop from "../ui/backdrop/backdrop";
 import Spinner from "../ui/spinner/spinner";
 
-// import Filter from "./filter/filter";
-import UserList from "./lists/userList/userList";
 
-
-const UserAccessRequests = () => {
+const AccessRequests = () => {
 
     const dispatch = useDispatch();
     
@@ -20,13 +19,6 @@ const UserAccessRequests = () => {
     const { idToken, localId, roles, displayName } = useSelector(state => state.auth);
 
     const onGetPlanners = useCallback((idToken, localId, identifier) => dispatch(action.plannerGetPlanners(idToken, localId, identifier)), [dispatch]);
-    const onGetAccessRequests = useCallback((idToken, localId, identifier) => dispatch(action.userGetAccessRequests(idToken, localId, identifier)), [dispatch]);
-
-    // a side effect to query the database and return to state a list of requests
-    useEffect(() => {
-        onGetAccessRequests(idToken, localId, null, null, '', '', 'GET_ACCESS_REQUESTS');
-    },[idToken, localId, onGetAccessRequests, roles]);
-
     
     // side effect to return a list of planners if the user has the planner or coordinator role asigned
     useEffect(() => {
@@ -48,18 +40,17 @@ const UserAccessRequests = () => {
                     {error}
                 </div>
             }
-            {/* The list Filter Component */}
-            {/* {roles.includes('planner')
-                ?   <Filter />
-                :   null
-            } */}
+
+            <div className='u-margin-bottom-small'>
+                <Filter />
+            </div>
 
             {/* The List Component */}
-            <div className="row">
-                <UserList accessRequests={accessRequests} displayName={displayName} />
+            <div>
+                <List accessRequests={accessRequests} displayName={displayName} />
             </div>
         </div>
     )
 }
 
-export default UserAccessRequests;
+export default AccessRequests;

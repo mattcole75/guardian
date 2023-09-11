@@ -22,20 +22,14 @@ const Logout = React.lazy(() => {
 const Profile = React.lazy(() => {
     return import('./components/auth/profile/profile');
 });
-const UserAccessRequests = React.lazy(() => {
-    return import('./pages/accessRequests/userAccessRequests');
-});
-const PlannerAccessRequests = React.lazy(() => {
-    return import('./pages/accessRequests/plannerAccessRequests');
-});
-const PlannerClosedAccessRequests = React.lazy(() => {
-	return import('./pages/accessRequests/plannerClosedAccessRequests');
-})
-const DisruptiveAuthorityAccessRequests = React.lazy(() => {
-    return import('./pages/accessRequests/disruptionAuthorityAccessRequests');
+const AccessRequests = React.lazy(() => {
+	return import('./components/accessRequests/accessRequests');
 });
 const AccessRequest = React.lazy(() => {
-    return import('./pages/accessRequests/accessRequest');
+    return import('./components/accessRequests/form/accessRequestForm');
+});
+const NewAccessRequest = React.lazy(() => {
+	return import('./components/accessRequests/form/newAccessRequest/newAccessRequest')
 });
 const Pricing = React.lazy(() => {
     return import('./pages/pricing');
@@ -73,11 +67,9 @@ const App = () => {
             <Route path='/forbidden' element={ <Forbidden /> } />
 			<Route path='/faq' element={ () => <FAQ /> } />
             { isAuthenticated && <Route path='/logout' element={ <Logout /> } /> }
-			{ isAuthenticated && <Route path='/accessrequests' element={ <UserAccessRequests /> } /> }
-			{ isAuthenticated && <Route path='/planneraccessrequests' element={ <PlannerAccessRequests /> } /> }
-			{ isAuthenticated && <Route path='/plannerclosedaccessrequests' element={ <PlannerClosedAccessRequests /> } /> }
-			{ isAuthenticated && <Route path='/disruptiveaccessrequests' element={ <DisruptiveAuthorityAccessRequests /> } /> }
+			{ isAuthenticated && <Route path='/accessrequests' element={ <AccessRequests /> } /> }
 			{ isAuthenticated && <Route path='/accessrequest/:uid' element={ <AccessRequest /> } /> }
+			{ isAuthenticated && <Route path='/newaccessrequest' element={ <NewAccessRequest /> } /> }
 			{ isAuthenticated && <Route path='/profile' element={ <Profile /> } /> }
 			{ isAuthenticated && isAdministrator && <Route path='/users' element={ <Users /> } /> }
 			<Route path='*' element={ <Index /> } />

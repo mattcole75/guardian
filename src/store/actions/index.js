@@ -14,11 +14,11 @@ export {
     userCreateAccessRequest,
     userUpdateAccessRequest,
     userGetAccessRequests,
-    plannerGetAccessRequests,
-    plannerGetClosedAccessRequests,
+    // plannerGetAccessRequests,
+    // plannerGetClosedAccessRequests,
     userGetAccessRequest,
     plannerGetPlanners,
-    selectLocationLimit,
+    selectLocation,
     resetState
 } from './accessRequest';
 

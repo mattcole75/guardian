@@ -13,25 +13,26 @@ const DisruptiveSummary = (props) => {
         isLocked = true;
     }
 
-    const { register, formState, getValues } = useForm({
+    const { register, getValues, formState: { errors, isDirty, isValid } } = useForm({
         mode: 'onChange',
         defaultValues: {
-            disruptiveTitle: summary && summary.disruptiveTitle,
-            disruptiveStartDate: summary && summary.disruptiveStartDate,
-            disruptiveEndDate:  summary && summary.disruptiveEndDate
+            title: summary && summary.title,
+            startDate: summary && summary.startDate,
+            endDate:  summary && summary.endDate
         }
     });
 
-    useEffect(() => {
-        const onUpdate = debounce(() => {
-            save(id, { summary: { ...getValues() } });
-        }, 2000);
+    const onUpdate = debounce(() => {
+        if(isValid)
+            save(id, { summary: { ...getValues() } }, 'SAVE_DISRUPTIVE');
+    }, 2000);
 
-        if(formState.isValid && formState.isDirty) {
+    useEffect(() => {
+        if(isValid) {
             onUpdate();
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [formState.isValid, formState.isDirty]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isValid, isDirty, getValues]);
 
     return (
             <form className=''>
@@ -41,23 +42,43 @@ const DisruptiveSummary = (props) => {
                     </div>
 
                     <div className='form-floating mb-3'>
-                        <input type='text' className='form-control' id='disruptiveTitle' autoComplete='off' placeholder='Request title' required 
+                        <input type='text' className='form-control' id='title' autoComplete='off' placeholder='Disruptive Title' required 
                             disabled={ (!isPlanner && !isLocked) || isLocked }
-                            {...register('disruptiveTitle', { required: true, minLength: 3 })} />
-                        <label htmlFor='disruptiveTitle' className='form-label'>Title</label>
+                            {...register('title', {
+                                required: "You must specify a title",
+                            minLength: {
+                                value: 5,
+                                message: "The Title must have at least 5 characters"
+                            },
+                            maxLength: {
+                                value: 50,
+                                message: 'The Title must have less than 50 characters'
+                            },
+                            onChange: onUpdate
+                            })} />
+                        <label htmlFor='title' className='form-label'>Title</label>
                     </div>
+                    { errors.title && <p className='form-error mt-1 text-start'>{errors.title.message}</p> }
                     <div className='row g-2 mb-3'>
                         <div className='form-floating  col-sm-6'>
-                            <input type='date' className='form-control' id='disruptiveStartDate' placeholder='First day of the disruptive' disabled={ (!isPlanner && !isLocked) || isLocked }
-                                {...register('disruptiveStartDate', { required: true })} />
-                            <label htmlFor='disruptiveStartDate' className='form-label'>Disruptive First day</label>
+                            <input type='date' className='form-control' id='startDate' placeholder='First day of the disruptive' disabled={ (!isPlanner && !isLocked) || isLocked }
+                                {...register('startDate', {
+                                    required: 'You must provide a start date',
+                                    onChange: onUpdate
+                                })} />
+                            <label htmlFor='startDate' className='form-label'>Disruptive First day</label>
                         </div>
                         <div className='form-floating col-sm-6 mb-1'>
-                            <input type='date' className='form-control' id='disruptiveEndDate' placeholder='Last day of the disruptive' disabled={ (!isPlanner && !isLocked) || isLocked }
-                                {...register('disruptiveEndDate', { required: true })} />
-                            <label htmlFor='disruptiveEndDate' className='form-label'>Disruptive Last day</label>
+                            <input type='date' className='form-control' id='endDate' placeholder='Last day of the disruptive' disabled={ (!isPlanner && !isLocked) || isLocked }
+                                {...register('endDate', {
+                                    required: 'You must provide an end date',
+                                    onChange: onUpdate
+                                })} />
+                            <label htmlFor='endDate' className='form-label'>Disruptive Last day</label>
                         </div>
                     </div>
+                    { errors.startDate && <p className='form-error mt-1 text-start'>{errors.startDate.message}</p> }
+                    { errors.endDate && <p className='form-error mt-1 text-start'>{errors.endDate.message}</p> }
                 </fieldset>
             </form>
     );

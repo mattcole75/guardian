@@ -258,7 +258,7 @@
     border-top-right-radius: 0;
 }
 
-.form-location-limit {
+.form-location {
   height: 100%;
   align-items: center;
   padding-top: 40px;
@@ -304,26 +304,26 @@
   -webkit-text-security: square
 }
 
-.form-location-limit-icon {
+.form-location-icon {
   font-size: 5rem;
   color: darkslategray;
 }
 
-.form-location-limit .checkbox {
+.form-location .checkbox {
   font-weight: 400;
 }
 
-.form-location-limit .form-floating:focus-within {
+.form-location .form-floating:focus-within {
   z-index: 2;
 }
 
-.form-location-limit input[type="email"] {
+.form-location input[type="email"] {
   margin-bottom: -1px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
 
-.form-location-limit input[type="password"] {
+.form-location input[type="password"] {
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
@@ -338,6 +338,19 @@
   width: 100%;
   max-width: 50rem;
   padding: 10px;
+  margin: auto;
+  text-align: center;
+}
+
+.form-disruptive {
+  height: 100%;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #f5f5f5;
+  width: 100%;
+  max-width: 50rem;
+  padding: 1.5rem;
   margin: auto;
   text-align: center;
 }
@@ -484,6 +497,7 @@
   margin: 1rem;
   border-radius: 3px;
 }
+
 .navigation {
     text-align: center;
 }

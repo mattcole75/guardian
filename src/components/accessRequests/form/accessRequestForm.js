@@ -7,9 +7,9 @@ import moment from 'moment';
 import Administration from './administration/administration';
 import Requestor from './requestor/requestor';
 import AccessRequestSummary from './requestSummary/accessRequestSummary';
-import LocationLimits from './locationLimits/locationLimits';
+import Locations from './location/locations';
 import DisruptiveList from './disruptive/disruptiveList/disruptiveList';
-import LocationLimitForm from './locationLimits/locationLimitForm';
+import LocationForm from './location/locationForm';
 import DisruptiveForm from './disruptive/disruptiveForm';
 import Hazards from './hazards/hazards';
 import Comment from '../comment/comment';
@@ -25,20 +25,7 @@ const AccessRequestForm = () => {
     const { uid } = useParams();
     const dispatch = useDispatch();
 
-    // // Disruptive: Tram Service Impact
-    // const [editingTramDisruptiveItem, setEditingTramDisruptiveItem] = useState(false);
-    // const [selectedTramImpactItemIndex, setSelectedTramImpactItemIndex] = useState(null);
-    // const toggleEditingTramDisruptiveImpact = () => {
-    //     if(editingTramDisruptiveItem)
-    //         tramDisruptiveItemSelected(null);
-
-    //     setEditingTramDisruptiveItem(prevState => !prevState);
-    // }
-    // const tramDisruptiveItemSelected = (index) => {
-    //     setSelectedTramImpactItemIndex(index);
-    // }
-
-    const [editLocationLimit, setEditLocationLimit] = useState(false);
+    const [editLocation, setEditLocation] = useState(false);
     const [viewDisruptive, setViewDisruptive] = useState(false);
     const [redirect, setRedirect] = useState(null);
     const [recordLocked, setRecordLocked] = useState(false);
@@ -52,9 +39,9 @@ const AccessRequestForm = () => {
     const disruptiveLoading = useSelector(state => state.disruptive.loading);
     const disruptiveError = useSelector(state => state.disruptive.error);
     
-    const { idToken, localId, displayName, phoneNumber, email, organisation, roles } = useSelector(state => state.auth);
+    const { idToken, localId, displayName, roles } = useSelector(state => state.auth);
     const accessRequest = useSelector(state => state.accessRequest.accessRequest);
-    const locationLimitIndex = useSelector(state => state.accessRequest.locationLimitIndex);
+    const locationIndex = useSelector(state => state.accessRequest.locationIndex);
     const disruptives = useSelector(state => state.disruptive.disruptives);
     const disruptive = useSelector(state => state.disruptive.disruptive);
     
@@ -69,10 +56,9 @@ const AccessRequestForm = () => {
         key = Object.keys(accessRequest)[0];
     }
     
-    const onCreateAccessRequest = useCallback((idToken, localId, data, identifier) => dispatch(action.userCreateAccessRequest(idToken, localId, data, identifier)), [dispatch]);
     const onGetAccessRequest = useCallback((idToken, localId, uid, identifier) => dispatch(action.userGetAccessRequest(idToken, localId, uid, identifier)), [dispatch]);
     const onUpdateAccessRequest = useCallback((id, idToken, localId, data, identifier) => dispatch(action.userUpdateAccessRequest(id, idToken, localId, data, identifier)), [dispatch]);
-    const onLocationLimitItemSelect = useCallback((index, identifier) => dispatch(action.selectLocationLimit(index, identifier)), [dispatch]);
+    const onLocationItemSelect = useCallback((index, identifier) => dispatch(action.selectLocation(index, identifier)), [dispatch]);
     const onGetDisruptives = useCallback((idToken, localId, uid, identifier) => dispatch(action.getDisruptives(idToken, localId, uid, identifier)), [dispatch]);
     const onUpdateDisruptive = useCallback((id, idToken, localId, data, identifier) => dispatch(action.updateDisruptive(id, idToken, localId, data, identifier)), [dispatch]);
     const onCreateDisruptive = useCallback((idtoken, localId, data, identifier) => dispatch(action.createDisruptive(idtoken, localId, data, identifier)),[dispatch]);
@@ -81,21 +67,19 @@ const AccessRequestForm = () => {
     
     // load access request if it's not new
     useEffect (() => {
-        if(uid !== 'new') {
-            // get access request from db
-            if(roles.includes('planner') || roles.includes('coordinator'))
-                onGetPlanners(idToken, localId, 'GET_PLANNERS');
-                
-            onGetAccessRequest(idToken, localId, uid, 'GET_ACCESS_REQUEST');
-            onGetDisruptives(idToken, localId, uid, 'GET_DISRUPTIVES');
-        }
+        // get access request from db
+        if(roles.includes('planner') || roles.includes('coordinator'))
+            onGetPlanners(idToken, localId, 'GET_PLANNERS');
+            
+        onGetAccessRequest(idToken, localId, uid, 'GET_ACCESS_REQUEST');
+        onGetDisruptives(idToken, localId, uid, 'GET_DISRUPTIVES');
     }, [uid, idToken, localId, onGetAccessRequest, onGetDisruptives, roles, onGetPlanners]);
 
     // if a user tries to view another users access request then redirect
     useEffect(() => {
 
         if(!roles.includes('coordinator') && !roles.includes('planner') && !roles.includes('disruptionAuthority'))
-            if(accessRequest != null && accessRequest[key].requestor.requestorName !== displayName)
+            if(accessRequest != null && accessRequest[key].requestor.name !== displayName)
                 setRedirect(<Navigate to='/forbidden' />);
 
     }, [accessRequest, displayName, key, roles]);
@@ -120,7 +104,7 @@ const AccessRequestForm = () => {
 
     // enable or disable the submit button.
     useEffect(() => {
-        if(accessRequest && accessRequest[key].locationLimitItems && accessRequest[key].locationLimitItems.length > 0)
+        if(accessRequest && accessRequest[key].locationItems && accessRequest[key].locationItems.length > 0)
             setSubmitButtonDisabled(false);
         else
             setSubmitButtonDisabled(true);
@@ -129,13 +113,13 @@ const AccessRequestForm = () => {
     // enable or disable the grant access button
     useEffect(() => {
 
-        let allLocationLimitItemsConfirmed = true;
+        let allLocationItemsConfirmed = true;
         let allDisruptedItemsApproved = true;
 
-        if(accessRequest && accessRequest[key].locationLimitItems && accessRequest[key].locationLimitItems.length > 0) {
-            accessRequest[key].locationLimitItems.forEach(ele => {
-                if(ele.locationLimitStatus !== 'Confirmed')
-                    allLocationLimitItemsConfirmed = false;
+        if(accessRequest && accessRequest[key].locationItems && accessRequest[key].locationItems.length > 0) {
+            accessRequest[key].locationItems.forEach(ele => {
+                if(ele.locationStatus !== 'Confirmed')
+                    allLocationItemsConfirmed = false;
             });
         }
         
@@ -150,7 +134,7 @@ const AccessRequestForm = () => {
             }
         }
 
-        if(allLocationLimitItemsConfirmed === true && allDisruptedItemsApproved === true)
+        if(allLocationItemsConfirmed === true && allDisruptedItemsApproved === true)
             setGrantButtonDisabled(false);
         else
             setGrantButtonDisabled(true);
@@ -158,31 +142,11 @@ const AccessRequestForm = () => {
 
     // save the access request, this may be a new record or an update to an existing record
     const saveAccessRequestHandler = useCallback((data) => {
-
-        if(accessRequest) {
-            onUpdateAccessRequest(key, idToken, localId, {
-                ...accessRequest[key],
-                ...data
-            }, 'UPDATE_ACCESS_REQUEST');
-        }
-        else {
-            onCreateAccessRequest(idToken, localId, {
-                ...data, 
-                requestor: {
-                    localId: localId,
-                    requestorName: displayName,
-                    requestorPhoneNumber: phoneNumber,
-                    requestorEmail: email,
-                    requestorOrganisation: organisation
-                },
-                eventLog: [{
-                    user: displayName,
-                    logged: moment().format(),
-                    event: 'Access Request Created'
-                }]
-            }, 'CREATE_ACCESS_REQUEST');
-        }
-    }, [displayName, email, idToken, key, localId, onCreateAccessRequest, onUpdateAccessRequest, organisation, phoneNumber, accessRequest]);
+        onUpdateAccessRequest(key, idToken, localId, {
+            ...accessRequest[key],
+            ...data
+        }, 'UPDATE_ACCESS_REQUEST');
+    }, [idToken, key, localId, onUpdateAccessRequest, accessRequest]);
 
     const saveDisruptiveRequestHandler = useCallback((id, data) => {
         if(disruptive) {
@@ -218,20 +182,9 @@ const AccessRequestForm = () => {
                         eventLog: updatedEventLogItems
                     }, 'UPDATE_ACCESS_REQUEST_STATUS');
             }
-            // determine redirect based on operation
-            switch (status) {
-                case 'Submitted':
-                    setRedirect(<Navigate to='/accessrequests' />);
-                    break;
-                case 'Granted':
-                    setRedirect(<Navigate to='/planneraccessrequests' />);
-                    break;
-                case 'Denied':
-                    setRedirect(<Navigate to='/planneraccessrequests' />);
-                    break;
-                default:
-                    setRedirect(<Navigate to='/accessrequests' />);    
-            }
+            
+            setRedirect(<Navigate to='/accessrequests' />);
+            
             
         }
     }, [accessRequest, displayName, onUpdateAccessRequest, key, idToken, localId]);
@@ -253,19 +206,19 @@ const AccessRequestForm = () => {
         setComment('');
     }, [comment, displayName, key, accessRequest, saveAccessRequestHandler]);
 
-    const locationLimitSelectHandler = useCallback((index) => {
-        onLocationLimitItemSelect(index, 'LOCATION_ITEM_SELECT');
-    }, [onLocationLimitItemSelect]);
+    const locationSelectHandler = useCallback((index) => {
+        onLocationItemSelect(index, 'LOCATION_ITEM_SELECT');
+    }, [onLocationItemSelect]);
 
     const disruptiveSelectHandler = useCallback((disruptive) => {
         onDisruptionSelect(disruptive, 'DISRUPTION_ITEM_SELECT');
     }, [onDisruptionSelect]);
 
-    const toggleLocationLimitEdit = () => {
-        if(editLocationLimit)
-            locationLimitSelectHandler(null);
+    const toggleLocationEdit = () => {
+        if(editLocation)
+            locationSelectHandler(null);
         
-        setEditLocationLimit(prevState => !prevState);
+        setEditLocation(prevState => !prevState);
     }
 
     const toggleDisruptiveView = () => {
@@ -280,16 +233,16 @@ const AccessRequestForm = () => {
         spinner = <Spinner />;
     
     let modal = null;
-    if(editLocationLimit) {
+    if(editLocation) {
         modal = <Modal 
-            show={ editLocationLimit } 
-            modalClosed={ toggleLocationLimitEdit } 
+            show={ editLocation } 
+            modalClosed={ toggleLocationEdit } 
             content={
-                <LocationLimitForm 
-                    toggle={ toggleLocationLimitEdit }
+                <LocationForm 
+                    toggle={ toggleLocationEdit }
                     save={saveAccessRequestHandler} 
                     accessRequest={ accessRequest ? accessRequest[key] : null }
-                    index={ locationLimitIndex }
+                    index={ locationIndex }
                     recordLocked={ recordLocked }
                 />
             }/>
@@ -415,47 +368,29 @@ const AccessRequestForm = () => {
                                     </h2>
                                     <div id='panelsStayOpen-collapseSummary' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingSummary'>
                                         <div className='accordion-body'>
-                                            <AccessRequestSummary summary={ accessRequest ? accessRequest[key].summary : null } locationLimitItems={ accessRequest ? accessRequest[key].locationLimitItems : null } save={saveAccessRequestHandler} recordLocked={recordLocked} />
+                                            <AccessRequestSummary summary={ accessRequest ? accessRequest[key].summary : null } locationItems={ accessRequest ? accessRequest[key].locationItems : null } save={saveAccessRequestHandler} recordLocked={recordLocked} />
                                         </div>
                                     </div>
                                 </div>
                             :   null
                         }
-
-                        {/* Finance Details about the request */}
-                        {/* {
-                            request
-                            ?   <div className='accordion-item'>
-                                    <h2 className='accordion-header' id='panelsStayOpen-headingFinance'>
-                                        <button className='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseFinance' aria-expanded='false' aria-controls='panelsStayOpen-collapseFinance'>
-                                            <h3 className='h5 m-0 text-muted'>Finance</h3>
-                                        </button>
-                                    </h2>
-                                    <div id='panelsStayOpen-collapseFinance' className='accordion-collapse collapse' aria-labelledby='panelsStayOpen-headingFinance'>
-                                        <div className='accordion-body'>
-                                            <Finance request={request ? request[key] : null} save={saveHandler} recordLocked={recordLocked} />
-                                        </div>
-                                    </div>
-                                </div>
-                            :   null
-                        } */}
                         
-                        {/* Location Limit Section */}
+                        {/* Location Section */}
                         { accessRequest
                             ?   <div className='accordion-item'>
-                                    <h2 className='accordion-header' id='panelsStayOpen-headingLocationLimits'>
-                                        <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseLocationLimits' aria-expanded='true' aria-controls='panelsStayOpen-collapseLocationLimits'>
-                                            <h3 className='h5 m-0 text-muted'>Location Limits</h3>
+                                    <h2 className='accordion-header' id='panelsStayOpen-headingLocations'>
+                                        <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseLocations' aria-expanded='true' aria-controls='panelsStayOpen-collapseLocations'>
+                                            <h3 className='h5 m-0 text-muted'>Location(s)</h3>
                                         </button>
                                     </h2>
-                                    <div id='panelsStayOpen-collapseLocationLimits' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingLocationLimits'>
+                                    <div id='panelsStayOpen-collapseLocations' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingLocations'>
                                         <div className='accordion-body'>
-                                            <LocationLimits
-                                                accessRequest={accessRequest ? accessRequest[key] : null}
-                                                save={saveAccessRequestHandler}
-                                                toggle={toggleLocationLimitEdit}
-                                                select={locationLimitSelectHandler}
-                                                recordLocked={recordLocked}
+                                            <Locations
+                                                accessRequest={ accessRequest ? accessRequest[key] : null }
+                                                save={ saveAccessRequestHandler }
+                                                toggle={ toggleLocationEdit }
+                                                select={ locationSelectHandler }
+                                                recordLocked={ recordLocked }
                                             />
                                         </div>
                                     </div>
@@ -498,8 +433,6 @@ const AccessRequestForm = () => {
                                             <Hazards
                                                 accessRequest={accessRequest ? accessRequest[key] : null}
                                                 save={saveAccessRequestHandler}
-                                                toggle={toggleLocationLimitEdit}
-                                                select={locationLimitSelectHandler}
                                                 recordLocked={recordLocked}
                                             />
                                         </div>
@@ -541,17 +474,17 @@ const AccessRequestForm = () => {
                         }
                     </div>                        
                 </div>
-                { (!recordLocked && accessRequest && (accessRequest[key].requestor.requestorName === displayName))
+                { (!recordLocked && accessRequest && (accessRequest[key].requestor.name === displayName))
                     ?   <button className='w-100 btn btn-lg btn-primary mb-3' type='button' disabled={submitButtonDisabled} onClick={ () => { submitRequestHandler('Submitted') } }>Submit For Approval</button>
                     :   null
                 }
-                { (accessRequest && isPlanner === true) && (accessRequest[key].requestor.requestorName !== displayName)
+                { (accessRequest && isPlanner === true) && (accessRequest[key].requestor.name !== displayName)
                     ?   <div>
                             {accessRequest && accessRequest[key].status === 'Submitted' && accessRequest[key].status !== 'Approved'
                                 ?   <button className='w-100 btn btn-lg btn-success mb-3' type='button' disabled={ grantButtonDisabled } onClick={() => { submitRequestHandler('Granted')}}>Grant Access</button>
                                 :   null
                             }
-                            {accessRequest && accessRequest[key].status !== 'Draft'
+                            {accessRequest && (accessRequest[key].status === 'Submitted' || accessRequest[key].status === 'Granted')
                                 ?   <button className='w-100 btn btn-lg btn-danger' type='button' disabled={false} onClick={ () => { submitRequestHandler('Denied') } }>Deny Access</button>
                                 :   null
                             }

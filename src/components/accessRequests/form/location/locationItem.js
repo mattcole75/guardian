@@ -1,6 +1,6 @@
 import React from 'react';
 
-const locationLimitItem = (props) => {
+const locationItem = (props) => {
 
     const { select, toggle, item, index } = props;
 
@@ -22,7 +22,7 @@ const locationLimitItem = (props) => {
     let iconStyle = ['bi-wrench access-icon access-icon'];
     let badgeStyle = ['badge rounded-pill'];
 
-    switch (item.locationLimitStatus) {
+    switch (item.locationStatus) {
         case 'Pending':
             iconStyle.push('access-icon-pending');
             badgeStyle.push('bg-primary');
@@ -45,9 +45,9 @@ const locationLimitItem = (props) => {
             <i className={iconStyle.join(' ')}></i>
             <div className='d-flex gap-2 w-100 justify-content-between' role='button'>
                 <div>
-                    <p className='mb-0 opacity-75'><strong>Location(s): </strong>{item.locations.join(' | ')}</p>
-                    <p className='mb-0 opacity-75'><strong>Date: </strong>{item.locationLimitStartDate}</p>
-                    <p className='mb-0 opacity-75'><strong>Type: </strong>{item.locationLimitAccessType}</p>
+                    <p className='mb-0 opacity-75'><strong>Location: </strong>{item.location}</p>
+                    <p className='mb-0 opacity-75'><strong>Date: </strong>{item.startDate}</p>
+                    <p className='mb-0 opacity-75'><strong>Type: </strong>{item.accessType}</p>
                     <p className='mb-0 opacity-75'><strong>Maintenance Resource: </strong>
                         { maintenanceResource.length > 0 
                             ? maintenanceResource.join(' | ')
@@ -56,7 +56,7 @@ const locationLimitItem = (props) => {
                     </p>
                 </div>
                 <div className='p-1'>
-                    <small className={badgeStyle.join(' ')}>{item.locationLimitStatus}</small>
+                    <small className={badgeStyle.join(' ')}>{item.locationStatus}</small>
                 </div>
                 
             </div>
@@ -64,4 +64,4 @@ const locationLimitItem = (props) => {
     );
 }
 
-export default locationLimitItem;
+export default locationItem;

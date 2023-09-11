@@ -6,7 +6,7 @@ const initialState = {
     accessRequests: [],
     accessRequest: null,
     planners: [],
-    locationLimitIndex: null,
+    locationIndex: null,
     reviewIndex: null,
     identifier: null,
     requestRedirectPath: '/'
@@ -29,7 +29,7 @@ const accessRequestCreateSuccess = (state, action) => {
         error: null,
         accessRequests: state.accessRequests.concat(newAccessRequest),
         accessRequest: newAccessRequest,
-        locationLimitIndex: null,
+        locationIndex: null,
         reviewIndex: null,
         identifier: action.identifier
     };  
@@ -70,7 +70,7 @@ const accessRequestUpdateSuccess = (state, action) => {
         error: null,
         accessRequests: updatedAccessRequests,
         accessRequest: updatedAccessRequest,
-        locationLimitIndex: null,
+        locationIndex: null,
         reviewIndex: null,
         identifier: action.identifier
     };
@@ -83,7 +83,7 @@ const accessRequestsGetSuccess = (state, action) => {
         error: null,
         accessRequests: action.accessRequests,
         accessRequest: null,
-        locationLimitIndex: null,
+        locationIndex: null,
         reviewIndex: null,
         identifier: action.identifier
     };
@@ -95,7 +95,7 @@ const accessRequestGetSuccess = (state, action) => {
         loading: false,
         error: null,
         accessRequest: action.accessRequest,
-        locationLimitIndex: null,
+        locationIndex: null,
         reviewIndex: null,
         identifier: action.identifier
     };
@@ -111,11 +111,11 @@ const accessRequestsPlannersGetSuccess = (state, action) => {
     };
 }
 
-const accessRequestLocationLimitIndex = (state, action) => {
+const accessRequestLocationIndex = (state, action) => {
     return {
         ...state,
         error: null,
-        locationLimitIndex: action.locationLimitIndex,
+        locationIndex: action.locationIndex,
         reviewIndex: null,
         identifier: action.identifier
     };
@@ -127,7 +127,7 @@ const accessRequestDeleteSuccess = (state, action) => {
         loading: false,
         error: null,
         accessRequests: state.accessRequests.filter(req => req.id === action.id),
-        locationLimitIndex: null,
+        locationIndex: null,
         reviewIndex: null,
         identifier: action.identifier
     };
@@ -165,7 +165,7 @@ const reducer = (state = initialState, action) => {
         case type.ACCESS_REQUESTS_GET_SUCCESS: return accessRequestsGetSuccess(state, action);
         case type.ACCESS_REQUEST_GET_SUCCESS: return accessRequestGetSuccess(state, action);
         case type.ACCESS_REQUESTS_PLANNERS_GET_SUCCESS: return accessRequestsPlannersGetSuccess(state, action);
-        case type.ACCESS_REQUEST_LOCATION_LIMIT_INDEX: return accessRequestLocationLimitIndex(state, action);
+        case type.ACCESS_REQUEST_LOCATION_INDEX: return accessRequestLocationIndex(state, action);
         case type.ACCESS_REQUEST_DELETE_SUCCESS: return accessRequestDeleteSuccess(state, action);
         case type.ACCESS_REQUEST_FINISH: return accessRequestFinish(state);
         case type.ACCESS_REQUEST_FAIL: return accessRequestFail(state, action);

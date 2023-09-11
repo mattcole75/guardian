@@ -43,10 +43,10 @@ const DisruptiveListItem = (props) => {
             <i className={iconStyle.join(' ')}></i>
             <div className='d-flex gap-2 w-100 justify-content-between' role='button'>
                 <div>
-                    <p className='mb-0 opacity-75'><strong>Title: </strong>{disruptive.summary.disruptiveTitle}</p>
+                    <p className='mb-0 opacity-75'><strong>Title: </strong>{disruptive.summary.title}</p>
                     <p className='mb-0 opacity-75'><strong>Raised by: </strong>{disruptive.createdBy}</p>
-                    <p className='mb-0 opacity-75'><strong>Begins: </strong>{moment(disruptive.summary.disruptiveStartDate).format('DD/MM/YYYY')}</p>
-                    <p className='mb-0 opacity-75'><strong>Ends: </strong>{moment(disruptive.summary.disruptiveEndDate).format('DD/MM/YYYY')}</p>
+                    <p className='mb-0 opacity-75'><strong>Begins: </strong>{moment(disruptive.summary.startDate).format('DD/MM/YYYY')}</p>
+                    <p className='mb-0 opacity-75'><strong>Ends: </strong>{moment(disruptive.summary.endDate).format('DD/MM/YYYY')}</p>
                     <small className='text-muted'>Raised: { moment(disruptive.created).format('DD/MM/YYYY') }  -  </small>
                     <small className='text-muted'>Last updated: { moment(disruptive.updated).fromNow() }</small>
                 </div>
