@@ -1,8 +1,7 @@
 class LocationItem {
 
-    constructor (code, name, line) {
+    constructor (code, line) {
         this.code = code;
-        this.name = name;
         this.line = line;
     }
 }

@@ -8,11 +8,11 @@ const Map = (props) => {
     const { requests } = props;
 
     return (
-        <div className='col'>
+        <div className='col mb-5'>
             
             <p className='h4 text-center'>Metrolink Network Map</p>
             
-            <div className="map-container">
+            <div className='map-item_container'>
                 {   
                     locationList.map(item => {
                         return <MapItem key={item.code} name={item.name} code={item.code} requests={requests}/>

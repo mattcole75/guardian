@@ -4,7 +4,7 @@ import NavigationMenuItem from './navigationMenuItem/navigationMenuItem';
 
 const Navigation = (props) => {
 
-    const { isAuthenticated, isAdministrator, isUser, isPlanner, isDisruptionAuthority } = props;
+    const { isAuthenticated, isSpeedRestrictor, isAdministrator } = props;
 
     return (
         <nav>
@@ -14,34 +14,16 @@ const Navigation = (props) => {
 				
 				{/* Access request */}
 				{ isAuthenticated
-					? <NavigationItem link='/accessrequests' icon='bi-calendar2-week'>Access Requests</NavigationItem>
-					// ?	<div  className='dropdown text-end'>
-					// 		<a href='/' className='nav-link text-secondary dropdown-toggle' id='dropdownUser2' data-bs-toggle='dropdown' aria-expanded='false'>
-					// 			<i className='bi-card-list fs-3 d-block text-sm-center'></i>
-					// 			Access Requests
-					// 		</a>
-					// 		<ul className='dropdown-menu text-small' aria-labelledby='dropdownUser2'>
-					// 			{ isUser
-					// 				? <NavigationMenuItem link='/accessrequests' icon='bi-card-list'> Your Access Requests</NavigationMenuItem>
-					// 				: null
-					// 			}
-					// 			{ isPlanner
-					// 				? <NavigationMenuItem link='/planneraccessrequests' icon='bi-check2-square'> Access Requests for Review</NavigationMenuItem>
-					// 				: null
-					// 			}
-					// 			{ isPlanner
-					// 				? <NavigationMenuItem link='/plannerclosedaccessrequests' icon='bi-check-square'> Access Requests for Closing</NavigationMenuItem>
-					// 				: null
-					// 			}
-					// 			{ isDisruptionAuthority
-					// 				? <NavigationMenuItem link='/disruptiveaccessrequests' icon='bi-cone-striped'> Diruptives for Review</NavigationMenuItem>
-					// 				: null
-					// 			}
-					// 		</ul>
-					// 	</div>
+					? 	<NavigationItem link='/accessrequests' icon='bi-calendar2-week'>Access Requests</NavigationItem>
 					:	null
 				}
 
+				{/* Speed Restrictions */}
+				{ isSpeedRestrictor
+					?	<NavigationItem link='/speedrestrictions' icon='bi-speedometer2'>Speed Restrictions</NavigationItem>
+					:	null
+				}
+				
 				{/* Admin */}
 				{ isAuthenticated && isAdministrator
 					?	<div className='dropdown text-end'>
@@ -57,7 +39,6 @@ const Navigation = (props) => {
 				}
 				
 				{/* auth */}
-
                 <div  className='dropdown text-end'>
 					<a href='/' className='nav-link text-secondary dropdown-toggle' id='dropdownProfile1' data-bs-toggle='dropdown' aria-expanded='false'>
 						<i className='bi-person fs-3 d-block text-sm-center'></i>

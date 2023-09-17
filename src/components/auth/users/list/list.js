@@ -23,7 +23,6 @@ const Risks = (props) => {
             <tbody>
                 {
                     users && users.map((item, index) => {
-                        console.log(item);
                         return <ListItem key={index} item={item} selectUser={selectUser} />
                     })
                 }

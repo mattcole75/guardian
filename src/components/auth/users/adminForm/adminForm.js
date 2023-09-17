@@ -10,6 +10,8 @@ const AdminForm = (props) => {
         mode: 'onChange',
         defaultValues: { 
             user: user.roles.includes('user') ? true : false,
+            speedRestrictor: user.roles.includes('speedRestrictor') ? true : false,
+            speedRestrictionAuthority: user.roles.includes('speedRestrictionAuthority') ? true : false,
             coordinator: user.roles.includes('coordinator') ? true : false,
             planner: user.roles.includes('planner') ? true : false,
             technicalAuthority: user.roles.includes('technicalAuthority') ? true : false,
@@ -127,6 +129,28 @@ const AdminForm = (props) => {
                             { ...register('user', { required: false })}
                         />
                         <label className="form-check-label" htmlFor="user">User</label>
+                    </div>
+
+                    <div className="form-check form-switch primary text-start">
+                        <input 
+                            className="form-check-input"
+                            type="checkbox"
+                            role="switch"
+                            id="speedRestrictor"
+                            { ...register('speedRestrictor', { required: false })}
+                        />
+                        <label className="form-check-label" htmlFor="speedRestrictor">Speed Restrictor</label>
+                    </div>
+
+                    <div className="form-check form-switch primary text-start">
+                        <input 
+                            className="form-check-input"
+                            type="checkbox"
+                            role="switch"
+                            id="speedRestrictionAuthority"
+                            { ...register('speedRestrictionAuthority', { required: false })}
+                        />
+                        <label className="form-check-label" htmlFor="speedRestrictionAuthority">Speed Restriction Authority</label>
                     </div>
 
                     <div className="form-check form-switch primary text-start">

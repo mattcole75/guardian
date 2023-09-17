@@ -53,7 +53,7 @@ const Filter = React.memo(() => {
                             
 
                             <div className='form-floating w-100 col-sm-4'>
-                                <form className='col-12 col-lg-auto mb-3 mb-lg-0'>
+                                <div className='col-12 col-lg-auto mb-3 mb-lg-0'>
                                     <input
                                         type="search"
                                         className='form-control'
@@ -63,7 +63,7 @@ const Filter = React.memo(() => {
                                         value={enteredFilter}
                                         onChange={event => setEnteredFilter(event.target.value)}
                                     />
-                                </form>
+                                </div>
                             </div>
                         </div>
                     </form>

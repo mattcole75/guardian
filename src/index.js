@@ -8,6 +8,7 @@ import authReducer from './store/reducers/auth';
 import accessRequestReducer from './store/reducers/accessRequest';
 import publicViewReducer from './store/reducers/publicView';
 import disruptiveReducer from './store/reducers/disruptive';
+import speedRestrictionReducer from './store/reducers/speedRestriction';
 // import reportWebVitals from './reportWebVitals';
 
 const store = configureStore({
@@ -15,7 +16,8 @@ const store = configureStore({
         auth: authReducer,
         accessRequest: accessRequestReducer,
         publicView: publicViewReducer,
-        disruptive: disruptiveReducer
+        disruptive: disruptiveReducer,
+        speedRestriction: speedRestrictionReducer
     }
 });
 

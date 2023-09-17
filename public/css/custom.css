@@ -75,6 +75,10 @@
   transform: rotate(90deg);
 }
 
+.map-container {
+  height: 30rem;
+}
+
 .btn-toggle-nav a {
   display: inline-flex;
   padding: .1875rem .5rem;
@@ -355,6 +359,19 @@
   text-align: center;
 }
 
+.form-map {
+  height: 100%;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #f5f5f5;
+  width: 100%;
+  max-width: 50rem;
+  padding: 1.5rem;
+  margin: auto;
+  text-align: center;
+}
+
 .form-ele-top {
   margin-bottom: -1px;
   border-bottom-right-radius: 0;
@@ -559,13 +576,19 @@ position: relative;
 vertical-align: middle;
 }
 
-.map-container {
+.map-item_container {
   width: 100%;
   height: 100%;
 }
 
-
-
+.col-sm-c1 {
+  flex: 0 0 auto;
+  width: 10%;
+}
+.col-sm-c3 {
+  flex: 0 0 auto;
+  width: 30%;
+}
 
 .loader {
     color: rgba(0,170,188,255);
@@ -640,9 +663,8 @@ vertical-align: middle;
       box-shadow: 0em -3em 0 0, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0, -2em -2em 0 0.2em;
     }
 }
-.map-container {
+.map-item_container {
   font-size: 1rem;
-  margin: 3rem;
   display: grid;
   justify-content: center;
   align-content: center;
@@ -742,7 +764,7 @@ vertical-align: middle;
   }
 }
 
-.map-container {
+.map-item_container {
   font-size: 0.7rem;
   gap: 2px;
 }
@@ -793,7 +815,7 @@ vertical-align: middle;
 }
 .map-item_bry {
   grid-column: c7;
-  grid-row: r10;
+  grid-row: r9;
 }
 .map-item_ohc {
   grid-column: c10;
@@ -805,7 +827,7 @@ vertical-align: middle;
 }
 .map-item_rad {
   grid-column: c7;
-  grid-row: r11;
+  grid-row: r10;
 }
 .map-item_ohk {
   grid-column: c10;
@@ -817,7 +839,7 @@ vertical-align: middle;
 }
 .map-item_wfd {
   grid-column: c7;
-  grid-row: r12;
+  grid-row: r11;
 }
 .map-item_wwd {
   grid-column: c10;
@@ -829,7 +851,7 @@ vertical-align: middle;
 }
 .map-item_bob {
   grid-column: c7;
-  grid-row: r13;
+  grid-row: r12;
 }
 .map-item_fre {
   grid-column: c10;
@@ -841,7 +863,7 @@ vertical-align: middle;
 }
 .map-item_prs {
   grid-column: c7;
-  grid-row: r14;
+  grid-row: r13;
 }
 .map-item_soc {
   grid-column: c10;
@@ -857,7 +879,7 @@ vertical-align: middle;
 }
 .map-item_hpk {
   grid-column: c7;
-  grid-row: r15;
+  grid-row: r14;
 }
 .map-item_hol {
   grid-column: c10;
@@ -873,7 +895,7 @@ vertical-align: middle;
 }
 .map-item_bkv {
   grid-column: c7;
-  grid-row: r16;
+  grid-row: r15;
 }
 .map-item_fal {
   grid-column: c10;
@@ -889,7 +911,7 @@ vertical-align: middle;
 }
 .map-item_crp {
   grid-column: c7;
-  grid-row: r17;
+  grid-row: r16;
 }
 .map-item_nhm {
   grid-column: c10;
@@ -905,7 +927,7 @@ vertical-align: middle;
 }
 .map-item_abm {
   grid-column: c7;
-  grid-row: r18;
+  grid-row: r17;
 }
 .map-item_qrd {
   grid-column: c8;
@@ -925,10 +947,14 @@ vertical-align: middle;
 }
 .map-item_qns {
   grid-column: c7;
-  grid-row: r19;
+  grid-row: r18;
 }
 .map-item_mon {
   grid-column: c9;
+  grid-row: r19;
+}
+.map-item_irk {
+  grid-column: c8;
   grid-row: r19;
 }
 .map-item_wsd {
@@ -955,7 +981,6 @@ vertical-align: middle;
   grid-column: c7;
   grid-row: r21;
 }
-
 .map-item_cnk {
   grid-column: c3;
   grid-row: r22;

@@ -10,6 +10,7 @@ const Sidebar = (props) => {
     // const isPlanner = roles.includes('planner');
     // const isDisruptionAuthority = roles.includes('disruptionAuthority');
     const isAdministrator = roles.includes('administrator');
+    const isSpeedRestrictor = roles.includes('speedRestrictor');
 
     const navStyle = ['col-md-3', 'col-lg-2', 'sidebar', 'bg-dark', 'bg-opacity-95']
 
@@ -25,6 +26,13 @@ const Sidebar = (props) => {
                         <li className='nav-item'>
                             <NavLink to='/' className='nav-link text-white' onClick={ toggleShowSidebar } end><i className='bi-house-door' />  Home</NavLink>
                         </li>
+
+                        { isSpeedRestrictor
+                            ?   <li className='nav-item'>
+                                    <NavLink to='/speedrestrictions' className='nav-link text-white' onClick={ toggleShowSidebar }><i className='bi-Speedometer2' />  Speed Restrictions</NavLink>
+                                </li>
+                            : null
+                        }
                         
                         { isAuthenticated
                             ?   <li className='nav-item'>

@@ -2,7 +2,7 @@ import React, { useEffect, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
-import * as action from '../../../store/actions/index';
+import { userGetAccessRequests } from '../../../store/actions/index';
 
 import railWeeks from '../../../configuration/railWeeks';
 
@@ -11,11 +11,10 @@ const Filter = () => {
 
     const dispatch = useDispatch();
 
-    const idToken = useSelector(state => state.auth.idToken);
-    const localId = useSelector(state => state.auth.localId);
+    const { idToken, localId } = useSelector(state => state.auth);
     const [ week, setWeek ] = useState('');
 
-    const onGetAccessRequests = useCallback((idToken, localId, startDate, endDate, statusFilter, planner, identifier) => dispatch(action.userGetAccessRequests(idToken, localId, startDate, endDate, statusFilter, planner,identifier)), [dispatch]);
+    const onGetAccessRequests = useCallback((idToken, localId, startDate, endDate, statusFilter, planner, identifier) => dispatch(userGetAccessRequests(idToken, localId, startDate, endDate, statusFilter, planner,identifier)), [dispatch]);
 
     // a side effect to query the database and return to state a list of requests
     useEffect(() => {

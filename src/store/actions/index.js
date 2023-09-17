@@ -36,3 +36,11 @@ export {
     resetDisruptive,
     selectDisruptive
 } from './disruptive';
+
+export {
+    createSpeedRestriction,
+    getSpeedRestrictions,
+    speedRestrictionResetState,
+    getSpeedRestriction,
+    updateSpeedRestriction
+} from './speedRestriction';

@@ -6,10 +6,7 @@ const Header = (props) => {
 
     const { isAuthenticated, roles, showSidebar, toggleShowSidebar } = props;
 
-    const isUser = roles.includes('user');
-    const isCoordinator = roles.includes('coordinator');
-    const isPlanner = roles.includes('planner');
-    const isDisruptionAuthority = roles.includes('disruptionAuthority');
+    const isSpeedRestrictor = roles.includes('speedRestrictor');
     const isAdministrator = roles.includes('administrator');
 
     return (
@@ -37,12 +34,9 @@ const Header = (props) => {
                     </Link>
                     <div className='headerNavigation'>
                         <Navigation 
-                            isAuthenticated={isAuthenticated}
-                            isUser={isUser}
-                            isCoordinator={isCoordinator}
-                            isPlanner={isPlanner}
-                            isDisruptionAuthority={isDisruptionAuthority}
-                            isAdministrator={isAdministrator}
+                            isAuthenticated={ isAuthenticated }
+                            isSpeedRestrictor={ isSpeedRestrictor }
+                            isAdministrator={ isAdministrator }
                         />
                     </div>
                 </div>
