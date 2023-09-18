@@ -8,7 +8,7 @@ const AccessRequestSummary = (props) => {
 
     const { summary, locationItems, save, recordLocked } = props;
 
-    const { register, getValues, formState: { errors, isValid, isDirty } } = useForm({
+    const { register, getValues, formState: { errors, isValid } } = useForm({
         mode: 'onChange',
         defaultValues: {
             title: summary && summary.title,
@@ -44,7 +44,7 @@ const AccessRequestSummary = (props) => {
     }
 
     const onUpdate = debounce(() => {
-        if(isValid && isDirty)
+        if(isValid)
             save({ summary: { ...getValues() } }, 'SAVE_ACCESS_REQUEST');
     }, 2000);
 

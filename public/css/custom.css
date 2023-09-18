@@ -578,7 +578,7 @@ vertical-align: middle;
 
 .map-item_container {
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
 }
 
 .col-sm-c1 {

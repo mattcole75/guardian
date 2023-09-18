@@ -24,10 +24,8 @@ const MapEdit = (props) => {
         
         map.current = new mapboxgl.Map({
             container: mapContainer.current,
-            style: 'mapbox://styles/mattcole75/clfifj5rj005701o0ibg3a3ip', // style URL
-            // style: 'mapbox://styles/mattcole75/clid5bqr2002801r0adfa8pj9'
-            // style: 'mapbox://styles/mattcole75/clibvg1tf02yu01pnbktxbc60',
-            // center: [lng, lat], // starting position
+            style: 'mapbox://styles/mattcole75/clfifj5rj005701o0ibg3a3ip',
+            center: [-2.238967, 53.481557],
             zoom: 16 // starting zoom
         });
 

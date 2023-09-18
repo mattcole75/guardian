@@ -14,16 +14,13 @@ const LocationView = (props) => {
     useEffect(() => {
         if(map.current)
             return;
-        
 
         // if(mapLocation.map) {
             map.current = new mapboxgl.Map({
                 container: mapContainer.current,
                 // style: 'mapbox://styles/mapbox/light-v11', // style URL
                 style: 'mapbox://styles/mattcole75/clfifj5rj005701o0ibg3a3ip',
-                // center: mapLocation.map.features[0].geometry.coordinates[0]
-                // center: [-2.228999539811838, 53.41701012183114]
-                // center: [lng, lat], // starting position
+                center: [-2.238967, 53.481557],
                 zoom: 16 // starting zoom
             });
         // }
@@ -31,11 +28,10 @@ const LocationView = (props) => {
         // disable map zoom when using scroll
         map.current.scrollZoom.disable();
         
-        
         // Add zoom and rotation controls to the map.
         map.current.addControl(new mapboxgl.NavigationControl());
 
-    },[mapLocation]);
+    });
 
     useEffect(() => {
         

@@ -300,7 +300,7 @@ const AccessRequestForm = () => {
             {modal}
             <div className=''>
                 <div className='text-sm-center'>
-                    <i className='bi-plus-circle-dotted form-auth-icon'></i>
+                    <i className='bi-calendar2-plus form-auth-icon'></i>
                     <h1 className='h3 mb-3 fw-normal'>Access Request Form</h1>
                 </div>
                 
