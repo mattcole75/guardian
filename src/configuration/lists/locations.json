@@ -1,0 +1,511 @@
+[
+    {
+        "code": "ABM", 
+        "location": "Abraham Moss",
+        "line": "Bury Line"
+    },
+    {
+        "code": "AIR",
+        "location": "Manchester Airport",
+        "line": "Airport Line"
+    },
+    {
+        "code": "ALT",
+        "location": "Altrincham",
+        "line": "Altrincham Line"
+    },
+    {
+        "code": "ANC",
+        "location": "Anchorage",
+        "line": "Eccles Line" },
+    {
+        "code": "ASH",
+        "location": "Ashton-under-Lyne", 
+        "line": "Ashton Line"
+    },
+    {
+        "code": "ASM",
+        "location": "Ashton Moss",
+        "line": "Ashton Line"
+    },
+    {
+        "code": "ASW",
+        "location": "Ashton West",
+        "line": "Ashton Line"
+    },
+    {
+        "code": "AUD",
+        "location": "Audenshaw",
+        "line": "Ashton Line"
+    },
+    {
+        "code": "BAG",
+        "location": "Baguley",
+        "line": "Airport Line"
+    },
+    {
+        "code": "BCH",
+        "location": "Benchill",
+        "line": "Airport Line"
+    },
+    {
+        "code": "BDW",
+        "location": "Broadway",
+        "line": "Eccles Line"
+    },
+    {
+        "code": "BKV",
+        "location": "Bowker Vale",
+        "line": "Bury Line"
+    },
+    {
+        "code": "BMR",
+        "location": "Barlow Moor Road",
+        "line": "Airport Line"
+    },
+    {
+        "code": "BOB",
+        "location": "Besses O\" Th\" Barn",
+        "line": "Bury Line"
+    },
+    {
+        "code": "BRK",
+        "location": "Brooklands",
+        "line": "Altrincham Line"
+    },
+    {
+        "code": "BRT",
+        "location": "Burton Road", 
+        "line": "East Didsbury Line"
+    },
+    {
+        "code": "BRY",
+        "location": "Bury", 
+        "line": "Bury Line"
+    },
+    {
+        "code": "CEP",
+        "location": "Central Park", 
+        "line": "Oldham & Rochdale Line"
+    },
+    {
+        "code": "CER",
+        "location": "Cemetery Road", 
+        "line": "Ashton Line"
+    },
+    {
+        "code": "CHO",
+        "location": "Chorlton", 
+        "line": "East Didsbury Line"
+    },
+    {
+        "code": "CLA",
+        "location": "Clayton Hall", 
+        "line": "Ashton Line"
+    },
+    {
+        "code": "CNK",
+        "location": "Cornbrook", 
+        "line": "Altrincham Line"
+    },
+    {
+        "code": "CRO",
+        "location": "Crossacres", 
+        "line": "Airport Line"
+    },
+    {
+        "code": "CRP",
+        "location": "Crumpsall", 
+        "line": "Bury Line"
+    },
+    {
+        "code": "DAN",
+        "location": "Dane Road", 
+        "line": "Altrincham Line"
+    },
+    {
+        "code": "DCF",
+        "location": "Deansgate Castlefield", 
+        "line": "City Centre Line"
+    },
+    {
+        "code": "DDV",
+        "location": "Didsbury Village", 
+        "line": "East Didsbury Line"
+    },
+    {
+        "code": "DER",
+        "location": "Derker", 
+        "line": "Oldham & Rochdale Line"
+    },
+    {
+        "code": "DYL",
+        "location": "Droylsden", 
+        "line": "Ashton Line"
+    },
+    {
+        "code": "ECC",
+        "location": "Eccles", 
+        "line": "Eccles Line"
+    },
+    {
+        "code": "EDD",
+        "location": "East Didsbury", 
+        "line": "East Didsbury Line"
+    },
+    {
+        "code": "EDL",
+        "location": "Edge Lane", 
+        "line": "Ashton Line"
+    },
+    {
+        "code": "EVC",
+        "location": "Barton Dock Road", 
+        "line": "Trafford Park Line"
+    },
+    {
+        "code": "EXQ",
+        "location": "Exchange Quay", 
+        "line": "Eccles Line"
+    },
+    {
+        "code": "EXS",
+        "location": "Exchange Square", 
+        "line": "City Centre Line"
+    },
+    {
+        "code": "FAL",
+        "location": "Failsworth", 
+        "line": "Oldham & Rochdale Line"
+    },
+    {
+        "code": "FIR",
+        "location": "Firswood", 
+        "line": "East Didsbury Line"
+    },
+    {
+        "code": "FRE",
+        "location": "Freehold", 
+        "line": "Oldham & Rochdale Line"
+    },
+    {
+        "code": "HBC",
+        "location": "Harbour City", 
+        "line": "Eccles Line"
+    },
+    {
+        "code": "HOL",
+        "location": "Hollinwood", 
+        "line": "Oldham & Rochdale Line"
+    },
+    {
+        "code": "HOT",
+        "location": "Holt Town", 
+        "line": "Ashton Line"
+    },
+    {
+        "code": "HPK",
+        "location": "Heaton Park", 
+        "line": "Bury Line"
+    },
+    {
+        "code": "IWM",
+        "location": "Imperial War Museum", 
+        "line": "Trafford Park Line"
+    },
+    {
+        "code": "IRK",
+        "location": "Irk Valley", 
+        "line": "Bury Line"
+    },
+    {
+        "code": "KIN",
+        "location": "Kingsway Business Park", 
+        "line": "Oldham & Rochdale Line"
+    },
+    {
+        "code": "LDW",
+        "location": "Ladywell", 
+        "line": "Eccles Line"
+    },
+    {
+        "code": "LGW",
+        "location": "Langworthy", 
+        "line": "Eccles Line"
+    },
+    {
+        "code": "MAR",
+        "location": "Martinscroft", 
+        "line": "Airport Line"
+    },
+    {
+        "code": "MEC",
+        "location": "MediaCityUK", 
+        "line": "Eccles Line"
+    },
+    {
+        "code": "MIL",
+        "location": "Milnrow", 
+        "line": "Oldham & Rochdale Line"
+    },
+    {
+        "code": "MKT",
+        "location": "Market Street", 
+        "line": "City Centre Line"
+    },
+    {
+        "code": "MON",
+        "location": "Monsall", 
+        "line": "Oldham & Rochdale Line"
+    },
+    {
+        "code": "MRD",
+        "location": "Moor Road", 
+        "line": "Airport Line"
+    },
+    {
+        "code": "NAV",
+        "location": "Navigation Road", 
+        "line": "Altrincham Line"
+    },
+    {
+        "code": "NEB",
+        "location": "Newbold", 
+        "line": "Oldham & Rochdale Line"
+    },
+    {
+        "code": "NEH",
+        "location": "Newhey", 
+        "line": "Oldham & Rochdale Line"
+    },
+    {
+        "code": "NHM",
+        "location": "Newton Heath and Moston", 
+        "line": "Oldham & Rochdale Line"
+    },
+    {
+        "code": "NIS",
+        "location": "New Islington", 
+        "line": "Ashton Line"
+    },
+    {
+        "code": "NMR",
+        "location": "Northern Moor", 
+        "line": "Airport Line"
+    },
+    {
+        "code": "OHC",
+        "location": "Oldham Central", 
+        "line": "Oldham & Rochdale Line"
+    },
+    {
+        "code": "OHK",
+        "location": "Oldham King Street", 
+        "line": "Oldham & Rochdale Line"
+    },
+    {
+        "code": "OHM",
+        "location": "Oldham Mumps", 
+        "line": "Oldham & Rochdale Line"
+    },
+    {
+        "code": "OLD",
+        "location": "Old Trafford", 
+        "line": "Altrincham Line"
+    },
+    {
+        "code": "PAR",
+        "location": "Parkway", 
+        "line": "Trafford Park Line"
+    },
+    {
+        "code": "PCG",
+        "location": "Piccadilly Gardens", 
+        "line": "City Centre Line"
+    },
+    {
+        "code": "PIC",
+        "location": "Piccadilly", 
+        "line": "City Centre Line"
+    },
+    {
+        "code": "PLH",
+        "location": "Peel Hall", 
+        "line": "Airport Line"
+    },
+    {
+        "code": "POM",
+        "location": "Pomona", 
+        "line": "Eccles Line"
+    },
+    {
+        "code": "PRS",
+        "location": "Prestwich", 
+        "line": "Bury Line"
+    },
+    {
+        "code": "QNS",
+        "location": "Queens Road", 
+        "line": "Bury Line"
+    },
+    {
+        "code": "QRD",
+        "location": "Queens Road Depot", 
+        "line": "Bury Line"
+    },
+    {
+        "code": "RAD",
+        "location": "Radcliffe", 
+        "line": "Bury Line"
+    },
+    {
+        "code": "RBN",
+        "location": "Robinswood Road", 
+        "line": "Airport Line"
+    },
+    {
+        "code": "ROC",
+        "location": "Rochdale Railway Station", 
+        "line": "Oldham & Rochdale Line"
+    },
+    {
+        "code": "RTC",
+        "location": "Rochdale Town Centre", 
+        "line": "Oldham & Rochdale Line"
+    },
+    {
+        "code": "RTH",
+        "location": "Roundthorn", 
+        "line": "Airport Line"
+    },
+    {
+        "code": "SAL",
+        "location": "Sale", 
+        "line": "Altrincham Line"
+    },
+    {
+        "code": "SFQ",
+        "location": "Salford Quays", 
+        "line": "Eccles Line"
+    },
+    {
+        "code": "SHC",
+        "location": "Shaw and Crompton", 
+        "line": "Oldham & Rochdale Line"
+    },
+    {
+        "code": "SHD",
+        "location": "Shadowmoss", 
+        "line": "Airport Line"
+    },
+    {
+        "code": "SHL",
+        "location": "Shudehill", 
+        "line": "City Centre Line"
+    },
+    {
+        "code": "SOC",
+        "location": "South Chadderton", 
+        "line": "Oldham & Rochdale Line"
+    },
+    {
+        "code": "SPC",
+        "location": "Etihad Campus", 
+        "line": "Ashton Line"
+    },
+    {
+        "code": "SPS",
+        "location": "St Peters Square", 
+        "line": "City Centre Line"
+    },
+    {
+        "code": "STR",
+        "location": "Stretford", 
+        "line": "Altrincham Line"
+    },
+    {
+        "code": "SWP",
+        "location": "Sale Water Park", 
+        "line": "Airport Line"
+    },
+    {
+        "code": "SWR",
+        "location": "St Werburgh\"s Road", 
+        "line": "East Didsbury Line"
+    },
+    {
+        "code": "TFB",
+        "location": "Trafford Bar", 
+        "line": "Altrincham Line"
+    },
+    {
+        "code": "TFD",
+        "location": "Trafford Depot", 
+        "line": "Altrincham Line"
+    },
+    {
+        "code": "TMP",
+        "location": "Timperley", 
+        "line": "Altrincham Line"
+    },
+    {
+        "code": "TRC",
+        "location": "Trafford Centre", 
+        "line": "Trafford Park Line"
+    },
+    {
+        "code": "VEL",
+        "location": "Velopark", 
+        "line": "Ashton Line"
+    },
+    {
+        "code": "VIC",
+        "location": "Victoria", 
+        "line": "City Centre Line"
+    },
+    {
+        "code": "VLG",
+        "location": "Village", 
+        "line": "Trafford Park Line"
+    },
+    {
+        "code": "WDD",
+        "location": "West Didsbury", 
+        "line": "East Didsbury Line"
+    },
+    {
+        "code": "WFD",
+        "location": "Whitefield", 
+        "line": "Bury Line"
+    },
+    {
+        "code": "WPK",
+        "location": "Wythenshawe Park", 
+        "line": "Airport Line"
+    },
+    {
+        "code": "WSD",
+        "location": "Wharfside", 
+        "line": "Trafford Park Line"
+    },
+    {
+        "code": "WST",
+        "location": "Weaste", 
+        "line": "Eccles Line"
+    },
+    {
+        "code": "WTH",
+        "location": "Withington", 
+        "line": "East Didsbury Line"
+    },
+    {
+        "code": "WWD",
+        "location": "Westwood", 
+        "line": "Oldham & Rochdale Line"
+    },
+    {
+        "code": "WYC",
+        "location": "Wythenshawe Town Centre", 
+        "line": "Airport Line"
+    }
+]

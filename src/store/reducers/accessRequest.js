@@ -6,8 +6,6 @@ const initialState = {
     accessRequests: [],
     accessRequest: null,
     planners: [],
-    locationIndex: null,
-    reviewIndex: null,
     identifier: null,
     requestRedirectPath: '/'
 };
@@ -29,8 +27,6 @@ const accessRequestCreateSuccess = (state, action) => {
         error: null,
         accessRequests: state.accessRequests.concat(newAccessRequest),
         accessRequest: newAccessRequest,
-        locationIndex: null,
-        reviewIndex: null,
         identifier: action.identifier
     };  
 }
@@ -70,8 +66,6 @@ const accessRequestUpdateSuccess = (state, action) => {
         error: null,
         accessRequests: updatedAccessRequests,
         accessRequest: updatedAccessRequest,
-        locationIndex: null,
-        reviewIndex: null,
         identifier: action.identifier
     };
 }
@@ -83,8 +77,6 @@ const accessRequestsGetSuccess = (state, action) => {
         error: null,
         accessRequests: action.accessRequests,
         accessRequest: null,
-        locationIndex: null,
-        reviewIndex: null,
         identifier: action.identifier
     };
 }
@@ -95,8 +87,6 @@ const accessRequestGetSuccess = (state, action) => {
         loading: false,
         error: null,
         accessRequest: action.accessRequest,
-        locationIndex: null,
-        reviewIndex: null,
         identifier: action.identifier
     };
 }
@@ -111,24 +101,12 @@ const accessRequestsPlannersGetSuccess = (state, action) => {
     };
 }
 
-const accessRequestLocationIndex = (state, action) => {
-    return {
-        ...state,
-        error: null,
-        locationIndex: action.locationIndex,
-        reviewIndex: null,
-        identifier: action.identifier
-    };
-}
-
 const accessRequestDeleteSuccess = (state, action) => {
     return {
         ...state,
         loading: false,
         error: null,
         accessRequests: state.accessRequests.filter(req => req.id === action.id),
-        locationIndex: null,
-        reviewIndex: null,
         identifier: action.identifier
     };
 }
@@ -145,7 +123,7 @@ const accessRequestFail = (state, action) => {
 }
 
 const accessRequestStateReset = (state) => {
-    return { ...state, ...initialState };
+    return initialState;
 };
 
 const accessRequestErrorReset = (state) => {
@@ -165,7 +143,6 @@ const reducer = (state = initialState, action) => {
         case type.ACCESS_REQUESTS_GET_SUCCESS: return accessRequestsGetSuccess(state, action);
         case type.ACCESS_REQUEST_GET_SUCCESS: return accessRequestGetSuccess(state, action);
         case type.ACCESS_REQUESTS_PLANNERS_GET_SUCCESS: return accessRequestsPlannersGetSuccess(state, action);
-        case type.ACCESS_REQUEST_LOCATION_INDEX: return accessRequestLocationIndex(state, action);
         case type.ACCESS_REQUEST_DELETE_SUCCESS: return accessRequestDeleteSuccess(state, action);
         case type.ACCESS_REQUEST_FINISH: return accessRequestFinish(state);
         case type.ACCESS_REQUEST_FAIL: return accessRequestFail(state, action);

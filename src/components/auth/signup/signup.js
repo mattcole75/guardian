@@ -53,10 +53,8 @@ const Signup = () => {
             modalClosed={ toggle }
             content={
                 <div className='modal-content form-auth rounded-4 shadow bg-white'>
-                    {/* <div className='modal-header border-bottom-0 text-center'> */}
                     <div className='py-0 mb-3 mt-3'>
                         <h1 className='modal-title fs-5'>Success... New account created</h1>
-                        {/*     <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='Close' onClick={ toggle }></button> */}
                     </div>
                     <div className='modal-body py-0 text-start'>
                         <p>Your new account has been created but is currently disabled. Our administrator will review your account and get back to you within 24 hours.</p>

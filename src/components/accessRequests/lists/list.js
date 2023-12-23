@@ -1,7 +1,6 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import ListItem from '../listItem/listItem';
+import ListItem from './listItem/listItem';
 
 const List = (props) => {
 
@@ -15,10 +14,9 @@ const List = (props) => {
             <table className='w-100 table table-hover table-borderless table-sm align-middle bg-light border-start border-end shadow-sm fs-7'>
                 <thead className='border-bottom'>
                     <tr className='w-auto'>
-                        <th className='ps-3 pe-3 table-verticle_cente'><div className='table-item_col'>Title</div></th>
-                        <th className='ps-3 pe-3 table-verticle_center table-item_hide'><div className='table-item_col'>Organistion</div></th>
-                        <th className='ps-3 pe-3 table-verticle_center table-item_hide'><div className='table-item_col'>Requestor</div></th>
+                        <th className='ps-3 pe-3 table-verticle_cente'><div className='table-item_col'>Site Description</div></th>
                         <th className='ps-3 pe-3 table-verticle_center'><div className='table-item_col'>First Day</div></th>
+                        <th className='ps-3 pe-3 table-verticle_center'><div className='table-item_col'>Last Day</div></th>
                         <th className='ps-3 pe-3'>Status</th>
                         <th className='ps-3 pe-3'></th>
                     </tr>

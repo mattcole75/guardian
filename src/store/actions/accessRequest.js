@@ -49,14 +49,6 @@ const getPlannersSuccess = (planners, identifier) => {
     };
 }
 
-const updateSelectedLocationIndex = (index, identifier) => {
-    return {
-        type: type.ACCESS_REQUEST_LOCATION_INDEX,
-        locationIndex: index,
-        identifier: identifier
-    };
-}
-
 const accessRequestFinish = () => {
     return {
         type: type.ACCESS_REQUEST_FINISH
@@ -178,13 +170,6 @@ export const userGetAccessRequest = (idToken, localId, uid, identifier) => {
     };
 }
 
-export const selectLocation = (elementIndex, identifier) => {
-
-    return dispatch => {
-        dispatch(updateSelectedLocationIndex(elementIndex, identifier));
-    };
-}
-
 export const plannerGetPlanners = (idToken, localId, identifier) => {
 
     return dispatch => {
@@ -209,30 +194,6 @@ export const plannerGetPlanners = (idToken, localId, identifier) => {
         });
     };
 }
-
-// export const deleteRequest = (id, idToken, identifier) => {
-//     return dispatch => {
-//         dispatch(requestStart);
-
-//         axios.delete('requests' + idToken, id)
-//         .then(res => {
-
-//             dispatch(requestSuccess(
-//                 res.data.idToken,
-//                 res.data.localId,
-//                 res.data.email,
-//                 res.data.displayName,
-//                 identifier
-//             ));
-
-//             dispatch(requestFinish());
-//         })
-//         .catch(err => {
-//             console.log(err);
-//             dispatch(requestFail(err)); 
-//         });
-//     };
-// }
 
 export const resetState = () => {
     return dispatch => {

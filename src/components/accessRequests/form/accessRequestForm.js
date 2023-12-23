@@ -5,12 +5,10 @@ import { Navigate, useParams } from 'react-router-dom';
 import moment from 'moment';
 
 import Administration from './administration/administration';
-import Requestor from './requestor/requestor';
+import Requestor from './requester/requester';
 import AccessRequestSummary from './requestSummary/accessRequestSummary';
 import Locations from './location/locations';
-import DisruptiveList from './disruptive/disruptiveList/disruptiveList';
-import LocationForm from './location/locationForm';
-import DisruptiveForm from './disruptive/disruptiveForm';
+import LocationForm from './location/form/locationForm';
 import Hazards from './hazards/hazards';
 import Comment from '../comment/comment';
 // import Finance from './finance/finance';
@@ -26,7 +24,6 @@ const AccessRequestForm = () => {
     const dispatch = useDispatch();
 
     const [editLocation, setEditLocation] = useState(false);
-    const [viewDisruptive, setViewDisruptive] = useState(false);
     const [redirect, setRedirect] = useState(null);
     const [recordLocked, setRecordLocked] = useState(false);
     const [comment, setComment] = useState('');
@@ -36,14 +33,11 @@ const AccessRequestForm = () => {
 
     const accessRequestLoading = useSelector(state => state.accessRequest.loading);
     const accessRequestError = useSelector(state => state.accessRequest.error);
-    const disruptiveLoading = useSelector(state => state.disruptive.loading);
-    const disruptiveError = useSelector(state => state.disruptive.error);
     
     const { idToken, localId, displayName, roles } = useSelector(state => state.auth);
+    
     const accessRequest = useSelector(state => state.accessRequest.accessRequest);
-    const locationIndex = useSelector(state => state.accessRequest.locationIndex);
-    const disruptives = useSelector(state => state.disruptive.disruptives);
-    const disruptive = useSelector(state => state.disruptive.disruptive);
+    // const locationIndex = useSelector(state => state.accessRequest.locationIndex);
     
     const isPlanner = roles.includes('planner');
     const isCoordinator = roles.includes('coordinator');
@@ -58,11 +52,7 @@ const AccessRequestForm = () => {
     
     const onGetAccessRequest = useCallback((idToken, localId, uid, identifier) => dispatch(action.userGetAccessRequest(idToken, localId, uid, identifier)), [dispatch]);
     const onUpdateAccessRequest = useCallback((id, idToken, localId, data, identifier) => dispatch(action.userUpdateAccessRequest(id, idToken, localId, data, identifier)), [dispatch]);
-    const onLocationItemSelect = useCallback((index, identifier) => dispatch(action.selectLocation(index, identifier)), [dispatch]);
-    const onGetDisruptives = useCallback((idToken, localId, uid, identifier) => dispatch(action.getDisruptives(idToken, localId, uid, identifier)), [dispatch]);
-    const onUpdateDisruptive = useCallback((id, idToken, localId, data, identifier) => dispatch(action.updateDisruptive(id, idToken, localId, data, identifier)), [dispatch]);
-    const onCreateDisruptive = useCallback((idtoken, localId, data, identifier) => dispatch(action.createDisruptive(idtoken, localId, data, identifier)),[dispatch]);
-    const onDisruptionSelect = useCallback((disruptive, identifier) => dispatch(action.selectDisruptive(disruptive, identifier)), [dispatch]);
+    // const onLocationItemSelect = useCallback((index, identifier) => dispatch(action.selectLocation(index, identifier)), [dispatch]);
     const onGetPlanners = useCallback((idToken, localId, identifier) => dispatch(action.plannerGetPlanners(idToken, localId, identifier)), [dispatch]);
     
     // load access request if it's not new
@@ -72,8 +62,7 @@ const AccessRequestForm = () => {
             onGetPlanners(idToken, localId, 'GET_PLANNERS');
             
         onGetAccessRequest(idToken, localId, uid, 'GET_ACCESS_REQUEST');
-        onGetDisruptives(idToken, localId, uid, 'GET_DISRUPTIVES');
-    }, [uid, idToken, localId, onGetAccessRequest, onGetDisruptives, roles, onGetPlanners]);
+    }, [uid, idToken, localId, onGetAccessRequest, roles, onGetPlanners]);
 
     // if a user tries to view another users access request then redirect
     useEffect(() => {
@@ -122,23 +111,12 @@ const AccessRequestForm = () => {
                     allLocationItemsConfirmed = false;
             });
         }
-        
-        if(accessRequest && accessRequest[key].summary.isDisruptive === true) {
-            if(disruptives && disruptives.length > 0) {
-                disruptives.forEach(ele => {
-                    if(ele[Object.keys(ele)].status !== 'Approved')
-                        allDisruptedItemsApproved = false;
-                });
-            } else {
-                allDisruptedItemsApproved = false;
-            }
-        }
 
         if(allLocationItemsConfirmed === true && allDisruptedItemsApproved === true)
             setGrantButtonDisabled(false);
         else
             setGrantButtonDisabled(true);
-    }, [accessRequest, disruptives, key]);
+    }, [accessRequest, key]);
 
     // save the access request, this may be a new record or an update to an existing record
     const saveAccessRequestHandler = useCallback((data) => {
@@ -147,19 +125,6 @@ const AccessRequestForm = () => {
             ...data
         }, 'UPDATE_ACCESS_REQUEST');
     }, [idToken, key, localId, onUpdateAccessRequest, accessRequest]);
-
-    const saveDisruptiveRequestHandler = useCallback((id, data) => {
-        if(disruptive) {
-            onUpdateDisruptive(id, idToken, localId, { ...disruptive[id], ...data }, 'UPDATE_DISRUPTIVE');
-        } else {
-            onCreateDisruptive(idToken, localId, { 
-                accessRequestId: Object.keys(accessRequest)[0],
-                createdBy: displayName,
-                status: 'Draft',
-                ...data
-            }, 'CREATE_DISRUPTIVE');
-        }
-    }, [accessRequest, displayName, disruptive, idToken, localId, onCreateDisruptive, onUpdateDisruptive]);
 
     const submitRequestHandler = useCallback((status) => {
 
@@ -206,30 +171,19 @@ const AccessRequestForm = () => {
         setComment('');
     }, [comment, displayName, key, accessRequest, saveAccessRequestHandler]);
 
-    const locationSelectHandler = useCallback((index) => {
-        onLocationItemSelect(index, 'LOCATION_ITEM_SELECT');
-    }, [onLocationItemSelect]);
-
-    const disruptiveSelectHandler = useCallback((disruptive) => {
-        onDisruptionSelect(disruptive, 'DISRUPTION_ITEM_SELECT');
-    }, [onDisruptionSelect]);
+    // const locationSelectHandler = useCallback((index) => {
+    //     onLocationItemSelect(index, 'LOCATION_ITEM_SELECT');
+    // }, [onLocationItemSelect]);
 
     const toggleLocationEdit = () => {
-        if(editLocation)
-            locationSelectHandler(null);
+        // if(editLocation)
+        //     locationSelectHandler(null);
         
         setEditLocation(prevState => !prevState);
     }
 
-    const toggleDisruptiveView = () => {
-        if(viewDisruptive)
-            disruptiveSelectHandler(null);
-            
-        setViewDisruptive(prevState => !prevState);
-    }
-
     let spinner = null;
-    if(accessRequestLoading || disruptiveLoading)
+    if(accessRequestLoading)
         spinner = <Spinner />;
     
     let modal = null;
@@ -242,49 +196,16 @@ const AccessRequestForm = () => {
                     toggle={ toggleLocationEdit }
                     save={saveAccessRequestHandler} 
                     accessRequest={ accessRequest ? accessRequest[key] : null }
-                    index={ locationIndex }
+                    // index={ locationIndex }
                     recordLocked={ recordLocked }
                 />
             }/>
     }
 
-    if(viewDisruptive) {
-        modal = <Modal 
-            show={ viewDisruptive }
-            modalClosed={ toggleDisruptiveView }
-            content={
-                <DisruptiveForm
-                    toggle={ toggleDisruptiveView }
-                    save={ saveDisruptiveRequestHandler }
-                    disruptive={ disruptive }
-                    logEvent={ saveAccessRequestHandler }
-                    eventLog={ accessRequest ? accessRequest[key].eventLog : null }
-                />
-            }
-        />
-    }
-
-    // if(editingTramDisruptiveItem) {
-    //     modal = <Modal 
-    //     show={editingTramDisruptiveItem} 
-    //     modalClosed={toggleEditingTramDisruptiveImpact} 
-    //     content={
-    //         <TramImpactForm
-    //             roles={roles}
-    //             toggle={toggleEditingTramDisruptiveImpact}
-    //             save={saveHandler} 
-    //             request={request ? request[key] : null}
-    //             index={selectedTramImpactItemIndex}
-    //             editable={editable}
-    //             setIndex={tramDisruptiveItemSelected}
-    //         />
-    //     }/>
-    // }
-
     return (
         <div className='form-request my-5 shadow'>
             {redirect}
-            <Backdrop show={ accessRequestLoading || disruptiveLoading } />
+            <Backdrop show={ accessRequestLoading } />
                 {spinner}
             
             {accessRequestError &&
@@ -292,11 +213,7 @@ const AccessRequestForm = () => {
                     {accessRequestError}
                 </div>
             }
-            {disruptiveError &&
-                <div className='alert alert-danger' role='alert'>
-                    {disruptiveError}
-                </div>
-            }
+            
             {modal}
             <div className=''>
                 <div className='text-sm-center'>
@@ -389,7 +306,7 @@ const AccessRequestForm = () => {
                                                 accessRequest={ accessRequest ? accessRequest[key] : null }
                                                 save={ saveAccessRequestHandler }
                                                 toggle={ toggleLocationEdit }
-                                                select={ locationSelectHandler }
+                                                // select={ locationSelectHandler }
                                                 recordLocked={ recordLocked }
                                             />
                                         </div>
@@ -397,28 +314,6 @@ const AccessRequestForm = () => {
                                 </div>
                             :   null
                         }
-
-                        {/* Details for a disruptives */}
-                        { accessRequest && accessRequest[key].summary.isDisruptive === true
-                            ?   <div className='accordion-item'>
-                                    <h2 className='accordion-header' id='panelsStayOpen-headingDisruptive'>
-                                        <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseDisruptive' aria-expanded='true' aria-controls='panelsStayOpen-collapseDisruptive'>
-                                            <h3 className='h5 m-0 text-muted'> Disruptives</h3>
-                                        </button>
-                                    </h2>
-                                    <div id='panelsStayOpen-collapseDisruptive' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingDisruptive'>
-                                        <div className='accordion-body'>
-                                            <DisruptiveList
-                                                disruptives={disruptives ? disruptives : null}
-                                                toggle={toggleDisruptiveView}
-                                                select={disruptiveSelectHandler}
-                                                roles={roles}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            :   null
-                        } 
 
                         {/* Hazaard Section */}
                         { accessRequest

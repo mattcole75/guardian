@@ -4,7 +4,7 @@ import NavigationMenuItem from './navigationMenuItem/navigationMenuItem';
 
 const Navigation = (props) => {
 
-    const { isAuthenticated, isSpeedRestrictor, isAdministrator } = props;
+    const { isAuthenticated, isAdministrator } = props;
 
     return (
         <nav>
@@ -16,27 +16,7 @@ const Navigation = (props) => {
 				{ isAuthenticated
 					? 	<NavigationItem link='/accessrequests' icon='bi-calendar2-week'>Access Requests</NavigationItem>
 					:	null
-				}
-
-				{/* Speed Restrictions */}
-				{ isSpeedRestrictor
-					?	<NavigationItem link='/speedrestrictions' icon='bi-speedometer2'>Speed Restrictions</NavigationItem>
-					:	null
-				}
-				
-				{/* Admin */}
-				{ isAuthenticated && isAdministrator
-					?	<div className='dropdown text-end'>
-							<a href='/' className='nav-link text-secondary dropdown-toggle' id='dropdownAdmin1' data-bs-toggle='dropdown' aria-expanded='false'>
-								<i className='bi-gear-wide fs-3 d-block text-sm-center'></i>
-								Admin
-							</a>
-							<ul className='dropdown-menu text-small' aria-labelledby='dropdownAdmin1'>
-								<NavigationMenuItem link='/users' icon='bi-people'> Users</NavigationMenuItem>
-							</ul>
-						</div>
-					:	null
-				}
+				}	
 				
 				{/* auth */}
                 <div  className='dropdown text-end'>
@@ -47,6 +27,14 @@ const Navigation = (props) => {
 					<ul className='dropdown-menu text-small' aria-labelledby='dropdownProfile1'>
 						{ isAuthenticated
 							?	<NavigationMenuItem link='/profile' icon='bi-person'> Profile</NavigationMenuItem>
+							:	null
+						}
+						{ isAuthenticated
+							?	<li><hr className='dropdown-divider'/></li>
+							:	null
+						}
+						{ isAuthenticated && isAdministrator
+							?	<NavigationMenuItem link='/users' icon='bi-people'> Users</NavigationMenuItem>
 							:	null
 						}
 						{ isAuthenticated

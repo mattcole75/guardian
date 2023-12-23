@@ -1,196 +1,231 @@
-import React, { useCallback, useState } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
-import locationList from '../../../../data/locations';
-import moment from 'moment';
-import { determinStartDate, determinEndDate } from '../../../../shared/utility';
+// import { useSelector } from 'react-redux';
+import network_locations from '../../../../../configuration/lists/locations.json';
+import network_hospitals from '../../../../../configuration/lists/hospitals.json';
+
+// import moment from 'moment';
+// import { determinStartDate, determinEndDate } from '../../../../../shared/utility';
+
 
 
 const LocationForm = (props) => {
 
-    const { accessRequest, index, recordLocked, save, toggle } = props;
+    const { location, index, recordLocked, save, close } = props;
 
-    const { register, handleSubmit, formState: { errors } } = useForm({ 
-        mode: 'onChange', 
-        defaultValues: ((accessRequest == null || accessRequest.locationItems == null) ? null : accessRequest.locationItems[index])
+    const { register, reset, getValues, formState: { errors } } = useForm({ 
+        mode: 'onBlur', 
     });
 
-    const auth = useSelector(state => state.auth);
-    const { roles, displayName} = auth;
+    useEffect(() => {
+        console.log('location?', location);
+        if(location) {
+            reset(location);
+        }
+    }, [reset, location]);
+
+    // const { roles, displayName } = useSelector(state => state.auth);
 
     // const [locations, setLocations] = useState([]);
-    const [electricalIsolationRequired, setElectricalIsolationRequired] = useState((index !== null) ? accessRequest.locationItems[index].electricalIsolationRequired : false);
-    const [signallingResourceRequired, setSignallingResourceRequired] = useState((index !== null) ? accessRequest.locationItems[index].signallingResourceRequired : false);
-    const [testTramsRequired, setTestTramsRequired] = useState((index !== null) ? accessRequest.locationItems[index].testTramsRequired : false);
+    // const [electricalIsolationRequired, setElectricalIsolationRequired] = useState((index !== null) ? accessRequest.locationItems[index].electricalIsolationRequired : false);
+    // const [signallingResourceRequired, setSignallingResourceRequired] = useState((index !== null) ? accessRequest.locationItems[index].signallingResourceRequired : false);
+    // const [testTramsRequired, setTestTramsRequired] = useState((index !== null) ? accessRequest.locationItems[index].testTramsRequired : false);
 
-    const toogleElectricalIsolationRequired = () => {
-        setElectricalIsolationRequired(prevState => !prevState);
-    }
-    const toggleSignallingResourceRequired = () => {
-        setSignallingResourceRequired(prevState => !prevState);
-    }
-    const toggleTestTramsRequired = () => {
-        setTestTramsRequired(prevState => !prevState);
-    }
+    // const toogleElectricalIsolationRequired = () => {
+    //     setElectricalIsolationRequired(prevState => !prevState);
+    // }
+    // const toggleSignallingResourceRequired = () => {
+    //     setSignallingResourceRequired(prevState => !prevState);
+    // }
+    // const toggleTestTramsRequired = () => {
+    //     setTestTramsRequired(prevState => !prevState);
+    // }
 
-    const createComplianceLog = useCallback((locationItems) => {
-         // loop through the updated array and determin the start date and end date
-         if(accessRequest.isDisruptive) {
-            if(moment(determinStartDate(locationItems)).diff(moment(accessRequest.created), 'week') < 12) {
-                return { user: displayName, logged: moment().format(), event: 'Not compliant to 12 week notice requirement' };
-            } else {
-                return { user: displayName, logged: moment().format(), event: 'Compliant to disruptive 12 week notice requirement' };
-            }
-        } else {
-            if(moment(determinStartDate(locationItems)).diff(moment(accessRequest.created), 'week') < 6) {
-                return { user: displayName, logged: moment().format(), event: 'Not compliant to 6 week notice requirement' };
-            } else {
-                return { user: displayName, logged: moment().format(), event: 'Compliant to 6 week notice requirement' };
-            }
-        }
-    }, [displayName, accessRequest.created, accessRequest.isDisruptive]);
+    // const createComplianceLog = useCallback((locationItems) => {
+        //  // loop through the updated array and determin the start date and end date
+        //  if(accessRequest.isDisruptive) {
+        //     if(moment(determinStartDate(locationItems)).diff(moment(accessRequest.created), 'week') < 12) {
+        //         return { user: displayName, logged: moment().format(), event: 'Not compliant to 12 week notice requirement' };
+        //     } else {
+        //         return { user: displayName, logged: moment().format(), event: 'Compliant to disruptive 12 week notice requirement' };
+        //     }
+        // } else {
+        //     if(moment(determinStartDate(locationItems)).diff(moment(accessRequest.created), 'week') < 6) {
+        //         return { user: displayName, logged: moment().format(), event: 'Not compliant to 6 week notice requirement' };
+        //     } else {
+        //         return { user: displayName, logged: moment().format(), event: 'Compliant to 6 week notice requirement' };
+        //     }
+        // }
+    // }, [displayName, accessRequest.created, accessRequest.isDisruptive]);
 
-    const onSave = useCallback((data) => {
+    // const onSave = useCallback((data) => {
 
-        let updatedLocationItems;
-        let updatedEventLogItems = [ ...accessRequest.eventLog ];
+        // let updatedLocationItems;
+        // let updatedEventLogItems = [ ...accessRequest.eventLog ];
 
-        if(accessRequest && index === null) { // add new location to existing access request
-            // check if there are existing locations
-            if(accessRequest.locationItems) {
-                updatedLocationItems = [ ...accessRequest.locationItems ];
-            } else {
-                updatedLocationItems = [];
-            }
-            // add the current location  to the updated array
-            updatedLocationItems.push({
-                    ...data,
-                    // locations: locations,
-                    locationStatus: 'Pending'
-            });
-            updatedEventLogItems.push(createComplianceLog(updatedLocationItems));
-            // loop through the updated array and determin the start date and end date
-            //commit to db
-            save({
-                summary: {
-                    accessFirstDay: moment(determinStartDate(updatedLocationItems)).format('YYYY-MM-DD'),
-                    accessLastDay: moment(determinEndDate(updatedLocationItems)).format('YYYY-MM-DD')
-                },
-                locationItems: updatedLocationItems,
-                eventLog: updatedEventLogItems
-            }, 'SAVE_LOCATION');
+        // if(accessRequest && index === null) { // add new location to existing access request
+        //     // check if there are existing locations
+        //     if(accessRequest.locationItems) {
+        //         updatedLocationItems = [ ...accessRequest.locationItems ];
+        //     } else {
+        //         updatedLocationItems = [];
+        //     }
+        //     // add the current location  to the updated array
+        //     updatedLocationItems.push({
+        //             ...data,
+        //             // locations: locations,
+        //             locationStatus: 'Pending'
+        //     });
+        //     updatedEventLogItems.push(createComplianceLog(updatedLocationItems));
+        //     // loop through the updated array and determin the start date and end date
+        //     //commit to db
+        //     save({
+        //         summary: {
+        //             accessFirstDay: moment(determinStartDate(updatedLocationItems)).format('YYYY-MM-DD'),
+        //             accessLastDay: moment(determinEndDate(updatedLocationItems)).format('YYYY-MM-DD')
+        //         },
+        //         locationItems: updatedLocationItems,
+        //         eventLog: updatedEventLogItems
+        //     }, 'SAVE_LOCATION');
 
-        } else if (accessRequest && index !== null) { // update existing location
-            //create a copy of the locations
-            let updatedLocationItems = [ ...accessRequest.locationItems ];
-            updatedLocationItems[index] = {
-                ...data,
-                // locations: locations,
-                locationStatus: 'Pending'
-            };
-            // loop through the updated array and determin the start date and end date
-            updatedEventLogItems.push(createComplianceLog(updatedLocationItems));
-            // commit to db
-            save({
-                summary: {
-                    accessFirstDay: moment(determinStartDate(updatedLocationItems)).format('YYYY-MM-DD'),
-                    accessLastDay: moment(determinEndDate(updatedLocationItems)).format('YYYY-MM-DD')
-                },
-                locationItems: updatedLocationItems,
-                eventLog: updatedEventLogItems
-            }, 'SAVE_LOCATION');
+        // } else if (accessRequest && index !== null) { // update existing location
+        //     //create a copy of the locations
+        //     let updatedLocationItems = [ ...accessRequest.locationItems ];
+        //     updatedLocationItems[index] = {
+        //         ...data,
+        //         // locations: locations,
+        //         locationStatus: 'Pending'
+        //     };
+        //     // loop through the updated array and determin the start date and end date
+        //     updatedEventLogItems.push(createComplianceLog(updatedLocationItems));
+        //     // commit to db
+        //     save({
+        //         summary: {
+        //             accessFirstDay: moment(determinStartDate(updatedLocationItems)).format('YYYY-MM-DD'),
+        //             accessLastDay: moment(determinEndDate(updatedLocationItems)).format('YYYY-MM-DD')
+        //         },
+        //         locationItems: updatedLocationItems,
+        //         eventLog: updatedEventLogItems
+        //     }, 'SAVE_LOCATION');
 
-        } else { // post new access request item starting with location // this will never be required
-            save({ locationItems: [ {
-                    ...data,
-                    // locations: locations,
-                    locationStatus: 'Pending'
-                } ] }, 'SAVE_LOCATION');
-        }
-        toggle();
+        // } else { // post new access request item starting with location // this will never be required
+        //     save({ locationItems: [ {
+        //             ...data,
+        //             // locations: locations,
+        //             locationStatus: 'Pending'
+        //         } ] }, 'SAVE_LOCATION');
+        // }
+        // toggle();
 
-    }, [createComplianceLog, index, accessRequest, save, toggle]);
+    // }, [createComplianceLog, index, accessRequest, save, toggle]);
 
-    const onConfirm = useCallback((data) => {
-        let updatedLocationItems = [ ...accessRequest.locationItems ];
-        let updatedEventLogItems = [ ...accessRequest.eventLog ];
+    // const onConfirm = useCallback((data) => {
+        // let updatedLocationItems = [ ...accessRequest.locationItems ];
+        // let updatedEventLogItems = [ ...accessRequest.eventLog ];
 
-        updatedLocationItems[index] = {
-            ...data, 
-            // locations: locations,
-            locationStatus: 'Confirmed'
-        };
+        // updatedLocationItems[index] = {
+        //     ...data, 
+        //     // locations: locations,
+        //     locationStatus: 'Confirmed'
+        // };
 
-        updatedEventLogItems.push({ user: displayName, logged: moment().format(), event: 'Location for (' + { ...data.location } + ') is confirmed' });
+        // updatedEventLogItems.push({ user: displayName, logged: moment().format(), event: 'Location for (' + { ...data.location } + ') is confirmed' });
 
-        save({ locationItems: updatedLocationItems, eventLog: updatedEventLogItems }, 'SAVE_LOCATION');
-        toggle();
-    }, [accessRequest.locationItems, accessRequest.eventLog, index, displayName, save, toggle]);
+        // save({ locationItems: updatedLocationItems, eventLog: updatedEventLogItems }, 'SAVE_LOCATION');
+        // toggle();
+    // }, [accessRequest.locationItems, accessRequest.eventLog, index, displayName, save, toggle]);
 
-    const onUnavailable = useCallback((data) => {
-        let updatedLocationItems = [ ...accessRequest.locationItems ];
-        let updatedEventLogItems = [ ...accessRequest.eventLog ];
+    // const onUnavailable = useCallback((data) => {
+        // let updatedLocationItems = [ ...accessRequest.locationItems ];
+        // let updatedEventLogItems = [ ...accessRequest.eventLog ];
 
-            updatedLocationItems[index] = {
-                ...data, 
-                // locations: locations,
-                locationStatus: 'Unavailable'
-            };
+        //     updatedLocationItems[index] = {
+        //         ...data, 
+        //         // locations: locations,
+        //         locationStatus: 'Unavailable'
+        //     };
 
-            updatedEventLogItems.push({ user: displayName, logged: moment().format(), event: 'Location for (' + { ...data.location } + ') is not available' });
+        //     updatedEventLogItems.push({ user: displayName, logged: moment().format(), event: 'Location for (' + { ...data.location } + ') is not available' });
 
-            save({ locationItems: updatedLocationItems, eventLog: updatedEventLogItems }, 'SAVE_LOCATION');
-            toggle();
-    }, [accessRequest.locationItems, accessRequest.eventLog, index, displayName, save, toggle]);
+        //     save({ locationItems: updatedLocationItems, eventLog: updatedEventLogItems }, 'SAVE_LOCATION');
+        //     toggle();
+    // }, [accessRequest.locationItems, accessRequest.eventLog, index, displayName, save, toggle]);
+
+    // const onDelete = useCallback(() => {
+        // let updatedLocationItems = [ ...accessRequest.locationItems ];
+        // let updatedEventLogItems = [ ...accessRequest.eventLog ];
+        // // delete element from array
+        // updatedLocationItems.splice(index, 1);
+        //  // loop through the updated array and determin the start date and end date
+        //  updatedEventLogItems.push(createComplianceLog(updatedLocationItems));
+
+        // save({ locationItems: updatedLocationItems, eventLog: updatedEventLogItems }, 'SAVE_LOCATION');
+        // toggle();
+
+    // }, [createComplianceLog, index, accessRequest.eventLog, accessRequest.locationItems, save, toggle]);
+
+    const onOk = useCallback(() => {
+        console.log(index);
+        if(index == null)
+            save('ADD', null, { ...getValues(), status: 'Pending' });
+        else
+            save('UPDATE', index, { ...getValues(), status: 'Pending' });
+    }, [getValues, index, save]);
 
     const onDelete = useCallback(() => {
-        let updatedLocationItems = [ ...accessRequest.locationItems ];
-        let updatedEventLogItems = [ ...accessRequest.eventLog ];
-        // delete element from array
-        updatedLocationItems.splice(index, 1);
-         // loop through the updated array and determin the start date and end date
-         updatedEventLogItems.push(createComplianceLog(updatedLocationItems));
+        save('DELETE', index, null);
+    }, [index, save]);
 
-        save({ locationItems: updatedLocationItems, eventLog: updatedEventLogItems }, 'SAVE_LOCATION');
-        toggle();
-
-    }, [createComplianceLog, index, accessRequest.eventLog, accessRequest.locationItems, save, toggle]);
+    const onClose = useCallback(() => {
+        close();
+    }, [close]);
 
     return (
         <div className='form-location my-1 shadow'>
-            <form className='p-1'>
+            <div className='p-1'>
                 <h1 className='h3 mb-3 fw-normal text-start'>Location</h1>
 
                 {/* Location Section */}
-                <div className='input-group mb-1'>
-                    <div className='form-floating w-100'>
-                        <select className='form-select' id='location' required disabled={recordLocked}
-                            {...register('location', { required: 'A value must be selected' })}>
-                            <option value=''>Choose...</option>
-                            {
-                                locationList.map(item => {
-                                    return (<option key={item.code} value={item.name}>{item.name}</option>)
-                                })
-                            }
-                        </select>
-                        <label htmlFor='location'>Location</label>
+                    <div className='row g-2 mb-2'>
+                        <div className='form-floating  col-sm-6'>
+                            <select className='form-select' id='startLocation' required disabled={recordLocked}
+                                {...register('startLocation', { required: 'A start location must be selected' })}>
+                                <option value=''>Choose...</option>
+                                {
+                                    network_locations.map(item => {
+                                        return (<option key={item.code} value={item.location}>{item.location}</option>)
+                                    })
+                                }
+                            </select>
+                            <label htmlFor='startLocation'>Start Location</label>
+                        </div>
+
+                        <div className='form-floating  col-sm-6'>
+                            <select className='form-select' id='endLocation' required disabled={recordLocked}
+                                {...register('endLocation', { required: 'A location must be selected' })}>
+                                <option value=''>Choose...</option>
+                                {
+                                    network_locations.map(item => {
+                                        return (<option key={item.code} value={item.location}>{item.location}</option>)
+                                    })
+                                }
+                            </select>
+                            <label htmlFor='endLocation'>End Location</label>
+                        </div>
                     </div>
-                </div>
-                { errors.location && <p className='form-error mt-1 text-start'>{errors.location.message}</p> }
 
                 {/* Access Type Section */}
-                <div className='form-floating mb-3 '>
+                {/* <div className='form-floating mb-3 '>
                     <select className='form-select' id='accessType' required disabled={recordLocked}
                         {...register('accessType', { required: 'A value must be selected' })}>
                         <option value=''>Choose...</option>
-                        <option>Possession (default)</option>
-                        <option>Possession and Isolation</option>
-                        <option>Semi Protected Worksite</option>
-                        <option>Blockade</option>
+                        <option>Under Blue Permit</option>
+                        <option>Under Pink Permit</option>
+                        <option>Under Lookout/Site Wardon Protection</option>
                     </select>
                     <label htmlFor='accessType'>Access Type</label>
                 </div>
-                { errors.accessType && <p className='form-error mt-1 text-start'>{errors.accessType.message}</p> }
+                { errors.accessType && <p className='form-error mt-1 text-start'>{errors.accessType.message}</p> } */}
                 
                 {/* Dates & times Section */}
                 <div className='row g-2 bg-light'>
@@ -228,7 +263,7 @@ const LocationForm = (props) => {
                 { errors.endTime && <p className='form-error mt-1 text-start'>{errors.endTime.message}</p> }
 
                 {/* co-locate */}
-                <div className='form-floating mb-3 mt-1'>
+                {/* <div className='form-floating mb-3 mt-1'>
                     <select className='form-select' id='colocate' required
                         disabled={recordLocked}
                         {...register('colocate', { required: 'A value must be selected' })}>
@@ -239,10 +274,10 @@ const LocationForm = (props) => {
                     </select>
                     <label htmlFor='colocate'>Co-locate Worksite</label>
                 </div>
-                { errors.colocate && <p className='form-error mt-1 text-start'>{errors.colocate.message}</p> }
+                { errors.colocate && <p className='form-error mt-1 text-start'>{errors.colocate.message}</p> } */}
 
                 {/* Electrical Isolation Section */}
-                 <div className='border rounded p-1 mb-3 bg-light'>
+                 {/* <div className='border rounded p-1 mb-3 bg-light'>
                     <div className='list-group mx-0'>
                         <label className='list-group-item d-flex gap-2'>
                             <div className='form-check form-switch'>
@@ -294,10 +329,10 @@ const LocationForm = (props) => {
                             </div>
                         :   null
                     }
-                </div>
+                </div> */}
                 
                 {/* Signalling Resource Section */}
-                <div className='border rounded p-1 mb-3 bg-light'>
+                {/* <div className='border rounded p-1 mb-3 bg-light'>
                     <div className='list-group mx-0'>
                         <label className='list-group-item d-flex gap-2'>
                             <div className='form-check form-switch'>
@@ -336,10 +371,10 @@ const LocationForm = (props) => {
                             </div>
                         :   null
                     }
-                </div>
+                </div> */}
 
                 {/* Test Tram Section */}
-                <div className='border rounded p-1 mb-3 bg-light'>
+                {/* <div className='border rounded p-1 mb-3 bg-light'>
                     <div className='list-group mx-0'>
                         <label className='list-group-item d-flex gap-2'>
                             <div className='form-check form-switch'>
@@ -353,8 +388,8 @@ const LocationForm = (props) => {
                                 <small className='d-block text-muted'>Indicate if this request will require test trams for testing.</small>
                             </span>
                         </label>
-                    </div>
-                    { testTramsRequired
+                    </div> */}
+                    {/* { testTramsRequired
                         ?   <div>
                                 <div className='form-floating mt-1'>
                                     <textarea className='form-control' id='testTramRequirements' rows='5'
@@ -377,55 +412,54 @@ const LocationForm = (props) => {
                                 { errors.testTramRequirements && <p className='form-error mt-1 text-start'>{errors.testTramRequirements.message}</p> }
                             </div>
                         :   null
-                    }
                 </div>
+                    } */}
                 
                 <div className='form-floating mb-3'>
                     <select className='form-select' id='nearestHospital' disabled={recordLocked} required
                         {...register('nearestHospital', { required: 'A value must be selected' })}>
                         <option value=''>Choose...</option>
-                        <option>Royal Oldham Hospital, Rochdale Rd, OL1 2JH</option>
-                        <option>North Manchester General Hospital, Delaunuys Rd, Crumpsall, M8 5RB</option>
-                        <option>Manchester Royal Infirmary, Grafton Street, M13 9WL</option>
-                        <option>Salford Royal, Stott Lane, Salford, M6 8HD</option>
-                        <option>Wythenshawe Hospital, Southmoor Road, M23 9LT</option>
-                        <option>Royal Oldham Hospital, Rochdale Road, Oldham, OL1 2JH</option>
-                        <option>Tameside Hospital, Fountain Street, Ashton Under Lyne, OL6 9RW</option>
-                        <option>Stepping Hill Hospital, Poplar Grove, Hazel Grove, Stockport, SK2 7JE</option>
-                        <option>Fairfield General Hospital, Rochdale Old Road, Bury, BL9 7TD</option>
-                        <option>Royal Bolton Hospital, Minerva Road, Farnworth, Bolton, BL4 0JR</option>
+                        {
+                            network_hospitals.map(item => {
+                                return (<option key={item.hospital} value={item.hospital}>{item.hospital}</option>)
+                            })
+                        }
                     </select>
                     <label htmlFor='nearestHospital'>Nearest hospital</label>
                 </div>
                 { errors.nearestHospital && <p className='form-error mt-1 text-start'>{errors.nearestHospital.message}</p> }
                 
-                {!recordLocked && accessRequest.requestor.name === displayName
+                {!recordLocked
                     ?   <div className='form-floating mb-3'>
-                            <button className='w-100 btn btn-lg btn-primary' type='button' onClick={handleSubmit(onSave)}>Save Changes</button>
+                            <button className='w-100 btn btn-lg btn-primary' type='button' onClick={ onOk }>Ok</button>
                         </div>
                     :   null
                 }
                 <div className='form-floating mb-5'>
-                    <button className='w-100 btn btn-lg btn-secondary' type='button' onClick={toggle}>Close</button>
+                    <button className='w-100 btn btn-lg btn-secondary' type='button' onClick={ onClose }>Close</button>
                 </div>
-                {accessRequest && !recordLocked && accessRequest.requestor.name === displayName
+                <div className='form-floating mb-3'>
+                    <button className='w-100 btn btn-lg btn-danger' type='button' onClick={ onDelete }>Delete</button>
+                </div>
+
+                {/* {accessRequest && !recordLocked && accessRequest.requestor.name === displayName
                     ?   <div className='form-floating mb-3'>
-                            <button className='w-100 btn btn-lg btn-danger' type='button' onClick={handleSubmit(onDelete)}>Delete</button>
+                            <button className='w-100 btn btn-lg btn-danger' type='button' onClick={handleSubmit()}>Delete</button>
                         </div>
                     :   null
-                }
-                {accessRequest && roles.includes('planner') && accessRequest.requestor.name !== displayName
+                } */}
+                {/* {accessRequest && roles.includes('planner') && accessRequest.requestor.name !== displayName
                     ?   <div>
                             <div className='form-floating mb-3'>
-                                <button className='w-100 btn btn-lg btn-success' type='button' onClick={handleSubmit(onConfirm)}>Confirm</button>
+                                <button className='w-100 btn btn-lg btn-success' type='button' onClick={handleSubmit()}>Confirm</button>
                             </div>
                             <div className='form-floating'>
-                                <button className='w-100 btn btn-lg btn-danger' type='button' onClick={handleSubmit(onUnavailable)}>Unavailable</button>
+                                <button className='w-100 btn btn-lg btn-danger' type='button' onClick={handleSubmit()}>Unavailable</button>
                             </div>
                         </div>
                     : null
-                }
-            </form>
+                } */}
+            </div>
         </div>
     )
 }

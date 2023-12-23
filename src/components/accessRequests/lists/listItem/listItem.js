@@ -43,10 +43,9 @@ switch(accessRequest.status) {
 
     return (
         <tr className='border-bottom'>
-            <td className='ps-3 pe-3'><div>{ accessRequest.summary.title }</div></td>
-            <td className='ps-3 pe-3 table-item_hide'><div className='table-item_col'>{ accessRequest.requestor.organisation }</div></td>
-            <td className='ps-3 pe-3 table-item_hide'><div className='table-item_col'>{ accessRequest.requestor.name }</div></td>
-            <td className='ps-3 pe-3'>{ accessRequest.summary.accessFirstDay ? accessRequest.summary.accessFirstDay : 'Not Set'  }</td>
+            <td className='ps-3 pe-3'><div>{ accessRequest.siteDetails.siteDescription }</div></td>
+            <td className='ps-3 pe-3'>{ accessRequest.siteDetails.accessFirstDay ? accessRequest.siteDetails.accessFirstDay : 'Not Set'  }</td>
+            <td className='ps-3 pe-3'>{ accessRequest.siteDetails.accessLastDay ? accessRequest.siteDetails.accessLastDay : 'Not Set'  }</td>
             <td className='ps-3 pe-3'>{ <small className={statusCSS.join(' ')}>{accessRequest.status}</small> }</td>
             <td className='ps-3 pe-3'>
             {isPlanner && accessRequest.requestor.name !== displayName
