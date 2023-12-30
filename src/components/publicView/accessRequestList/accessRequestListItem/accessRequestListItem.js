@@ -5,7 +5,7 @@ const accessRequestListItem = (props) => {
 
     const { item, roles } = props;
 
-    const { title, organisation, startDate, endDate, location, status, electricalIsolationRequired, signallingResourceRequired, testTramsRequired, colocate } = item;
+    const { siteDescription, organisation, startDate, endDate, startLocation, endLocation, status, electricalIsolationRequired, signallingResourceRequired, testTramsRequired, colocate } = item;
 
     let statusStyle = ['badge d-inline-block mb-2 text-nowrap h-100 ms-lg-1'];
 
@@ -33,27 +33,27 @@ const accessRequestListItem = (props) => {
         <div className='list-group-item list-group-item-action'>
             <div className='d-flex w-100 justify-content-between'>
                 { roles.includes('planner')
-                    ? <h5 className='mb-1'>{title}</h5>
+                    ? <h5 className='mb-1'>{ siteDescription }</h5>
                     : null
                 }
                 { roles.includes('planner')
-                    ? <p className='mb-1'>{ location }</p>
-                    : <h5 className='mb-1'>{ location }</h5>
+                    ? <p className='mb-1'>{ startLocation + ' to ' + endLocation }</p>
+                    : <h5 className='mb-1'>{ startLocation + ' to ' + endLocation }</h5>
                 }
                 <span className={statusStyle.join(' ')}>{status}</span>
             </div>
             { roles.includes('planner')
-                    ? <p className='mb-0'>Project Organisation: <small className='text-muted'>{organisation}</small></p>
+                    ? <p className='mb-0'>Project Organisation: <small className='text-muted'>{ organisation }</small></p>
                     : null
             }
-            <small>Approx. {moment(startDate).endOf('day').fromNow()}</small>
+            <small>Approx. { moment(startDate).endOf('day').fromNow() }</small>
             <p>
                 Start:
                 <small className='text-muted'> {moment(startDate).format('Do MMMM YYYY')} </small>
                 End:
                 <small className='text-muted'> {moment(endDate).format('Do MMMM YYYY')}</small>
             </p>
-            <p>Note: <small className='text-muted'>{colocate}</small></p>
+            <p>Note: <small className='text-muted'>{ colocate }</small></p>
             {roles.length !== 0
                 ?   <div className='d-flex justify-content-evenly'>
                         {electricalIsolationRequired

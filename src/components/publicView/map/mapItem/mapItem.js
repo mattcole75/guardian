@@ -2,7 +2,7 @@ import React from 'react';
 
 const mapItem = (props) => {
 
-    const { name, code, requests } = props;
+    const { location, code, requests } = props;
 
     let styles = ['badge rounded-pill bg-secondary', 'map-item_' + code.toLowerCase()];
 
@@ -10,10 +10,7 @@ const mapItem = (props) => {
 
 
         // req.location && req.location.forEach(loc => {
-
-
-
-            if(req.location === name) {
+            if(req.startLocation === location || req.endLocation === location) {
                 styles.push('location-shadow');
                 styles.push('bg-warning text-dark');
             } else {
@@ -24,8 +21,8 @@ const mapItem = (props) => {
 
     return (
         <div className={styles.join(' ')}>
-            <div data-bs-toggle='tooltip' data-bs-placement='right' title={name} >
-                <span className='map-item_name'>{name}</span>
+            <div data-bs-toggle='tooltip' data-bs-placement='right' title={location}>
+                <span className='map-item_name'>{location}</span>
                 <span className='map-item_code'>{code}</span>
             </div>
         </div>

@@ -4,8 +4,8 @@ import { useForm } from 'react-hook-form';
 
 const SiteDetails = (props) => {
 
-    const { siteDetails, update } = props;
-    const { register, reset, getValues, formState: { errors } } = useForm({ mode: 'onBlur' });
+    const { siteDetails, update, recordLocked, siteDetailsIsValid } = props;
+    const { register, reset, getValues, formState: { isValid, errors } } = useForm({ mode: 'onBlur' });
 
 
     useEffect(() => {
@@ -16,6 +16,7 @@ const SiteDetails = (props) => {
 
     const onUpdate = () => {
         update(getValues());
+        siteDetailsIsValid(isValid);
     }
 
     return (
@@ -24,7 +25,7 @@ const SiteDetails = (props) => {
                 <h4 className='h4 fw-normal'>Site Details</h4>
             </div>
             <div className='form-floating mb-2'>
-                <input type='text' className='form-control' id='siteDescription' autoComplete='off' placeholder='Site Description' minLength={5} maxLength={50} required 
+                <input type='text' className='form-control' id='siteDescription' autoComplete='off' placeholder='Site Description' minLength={5} maxLength={50} required disabled={ recordLocked }
                     { ...register('siteDescription', { onChange: onUpdate, 
                         required: "You must provide a Site Description",
                         minLength: {
@@ -38,13 +39,13 @@ const SiteDetails = (props) => {
                     }) }
                 />
                 <label htmlFor='siteDescription' className='form-label'>Site Description</label>
-                { errors.site_description && <p className='form-error mt-1 text-start'>{errors.site_description.message}</p> }
+                { errors.siteDescription && <p className='form-error mt-1 text-start'>{errors.siteDescription.message}</p> }
             </div>
 
             <div className='list-group'>
                 <label className='list-group-item d-flex gap-2'>
                     <div className='form-check form-switch'>
-                        <input className='form-check-input' type='checkbox' role='switch' id='urgentAccessRequired' 
+                        <input className='form-check-input' type='checkbox' role='switch' id='urgentAccessRequired' disabled={ recordLocked }
                             { ...register('urgentAccessRequired', { onChange:  onUpdate })}
                         />
                     </div>
@@ -58,7 +59,7 @@ const SiteDetails = (props) => {
             <div className='list-group'>
                 <label className='list-group-item d-flex gap-2'>
                     <div className='form-check form-switch'>
-                        <input className='form-check-input' type='checkbox' role='switch' id='electricalIsolationRequired'
+                        <input className='form-check-input' type='checkbox' role='switch' id='electricalIsolationRequired' disabled={ recordLocked }
                             { ...register('electricalIsolationRequired', { onChange:  onUpdate })}
                         />
                     </div>
@@ -71,7 +72,7 @@ const SiteDetails = (props) => {
             <div className='list-group'>
                 <label className='list-group-item d-flex gap-2'>
                     <div className='form-check form-switch'>
-                        <input className='form-check-input' type='checkbox' role='switch' id='signallingResourceRequired' 
+                        <input className='form-check-input' type='checkbox' role='switch' id='signallingResourceRequired' disabled={ recordLocked }
                             {...register('signallingResourceRequired', { onChange: onUpdate })}
                         />
                     </div>

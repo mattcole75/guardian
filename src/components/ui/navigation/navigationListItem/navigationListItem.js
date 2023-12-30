@@ -1,15 +1,17 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-const NavigationMenuItem = (props) => (
+
+const NavigationListItem = (props) => (
 	<li>
 		<NavLink 
-			to={props.link}
-			className='dropdown-item'>
+			to={ props.link }
+			className='dropdown-item'
+			onClick={ props.click }>
 			<i className={ props.icon + ' fs-4' } />
 			{ props.children }
 		</NavLink>
 	</li>
 );
 
-export default NavigationMenuItem;
+export default NavigationListItem;

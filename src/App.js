@@ -70,7 +70,7 @@ const App = () => {
 
     return (
 		<div>
-			<Layout>
+			<Layout isAuthenticated={ isAuthenticated } roles={ roles }>
 				<Suspense fallback={<p>Loading...</p>}>{routes}</Suspense>
 			</Layout>
 		</div>

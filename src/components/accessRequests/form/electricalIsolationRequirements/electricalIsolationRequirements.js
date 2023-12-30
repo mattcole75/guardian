@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 
 const ElectricalIsolationRequirements = (props) => {
 
-    const { electricalIsolationRequirements, update } = props;
+    const { electricalIsolationRequirements, update, recordLocked } = props;
     const { register, reset, getValues } = useForm({ mode: 'onBlur' });
 
     useEffect(() => {
@@ -25,7 +25,7 @@ const ElectricalIsolationRequirements = (props) => {
             <div className='list-group'>
                 <label className='list-group-item d-flex gap-2'>
                     <div className='form-check form-switch'>
-                        <input className='form-check-input' type='checkbox' role='switch' id='OLEencroachment' 
+                        <input className='form-check-input' type='checkbox' role='switch' id='OLEencroachment' disabled={recordLocked}
                             { ...register('OLEencroachment', { onChange:  onUpdate })}
                         />
                     </div>
@@ -39,7 +39,7 @@ const ElectricalIsolationRequirements = (props) => {
             <div className='list-group'>
                 <label className='list-group-item d-flex gap-2'>
                     <div className='form-check form-switch'>
-                        <input className='form-check-input' type='checkbox' role='switch' id='HVIntegrityRisk' 
+                        <input className='form-check-input' type='checkbox' role='switch' id='HVIntegrityRisk' disabled={recordLocked}
                             { ...register('HVIntegrityRisk', { onChange:  onUpdate })}
                         />
                     </div>
@@ -53,7 +53,7 @@ const ElectricalIsolationRequirements = (props) => {
             <div className='list-group'>
                 <label className='list-group-item d-flex gap-2'>
                     <div className='form-check form-switch'>
-                        <input className='form-check-input' type='checkbox' role='switch' id='Plant' 
+                        <input className='form-check-input' type='checkbox' role='switch' id='Plant' disabled={recordLocked}
                             { ...register('Plant', { onChange:  onUpdate })}
                         />
                     </div>

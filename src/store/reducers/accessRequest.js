@@ -57,7 +57,7 @@ const accessRequestUpdateSuccess = (state, action) => {
             updatedAccessRequests[accessRequestIndex] = updatedAccessRequest;
         }
     } else {
-        updatedAccessRequest = { [action.id]: { ...action.accessRequest } };
+        updatedAccessRequest = { [action.id]: { ...state.accessRequest[action.id], ...action.accessRequest } };
     }
 
     return {

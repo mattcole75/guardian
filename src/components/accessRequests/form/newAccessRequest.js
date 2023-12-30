@@ -15,6 +15,7 @@ import AdditionalInformation from './additionalInformation/additionalInformation
 
 import { userCreateAccessRequest } from '../../../store/actions/index';
 import { determinStartDate, determinEndDate } from '../../../shared/utility';
+
 import Modal from '../../ui/modal/modal';
 import Backdrop from '../../ui/backdrop/backdrop';
 import Spinner from '../../ui/spinner/spinner';
@@ -42,23 +43,20 @@ const NewAccessRequest = () => {
     const [ permitRequirements, setPermitRequirements] = useState(null);
     const [ electricalIsolationRequirements, setElectricalIsolationRequirements ] = useState(null);
     const [ additionalInformation, setAdditionalInformation ] = useState(null);
-
-    // useEffect(() => {
-    //     if(errors.site_description || errors.siteContactName || errors.siteContactNumber)
-    //         setApplyValidationCss(true);
-        
-    // }, [errors]);
+    const [ saveButtonDisabled, setSaveButtonDisabled ] = useState(true);
 
     useEffect(() => {
         if(identifier === 'CREATE_ACCESS_REQUEST')
             setRedirect(<Navigate to='/accessrequests' />);
     }, [identifier]);
 
+    
+
     const onSave = useCallback(() => {
         onCreateAccessRequest(idToken, localId, {
             requester: {
                 localId: localId,
-                name: displayName,
+                displayName: displayName,
                 phoneNumber: phoneNumber,
                 email: email,
                 organisation: organisation
@@ -68,12 +66,12 @@ const NewAccessRequest = () => {
                 accessFirstDay: moment(determinStartDate(locations)).format('YYYY-MM-DD'),
                 accessLastDay: moment(determinEndDate(locations)).format('YYYY-MM-DD')
             },
-            locations: {
-                ...locations
-            },
-            workPlan: {
+            locations: [
+                 ...locations
+            ],
+            workStages: [
                 ...workStages
-            },
+            ],
             permitRequirements: {
                 ...permitRequirements
             },
@@ -121,6 +119,10 @@ const NewAccessRequest = () => {
 
     const onSetSiteDetails = (data) => {
         setSiteDetails(data);
+    }
+
+    const onSetSiteDetailsValidation = (isValid) => {
+        setSaveButtonDisabled(!isValid);
     }
 
     const onSetLocation = (action, index, location) => {
@@ -179,9 +181,11 @@ const NewAccessRequest = () => {
     const onSetPermitRequirement = (data) => {
         setPermitRequirements(data);
     }
+    
     const onSetElectricalIsolationRequirements = (data) => {
         setElectricalIsolationRequirements(data);
     }
+
     const onSetAdditionalInformation = (data) => {
         setAdditionalInformation(data);
     }
@@ -243,7 +247,7 @@ const NewAccessRequest = () => {
                 {/* requestor details */}
                 <Requester  displayName={ displayName } phoneNumber={ phoneNumber } email={ email } organisation={ organisation } />
                 {/* Site details */}
-                <SiteDetails siteDetails={ siteDetails } update={ onSetSiteDetails } />
+                <SiteDetails siteDetails={ siteDetails } update={ onSetSiteDetails } siteDetailsIsValid={ onSetSiteDetailsValidation } />
                 {/* locations */}
                 <Locations locations={ locations } add={ locationAddHandler } toggle={ locationCloseHandler } select={ locationSelectHandler } />
                 {/* work plan */}
@@ -258,7 +262,7 @@ const NewAccessRequest = () => {
 
             <div>
                 <div className='form-floating mb-2'>
-                    <button className='w-100 btn btn-lg btn-primary' type='button' onClick={ onSave }>Save as draft</button>
+                    <button className='w-100 btn btn-lg btn-primary' type='button' onClick={ onSave } disabled={ saveButtonDisabled }>Save as draft</button>
                 </div>
                 <div className='form-floating'>
                     <button className='w-100 btn btn-lg btn-danger' type='button' onClick={ onCancel }>Cancel</button>

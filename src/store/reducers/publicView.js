@@ -19,21 +19,23 @@ const publicViewSuccess = (state, action) => {
     let newPublicViewRequestItems = [];
     for(const key1 in action.requests) {
         let id = Object.keys(action.requests[key1]);
-        for(const key2 in action.requests[key1][id].locationItems) {
+        for(const key2 in action.requests[key1][id].locations) {
             newPublicViewRequestItems.push({
-                organisation: action.requests[key1][id].requestor.organisation,
-                title: action.requests[key1][id].summary.title || null,
-                startDate: action.requests[key1][id].locationItems[key2].startDate || null,
-                endDate: action.requests[key1][id].locationItems[key2].endDate || null,
-                location: action.requests[key1][id].locationItems[key2].location || [],
-                electricalIsolationRequired: action.requests[key1][id].locationItems[key2].electricalIsolationRequired || false,
-                signallingResourceRequired: action.requests[key1][id].locationItems[key2].signallingResourceRequired || false,
-                testTramsRequired: action.requests[key1][id].locationItems[key2].testTramsRequired || false,
-                colocate: action.requests[key1][id].locationItems[key2].colocate || '',
+                organisation: action.requests[key1][id].requester.organisation,
+                siteDescription: action.requests[key1][id].siteDetails.siteDescription || null,
+                startDate: action.requests[key1][id].locations[key2].startDate || null,
+                endDate: action.requests[key1][id].locations[key2].endDate || null,
+                startLocation: action.requests[key1][id].locations[key2].startLocation || null,
+                endLocation: action.requests[key1][id].locations[key2].endLocation || null,
+                // electricalIsolationRequired: action.requests[key1][id].locationItems[key2].electricalIsolationRequired || false,
+                // signallingResourceRequired: action.requests[key1][id].locationItems[key2].signallingResourceRequired || false,
+                // testTramsRequired: action.requests[key1][id].locationItems[key2].testTramsRequired || false,
+                // colocate: action.requests[key1][id].locationItems[key2].colocate || '',
                 status: action.requests[key1][id].status
             })  
         }
     }
+    console.log('MCA', newPublicViewRequestItems);
     
     return {
         ...state,

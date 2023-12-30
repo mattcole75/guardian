@@ -3,7 +3,7 @@ import ListItem from './listItem/listItem';
 
 const List = (props) => {
 
-    const { workStages, save } = props;
+    const { workStages, save, recordLocked } = props;
 
     return (
 
@@ -18,6 +18,7 @@ const List = (props) => {
                                     item={item}
                                     length={workStages.length}
                                     save={ save }
+                                    recordLocked={ recordLocked}
                                 />);
                             })
                         }

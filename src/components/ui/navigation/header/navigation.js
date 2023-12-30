@@ -1,10 +1,11 @@
 import React from 'react';
-import NavigationItem from './navigationItem/navigationItem';
-import NavigationMenuItem from './navigationMenuItem/navigationMenuItem';
+import NavigationItem from '../navigationItem/navigationItem';
+import NavigationListItem from '../navigationListItem/navigationListItem';
 
 const Navigation = (props) => {
 
-    const { isAuthenticated, isAdministrator } = props;
+    const { isAuthenticated, roles } = props;
+	const isAdministrator = roles.includes('administrator', 0);
 
     return (
         <nav>
@@ -16,7 +17,7 @@ const Navigation = (props) => {
 				{ isAuthenticated
 					? 	<NavigationItem link='/accessrequests' icon='bi-calendar2-week'>Access Requests</NavigationItem>
 					:	null
-				}	
+				}
 				
 				{/* auth */}
                 <div  className='dropdown text-end'>
@@ -26,15 +27,15 @@ const Navigation = (props) => {
 					</a>
 					<ul className='dropdown-menu text-small' aria-labelledby='dropdownProfile1'>
 						{ isAuthenticated
-							?	<NavigationMenuItem link='/profile' icon='bi-person'> Profile</NavigationMenuItem>
+							?	<NavigationListItem link='/profile' icon='bi-person'> Profile</NavigationListItem>
 							:	null
 						}
-						{ isAuthenticated
+						{ isAuthenticated && isAdministrator
 							?	<li><hr className='dropdown-divider'/></li>
 							:	null
 						}
 						{ isAuthenticated && isAdministrator
-							?	<NavigationMenuItem link='/users' icon='bi-people'> Users</NavigationMenuItem>
+							?	<NavigationListItem link='/users' icon='bi-people'> Users</NavigationListItem>
 							:	null
 						}
 						{ isAuthenticated
@@ -42,11 +43,11 @@ const Navigation = (props) => {
 							:	null
 						}						
                         { !isAuthenticated
-							?	<NavigationMenuItem link='/login' icon='bi-person-check'> Login</NavigationMenuItem>
+							?	<NavigationListItem link='/login' icon='bi-person-check'> Login</NavigationListItem>
 							:	null
 						}
 						{ isAuthenticated
-							?   <NavigationMenuItem link='/logout' icon='bi-person-x'> Logout</NavigationMenuItem>
+							?   <NavigationListItem link='/logout' icon='bi-person-x'> Logout</NavigationListItem>
 							:   null
 						}						
 					</ul>

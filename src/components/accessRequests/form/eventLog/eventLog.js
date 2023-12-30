@@ -1,17 +1,17 @@
 import React from 'react';
-import EventLogItem from './eventLogItem/eventLogItem';
+import TableLogItem from './logItem/tableLogItem';
+import CardLogItem from './logItem/cardLogItem';
+import './eventLog.css';
 
 const EventLog = (props) => {
 
     const { eventLog } = props;
 
 
-    return (
-        
-        // <div className='form-floating text-start'>
-
-            <div className='text-start table-responsive'>
-                {/* <table className='w-100 table table-sm table-hover table-borderless align-middle bg-light border-start border-end border-top shadow-sm fs-7 mb-0'> */}
+    return (  
+        <div>
+            {/* for larger screens show a table */}
+            <div className='event_table text-start'>
                 <table className='w-100 table table-hover table-borderless align-middle bg-light border-start border-end border-top shadow-sm fs-7'>
                     <thead className='border-bottom'>
                         <tr>
@@ -21,18 +21,30 @@ const EventLog = (props) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {
-                            eventLog != null && eventLog.map((item, index) => {
-                                return(<EventLogItem
-                                            key={(item.routeDisrupted + String(index))}
-                                            item={item}
-                                        />);
-                            })
+                        { eventLog && eventLog.map((item, index) => (
+                            <TableLogItem
+                                key={ index }
+                                item={ item }
+                            />
+                            ))
                         }
                     </tbody>
                 </table>
             </div>
-        // </div>
+
+            {/* For smaller screens show a list of cards */}
+            <div className='container event_card p-0'>
+                <div>
+                    { eventLog && eventLog.map((item, index) => (
+                        <CardLogItem
+                            key={ index }
+                            item={ item }
+                        />
+                        ))
+                    }
+                </div>
+            </div>
+        </div>
     )
 }
 

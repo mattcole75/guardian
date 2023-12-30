@@ -5,16 +5,16 @@ const WorkStageForm = (props) => {
 
     const { recordLocked, save, toggle } = props;
 
-    const { register, getValues, formState: { errors } } = useForm({ 
+    const { register, getValues, handleSubmit, formState: { errors } } = useForm({ 
         mode: 'onChange', 
     });
 
-    const onOk = useCallback(() => {
+    const onSubmit = useCallback(() => {
         save('ADD', null,  { ...getValues() });
     }, [getValues, save]);
 
     return (
-        <div className='form-location my-1 shadow'>
+        <form className='form-location my-1 shadow' onSubmit={handleSubmit(onSubmit)}>
             <div className='p-1'>
                 <h1 className='h3 mb-3 fw-normal text-start'>Work Stage</h1>
             </div>
@@ -22,7 +22,7 @@ const WorkStageForm = (props) => {
             <p className='text-start'><strong>Note:</strong> Indicate key stages of work, i.e: Erecting of scaffold, carry out roof inspection, remove scaffold.</p>
 
             <div className='form-floating mb-2'>
-                <input type='text' className='form-control' id='work_stage' autoComplete='off' placeholder='Work Stage' minLength={5} maxLength={31} required 
+                <input type='text' className='form-control' id='work_stage' autoComplete='off' placeholder='Work Stage' minLength={5} maxLength={31} required disabled={recordLocked}
                     { ...register('work_stage', {
                         required: "You must provide a work stage description",
                         minLength: {
@@ -41,7 +41,7 @@ const WorkStageForm = (props) => {
 
             {!recordLocked
                 ?   <div className='form-floating mb-3'>
-                        <button className='w-100 btn btn-lg btn-primary' type='button' onClick={ onOk }>Ok</button>
+                        <button className='w-100 btn btn-lg btn-primary' type='submit'>Ok</button>
                     </div>
                 :   null
             }
@@ -49,7 +49,7 @@ const WorkStageForm = (props) => {
                 <button className='w-100 btn btn-lg btn-secondary' type='button' onClick={ toggle }>Close</button>
             </div>
 
-        </div>
+        </form>
     );
 }
 

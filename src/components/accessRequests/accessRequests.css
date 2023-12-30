@@ -1,0 +1,12 @@
+.access-request_card {
+    display: none;
+}
+
+@media (max-width: 767.98px) {
+    .access-request_table {
+        display: none;
+    }
+    .access-request_card {
+        display: block;
+    }
+}

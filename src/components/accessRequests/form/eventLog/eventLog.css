@@ -1,0 +1,12 @@
+.event_card {
+    display: none;
+}
+
+@media (max-width: 767.98px) {
+    .event_table {
+        display: none;
+    }
+    .event_card {
+        display: block;
+    }
+}

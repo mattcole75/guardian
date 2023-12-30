@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import Header from '../components/ui/header/header';
-import Sidebar from '../components/ui/sidebar/sidebar';
+// import Sidebar from '../components/ui/sidebar/sidebar';
+import Sidebar from '../components/ui/navigation/sidebar/sidebar';
 import Footer from '../components/ui/footer/footer';
-import { useSelector } from 'react-redux';
 
 const Layout = (props) => {
 
-    const isAuthenticated = useSelector(state => state.auth.idToken !== null);
-    const roles = useSelector(state => state.auth.roles);
+    const { roles, isAuthenticated } = props;
 
     const [showSidebar, setShowSidebar] = useState(false);
 
@@ -19,8 +18,8 @@ const Layout = (props) => {
     return (
         <React.Fragment>
 
-            <Header isAuthenticated={ isAuthenticated } roles={roles} showSidebar={ showSidebar } toggleShowSidebar={ toggleShowSidebar } />  
-            <Sidebar isAuthenticated={ isAuthenticated } roles={roles} showSidebar={ showSidebar } toggleShowSidebar={ toggleShowSidebar } />
+            <Header showSidebar={ showSidebar } toggleShowSidebar={ toggleShowSidebar } isAuthenticated={ isAuthenticated } roles={ roles } />
+            <Sidebar showSidebar={ showSidebar } toggleShowSidebar={ toggleShowSidebar } isAuthenticated={ isAuthenticated } roles={ roles } />
             
             <main>
                 {props.children}

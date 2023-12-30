@@ -13,12 +13,11 @@ const LocationForm = (props) => {
 
     const { location, index, recordLocked, save, close } = props;
 
-    const { register, reset, getValues, formState: { errors } } = useForm({ 
+    const { register, reset, getValues, handleSubmit, formState: { errors } } = useForm({ 
         mode: 'onBlur', 
     });
 
     useEffect(() => {
-        console.log('location?', location);
         if(location) {
             reset(location);
         }
@@ -164,7 +163,7 @@ const LocationForm = (props) => {
 
     // }, [createComplianceLog, index, accessRequest.eventLog, accessRequest.locationItems, save, toggle]);
 
-    const onOk = useCallback(() => {
+    const onSubmit = useCallback(() => {
         console.log(index);
         if(index == null)
             save('ADD', null, { ...getValues(), status: 'Pending' });
@@ -181,13 +180,13 @@ const LocationForm = (props) => {
     }, [close]);
 
     return (
-        <div className='form-location my-1 shadow'>
+        <form className='form-location my-1 shadow' onSubmit={handleSubmit(onSubmit)}>
             <div className='p-1'>
                 <h1 className='h3 mb-3 fw-normal text-start'>Location</h1>
 
                 {/* Location Section */}
-                    <div className='row g-2 mb-2'>
-                        <div className='form-floating  col-sm-6'>
+                    <div className='row g-2'>
+                        <div className='form-floating  col-sm-6 mb-2'>
                             <select className='form-select' id='startLocation' required disabled={recordLocked}
                                 {...register('startLocation', { required: 'A start location must be selected' })}>
                                 <option value=''>Choose...</option>
@@ -198,9 +197,10 @@ const LocationForm = (props) => {
                                 }
                             </select>
                             <label htmlFor='startLocation'>Start Location</label>
+                            { errors.startLocation && <p className='form-error mt-1 text-start'>{errors.startLocation.message}</p> }
                         </div>
 
-                        <div className='form-floating  col-sm-6'>
+                        <div className='form-floating  col-sm-6 mb-2'>
                             <select className='form-select' id='endLocation' required disabled={recordLocked}
                                 {...register('endLocation', { required: 'A location must be selected' })}>
                                 <option value=''>Choose...</option>
@@ -211,6 +211,7 @@ const LocationForm = (props) => {
                                 }
                             </select>
                             <label htmlFor='endLocation'>End Location</label>
+                            { errors.endLocation && <p className='form-error mt-1 text-start'>{errors.endLocation.message}</p> }
                         </div>
                     </div>
 
@@ -228,39 +229,39 @@ const LocationForm = (props) => {
                 { errors.accessType && <p className='form-error mt-1 text-start'>{errors.accessType.message}</p> } */}
                 
                 {/* Dates & times Section */}
-                <div className='row g-2 bg-light'>
-                    <div className='form-floating  col-sm-6'>
-                        <input type='date' className='form-control' id='startDate' placeholder='Date' required
+                <div className='row g-2'>
+                    <div className='form-floating  col-sm-6 mb-2'>
+                        <input type='date' className='form-control' id='startDate' placeholder='Date' min={ new Date().toISOString().split('T')[0] } required
                             disabled={ recordLocked } 
                             { ...register('startDate', { required: 'You must provide a start date' }) } />
                         <label htmlFor='startDate' className='form-label'>Start Date</label>
+                        { errors.startDate && <p className='form-error mt-1 text-start'>{errors.startDate.message}</p> }
                     </div>
-                    <div className='form-floating col-sm-6 mb-1'>
+                    <div className='form-floating col-sm-6 mb-2'>
                         <input type='time' className='form-control' id='startTime' placeholder='Date' required
                             disabled={ recordLocked } 
                             { ...register('startTime', { required: 'You must provide a start time' }) } />
                         <label htmlFor='startTime' className='form-label'>Start Time</label>
+                        { errors.startTime && <p className='form-error mt-1 text-start'>{errors.startTime.message}</p> }
                     </div>
                 </div>
 
-                <div className='row g-2 bg-light'>
-                    <div className='form-floating  col-sm-6 mb-3'>
-                        <input type='date' className='form-control' id='endDate' placeholder='Date' required
-                            disabled={ recordLocked } 
+                <div className='row g-2'>
+                    <div className='form-floating  col-sm-6'>
+                        <input type='date' className='form-control' id='endDate' placeholder='Date' min={ new Date().toISOString().split('T')[0] } required
+                            disabled={ recordLocked }
                             { ...register('endDate', { required: 'You must provide an end date' }) } />
                         <label htmlFor='endDate' className='form-label'>End Date</label>
+                        { errors.endDate && <p className='form-error mt-1 text-start'>{errors.endDate.message}</p> }
                     </div>
-                    <div className='form-floating col-sm-6 mb-3'>
+                    <div className='form-floating col-sm-6 mb-2'>
                         <input type='time' className='form-control' id='endTime' placeholder='Date' required
                             disabled={ recordLocked } 
                             { ...register('endTime', { required: 'You must provide an end time' }) } />
                         <label htmlFor='endTime' className='form-label'>End Time</label>
+                        { errors.endTime && <p className='form-error mt-1 text-start'>{errors.endTime.message}</p> }    
                     </div>
                 </div>
-                { errors.startDate && <p className='form-error mt-1 text-start'>{errors.startDate.message}</p> }
-                { errors.startTime && <p className='form-error mt-1 text-start'>{errors.startTime.message}</p> }
-                { errors.endDate && <p className='form-error mt-1 text-start'>{errors.endDate.message}</p> }
-                { errors.endTime && <p className='form-error mt-1 text-start'>{errors.endTime.message}</p> }
 
                 {/* co-locate */}
                 {/* <div className='form-floating mb-3 mt-1'>
@@ -426,21 +427,28 @@ const LocationForm = (props) => {
                         }
                     </select>
                     <label htmlFor='nearestHospital'>Nearest hospital</label>
+                    { errors.nearestHospital && <p className='form-error mt-1 text-start'>{errors.nearestHospital.message}</p> }
                 </div>
-                { errors.nearestHospital && <p className='form-error mt-1 text-start'>{errors.nearestHospital.message}</p> }
+                
                 
                 {!recordLocked
                     ?   <div className='form-floating mb-3'>
-                            <button className='w-100 btn btn-lg btn-primary' type='button' onClick={ onOk }>Ok</button>
+                            <button className='w-100 btn btn-lg btn-primary' type='submit'>Ok</button>
                         </div>
                     :   null
                 }
                 <div className='form-floating mb-5'>
                     <button className='w-100 btn btn-lg btn-secondary' type='button' onClick={ onClose }>Close</button>
                 </div>
-                <div className='form-floating mb-3'>
-                    <button className='w-100 btn btn-lg btn-danger' type='button' onClick={ onDelete }>Delete</button>
-                </div>
+
+                { location && !recordLocked
+                    ?   <div className='form-floating mb-3'>
+                            <button className='w-100 btn btn-lg btn-danger' type='button' onClick={ onDelete }>Delete</button>
+                        </div>
+                    :   null
+
+                }
+                
 
                 {/* {accessRequest && !recordLocked && accessRequest.requestor.name === displayName
                     ?   <div className='form-floating mb-3'>
@@ -460,7 +468,7 @@ const LocationForm = (props) => {
                     : null
                 } */}
             </div>
-        </div>
+        </form>
     )
 }
 

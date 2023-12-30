@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 
 const AdditionalInformation = (props) => {
 
-    const { additionalInformation, update } = props;
+    const { additionalInformation, update, recordLocked } = props;
     const { register, reset, getValues, formState: { errors } } = useForm({ mode: 'onBlur' });
 
     useEffect(() => {
@@ -18,13 +18,13 @@ const AdditionalInformation = (props) => {
     }
 
     return (
-        <div className="mb-3">
+        <div>
             <div className='text-start'>
                 <h4 className='h4 fw-normal'>Additional Information</h4>
             </div>
             <div className='form-floating'>
                 <textarea className='form-control' id='additionalInformation'  
-                    rows='5' minLength={5} style={{height:'auto'}} placeholder='Additional Information'
+                    rows='5' minLength={5} style={{height:'auto'}} placeholder='Additional Information' disabled={recordLocked}
                     {...register('additionalInformation', { onChange:  onUpdate,
                         minLength: {
                             value: 5,
@@ -32,7 +32,7 @@ const AdditionalInformation = (props) => {
                         },
                         maxLength: {
                             value: 250,
-                            message: 'The requirement must have less than 250 characters'
+                            message: "The requirement must have less than 250 characters"
                         }
                     })}
                 />

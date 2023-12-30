@@ -1,7 +1,8 @@
 import React  from 'react';
 
 import MapItem from './mapItem/mapItem';
-import locationList from '../../../data/locations';
+// import locationList from '../../../data/locations';
+import locationList from '../../../configuration/lists/locations.json';
 
 const Map = (props) => {
 
@@ -15,7 +16,7 @@ const Map = (props) => {
             <div className='map-item_container'>
                 {   
                     locationList.map(item => {
-                        return <MapItem key={item.code} name={item.name} code={item.code} requests={requests}/>
+                        return <MapItem key={item.code} location={item.location} code={item.code} requests={requests}/>
                     })
                 }
             </div>

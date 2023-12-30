@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 
-const EventLogItem = (props) => {
+const tableLogItem = (props) => {
 
     const { item } = props;
 
@@ -28,4 +28,4 @@ const EventLogItem = (props) => {
     );
 }
 
-export default EventLogItem;
+export default tableLogItem;

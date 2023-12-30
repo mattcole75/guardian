@@ -37,7 +37,7 @@ const WorkStages = (props) => {
 
             </div>
 
-            <List workStages={ workStages } toggle={ toggle } select={ select } save={ save } />
+            <List workStages={ workStages } toggle={ toggle } select={ select } save={ save } recordLocked={ recordLocked } />
         </div>
     );
 }

@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 
 const PermitRequirements = (props) => {
 
-    const { permitRequirements, update } = props;
+    const { permitRequirements, update, recordLocked } = props;
     const { register, reset, getValues } = useForm({ mode: 'onBlur' });
 
     useEffect(() => {
@@ -25,7 +25,7 @@ const PermitRequirements = (props) => {
             <div className='list-group'>
                 <label className='list-group-item d-flex gap-2'>
                     <div className='form-check form-switch'>
-                        <input className='form-check-input' type='checkbox' role='switch' id='hazardZone' 
+                        <input className='form-check-input' type='checkbox' role='switch' id='hazardZone' disabled={recordLocked}
                             { ...register('hazardZone', { onChange:  onUpdate })}
                         />
                     </div>
@@ -39,7 +39,7 @@ const PermitRequirements = (props) => {
             <div className='list-group'>
                 <label className='list-group-item d-flex gap-2'>
                     <div className='form-check form-switch'>
-                        <input className='form-check-input' type='checkbox' role='switch' id='pedestrians' 
+                        <input className='form-check-input' type='checkbox' role='switch' id='pedestrians' disabled={recordLocked}
                             { ...register('pedestrians', { onChange:  onUpdate })}
                         />
                     </div>
@@ -53,7 +53,7 @@ const PermitRequirements = (props) => {
             <div className='list-group'>
                 <label className='list-group-item d-flex gap-2'>
                     <div className='form-check form-switch'>
-                        <input className='form-check-input' type='checkbox' role='switch' id='piling' 
+                        <input className='form-check-input' type='checkbox' role='switch' id='piling' disabled={recordLocked}
                             { ...register('piling', { onChange:  onUpdate })}
                         />
                     </div>
@@ -67,7 +67,7 @@ const PermitRequirements = (props) => {
             <div className='list-group'>
                 <label className='list-group-item d-flex gap-2'>
                     <div className='form-check form-switch'>
-                        <input className='form-check-input' type='checkbox' role='switch' id='crane' 
+                        <input className='form-check-input' type='checkbox' role='switch' id='crane' disabled={recordLocked}
                             { ...register('crane', { onChange:  onUpdate })}
                         />
                     </div>
@@ -81,7 +81,7 @@ const PermitRequirements = (props) => {
             <div className='list-group'>
                 <label className='list-group-item d-flex gap-2'>
                     <div className='form-check form-switch'>
-                        <input className='form-check-input' type='checkbox' role='switch' id='deepExcavation' 
+                        <input className='form-check-input' type='checkbox' role='switch' id='deepExcavation' disabled={recordLocked}
                             { ...register('deepExcavation', { onChange:  onUpdate })}
                         />
                     </div>
@@ -95,7 +95,7 @@ const PermitRequirements = (props) => {
             <div className='list-group'>
                 <label className='list-group-item d-flex gap-2'>
                     <div className='form-check form-switch'>
-                        <input className='form-check-input' type='checkbox' role='switch' id='scaffold' 
+                        <input className='form-check-input' type='checkbox' role='switch' id='scaffold' disabled={recordLocked}
                             { ...register('scaffold', { onChange:  onUpdate })}
                         />
                     </div>
@@ -109,7 +109,7 @@ const PermitRequirements = (props) => {
             <div className='list-group'>
                 <label className='list-group-item d-flex gap-2'>
                     <div className='form-check form-switch'>
-                        <input className='form-check-input' type='checkbox' role='switch' id='demolition' 
+                        <input className='form-check-input' type='checkbox' role='switch' id='demolition' disabled={recordLocked}
                             { ...register('demolition', { onChange:  onUpdate })}
                         />
                     </div>
@@ -123,7 +123,7 @@ const PermitRequirements = (props) => {
             <div className='list-group'>
                 <label className='list-group-item d-flex gap-2'>
                     <div className='form-check form-switch'>
-                        <input className='form-check-input' type='checkbox' role='switch' id='OLEexcavation' 
+                        <input className='form-check-input' type='checkbox' role='switch' id='OLEexcavation' disabled={recordLocked}
                             { ...register('OLEexcavation', { onChange:  onUpdate })}
                         />
                     </div>
@@ -137,7 +137,7 @@ const PermitRequirements = (props) => {
             <div className='list-group'>
                 <label className='list-group-item d-flex gap-2'>
                     <div className='form-check form-switch'>
-                        <input className='form-check-input' type='checkbox' role='switch' id='OLEstructures' 
+                        <input className='form-check-input' type='checkbox' role='switch' id='OLEstructures' disabled={recordLocked}
                             { ...register('OLEstructures', { onChange:  onUpdate })}
                         />
                     </div>
@@ -151,7 +151,7 @@ const PermitRequirements = (props) => {
             <div className='list-group'>
                 <label className='list-group-item d-flex gap-2'>
                     <div className='form-check form-switch'>
-                        <input className='form-check-input' type='checkbox' role='switch' id='accessRoutes' 
+                        <input className='form-check-input' type='checkbox' role='switch' id='accessRoutes' disabled={recordLocked}
                             { ...register('accessRoutes', { onChange:  onUpdate })}
                         />
                     </div>
@@ -165,7 +165,7 @@ const PermitRequirements = (props) => {
             <div className='list-group'>
                 <label className='list-group-item d-flex gap-2'>
                     <div className='form-check form-switch'>
-                        <input className='form-check-input' type='checkbox' role='switch' id='operationsAffected' 
+                        <input className='form-check-input' type='checkbox' role='switch' id='operationsAffected' disabled={recordLocked}
                             { ...register('operationsAffected', { onChange:  onUpdate })}
                         />
                     </div>
