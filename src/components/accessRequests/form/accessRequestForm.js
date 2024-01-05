@@ -1,16 +1,11 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as action from '../../../store/actions/index';
+import { userGetAccessRequest, userUpdateAccessRequest } from '../../../store/actions/index';
 import { Navigate, useParams } from 'react-router-dom';
 import moment from 'moment';
 
 import { determinStartDate, determinEndDate } from '../../../shared/utility';
-// import Administration from './administration/administration';
 import Requester from './requester/requester';
-// import AccessRequestSummary from './requestSummary/accessRequestSummary';
-// import Locations from './location/locations';
-// import LocationForm from './location/form/locationForm';
-// import Hazards from './hazards/hazards';
 import Comment from '../comment/comment';
 import EventLog from './eventLog/eventLog';
 
@@ -22,6 +17,7 @@ import WorkStageForm from './workStages/form/workStageForm';
 import PermitRequirements from './permitRequirements/permitRequirements';
 import ElectricalIsolationRequirements from './electricalIsolationRequirements/electricalIsolationRequirements';
 import AdditionalInformation from './additionalInformation/additionalInformation';
+import PlannerInformation from './plannerInformation/plannerInformation.';
 
 import Modal from '../../ui/modal/modal';
 import Backdrop from '../../ui/backdrop/backdrop';
@@ -32,9 +28,8 @@ const AccessRequestForm = () => {
     const { uid } = useParams();
     const dispatch = useDispatch();
 
-    const { loading, error, identifier } = useSelector(state => state.accessRequest);
+    const { loading, error, identifier, accessRequest } = useSelector(state => state.accessRequest);
     const { idToken, localId, displayName, roles } = useSelector(state => state.auth);
-    const accessRequest = useSelector(state => state.accessRequest.accessRequest);
     
     const [ editLocation, setEditLocation ] = useState(false);
     const [ editWorkStage, setEditWorkStage ] = useState(false);
@@ -43,7 +38,6 @@ const AccessRequestForm = () => {
     const [ recordLocked, setRecordLocked ] = useState(false);
     const [ comment, setComment ] = useState('');
     const [ commentButtonEnabled, setCommentButtonEnabled ] = useState(false);
-    const [ grantButtonDisabled, setGrantButtonDisabled ] = useState(true);
     const [ submitButtonDisabled, setSubmitButtonDisabled ] = useState(true);
     const [ saveButtonDisabled, setSaveButtonDisabled ] = useState(true);
 
@@ -55,32 +49,19 @@ const AccessRequestForm = () => {
     const [ permitRequirements, setPermitRequirements] = useState(null);
     const [ electricalIsolationRequirements, setElectricalIsolationRequirements ] = useState(null);
     const [ additionalInformation, setAdditionalInformation ] = useState(null);
+    const [ plannerInformation, setPlannerInformation ] = useState(null);
 
     const [ siteDetailsValid, setSiteDetailsValid ] = useState(true);
+    
+    const onGetAccessRequest = useCallback((idToken, localId, uid, identifier) => dispatch(userGetAccessRequest(idToken, localId, uid, identifier)), [dispatch]);
+    const onUpdateAccessRequest = useCallback((id, idToken, localId, data, identifier) => dispatch(userUpdateAccessRequest(id, idToken, localId, data, identifier)), [dispatch]);
 
-    const isPlanner = roles.includes('planner');
-    
-    // set the record uid as uid
-    // let key = null;
-    // if(accessRequest && uid !== 'new') {
-        // key = uid;
-    // } else if (accessRequest && uid === 'new') {
-        // uid = Object.uids(accessRequest)[0];
-    // }
-    
-    const onGetAccessRequest = useCallback((idToken, localId, uid, identifier) => dispatch(action.userGetAccessRequest(idToken, localId, uid, identifier)), [dispatch]);
-    const onUpdateAccessRequest = useCallback((id, idToken, localId, data, identifier) => dispatch(action.userUpdateAccessRequest(id, idToken, localId, data, identifier)), [dispatch]);
-    const onGetPlanners = useCallback((idToken, localId, identifier) => dispatch(action.plannerGetPlanners(idToken, localId, identifier)), [dispatch]);
-    
-    // load access request if it's not new
+    // load access request
     useEffect (() => {
-        // get access request from db
-        if(roles.includes('planner') || roles.includes('coordinator'))
-            onGetPlanners(idToken, localId, 'GET_PLANNERS');
-            
         onGetAccessRequest(idToken, localId, uid, 'GET_ACCESS_REQUEST');
-    }, [uid, idToken, localId, onGetAccessRequest, roles, onGetPlanners]);
+    }, [uid, idToken, localId, onGetAccessRequest]);
 
+    // load state once record retrieved
     useEffect(() => {
         if(identifier === 'GET_ACCESS_REQUEST') {
             setSiteDetails(accessRequest[uid].siteDetails)
@@ -89,25 +70,26 @@ const AccessRequestForm = () => {
             setPermitRequirements(accessRequest[uid].permitRequirements);
             setElectricalIsolationRequirements(accessRequest[uid].electricalIsolationRequirements);
             setAdditionalInformation(accessRequest[uid].additionalInformation);
+            setPlannerInformation(accessRequest[uid].plannerInformation);
         }
     }, [identifier, accessRequest, uid]);
 
     // if a user tries to view another users access request then redirect
     useEffect(() => {
         if(!roles.includes('planner'))
-            if(accessRequest != null && accessRequest[uid].requester.displayName !== displayName)
+            if(accessRequest != null && accessRequest[uid].requester.localId !== localId)
                 setRedirect(<Navigate to='/forbidden' />);
-    }, [accessRequest, displayName, uid, roles]);
+    }, [accessRequest, localId, uid, roles]);
 
     // determin if the record is editable based on status
     useEffect(() => {
         if(accessRequest) {
-            if(accessRequest[uid].status === 'Submitted' || accessRequest[uid].status === 'Under Review' || accessRequest[uid].status === 'Granted')
+            if(accessRequest[uid].status === 'Submitted' || accessRequest[uid].status === 'Under Review' || accessRequest[uid].status === 'Granted' || accessRequest[uid].status === 'Completed' || accessRequest[uid].requester.localId !== localId)
                 setRecordLocked(true);
             else
                 setRecordLocked(false);
         }
-    }, [accessRequest, uid]);
+    }, [accessRequest, localId, uid]);
 
     // enable or disable the comment button
     useEffect(() => {
@@ -133,25 +115,6 @@ const AccessRequestForm = () => {
             setSubmitButtonDisabled(true);
     }, [uid, accessRequest, saveButtonDisabled]);
 
-    // enable or disable the grant access button
-    useEffect(() => {
-
-        let allLocationItemsConfirmed = true;
-        let allDisruptedItemsApproved = true;
-
-        if(accessRequest && accessRequest[uid].locationItems && accessRequest[uid].locationItems.length > 0) {
-            accessRequest[uid].locationItems.forEach(ele => {
-                if(ele.locationStatus !== 'Confirmed')
-                    allLocationItemsConfirmed = false;
-            });
-        }
-
-        if(allLocationItemsConfirmed === true && allDisruptedItemsApproved === true)
-            setGrantButtonDisabled(false);
-        else
-            setGrantButtonDisabled(true);
-    }, [accessRequest, uid]);
-
     // save the access request, this may be a new record or an update to an existing record
     const onSave = useCallback(() => {
         onUpdateAccessRequest(uid, idToken, localId, {
@@ -175,17 +138,46 @@ const AccessRequestForm = () => {
             additionalInformation: {
                 ...additionalInformation
             },
-            status: 'Draft',
-            updated: moment().format(),
+            status: 'Draft'
             }, 'UPDATE_ACCESS_REQUEST');
     }, [onUpdateAccessRequest, uid, idToken, localId, siteDetails, locations, workStages, permitRequirements, electricalIsolationRequirements, additionalInformation]);
 
-    const saveAccessRequestHandler = useCallback((data) => {
+    const onPlannerSave = useCallback((status) => {
+    
+        let updatedEventLogItems = [ ...accessRequest[uid].eventLog ];
+
+        switch(status) {
+            case 'Denied':
+                updatedEventLogItems.push({ user: displayName, logged: moment().format(), event: 'The Access Request has been denied' });
+                break;
+            case 'Granted':
+                updatedEventLogItems.push({ user: displayName, logged: moment().format(), event: 'The Access Request has been granted' });
+                break;
+            case 'Completed':
+                updatedEventLogItems.push({ user: displayName, logged: moment().format(), event: 'The Access Request has been completed' });
+                break;
+            case 'Deleted':
+                updatedEventLogItems.push({ user: displayName, logged: moment().format(), event: 'The Access Request has been deleted' });
+                break;
+            default:
+                break;
+        }
+
         onUpdateAccessRequest(uid, idToken, localId, {
-            ...accessRequest[uid],
+            plannerInformation: {
+                ...plannerInformation
+            },
+            status: status,
+            eventLog: updatedEventLogItems
+            }, 'UPDATE_ACCESS_REQUEST');
+
+    }, [accessRequest, uid, onUpdateAccessRequest, idToken, localId, plannerInformation, displayName]);
+
+    const onSaveComments = useCallback((data) => {
+        onUpdateAccessRequest(uid, idToken, localId, {
             ...data
         }, 'UPDATE_ACCESS_REQUEST');
-    }, [idToken, uid, localId, onUpdateAccessRequest, accessRequest]);
+    }, [idToken, uid, localId, onUpdateAccessRequest]);
 
     const createComplianceLog = useCallback((locations) => {
         if(moment(determinStartDate(locations)).diff(moment(accessRequest[uid].created), 'week') < 6) {
@@ -222,7 +214,7 @@ const AccessRequestForm = () => {
             additionalInformation: {
                 ...additionalInformation
             },
-            status: status, 
+            status: status,
             updated: moment().format(),
             eventLog: updatedEventLogItems
         }, 'UPDATE_ACCESS_REQUEST_STATUS');
@@ -243,13 +235,9 @@ const AccessRequestForm = () => {
                 comment: comment
             });
 
-            saveAccessRequestHandler({ comments: updatedComments }, 'SAVE_ACCESS_REQUEST');
+            onSaveComments({ comments: updatedComments }, 'SAVE_ACCESS_REQUEST');
         setComment('');
-    }, [comment, displayName, uid, accessRequest, saveAccessRequestHandler]);
-
-    // const locationSelectHandler = useCallback((index) => {
-    //     onLocationItemSelect(index, 'LOCATION_ITEM_SELECT');
-    // }, [onLocationItemSelect]);
+    }, [comment, displayName, uid, accessRequest, onSaveComments]);
 
     const toggleLocationEdit = () => {
         setEditLocation(prevState => !prevState);
@@ -348,6 +336,10 @@ const AccessRequestForm = () => {
         setAdditionalInformation(data);
     }
 
+    const onSetPlannerInformation = (data) => {
+        setPlannerInformation(data);
+    }
+
     const onCancel = () => {
         setRedirect(<Navigate to='/accessrequests' />);
     }
@@ -408,22 +400,6 @@ const AccessRequestForm = () => {
                 <div className='form-floating mb-3'>
 
                     <div className='accordion' id='accordionPanels'>
-                        {/* This section is for planners and coordinators to discuss the access request */}
-                        { accessRequest && isPlanner && (accessRequest[uid].requester.name !== displayName)
-                            ?   <div className='accordion-item'>
-                                    <h2 className='accordion-header' id='panelsStayOpen-headingAdministration'>
-                                        <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseAdministration' aria-expanded='true' aria-controls='panelsStayOpen-collapseAdministration'>
-                                            Administration (only coordinators and planners can see this tab)
-                                        </button>
-                                    </h2>
-                                    <div id='panelsStayOpen-collapseAdministration' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingAdministration'>
-                                        <div className='accordion-body'>
-                                            {/* <Administration  accessRequest={accessRequest ? accessRequest[uid] : null} save={saveAccessRequestHandler} /> */}
-                                        </div>
-                                    </div>
-                                </div>
-                            :   null
-                        }
 
                         {/* This section details the person who made the request and is collapsed by default */}
                         { accessRequest
@@ -471,7 +447,7 @@ const AccessRequestForm = () => {
                                         <div className='accordion-body'>
                                             {/* <AccessRequestSummary summary={ accessRequest ? accessRequest[uid].summary : null } locationItems={ accessRequest ? accessRequest[uid].locationItems : null } save={saveAccessRequestHandler} recordLocked={recordLocked} /> */}
                                             {/* Site details */}
-                                            <SiteDetails siteDetails={ siteDetails } update={ onSetSiteDetails } recordLocked={ recordLocked } siteDetailsIsValid={ onSetSiteDetailsValidation } />
+                                            <SiteDetails siteDetails={ siteDetails } update={ onSetSiteDetails } recordLocked={ recordLocked } siteDetailsIsValid={ onSetSiteDetailsValidation } status={ accessRequest[uid].status } />
                                             {/* locations */}
                                             <Locations locations={ locations } add={ locationAddHandler } toggle={ locationCloseHandler } select={ locationSelectHandler } recordLocked={ recordLocked } />
                                             {/* work plan */}
@@ -489,12 +465,12 @@ const AccessRequestForm = () => {
                                                     ?   <button className='w-100 btn btn-lg btn-primary mb-2' type='button' onClick={ onSave } disabled={ saveButtonDisabled }>Save as draft</button>
                                                     :   null
                                                 }
-                                                { (!recordLocked && accessRequest && (accessRequest[uid].requester.displayName === displayName))
+                                                { (!recordLocked && accessRequest && (accessRequest[uid].requester.localId === localId))
                                                     ?   <button className='w-100 btn btn-lg btn-success mb-2' type='button' disabled={ submitButtonDisabled } onClick={ () => { submitRequestHandler('Submitted') } }>Submit For Approval</button>
                                                     :   null
                                                 }
                                                 { !recordLocked
-                                                    ?   <button className='w-100 btn btn-lg btn-danger' type='button' onClick={ onCancel }>Cancel</button>
+                                                    ?   <button className='w-100 btn btn-lg btn-secondary' type='button' onClick={ onCancel }>Close</button>
                                                     :   null
                                                 }
                                             </div>
@@ -514,11 +490,12 @@ const AccessRequestForm = () => {
                                     </h2>
                                     <div id='panelsStayOpen-collapseHazards' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingHazards'>
                                         <div className='accordion-body'>
-                                            {/* <Hazards
-                                                accessRequest={accessRequest ? accessRequest[uid] : null}
-                                                save={saveAccessRequestHandler}
-                                                recordLocked={recordLocked}
-                                            /> */}
+                                            <PlannerInformation 
+                                                plannerInformation={ plannerInformation }
+                                                update={ onSetPlannerInformation }
+                                                save={ onPlannerSave }
+                                                isPlanner={ roles.includes('planner') }
+                                            />
                                         </div>
                                     </div>
                                 </div>
@@ -558,24 +535,6 @@ const AccessRequestForm = () => {
                         }
                     </div>                        
                 </div>
-                { (!recordLocked && accessRequest && (accessRequest[uid].requester.name === displayName))
-                    ?   <button className='w-100 btn btn-lg btn-primary mb-3' type='button' disabled={submitButtonDisabled} onClick={ () => { submitRequestHandler('Submitted') } }>Submit For Approval</button>
-                    :   null
-                }
-                { (accessRequest && isPlanner === true) && (accessRequest[uid].requester.name !== displayName)
-                    ?   <div>
-                            {accessRequest && accessRequest[uid].status === 'Submitted' && accessRequest[uid].status !== 'Approved'
-                                ?   <button className='w-100 btn btn-lg btn-success mb-3' type='button' disabled={ grantButtonDisabled } onClick={() => { submitRequestHandler('Granted')}}>Grant Access</button>
-                                :   null
-                            }
-                            {accessRequest && (accessRequest[uid].status === 'Submitted' || accessRequest[uid].status === 'Granted')
-                                ?   <button className='w-100 btn btn-lg btn-danger' type='button' disabled={false} onClick={ () => { submitRequestHandler('Denied') } }>Deny Access</button>
-                                :   null
-                            }
-                            
-                        </div>
-                    :   null
-                }
             </div>
         </div>
     )

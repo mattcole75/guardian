@@ -33,8 +33,6 @@ const NewAccessRequest = () => {
     const [editWorkStage, setEditWorkStage] = useState(false);
 
     const [ redirect, setRedirect ] = useState(null);
-    // const [applyValidationCss, setApplyValidationCss] = useState(false);
-
     const [ siteDetails, setSiteDetails ] = useState(null);
     const [ locations, setLocations ] = useState([]);
     const [ selectedLocationIndex, setSelectedLocationIndex ] = useState(null);
@@ -45,12 +43,11 @@ const NewAccessRequest = () => {
     const [ additionalInformation, setAdditionalInformation ] = useState(null);
     const [ saveButtonDisabled, setSaveButtonDisabled ] = useState(true);
 
+    // once the access request has been saved then navigate back to the access request list
     useEffect(() => {
         if(identifier === 'CREATE_ACCESS_REQUEST')
             setRedirect(<Navigate to='/accessrequests' />);
     }, [identifier]);
-
-    
 
     const onSave = useCallback(() => {
         onCreateAccessRequest(idToken, localId, {
@@ -223,7 +220,6 @@ const NewAccessRequest = () => {
     }
 
     return (
-        // <div className={ applyValidationCss ? 'form-request my-5 shadow was-validated' : 'form-request my-5 shadow' }>
         <div className='form-request my-5 shadow'>
             { redirect }
             <Backdrop show={ loading } />

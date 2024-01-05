@@ -7,35 +7,43 @@ const accessRequestStart = () => {
     };
 }
 
-const createAccessRequestSuccess = (id, accessRequest, identifier) => {
+const userCreateAccessRequestSuccess = (id, accessRequest, identifier) => {
     return {
-        type: type.ACCESS_REQUEST_CREATE_SUCCESS,
+        type: type.USER_CREATE_ACCESS_REQUEST_SUCCESS,
         id: id,
         accessRequest: accessRequest,
         identifier: identifier
     };
 }
 
-const updateAccessRequestSuccess = (id, accessRequest, identifier) => {
+const userUpdateAccessRequestSuccess = (id, accessRequest, identifier) => {
     return {
-        type: type.ACCESS_REQUEST_UPDATE_SUCCESS,
+        type: type.USER_UPDATE_ACCESS_REQUEST_SUCCESS,
         id: id,
         accessRequest: accessRequest,
         identifier: identifier
     };
 }
 
-const getAccessRequestsSuccess = (accessRequests, identifier) => {
+const userGetAccessRequestsSuccess = (accessRequests, identifier) => {
     return {
-        type: type.ACCESS_REQUESTS_GET_SUCCESS,
+        type: type.USER_GET_ACCESS_REQUESTS_SUCCESS,
         accessRequests: accessRequests,
         identifier: identifier
     };
 }
 
-const getAccessRquestSuccess = (accessRequest, identifier) => {
+const plannerGetAccessRequestsSuccess = (accessRequests, identifier) => {
     return {
-        type: type.ACCESS_REQUEST_GET_SUCCESS,
+        type: type.PLANNER_GET_ACCESS_REQUESTS_SUCCESS,
+        accessRequests: accessRequests,
+        identifier: identifier
+    }
+}
+
+const userGetAccessRquestSuccess = (accessRequest, identifier) => {
+    return {
+        type: type.USER_GET_ACCESS_REQUEST_SUCCESS,
         accessRequest: accessRequest,
         identifier: identifier
     };
@@ -43,7 +51,7 @@ const getAccessRquestSuccess = (accessRequest, identifier) => {
 
 const getPlannersSuccess = (planners, identifier) => {
     return {
-        type: type.ACCESS_REQUESTS_PLANNERS_GET_SUCCESS,
+        type: type.ACCESS_REQUEST_PLANNER_GET_PLANNERS_SUCCESS,
         planners: planners,
         identifier: identifier
     };
@@ -81,7 +89,7 @@ export const userCreateAccessRequest = (idToken, localId, data, identifier) => {
             }
         })
         .then(res => {
-            dispatch(createAccessRequestSuccess(res.data.result.id, data, identifier));   
+            dispatch(userCreateAccessRequestSuccess(res.data.result.id, data, identifier));   
         })
         .then(() => {
             dispatch(accessRequestFinish());
@@ -106,7 +114,7 @@ export const userUpdateAccessRequest = (id, idToken, localId, data, identifier) 
             }
         })
         .then(() => {
-            dispatch(updateAccessRequestSuccess(id, data, identifier));
+            dispatch(userUpdateAccessRequestSuccess(id, data, identifier));
         })
         .then(() => {
             dispatch(accessRequestFinish());
@@ -117,7 +125,7 @@ export const userUpdateAccessRequest = (id, idToken, localId, data, identifier) 
     };
 }
 
-export const userGetAccessRequests = (idToken, localId, startDate, endDate, statusFilter, planner, identifier) => {
+export const userGetAccessRequests = (idToken, localId, startDate, endDate, identifier) => {
 
     return dispatch => {
         
@@ -125,16 +133,40 @@ export const userGetAccessRequests = (idToken, localId, startDate, endDate, stat
             idToken: idToken,
             localId: localId,
             startDate: startDate,
-            endDate: endDate,
-            statusFilter: statusFilter,
-            plannerFilter: planner
+            endDate: endDate
         }};
 
         dispatch(accessRequestStart());
 
         axios.get('/accessrequests', headers)
         .then(res => {
-            dispatch(getAccessRequestsSuccess(res.data.result, identifier));
+            dispatch(userGetAccessRequestsSuccess(res.data.result, identifier));
+        })
+        .then(() => {
+            dispatch(accessRequestFinish());
+        })
+        .catch(err => {
+            dispatch(accessRequestFail(err.message));
+        });
+    };
+}
+
+export const plannerGetAccessRequests = (idToken, localId, startDate, endDate, identifier) => {
+
+    return dispatch => {
+        
+        let headers = { headers: {
+            idToken: idToken,
+            localId: localId,
+            startDate: startDate,
+            endDate: endDate
+        }};
+
+        dispatch(accessRequestStart());
+
+        axios.get('/planneraccessrequests', headers)
+        .then(res => {
+            dispatch(plannerGetAccessRequestsSuccess(res.data.result, identifier));
         })
         .then(() => {
             dispatch(accessRequestFinish());
@@ -159,7 +191,7 @@ export const userGetAccessRequest = (idToken, localId, uid, identifier) => {
             }
         })
         .then(res => {
-            dispatch(getAccessRquestSuccess(res.data.result, identifier))
+            dispatch(userGetAccessRquestSuccess(res.data.result, identifier))
         })
         .then(() => {
             dispatch(accessRequestFinish());
@@ -195,7 +227,7 @@ export const plannerGetPlanners = (idToken, localId, identifier) => {
     };
 }
 
-export const resetState = () => {
+export const accessRequestResetState = () => {
     return dispatch => {
         dispatch(accessRequestStateReset());
     };

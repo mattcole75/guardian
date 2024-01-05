@@ -7,6 +7,7 @@ const Sidebar = (props) => {
 
     const { showSidebar, toggleShowSidebar, isAuthenticated, roles} = props;
     const isAdministrator = roles.includes('administrator', 0);
+    const isPlanner = roles.includes('planner', 0);
 
     let attachedStyles = null;
     if(showSidebar)
@@ -21,8 +22,12 @@ const Sidebar = (props) => {
                     <nav>
                         <ul className='nav flex-column mb-auto menu-margin_top'>
                             <NavigationListItem link='/' icon='bi-house-door' click={ toggleShowSidebar }> Home</NavigationListItem>
+                            { isAuthenticated && isPlanner
+                                ?   <NavigationListItem link='/planning' icon='bi-calendar2-week' click={ toggleShowSidebar }> Planning</NavigationListItem>
+                                :   null
+                            }
                             { isAuthenticated
-                                ?   <NavigationListItem link='/accessrequests' icon='bi-calendar2-week' click={ toggleShowSidebar }> Access Requests</NavigationListItem>
+                                ?   <NavigationListItem link='/accessrequests' icon='bi-calendar-event' click={ toggleShowSidebar }> Access Requests</NavigationListItem>
                                 :   null
                             }
                             { isAuthenticated

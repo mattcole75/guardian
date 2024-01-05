@@ -7,7 +7,7 @@ import Spinner from '../ui/spinner/spinner';
 
 import Filter from './filter/filter';
 import Map from './map/map';
-import AccessRequestList from './accessRequestList/accessRequestList';
+import AccessRequestList from './list/list';
 import railWeeks from '../../configuration/railWeeks';
 
 const PublicView = () => {
@@ -38,23 +38,21 @@ const PublicView = () => {
 
     return (
         <div className='container'>
-            <Backdrop show={loading} />
-            {spinner}
-            {error &&
+            <Backdrop show={ loading } />
+            { spinner }
+            { error &&
                 <div className='alert alert-danger' role='alert'>
-                    {error}
+                    { error }
                 </div>
             }
             
-            <Filter railWeeks={railWeeks} currentWeek={currentWeek} />
+            <Filter railWeeks={ railWeeks } currentWeek={ currentWeek } />
             
             <div className='row'>
-                <Map requests={publicViewRequests} />
-                <AccessRequestList requests={publicViewRequests} roles={roles} />
+                <Map requests={ publicViewRequests } />
+                <AccessRequestList requests={ publicViewRequests } roles={ roles } />
             </div>
-            
         </div>
-        
     );
 }
 

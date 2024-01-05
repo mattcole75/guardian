@@ -15,8 +15,9 @@ export {
     userUpdateAccessRequest,
     userGetAccessRequests,
     userGetAccessRequest,
+    plannerGetAccessRequests,
     plannerGetPlanners,
-    resetState
+    accessRequestResetState
 } from './accessRequest';
 
 export {

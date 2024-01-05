@@ -37,8 +37,8 @@ const AdditionalInformation = (props) => {
                     })}
                 />
                 <label htmlFor='additionalInformation' className='form-label'>Additional Information (Optional)</label>
+                { errors.additionalInformation && <p className='form-error mt-1 text-start'>{errors.additionalInformation.message}</p> }
             </div>
-            { errors.additionalInformation && <p className='form-error mt-1 text-start'>{errors.additionalInformation.message}</p> }
         </div>
     );
 }

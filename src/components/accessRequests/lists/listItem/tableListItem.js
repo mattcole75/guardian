@@ -1,17 +1,23 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 
-const ListItem = (props) => {
+const TableListItem = (props) => {
+
+const navigate = useNavigate();
     
 const { item } = props;
 const accessRequest  = item[Object.keys(item)];
+
+const open = () => {
+    navigate(`/accessrequest/${Object.keys(item)}`);
+}
 
 
 let statusCSS = [];
 statusCSS.push('badge d-inline-block mb-2 text-nowrap');
 
-switch(accessRequest.status) {
+switch(accessRequest && accessRequest.status) {
     case 'Draft':
         statusCSS.push('bg-secondary');
         break;
@@ -27,7 +33,7 @@ switch(accessRequest.status) {
     case 'Granted':
         statusCSS.push('bg-success');
         break;
-    case 'Closed':
+    case 'Completed':
         statusCSS.push('bg-secondary')
         break;
     default:
@@ -35,17 +41,14 @@ switch(accessRequest.status) {
 }
 
     return (
-        <tr className='border-bottom'>
-            <td className='ps-3 pe-3'><div>{ accessRequest.siteDetails.siteDescription }</div></td>
-            <td className='ps-3 pe-3'>{ accessRequest.siteDetails.accessFirstDay ? accessRequest.siteDetails.accessFirstDay : 'Not Set'  }</td>
-            <td className='ps-3 pe-3'>{ accessRequest.siteDetails.accessLastDay ? accessRequest.siteDetails.accessLastDay : 'Not Set'  }</td>
-            <td className='ps-3 pe-3'>{ moment(accessRequest.updated).fromNow() }</td>
-            <td className='ps-3 pe-3'>{ <small className={statusCSS.join(' ')}>{accessRequest.status}</small> }</td>
-            <td className='ps-3 pe-3'>
-            <Link className='btn btn-outline-primary btn-sm' to={`/accessrequest/${Object.keys(item)}` }>View</Link>
-            </td>
+        <tr className='border-bottom cursor-pointer' onClick={ open }>
+            <td className='ps-3 pe-3'><div>{ accessRequest && accessRequest.siteDetails.siteDescription }</div></td>
+            <td className='ps-3 pe-3'>{ accessRequest && accessRequest.siteDetails.accessFirstDay ? accessRequest.siteDetails.accessFirstDay : 'Not Set'  }</td>
+            <td className='ps-3 pe-3'>{ accessRequest && accessRequest.siteDetails.accessLastDay ? accessRequest.siteDetails.accessLastDay : 'Not Set'  }</td>
+            <td className='ps-3 pe-3'>{ accessRequest && moment(accessRequest.updated).fromNow() }</td>
+            <td className='ps-3 pe-3'>{ <small className={statusCSS.join(' ')}>{accessRequest && accessRequest.status}</small> }</td>
         </tr>
     );
 }
 
-export default ListItem;
+export default TableListItem;

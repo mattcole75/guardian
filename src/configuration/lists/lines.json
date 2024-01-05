@@ -1,0 +1,38 @@
+[
+    {
+        "code": "ASH",
+        "line": "Ashton Line"
+    },
+    {
+        "code": "ALT",
+        "line": "Altrincham Line"
+    },
+    {
+        "code": "BRY",
+        "line": "Bury Line"
+    },
+    {
+        "code": "CC'",
+        "line": "City Centre Line"
+    },
+    {
+        "code": "EDD",
+        "line": "East Didsbury Line"
+    },
+    {
+        "code": "ECC",
+        "line": "Eccles Line"
+    },
+    {
+        "code": "AIR",
+        "line": "Airport Line"
+    },
+    {
+        "code": "ORL",
+        "line": "Oldham & Rochdale Line"
+    },
+    {
+        "code": "TPL",
+        "line": "Trafford Park Line"
+    }
+]

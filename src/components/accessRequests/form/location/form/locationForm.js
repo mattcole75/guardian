@@ -1,8 +1,9 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 // import { useSelector } from 'react-redux';
 import network_locations from '../../../../../configuration/lists/locations.json';
 import network_hospitals from '../../../../../configuration/lists/hospitals.json';
+import List from './list/list';
 
 // import moment from 'moment';
 // import { determinStartDate, determinEndDate } from '../../../../../shared/utility';
@@ -16,16 +17,20 @@ const LocationForm = (props) => {
     const { register, reset, getValues, handleSubmit, formState: { errors } } = useForm({ 
         mode: 'onBlur', 
     });
+    
+    const [locations, setLocations] = useState([]);
 
     useEffect(() => {
         if(location) {
             reset(location);
+            setLocations(location.locationList);
         }
     }, [reset, location]);
 
     // const { roles, displayName } = useSelector(state => state.auth);
 
-    // const [locations, setLocations] = useState([]);
+    
+
     // const [electricalIsolationRequired, setElectricalIsolationRequired] = useState((index !== null) ? accessRequest.locationItems[index].electricalIsolationRequired : false);
     // const [signallingResourceRequired, setSignallingResourceRequired] = useState((index !== null) ? accessRequest.locationItems[index].signallingResourceRequired : false);
     // const [testTramsRequired, setTestTramsRequired] = useState((index !== null) ? accessRequest.locationItems[index].testTramsRequired : false);
@@ -163,13 +168,38 @@ const LocationForm = (props) => {
 
     // }, [createComplianceLog, index, accessRequest.eventLog, accessRequest.locationItems, save, toggle]);
 
+    const onSetLocation = (action, index, location) => {
+        const updatedLocations = [ ...locations ];
+
+        switch (action) {
+            case 'ADD':
+                updatedLocations.push(location);
+                setLocations(updatedLocations);
+                break;
+            case 'DELETE':
+                updatedLocations.splice(index, 1);
+                setLocations(updatedLocations);
+                break;
+            case 'UP':
+                updatedLocations.splice((index - 1), 0, updatedLocations.splice(index, 1)[0]);
+                setLocations(updatedLocations);
+                break;
+            case 'DOWN':
+                updatedLocations.splice((index + 1), 0, updatedLocations.splice(index, 1)[0]);
+                setLocations(updatedLocations);
+                break;
+            default:
+                return;
+        }
+
+    }
+
     const onSubmit = useCallback(() => {
-        console.log(index);
         if(index == null)
-            save('ADD', null, { ...getValues(), status: 'Pending' });
+            save('ADD', null, { ...getValues(), locationList: [ ...locations ] });
         else
-            save('UPDATE', index, { ...getValues(), status: 'Pending' });
-    }, [getValues, index, save]);
+            save('UPDATE', index, { ...getValues(), locationList: [...locations ] });
+    }, [getValues, index, locations, save]);
 
     const onDelete = useCallback(() => {
         save('DELETE', index, null);
@@ -180,40 +210,58 @@ const LocationForm = (props) => {
     }, [close]);
 
     return (
-        <form className='form-location my-1 shadow' onSubmit={handleSubmit(onSubmit)}>
+        <form className='form-location my-1 shadow' onSubmit={ handleSubmit(onSubmit) }>
             <div className='p-1'>
-                <h1 className='h3 mb-3 fw-normal text-start'>Location</h1>
+                <h1 className='h3 mb-2 fw-normal text-start'>Location</h1>
 
-                {/* Location Section */}
-                    <div className='row g-2'>
-                        <div className='form-floating  col-sm-6 mb-2'>
-                            <select className='form-select' id='startLocation' required disabled={recordLocked}
-                                {...register('startLocation', { required: 'A start location must be selected' })}>
-                                <option value=''>Choose...</option>
-                                {
-                                    network_locations.map(item => {
-                                        return (<option key={item.code} value={item.location}>{item.location}</option>)
-                                    })
-                                }
-                            </select>
-                            <label htmlFor='startLocation'>Start Location</label>
-                            { errors.startLocation && <p className='form-error mt-1 text-start'>{errors.startLocation.message}</p> }
-                        </div>
-
-                        <div className='form-floating  col-sm-6 mb-2'>
-                            <select className='form-select' id='endLocation' required disabled={recordLocked}
-                                {...register('endLocation', { required: 'A location must be selected' })}>
-                                <option value=''>Choose...</option>
-                                {
-                                    network_locations.map(item => {
-                                        return (<option key={item.code} value={item.location}>{item.location}</option>)
-                                    })
-                                }
-                            </select>
-                            <label htmlFor='endLocation'>End Location</label>
-                            { errors.endLocation && <p className='form-error mt-1 text-start'>{errors.endLocation.message}</p> }
-                        </div>
+                { /* Location Section */ }
+                <div className='row g-2'>
+                    <div className='form-floating mb-2'>
+                        <select className='form-select' id='locations' required disabled={ recordLocked }
+                            { ...register('locations', { onChange: (e) => {onSetLocation('ADD', null, e.target.value) } }) }>
+                            <option value=''>Choose...</option>
+                            {
+                                network_locations.map(item => {
+                                    return (<option key={ item.code } value={ item.location }>{ item.location }</option>)
+                                })
+                            }
+                        </select>
+                        <label htmlFor='locations'>Locations</label>
                     </div>
+                </div>
+
+                <List locations={ locations } save={ onSetLocation } />
+
+                {/* <div className='row g-2'> */}
+
+                    {/* <div className='form-floating col-sm-6 mb-2'>
+                        <select className='form-select' id='startLocation' required disabled={recordLocked}
+                            { ...register('startLocation', { required: 'A start location must be selected' }) }>
+                            <option value=''>Choose...</option>
+                            {
+                                network_locations.map(item => {
+                                    return (<option key={ item.code } value={ item.location }>{ item.location }</option>)
+                                })
+                            }
+                        </select>
+                        <label htmlFor='startLocation'>Start Location</label>
+                        { errors.startLocation && <p className='form-error mt-1 text-start'>{ errors.startLocation.message }</p> }
+                    </div> */}
+
+                    {/* <div className='form-floating  col-sm-6 mb-2'>
+                        <select className='form-select' id='endLocation' required disabled={recordLocked}
+                            {...register('endLocation', { required: 'A location must be selected' })}>
+                            <option value=''>Choose...</option>
+                            {
+                                network_locations.map(item => {
+                                    return (<option key={ item.code } value={ item.location }>{ item.location }</option>)
+                                })
+                            }
+                        </select>
+                        <label htmlFor='endLocation'>End Location</label>
+                        { errors.endLocation && <p className='form-error mt-1 text-start'>{ errors.endLocation.message }</p> }
+                    </div> */}
+                {/* </div> */}
 
                 {/* Access Type Section */}
                 {/* <div className='form-floating mb-3 '>
@@ -235,17 +283,17 @@ const LocationForm = (props) => {
                             disabled={ recordLocked } 
                             { ...register('startDate', { required: 'You must provide a start date' }) } />
                         <label htmlFor='startDate' className='form-label'>Start Date</label>
-                        { errors.startDate && <p className='form-error mt-1 text-start'>{errors.startDate.message}</p> }
+                        { errors.startDate && <p className='form-error mt-1 text-start'>{ errors.startDate.message }</p> }
                     </div>
+
                     <div className='form-floating col-sm-6 mb-2'>
                         <input type='time' className='form-control' id='startTime' placeholder='Date' required
                             disabled={ recordLocked } 
                             { ...register('startTime', { required: 'You must provide a start time' }) } />
                         <label htmlFor='startTime' className='form-label'>Start Time</label>
-                        { errors.startTime && <p className='form-error mt-1 text-start'>{errors.startTime.message}</p> }
+                        { errors.startTime && <p className='form-error mt-1 text-start'>{ errors.startTime.message }</p> }
                     </div>
                 </div>
-
                 <div className='row g-2'>
                     <div className='form-floating  col-sm-6'>
                         <input type='date' className='form-control' id='endDate' placeholder='Date' min={ new Date().toISOString().split('T')[0] } required
@@ -262,7 +310,24 @@ const LocationForm = (props) => {
                         { errors.endTime && <p className='form-error mt-1 text-start'>{errors.endTime.message}</p> }    
                     </div>
                 </div>
-
+                {/* shifts */}
+                <div className='form-floating mb-2'>
+                    <input type='number' className='form-control' id='shifts' autoComplete='off' placeholder='Shift Count' min={0} max={101} required
+                        disabled={ recordLocked }
+                        { ...register('shifts', { required: 'You must provide a number of shifts you intend to use',
+                            min: {
+                                value: 1,
+                                message: "The minimum shift count is 1"
+                            },
+                            max: {
+                                value: 100,
+                                message: 'The maximum shiftcount is 100'
+                            }
+                        }) }
+                    />
+                    <label htmlFor='shifts' className='form-label'>How many shifts will you be using</label>
+                    { errors.shifts && <p className='form-error mt-1 text-start'>{errors.shifts.message}</p> }
+                </div>
                 {/* co-locate */}
                 {/* <div className='form-floating mb-3 mt-1'>
                     <select className='form-select' id='colocate' required
@@ -449,7 +514,6 @@ const LocationForm = (props) => {
 
                 }
                 
-
                 {/* {accessRequest && !recordLocked && accessRequest.requestor.name === displayName
                     ?   <div className='form-floating mb-3'>
                             <button className='w-100 btn btn-lg btn-danger' type='button' onClick={handleSubmit()}>Delete</button>

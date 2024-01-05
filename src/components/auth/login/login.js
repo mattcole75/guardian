@@ -69,11 +69,9 @@ const Login = () => {
                     { ...register('password', { required: 'You must specify a password' }) }
                     />
                     <label htmlFor='password'>Password</label>
+                    { errors.email && <p className='form-error mt-1'>{errors.email.message}</p> }
+                    { errors.password && <p className='form-error'>{errors.password.message}</p> }
                 </div>
-                
-                { errors.email && <p className='form-error mt-1'>{errors.email.message}</p> }
-                { errors.password && <p className='form-error'>{errors.password.message}</p> }
-
                 
                 <button className='w-100 btn btn-lg btn-primary' type='submit'>Log In</button>
                 

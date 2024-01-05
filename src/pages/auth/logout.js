@@ -7,7 +7,7 @@ const Logout = () => {
 
     const dispatch = useDispatch();
     const onLogout = useCallback(() => dispatch(action.logout()), [dispatch]);
-    const clearRequestState = useCallback(() => dispatch(action.resetState()), [dispatch]);
+    const clearRequestState = useCallback(() => dispatch(action.accessRequestResetState()), [dispatch]);
 
     useEffect(() => {
 		onLogout();

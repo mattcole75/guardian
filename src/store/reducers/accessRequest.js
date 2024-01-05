@@ -17,7 +17,7 @@ const accessRequestStart = (state) => {
     };
 };
 
-const accessRequestCreateSuccess = (state, action) => {
+const userCreateAccessRequestSuccess = (state, action) => {
 
     const newAccessRequest = { [action.id]: action.accessRequest };
 
@@ -31,7 +31,7 @@ const accessRequestCreateSuccess = (state, action) => {
     };  
 }
 
-const accessRequestUpdateSuccess = (state, action) => {
+const userUpdateAccessRequestSuccess = (state, action) => {
 
     let updatedAccessRequest = null;
     let updatedAccessRequests = [];
@@ -47,7 +47,7 @@ const accessRequestUpdateSuccess = (state, action) => {
             updatedAccessRequest = null;
             updatedAccessRequests = state.accessRequests.filter(req => Object.keys(req)[0] !== action.id );
             // updatedAccessRequests = state.accessRequests.filter(req => req.id === action.id );
-        } else if(action.accessRequest.status === 'Closed') {
+        } else if(action.accessRequest.status === 'Complete') {
             updatedAccessRequest = null;
             updatedAccessRequests = state.accessRequests.filter(req => Object.keys(req)[0] !== action.id );
         } else {
@@ -70,7 +70,7 @@ const accessRequestUpdateSuccess = (state, action) => {
     };
 }
 
-const accessRequestsGetSuccess = (state, action) => {
+const userGetAccessRequestsSuccess = (state, action) => {
     return {
         ...state,
         loading: false,
@@ -81,7 +81,7 @@ const accessRequestsGetSuccess = (state, action) => {
     };
 }
 
-const accessRequestGetSuccess = (state, action) => {
+const userGetAccessRequestSuccess = (state, action) => {
     return {
         ...state,
         loading: false,
@@ -91,7 +91,85 @@ const accessRequestGetSuccess = (state, action) => {
     };
 }
 
-const accessRequestsPlannersGetSuccess = (state, action) => {
+const plannerGetAccessRequestsSuccess = (state, action) => {
+    let accessRequestItems = [];
+    for(const key1 in action.accessRequests) {
+         let id = Object.keys(action.accessRequests[key1]);
+         for(const key2 in action.accessRequests[key1][id].locations) {   
+            accessRequestItems.push({
+                uid: id,
+                startDate: action.accessRequests[key1][id].locations[key2].startDate,
+                endDate: action.accessRequests[key1][id].locations[key2].endDate,
+                possessionDetails: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.possessionDetails 
+                    ?   action.accessRequests[key1][id].plannerInformation.possessionDetails 
+                    :   'Not Set',
+                coLocate: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.coLocate
+                    ?   action.accessRequests[key1][id].plannerInformation.coLocate
+                    :   'Not Set',
+                picop: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.picop
+                    ?   action.accessRequests[key1][id].plannerInformation.picop
+                    :   'Not Set',
+                nwrAdjacent: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.nwrAdjacent
+                    ?   action.accessRequests[key1][id].plannerInformation.nwrAdjacent
+                    :   'Not Set',
+                pic: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.pic
+                    ?   action.accessRequests[key1][id].plannerInformation.pic
+                    :   'Not Set',
+                line: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.line
+                ?   action.accessRequests[key1][id].plannerInformation.line
+                :   'Not Set',
+                organisation: action.accessRequests[key1][id].requester.organisation,
+                siteDescription: action.accessRequests[key1][id].siteDetails.siteDescription,
+                isolationType: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.isolationType
+                    ?   action.accessRequests[key1][id].plannerInformation.isolationType
+                    :   'Not Set',
+                isolationDetails: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.isolationDetails
+                    ?   action.accessRequests[key1][id].plannerInformation.isolationDetails
+                    :   'Not Set',
+                startTime: action.accessRequests[key1][id].locations[key2].startTime
+                    ?   action.accessRequests[key1][id].locations[key2].startTime
+                    :   'Not Set',
+                endTime: action.accessRequests[key1][id].locations[key2].endTime
+                    ?   action.accessRequests[key1][id].locations[key2].endTime
+                    :   'Not Set',
+                worksiteLimits: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.worksiteLimits
+                    ?   action.accessRequests[key1][id].plannerInformation.worksiteLimits
+                    :   'Not Set',
+                signallingResourceRequired: action.accessRequests[key1][id].siteDetails.signallingResourceRequired,
+                electricalIsolationRequired: action.accessRequests[key1][id].siteDetails.electricalIsolationRequired,
+                testTramsRequired: action.accessRequests[key1][id].siteDetails.testTramsRequired,
+                onTrackMachineCount: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.onTrackMachineCount
+                    ?   action.accessRequests[key1][id].plannerInformation.onTrackMachineCount
+                    :   'Not Set',
+                rrvType: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.rrvType
+                    ?   action.accessRequests[key1][id].plannerInformation.rrvType
+                    :   'Not Set',
+                trolleyType: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.trolleyType
+                    ?   action.accessRequests[key1][id].plannerInformation.trolleyType
+                    :   'Not Set',
+                heavyMachineType: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.heavyMachineType
+                    ?   action.accessRequests[key1][id].plannerInformation.heavyMachineType
+                    :   'Not Set',
+                siteRemarks: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.siteRemarks
+                    ?   action.accessRequests[key1][id].plannerInformation.siteRemarks
+                    :   '',
+                updated: action.accessRequests[key1][id].updated,
+                status: action.accessRequests[key1][id].status
+            })
+        }
+    }
+
+    return {
+        ...state,
+        loading: false,
+        error: null,
+        accessRequests: accessRequestItems,
+        accessRequest: null,
+        identifier: action.identifier
+    };
+}
+
+const plannerGetPlannersSuccess = (state, action) => {
     return {
         ...state,
         loading: false,
@@ -138,12 +216,13 @@ const reducer = (state = initialState, action) => {
 
     switch (action.type) {
         case type.ACCESS_REQUEST_START: return accessRequestStart(state);
-        case type.ACCESS_REQUEST_CREATE_SUCCESS: return accessRequestCreateSuccess(state, action);
-        case type.ACCESS_REQUEST_UPDATE_SUCCESS: return accessRequestUpdateSuccess(state, action);
-        case type.ACCESS_REQUESTS_GET_SUCCESS: return accessRequestsGetSuccess(state, action);
-        case type.ACCESS_REQUEST_GET_SUCCESS: return accessRequestGetSuccess(state, action);
-        case type.ACCESS_REQUESTS_PLANNERS_GET_SUCCESS: return accessRequestsPlannersGetSuccess(state, action);
-        case type.ACCESS_REQUEST_DELETE_SUCCESS: return accessRequestDeleteSuccess(state, action);
+        case type.USER_CREATE_ACCESS_REQUEST_SUCCESS: return userCreateAccessRequestSuccess(state, action);
+        case type.USER_UPDATE_ACCESS_REQUEST_SUCCESS: return userUpdateAccessRequestSuccess(state, action);
+        case type.USER_GET_ACCESS_REQUESTS_SUCCESS: return userGetAccessRequestsSuccess(state, action);
+        case type.USER_GET_ACCESS_REQUEST_SUCCESS: return userGetAccessRequestSuccess(state, action);
+        case type.PLANNER_GET_ACCESS_REQUESTS_SUCCESS: return plannerGetAccessRequestsSuccess(state, action);
+        case type.ACCESS_REQUEST_PLANNER_GET_PLANNERS_SUCCESS: return plannerGetPlannersSuccess(state, action);
+        case type.ACCESS_REQUEST_PLANNER_DELETE_SUCCESS: return accessRequestDeleteSuccess(state, action);
         case type.ACCESS_REQUEST_FINISH: return accessRequestFinish(state);
         case type.ACCESS_REQUEST_FAIL: return accessRequestFail(state, action);
         case type.ACCESS_REQUEST_STATE_RESET: return accessRequestStateReset(state);

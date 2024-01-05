@@ -22,6 +22,9 @@ const Logout = React.lazy(() => {
 const Profile = React.lazy(() => {
     return import('./components/auth/profile/profile');
 });
+const Users = React.lazy(() => {
+	return import ('./pages/auth/users');
+});
 const AccessRequests = React.lazy(() => {
 	return import('./components/accessRequests/accessRequests');
 });
@@ -31,8 +34,8 @@ const AccessRequest = React.lazy(() => {
 const NewAccessRequest = React.lazy(() => {
 	return import('./components/accessRequests/form/newAccessRequest')
 });
-const Users = React.lazy(() => {
-	return import ('./pages/auth/users');
+const Planning = React.lazy(() => {
+	return import('./components/planning/planning');
 });
 const Forbidden = React.lazy(() => {
 	return import('./pages/forbidden');
@@ -44,6 +47,7 @@ const App = () => {
     const isAuthenticated = useSelector(state => state.auth.idToken !== null);
 	const roles = useSelector(state => state.auth.roles);
     const isAdministrator = roles.includes('administrator', 0);
+    const isPlanner = roles.includes('planner', 0);
 	const onTryAutoLogin = useCallback(() => dispatch(action.authCheckState()),[dispatch]);
 
 	// check if there is persistent auth data stored on refresh, load into redux if it exists
@@ -59,10 +63,11 @@ const App = () => {
 			<Route path='/signup' element={ <Signup /> } />
             <Route path='/forbidden' element={ <Forbidden /> } />
             { isAuthenticated && <Route path='/logout' element={ <Logout /> } /> }
+			{ isAuthenticated && <Route path='/profile' element={ <Profile /> } /> }
 			{ isAuthenticated && <Route path='/accessrequests' element={ <AccessRequests /> } /> }
 			{ isAuthenticated && <Route path='/accessrequest/:uid' element={ <AccessRequest /> } /> }
 			{ isAuthenticated && <Route path='/newaccessrequest' element={ <NewAccessRequest /> } /> }
-			{ isAuthenticated && <Route path='/profile' element={ <Profile /> } /> }
+			{ isAuthenticated && isPlanner && <Route path='/planning' element={ <Planning /> } /> }
 			{ isAuthenticated && isAdministrator && <Route path='/users' element={ <Users /> } /> }
 			<Route path='*' element={ <Index /> } />
 		</Routes>

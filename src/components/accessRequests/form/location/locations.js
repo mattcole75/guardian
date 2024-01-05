@@ -16,9 +16,9 @@ const Locations = (props) => {
                         ? locations.length > 1
                             ?   <p className='text-start text-muted'>There are { locations.length } locations selected</p>
                             :   locations.length === 1
-                                ?   <p className='text-start text-muted'>There is 1 location selected</p>
-                                :   <p className='text-start text-muted'>There must be at least 1 location selected</p>
-                        :   <p className='text-start text-muted'>There must be at least 1 location selected</p>
+                                ?   <p className='text-start text-muted'>There is 1 location defined</p>
+                                :   <p className='text-start text-muted'>There must be at least 1 location defined</p>
+                        :   <p className='text-start text-muted'>There must be at least 1 location defined</p>
 
                     }
                 </div>

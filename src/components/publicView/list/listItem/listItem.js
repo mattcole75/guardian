@@ -5,7 +5,7 @@ const accessRequestListItem = (props) => {
 
     const { item, roles } = props;
 
-    const { siteDescription, organisation, startDate, endDate, startLocation, endLocation, status, electricalIsolationRequired, signallingResourceRequired, testTramsRequired, colocate } = item;
+    const { organisation, siteDescription, startDate, endDate, locations, status, electricalIsolationRequired, signallingResourceRequired, testTramsRequired, coLocate } = item;
 
     let statusStyle = ['badge d-inline-block mb-2 text-nowrap h-100 ms-lg-1'];
 
@@ -25,6 +25,9 @@ const accessRequestListItem = (props) => {
         case 'Granted':
             statusStyle.push('bg-success');
             break;
+        case 'Complete':
+            statusStyle.push('bg-secondary');
+            break;
         default:
             break;
     }
@@ -37,23 +40,18 @@ const accessRequestListItem = (props) => {
                     : null
                 }
                 { roles.includes('planner')
-                    ? <p className='mb-1'>{ startLocation + ' to ' + endLocation }</p>
-                    : <h5 className='mb-1'>{ startLocation + ' to ' + endLocation }</h5>
+                    ? <p className='mb-1'>{ locations.join(', ')}</p>
+                    : <h5 className='mb-1'>{ locations.join(', ') }</h5>
                 }
-                <span className={statusStyle.join(' ')}>{status}</span>
+                <span className={statusStyle.join(' ')}>{ status }</span>
             </div>
             { roles.includes('planner')
-                    ? <p className='mb-0'>Project Organisation: <small className='text-muted'>{ organisation }</small></p>
+                    ? <p className='mb-0'>Organisation: <small className='text-muted'>{ organisation }</small></p>
                     : null
             }
             <small>Approx. { moment(startDate).endOf('day').fromNow() }</small>
-            <p>
-                Start:
-                <small className='text-muted'> {moment(startDate).format('Do MMMM YYYY')} </small>
-                End:
-                <small className='text-muted'> {moment(endDate).format('Do MMMM YYYY')}</small>
-            </p>
-            <p>Note: <small className='text-muted'>{ colocate }</small></p>
+            <p>Dates: <small className='text-muted'> { moment(startDate).format('Do MMMM YYYY') + ' to ' + moment(endDate).format('Do MMMM YYYY') } </small></p>
+            <p>Note: <small className='text-muted'>{ coLocate ? 'Site can be co-located' : 'site cannot be co-located' }</small></p>
             {roles.length !== 0
                 ?   <div className='d-flex justify-content-evenly'>
                         {electricalIsolationRequired

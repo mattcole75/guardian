@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 
 const SiteDetails = (props) => {
 
-    const { siteDetails, update, recordLocked, siteDetailsIsValid } = props;
+    const { siteDetails, update, recordLocked, siteDetailsIsValid, status } = props;
     const { register, reset, getValues, formState: { isValid, errors } } = useForm({ mode: 'onBlur' });
 
 
@@ -19,10 +19,45 @@ const SiteDetails = (props) => {
         siteDetailsIsValid(isValid);
     }
 
+    let statusCSS = [];
+    statusCSS.push('badge d-inline-block text-nowrap');
+
+    switch(status && status) {
+        case 'Draft':
+            statusCSS.push('bg-secondary');
+            break;
+        case 'Submitted':
+            statusCSS.push('bg-warning text-dark');
+            break;
+        case 'Under Review':
+            statusCSS.push('bg-warning text-dark');
+            break;
+        case 'Denied':
+            statusCSS.push('bg-danger');
+            break;
+        case 'Granted':
+            statusCSS.push('bg-success');
+            break;
+        case 'Completed':
+            statusCSS.push('bg-secondary')
+            break;
+        case 'Deleted':
+            statusCSS.push('bg-info')
+            break;
+        default:
+            break;
+    }
+
     return (
         <div className="mb-3">
-            <div className='text-start'>
-                <h4 className='h4 fw-normal'>Site Details</h4>
+            <div className='d-flex gap-2 w-100 justify-content-between'>
+                <div>
+                    <h4 className='h4 fw-normal'>Site Details</h4>
+                </div>
+                <div>
+                    <span className={statusCSS.join(' ')}>{ status }</span>
+                </div>
+                
             </div>
             <div className='form-floating mb-2'>
                 <input type='text' className='form-control' id='siteDescription' autoComplete='off' placeholder='Site Description' minLength={5} maxLength={50} required disabled={ recordLocked }
@@ -82,7 +117,19 @@ const SiteDetails = (props) => {
                     </span>
                 </label>
             </div>
-            
+            <div className='list-group'>
+                <label className='list-group-item d-flex gap-2'>
+                    <div className='form-check form-switch'>
+                        <input className='form-check-input' type='checkbox' role='switch' id='testTramsRequired' disabled={ recordLocked }
+                            {...register('testTramsRequired', { onChange: onUpdate })}
+                        />
+                    </div>
+                    <span className='text-start'>
+                        Test Trams Required
+                        <small className='d-block text-muted'>Indicate if this access request will require test trams</small>
+                    </span>
+                </label>
+            </div>
         </div>
     );
 }

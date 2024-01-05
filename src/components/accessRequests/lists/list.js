@@ -1,15 +1,12 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import TableListItem from './listItem/tableListItem';
 import CardListItem from './listItem/cardListItem';
 import '../accessRequests.css';
 
 const List = (props) => {
 
-    const { accessRequests, closeRequestHandler, deleteRequestHandler, displayName } = props;
-    const roles = useSelector(state => state.auth.roles);
+    const { accessRequests } = props;
 
-    const isPlanner = roles.includes('planner');
 
     return (
         <div>
@@ -23,7 +20,6 @@ const List = (props) => {
                             <th className='ps-3 pe-3 table-verticle_center'><div className='table-item_col'>Last Day</div></th>
                             <th className='ps-3 pe-3 table-verticle_center'><div className='table-item_col'>Last Updated</div></th>
                             <th className='ps-3 pe-3'>Status</th>
-                            <th className='ps-3 pe-3'></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -46,10 +42,6 @@ const List = (props) => {
                         <CardListItem
                             key={ index }
                             item={ item }
-                            isPlanner={ isPlanner }
-                            closeRequestHandler={ closeRequestHandler }
-                            deleteRequestHandler={ deleteRequestHandler }
-                            displayName={ displayName }
                         />    
                     )) }
                 </div>

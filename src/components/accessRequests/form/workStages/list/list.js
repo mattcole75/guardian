@@ -12,13 +12,13 @@ const List = (props) => {
                 ?   <div className='list-group mb-3 text-start'>
                         {
                             workStages.map((item, index) => {
-                                return(<ListItem
-                                    key={index}
-                                    index={index}
-                                    item={item}
-                                    length={workStages.length}
+                                return (<ListItem
+                                    key={ index }
+                                    index={ index }
+                                    item={ item }
+                                    length={ workStages.length }
                                     save={ save }
-                                    recordLocked={ recordLocked}
+                                    recordLocked={ recordLocked }
                                 />);
                             })
                         }

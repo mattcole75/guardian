@@ -23,19 +23,19 @@ const publicViewSuccess = (state, action) => {
             newPublicViewRequestItems.push({
                 organisation: action.requests[key1][id].requester.organisation,
                 siteDescription: action.requests[key1][id].siteDetails.siteDescription || null,
-                startDate: action.requests[key1][id].locations[key2].startDate || null,
+                startdate: action.requests[key1][id].locations[key2].startDate || null,
                 endDate: action.requests[key1][id].locations[key2].endDate || null,
-                startLocation: action.requests[key1][id].locations[key2].startLocation || null,
-                endLocation: action.requests[key1][id].locations[key2].endLocation || null,
-                // electricalIsolationRequired: action.requests[key1][id].locationItems[key2].electricalIsolationRequired || false,
-                // signallingResourceRequired: action.requests[key1][id].locationItems[key2].signallingResourceRequired || false,
-                // testTramsRequired: action.requests[key1][id].locationItems[key2].testTramsRequired || false,
-                // colocate: action.requests[key1][id].locationItems[key2].colocate || '',
+                locations: action.requests[key1][id].locations[key2].locationList || null,
+                electricalIsolationRequired: action.requests[key1][id].siteDetails.electricalIsolationRequired || false,
+                signallingResourceRequired: action.requests[key1][id].siteDetails.signallingResourceRequired || false,
+                testTramsRequired: action.requests[key1][id].siteDetails.testTramsRequired || false,
+                coLocate: action.requests[key1][id].plannerInformation && action.requests[key1][id].plannerInformation.coLocate
+                    ?   action.requests[key1][id].plannerInformation
+                    :   '',
                 status: action.requests[key1][id].status
-            })  
+            })
         }
     }
-    console.log('MCA', newPublicViewRequestItems);
     
     return {
         ...state,

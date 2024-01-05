@@ -1,10 +1,9 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import moment from 'moment';
-import { userGetAccessRequests, accessRequestResetState } from '../../../store/actions/index';
+import { plannerGetAccessRequests, accessRequestResetState } from '../../../store/actions/index';
 
-import railWeeks from '../../../configuration/railWeeks';
+import railWeeks from '../../../configuration/lists/railWeeks.json';
 
 
 const Filter = () => {
@@ -14,25 +13,24 @@ const Filter = () => {
     const { idToken, localId } = useSelector(state => state.auth);
     const [ week, setWeek ] = useState('');
 
-    const onGetAccessRequests = useCallback((idToken, localId, startDate, endDate, identifier) => dispatch(userGetAccessRequests(idToken, localId, startDate, endDate,identifier)), [dispatch]);
+    const onGetAccessRequests = useCallback((idToken, localId, startDate, endDate, identifier) => dispatch(plannerGetAccessRequests(idToken, localId, startDate, endDate, identifier)), [dispatch]);
     const onResetState = useCallback(() => dispatch(accessRequestResetState()), [dispatch]);
-
     // a side effect to query the database and return to state a list of requests
     useEffect(() => {
         onGetAccessRequests(idToken, localId,
             week !== '' ? railWeeks.find(wks => wks.id === week).start : null,
             week !== '' ? railWeeks.find(wks => wks.id === week).end : null,
-            'GET_ACCESS_REQUESTS');
-
+            'GET_PLANNER_ACCESS_REQUESTS');
+        
             return () => { onResetState() }
-            
+
     },[idToken, localId, week, onGetAccessRequests, onResetState]);
 
     const refresh = () => {
         onGetAccessRequests(idToken, localId, 
             week !== '' ? railWeeks.find(wks => wks.id === week).start : null,
             week !== '' ? railWeeks.find(wks => wks.id === week).end : null,
-            'GET_ACCESS_REQUESTS');
+            'GET_PLANNER_ACCESS_REQUESTS');
     }
 
 
@@ -65,10 +63,6 @@ const Filter = () => {
                             </div>
                         </div>
                     </form>
-
-                    <div className='form-floating text-end col-sm-1'>
-                        <Link className='btn btn-light' to={ '/newaccessrequest' }><span className='bi-calendar2-plus fs-3' /></Link>
-                    </div>
 
                     <div className='form-floating text-end col-sm-1'>
                         <button type='button' className='btn btn-light'onClick={ refresh }><span className='bi-arrow-clockwise fs-3' /></button>

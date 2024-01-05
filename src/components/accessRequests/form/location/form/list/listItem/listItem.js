@@ -1,6 +1,6 @@
 import React from 'react';
 
-const workStageItem = (props) => {
+const listItem = (props) => {
 
     const { item, index, length, save, recordLocked } = props;
 
@@ -18,9 +18,9 @@ const workStageItem = (props) => {
 
     return (
         <div className='list-group-item list-group-item-action d-flex gap-3 align-items-center' aria-current='true'>
-            <i className='bi-wrench access-icon-default'></i>
+            <i className='bi-geo-fill access-icon-default'></i>
             <div className='d-flex gap-2 w-100 justify-content-between align-items-center' role='button'>
-                <p className='mb-0 opacity-75'><strong>{index + 1}) </strong>{ item.work_stage }</p>
+                <p className='mb-0 opacity-75'><strong>{index + 1}) </strong>{ item }</p>
                 { !recordLocked
                     ?   <div>
                             { index > 0
@@ -40,4 +40,4 @@ const workStageItem = (props) => {
     );
 }
 
-export default workStageItem;
+export default listItem;
