@@ -25,7 +25,7 @@ switch(accessRequest && accessRequest.status) {
         statusCSS.push('bg-warning text-dark');
         break;
     case 'Under Review':
-        statusCSS.push('bg-warning text-dark');
+        statusCSS.push('bg-info');
         break;
     case 'Denied':
         statusCSS.push('bg-danger');
@@ -35,6 +35,9 @@ switch(accessRequest && accessRequest.status) {
         break;
     case 'Completed':
         statusCSS.push('bg-secondary')
+        break;
+    case 'Cancelled':
+        statusCSS.push('bg-info')
         break;
     default:
         break;

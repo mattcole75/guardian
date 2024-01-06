@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Navigate } from 'react-router-dom';
+import '../../accessRequests.css';
 
 import picop_list from '../../../../configuration/lists/picop.json';
 import pic_list from '../../../../configuration/lists/pic.json';
@@ -9,12 +10,14 @@ import isolationTypes from '../../../../configuration/lists/isolationTypes.json'
 import rrvTypes from '../../../../configuration/lists/rrv.json';
 import trolleyTypes from '../../../../configuration/lists/trolley.json';
 import heavyMachineTypes from '../../../../configuration/lists/heavyMachines.json';
+import possessionCategories from '../../../../configuration/lists/possessionCategories.json';
 
 const PlannerInformation = (props) => {
-    const { plannerInformation, update, save, isPlanner } = props;
+    const { plannerInformation, update, save, isPlanner, status } = props;
     const { register, reset, getValues, formState: { errors, isValid } } = useForm({ mode: 'onBlur' });
 
     const [ redirect, setRedirect ] = useState(null);
+    const [ isDirty, setIsDirty ] = useState(false);
 
     useEffect(() => {
         if(plannerInformation) {
@@ -24,6 +27,7 @@ const PlannerInformation = (props) => {
 
     const onUpdate = () => {
         update(getValues());
+        setIsDirty(true);
     }
 
     const onClose = () => {
@@ -31,7 +35,6 @@ const PlannerInformation = (props) => {
     }
 
     const onSave = (action) => {
-        console.log('do something');
         switch (action) {
             case 'UPDATE':
                 save('Under Review');
@@ -48,20 +51,62 @@ const PlannerInformation = (props) => {
                 save('Completed');
                 onClose();
                 break;
-            case 'DELETE':
-                save('Deleted');
+            case 'CANCEL':
+                save('Cancelled');
                 onClose();
                 break;
             default:
-                return;
+                break;
         }
+
+        setIsDirty(false);
+    }
+
+    let categoryCSS = [];
+    categoryCSS.push('badge d-inline-block text-nowrap');
+
+    switch(plannerInformation && plannerInformation.possessionCategory) {
+        case 'Standard':
+            categoryCSS.push('text-dark');
+            break;
+        case 'Third Party Works':
+            categoryCSS.push('bg-ThirdPartyWorks text-dark');
+            break;
+        case 'Disruptive Possession':
+            categoryCSS.push('bg-DisruptivePossession text-dark');
+            break;
+        case 'Wheels Free Required':
+            categoryCSS.push('bg-WheelsFreeRequired');
+            break;
+        case 'Conflict/Conflicting Information':
+            categoryCSS.push('bg-ConflictConflictingInformation');
+            break;
+        case 'Cancelled Works':
+            categoryCSS.push('bg-CancelledWorks text-danger');
+            break;
+        case 'Changed Works':
+            categoryCSS.push('bg-ChangedWorks');
+            break;
+        case 'Day Works':
+            categoryCSS.push('bg-DayWorks text-dark')
+            break;
+        case 'No Possession Req/Blue Permit Works':
+            categoryCSS.push('bg-NoPossessionReqBluePermitWorks')
+            break;
+        default:
+            break;
     }
 
     return (
         <form className="mb-3">
             { redirect }
-            <div className='text-start'>
-                <h4 className='h4 fw-normal'>Planning</h4>
+            <div className='d-flex gap-2 w-100 justify-content-between'>
+                <div>
+                    <h4 className='h4 fw-normal'>Planning</h4>
+                </div>
+                <div>
+                    <span className={categoryCSS.join(' ')}>{ plannerInformation && plannerInformation.possessionCategory }</span>
+                </div>
             </div>
             {/* Possession Details */}
             <div className='form-floating mb-2'>
@@ -267,6 +312,8 @@ const PlannerInformation = (props) => {
                         { errors.heavyMachineType && <p className='form-error mt-1 text-start'>{ errors.heavyMachineType.message }</p> }
                     </div>
                 </div>
+                
+
                 {/* site remarks */}
                 <div className='form-floating mb-2'>
                     <textarea className='form-control' id='siteRemarks'  
@@ -286,20 +333,58 @@ const PlannerInformation = (props) => {
                     { errors.siteRemarks && <p className='form-error mt-1 text-start'>{errors.siteRemarks.message}</p> }
                 </div>
                 
+                {/* category */}
+                <div className='row g-2 mb-3'>
+                    <div className='form-floating col-sm-6 mb-2'>
+                        <select className='form-select' id='possessionCategory' required disabled={ !isPlanner }
+                            {...register('possessionCategory', { onChange: onUpdate, required: 'A possession category must be selected' })}>
+                            <option value=''>Choose...</option>
+                            {
+                                possessionCategories.map(item => {
+                                    return (<option className='success' key={ item.category } value={ item.category }>{ item.category }</option>)
+                                })
+                            }
+                        </select>
+                        <label htmlFor='possessionCategory'>Possession Category</label>
+                        { errors.possessionCategory && <p className='form-error mt-1 text-start'>{ errors.possessionCategory.message }</p> }
+                    </div>
+                    <div className='form-floating col-sm-6 mb-2'>
+                        
+                    </div>
+                </div>
                 
 
             { isPlanner
                 ?   <div>
-                        <button className='w-100 btn btn-lg btn-primary mb-2' type='button' onClick={ () => onSave('UPDATE') } disabled={ !isValid }>Save Update</button>
-                        <button className='w-100 btn btn-lg btn-warning mb-2' type='button' onClick={ () => onSave('DENY') }>Deny Access</button>
-                        <button className='w-100 btn btn-lg btn-success mb-2' type='button' onClick={ () => onSave('GRANT') }>Grant Access</button>
-                        <button className='w-100 btn btn-lg btn-info mb-2' type='button' onClick={ () => onSave('COMPLETE') }>Complete</button>
-                        <button className='w-100 btn btn-lg btn-danger mb-2' type='button' onClick={ () => onSave('DELETE') }>Delete</button>
-                        <button className='w-100 btn btn-lg btn-secondary mb-2' type='button' onClick={ onClose }>Return to list</button>
+                        { isDirty || status === 'Cancelled'
+                            ?   <button className='w-100 btn btn-lg btn-primary mb-2' type='button' onClick={ () => onSave('UPDATE') } disabled={ !isValid }>Save Update</button>
+                            :   null
+                        }
+                        { status === 'Submitted' || status === 'Under Review' || status === 'Granted'
+                            ?   <button className='w-100 btn btn-lg btn-danger mb-2' type='button' onClick={ () => onSave('DENY') }>Deny Access Request</button>
+                            :   null
+                        }
+                        
+                        { status === 'Submitted' || status === 'Under Review' || status === 'Denied'
+                            ?   <button className='w-100 btn btn-lg btn-success mb-2' type='button' onClick={ () => onSave('GRANT') }>Grant Access Request</button>
+                            :   null
+                        }
+                        { status === 'Granted'
+                            ?   <button className='w-100 btn btn-lg btn-info mb-2' type='button' onClick={ () => onSave('COMPLETE') }>Complete Access Request</button>
+                            :   null
+                        }
+                        { status !== 'Cancelled'
+                            ?   <button className='w-100 btn btn-lg btn-warning mb-2' type='button' onClick={ () => onSave('CANCEL') }>Cancel Access Request</button>
+                            :   null
+                        }
+                        
+                        {/* <button className='w-100 btn btn-lg btn-secondary mb-2' type='button' onClick={ onClose }>Return to list</button> */}
                      </div>
                 :   null
             }
-            
+            <div className='text-start mt-3'>
+                <button className='btn btn-outline-secondary btn-sm' type='button' onClick={ onClose }>Return to list</button>
+            </div>
         </form>
     )
 

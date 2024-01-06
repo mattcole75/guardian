@@ -50,7 +50,6 @@ const AccessRequestForm = () => {
     const [ electricalIsolationRequirements, setElectricalIsolationRequirements ] = useState(null);
     const [ additionalInformation, setAdditionalInformation ] = useState(null);
     const [ plannerInformation, setPlannerInformation ] = useState(null);
-
     const [ siteDetailsValid, setSiteDetailsValid ] = useState(true);
     
     const onGetAccessRequest = useCallback((idToken, localId, uid, identifier) => dispatch(userGetAccessRequest(idToken, localId, uid, identifier)), [dispatch]);
@@ -107,7 +106,7 @@ const AccessRequestForm = () => {
             setSaveButtonDisabled(false);
     }, [siteDetailsValid, siteDetails, locations, workStages, permitRequirements, electricalIsolationRequirements, additionalInformation]);
 
-    // enable or disable the submit button.
+    // enable or disable the submit button
     useEffect(() => {
         if(accessRequest && accessRequest[uid].locations && accessRequest[uid].locations.length > 0 && accessRequest[uid].workStages.length > 0)
             setSubmitButtonDisabled(false);
@@ -116,7 +115,7 @@ const AccessRequestForm = () => {
     }, [uid, accessRequest, saveButtonDisabled]);
 
     // save the access request, this may be a new record or an update to an existing record
-    const onSave = useCallback(() => {
+    const onSave = useCallback((status) => {
         onUpdateAccessRequest(uid, idToken, localId, {
             siteDetails: {
                 ...siteDetails,
@@ -138,7 +137,7 @@ const AccessRequestForm = () => {
             additionalInformation: {
                 ...additionalInformation
             },
-            status: 'Draft'
+            status: status
             }, 'UPDATE_ACCESS_REQUEST');
     }, [onUpdateAccessRequest, uid, idToken, localId, siteDetails, locations, workStages, permitRequirements, electricalIsolationRequirements, additionalInformation]);
 
@@ -340,7 +339,7 @@ const AccessRequestForm = () => {
         setPlannerInformation(data);
     }
 
-    const onCancel = () => {
+    const onClose = () => {
         setRedirect(<Navigate to='/accessrequests' />);
     }
 
@@ -396,6 +395,9 @@ const AccessRequestForm = () => {
                     <i className='bi-calendar2-plus form-auth-icon'></i>
                     <h1 className='h3 mb-3 fw-normal'>Access Request Details</h1>
                 </div>
+                <div className='text-start mt-2 mb-3'>
+                                                <button className='btn btn-outline-secondary btn-sm' type='button' onClick={ onClose }>Return to list</button>
+                                            </div> 
                 
                 <div className='form-floating mb-3'>
 
@@ -461,20 +463,23 @@ const AccessRequestForm = () => {
 
                                             <div className='form-floating mt-2 mb-2'>
 
-                                                { !recordLocked
-                                                    ?   <button className='w-100 btn btn-lg btn-primary mb-2' type='button' onClick={ onSave } disabled={ saveButtonDisabled }>Save as draft</button>
+                                                { !recordLocked && !accessRequest
+                                                    ?   <button className='w-100 btn btn-lg btn-primary mb-2' type='button' onClick={ () => onSave('Draft') } disabled={ saveButtonDisabled }>Save as draft</button>
+                                                    :   null
+                                                }
+                                                { !recordLocked && accessRequest
+                                                    ?   <button className='w-100 btn btn-lg btn-primary mb-2' type='button' onClick={ () => onSave(accessRequest[uid].status) } disabled={ saveButtonDisabled }>Save Changes</button>
                                                     :   null
                                                 }
                                                 { (!recordLocked && accessRequest && (accessRequest[uid].requester.localId === localId))
                                                     ?   <button className='w-100 btn btn-lg btn-success mb-2' type='button' disabled={ submitButtonDisabled } onClick={ () => { submitRequestHandler('Submitted') } }>Submit For Approval</button>
                                                     :   null
                                                 }
-                                                { !recordLocked
-                                                    ?   <button className='w-100 btn btn-lg btn-secondary' type='button' onClick={ onCancel }>Close</button>
-                                                    :   null
-                                                }
                                             </div>
-                                        </div>
+                                            <div className='text-start mt-2'>
+                                                <button className='btn btn-outline-secondary btn-sm' type='button' onClick={ onClose }>Return to list</button>
+                                            </div> 
+                                        </div> 
                                     </div>
                                 </div>
                             :   null
@@ -495,6 +500,7 @@ const AccessRequestForm = () => {
                                                 update={ onSetPlannerInformation }
                                                 save={ onPlannerSave }
                                                 isPlanner={ roles.includes('planner') }
+                                                status={ accessRequest[uid].status }
                                             />
                                         </div>
                                     </div>

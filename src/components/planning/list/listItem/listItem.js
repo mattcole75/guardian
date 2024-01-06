@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
+import '../../planning.css';
 
 const ListItem = (props) => {
 
@@ -20,7 +21,7 @@ const { item } = props;
             statusCSS.push('bg-warning text-dark');
             break;
         case 'Under Review':
-            statusCSS.push('bg-warning text-dark');
+            statusCSS.push('bg-info');
             break;
         case 'Denied':
             statusCSS.push('bg-danger');
@@ -31,8 +32,41 @@ const { item } = props;
         case 'Completed':
             statusCSS.push('bg-secondary')
             break;
-        case 'Deleted':
+        case 'Cancelled':
             statusCSS.push('bg-info')
+            break;
+        default:
+            break;
+    }
+
+    let categoryCSS = [];
+    categoryCSS.push('border-bottom cursor-pointer');
+
+    switch(item.possessionCategory) {
+
+        case 'Third Party Works':
+            categoryCSS.push('bg-ThirdPartyWorks text-dark');
+            break;
+        case 'Disruptive Possession':
+            categoryCSS.push('bg-DisruptivePossession text-dark');
+            break;
+        case 'Wheels Free Required':
+            categoryCSS.push('bg-WheelsFreeRequired text-light');
+            break;
+        case 'Conflict/Conflicting Information':
+            categoryCSS.push('bg-ConflictConflictingInformation text-light');
+            break;
+        case 'Cancelled Works':
+            categoryCSS.push('bg-CancelledWorks text-danger');
+            break;
+        case 'Changed Works':
+            categoryCSS.push('bg-ChangedWorks');
+            break;
+        case 'Day Works':
+            categoryCSS.push('bg-DayWorks text-dark')
+            break;
+        case 'No Possession Req/Blue Permit Works':
+            categoryCSS.push('bg-NoPossessionReqBluePermitWorks text-light')
             break;
         default:
             break;
@@ -43,8 +77,9 @@ const { item } = props;
     }
 
     return (
-        <tr className='border-bottom cursor-pointer' onClick={ open }>
+        <tr className={categoryCSS.join(' ')} onClick={ open }>
             <td>{ <small className={statusCSS.join(' ')}>{ item.status }</small> }</td>
+            <td>{ item.possessionCategory }</td>
             <td>{ moment(item.startDate).format('DD/MM/YYYY') }</td>
             <td>{ moment(item.endDates).format('DD/MM/YYYY') }</td>
             <td>{ item.possessionDetails }</td>

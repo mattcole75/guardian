@@ -51,6 +51,10 @@ const userUpdateAccessRequestSuccess = (state, action) => {
             updatedAccessRequest = null;
             updatedAccessRequests = state.accessRequests.filter(req => Object.keys(req)[0] !== action.id );
         } else {
+            console.log('mcA', action);
+            console.log('mcB', accessRequestIndex);
+            console.log('mcC', state.accessRequests);
+            
             updatedAccessRequest = { [action.id]: { ...state.accessRequests[accessRequestIndex][action.id], ...action.accessRequest } };
 
             updatedAccessRequests = [ ...state.accessRequests ];
@@ -154,6 +158,9 @@ const plannerGetAccessRequestsSuccess = (state, action) => {
                     ?   action.accessRequests[key1][id].plannerInformation.siteRemarks
                     :   '',
                 updated: action.accessRequests[key1][id].updated,
+                possessionCategory: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.possessionCategory
+                ?   action.accessRequests[key1][id].plannerInformation.possessionCategory
+                :   'Not Set',
                 status: action.accessRequests[key1][id].status
             })
         }

@@ -10,10 +10,11 @@ const List = (props) => {
     return (
         <div className='table-responsive text-nowrap'>
             {/* <table className='w-100 table table-hover table-borderless table-sm align-middle bg-light border-start border-end shadow-sm fs-7'> */}
-            <table className='table table-hover table-bordered'>
+            <table className='table table-bordered'>
                 <thead className='border-bottom'>
                     <tr>
                         <th>Status</th>
+                        <th>Category</th>
                         <th>Start Date</th>
                         <th>End Date</th>
                         <th>Posession Details</th>

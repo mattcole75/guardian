@@ -41,7 +41,7 @@ const SiteDetails = (props) => {
         case 'Completed':
             statusCSS.push('bg-secondary')
             break;
-        case 'Deleted':
+        case 'Cancelled':
             statusCSS.push('bg-info')
             break;
         default:
@@ -57,7 +57,6 @@ const SiteDetails = (props) => {
                 <div>
                     <span className={statusCSS.join(' ')}>{ status }</span>
                 </div>
-                
             </div>
             <div className='form-floating mb-2'>
                 <input type='text' className='form-control' id='siteDescription' autoComplete='off' placeholder='Site Description' minLength={5} maxLength={50} required disabled={ recordLocked }
