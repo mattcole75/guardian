@@ -80,7 +80,7 @@ const { item } = props;
             <td className={ item.possessionCategory === 'TBC' ? 'bg-TBC-Priority2' : '' }>{ item.possessionCategory }</td>
             <td>{ item.organisation }</td>
             <td>{ moment(item.startDate).format('DD/MM/YYYY') }</td>
-            <td>{ moment(item.endDates).format('DD/MM/YYYY') }</td>
+            <td>{ moment(item.endDate).format('DD/MM/YYYY') }</td>
             <td className={ item.escalatedDate === 'n/a' ? '' : 'bg-escalatedDate'}>{ item.escalatedDate === 'n/a' ? item.escalatedDate :  moment(item.escalatedDate).format('DD/MM/YYYY') }</td>
             <td className={ item.possessionDetails === 'TBC' ? 'bg-TBC-Priority2' : '' }>{ item.possessionDetails }</td>
             <td className={ item.possessionDetails === 'TBC' ? 'bg-TBC-Priority2' : '' }>{ item.coLocate === 'TBC' ? item.coLocate : item.coLocate === true ? 'Yes' : 'No'}</td>
