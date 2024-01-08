@@ -120,7 +120,7 @@ export const userUpdateAccessRequest = (id, idToken, localId, data, identifier) 
             dispatch(accessRequestFinish());
         })
         .catch(err => {
-            dispatch(accessRequestFail(err.message)); 
+            dispatch(accessRequestFail(err.message));
         });
     };
 }

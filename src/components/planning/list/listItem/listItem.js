@@ -12,7 +12,6 @@ const { item } = props;
 
     let statusCSS = [];
     statusCSS.push('badge d-inline-block text-nowrap');
-
     switch(item.status) {
         case 'Draft':
             statusCSS.push('bg-secondary');
@@ -41,7 +40,6 @@ const { item } = props;
 
     let categoryCSS = [];
     categoryCSS.push('border-bottom cursor-pointer');
-
     switch(item.possessionCategory) {
 
         case 'Third Party Works':
@@ -79,32 +77,44 @@ const { item } = props;
     return (
         <tr className={categoryCSS.join(' ')} onClick={ open }>
             <td>{ <small className={statusCSS.join(' ')}>{ item.status }</small> }</td>
-            <td>{ item.possessionCategory }</td>
+            <td className={ item.possessionCategory === 'TBC' ? 'bg-TBC-Priority2' : '' }>{ item.possessionCategory }</td>
+            <td>{ item.organisation }</td>
             <td>{ moment(item.startDate).format('DD/MM/YYYY') }</td>
             <td>{ moment(item.endDates).format('DD/MM/YYYY') }</td>
-            <td>{ item.possessionDetails }</td>
-            <td>{ item.coLocate === 'Not Set' ? item.coLocate : item.coLocate ? 'Yes' : 'No'}</td>
-            <td>{ item.picop }</td>
-            <td>{ item.nwrAdjacent === 'Not Set' ? item.nwrAdjacent : item.nwrAdjacent ? 'Yes' : 'No' }</td>
-            <td>{ item.pic }</td>
-            <td>{ item.line }</td>
-            <td>{ item.organisation }</td>
+            <td className={ item.escalatedDate === 'n/a' ? '' : 'bg-escalatedDate'}>{ item.escalatedDate === 'n/a' ? item.escalatedDate :  moment(item.escalatedDate).format('DD/MM/YYYY') }</td>
+            <td className={ item.possessionDetails === 'TBC' ? 'bg-TBC-Priority2' : '' }>{ item.possessionDetails }</td>
+            <td className={ item.possessionDetails === 'TBC' ? 'bg-TBC-Priority2' : '' }>{ item.coLocate === 'TBC' ? item.coLocate : item.coLocate === true ? 'Yes' : 'No'}</td>
+            <td className={ item.picop === 'TBC' ? 'bg-TBC-Priority1' : '' }>{ item.picop }</td>
+            <td className={ item.pic === 'TBC' ? 'bg-TBC-Priority1' : ''  }>{ item.pic }</td>
+            <td className={ item.picop === 'TBC' ? 'bg-TBC-Priority2' : '' }>{ item.nwrAdjacent === 'TBC' ? item.nwrAdjacent : item.nwrAdjacent === true ? 'Yes' : 'No' }</td>
+            <td className={ item.line === 'TBC' ? 'bg-TBC-Priority2' : '' }>{ item.line }</td>
             <td>{ item.siteDescription }</td>
-            <td>{ item.isolationType }</td>
-            <td>{ item.isolationDetails }</td>
+            <td className={ item.isolationType === 'TBC' ? 'bg-TBC-Priority2' : '' }>{ item.isolationType }</td>
+            <td className={ item.isolationDetails === 'TBC' ? 'bg-TBC-Priority2' : '' }>{ item.isolationDetails }</td>
             <td>{ item.startTime }</td>
             <td>{ item.endTime }</td>
-            <td>{ item.worksiteLimits }</td>
-            <td>{ item.signallingResourceRequired === 'Not Set' ? item.signallingResourceRequired : item.signallingResourceRequired ? 'Yes' : 'No' }</td>
-            <td>{ item.electricalResourceRequired === 'Not Set' ? item.electricalResourceRequired : item.electricalResourceRequired ? 'Yes' : 'No' }</td>
-            <td>{ item.testTramsRequired === 'Not Set' ? item.testTramsRequired : item.testTramsRequired ? 'Yes' : 'No' }</td>
-            <td>{ item.onTrackMachineCount }</td>
-            <td>{ item.rrvType }</td>
-            <td>{ item.trolleyType }</td>
-            <td>{ item.heavyMachineType }</td>
+            <td className={ item.worksiteLimits === 'TBC' ? 'bg-TBC-Priority2' : '' }>{ item.worksiteLimits }</td>
+            <td className={ item.signallingResourceRequired === 'Not Set' ? 'bg-TBC-Priority2' : item.signallingResourceRequired ? 'bg-signallingResource' : ''}>{ item.signallingResourceRequired === 'Not Set' ? item.signallingResourceRequired : item.signallingResourceRequired ? 'Yes' : 'No' }</td>
+            <td className={ item.electricalResourceRequired === 'Not Set' ? 'bg-TBC-Priority2' : item.electricalResourceRequired ? 'bg-electricalResource' : ''}>{ item.electricalResourceRequired === 'Not Set' ? item.electricalResourceRequired : item.electricalResourceRequired ? 'Yes' : 'No' }</td>
+            <td>{ item.testTramsRequired === 'TBC' ? item.testTramsRequired : item.testTramsRequired ? 'Yes' : 'No' }</td>
+            <td className={ 
+                item.tramConfigurationType === 'TBC' 
+                    ?   'bg-TBC-Priority2' 
+                    :   item.tramConfigurationType === 'Any (M5000)'
+                        ?   'bg-tramAny'
+                        :   item.tramConfigurationType === 'Single (M5000)'
+                            ?   'bg-tramSingle'
+                            :   item.tramConfigurationType === 'Double (M5000)'
+                                ?   'bg-tramDouble'
+                                :   '' }>{ item.tramConfigurationType }</td>
+            <td className={ item.onTrackMachineCount === 'TBC' ? 'bg-TBC-Priority2' : '' }>{ item.onTrackMachineCount }</td>
+            <td className={ item.rrvType === 'TBC' ? 'bg-TBC-Priority2' : '' }>{ item.rrvType }</td>
+            <td className={ item.trolleyType === 'TBC' ? 'bg-TBC-Priority2' : item.trolleyType === 'TBC' || item.trolleyType === 'Not Applicable' ? '' : 'bg-Trolly' }>{ item.trolleyType }</td>
+            <td className={ item.heavyMachineType === 'TBC' ? 'bg-TBC-Priority2' : '' }>{ item.heavyMachineType }</td>
+            <td className={ item.withinDisruptivePossession === 'TBC' ? 'bg-TBC-Priority2' : item.withinDisruptivePossession === true ? 'bg-withinDisruptivePosession' : '' }>{ item.withinDisruptivePossession === 'TBC'? item.withinDisruptivePossession : item.withinDisruptivePossession === true ? 'Yes' : 'No' }</td>
             <td>{ item.siteRemarks }</td>
             <td>{ moment(item.updated).fromNow() }</td>
-        </tr>
+        </tr>   
     );
 }
 

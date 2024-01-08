@@ -99,68 +99,77 @@ const plannerGetAccessRequestsSuccess = (state, action) => {
     let accessRequestItems = [];
     for(const key1 in action.accessRequests) {
          let id = Object.keys(action.accessRequests[key1]);
-         for(const key2 in action.accessRequests[key1][id].locations) {   
+         for(const key2 in action.accessRequests[key1][id].locations) {  
             accessRequestItems.push({
                 uid: id,
                 startDate: action.accessRequests[key1][id].locations[key2].startDate,
                 endDate: action.accessRequests[key1][id].locations[key2].endDate,
+                escalatedDate: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.escalatedDate
+                    ?   action.accessRequests[key1][id].plannerInformation.escalatedDate
+                    :   'n/a',
                 possessionDetails: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.possessionDetails 
                     ?   action.accessRequests[key1][id].plannerInformation.possessionDetails 
-                    :   'Not Set',
-                coLocate: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.coLocate
+                    :   'TBC',
+                coLocate: action.accessRequests[key1][id].plannerInformation && typeof action.accessRequests[key1][id].plannerInformation.coLocate === "boolean"
                     ?   action.accessRequests[key1][id].plannerInformation.coLocate
-                    :   'Not Set',
+                    :   'TBC',
                 picop: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.picop
                     ?   action.accessRequests[key1][id].plannerInformation.picop
-                    :   'Not Set',
-                nwrAdjacent: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.nwrAdjacent
+                    :   'TBC',
+                nwrAdjacent: action.accessRequests[key1][id].plannerInformation && typeof action.accessRequests[key1][id].plannerInformation.nwrAdjacent === "boolean"
                     ?   action.accessRequests[key1][id].plannerInformation.nwrAdjacent
-                    :   'Not Set',
+                    :   'TBC',
                 pic: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.pic
                     ?   action.accessRequests[key1][id].plannerInformation.pic
-                    :   'Not Set',
+                    :   'TBC',
                 line: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.line
                 ?   action.accessRequests[key1][id].plannerInformation.line
-                :   'Not Set',
+                :   'TBC',
                 organisation: action.accessRequests[key1][id].requester.organisation,
                 siteDescription: action.accessRequests[key1][id].siteDetails.siteDescription,
                 isolationType: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.isolationType
                     ?   action.accessRequests[key1][id].plannerInformation.isolationType
-                    :   'Not Set',
+                    :   'TBC',
                 isolationDetails: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.isolationDetails
                     ?   action.accessRequests[key1][id].plannerInformation.isolationDetails
-                    :   'Not Set',
+                    :   'TBC',
                 startTime: action.accessRequests[key1][id].locations[key2].startTime
                     ?   action.accessRequests[key1][id].locations[key2].startTime
-                    :   'Not Set',
+                    :   'TBC',
                 endTime: action.accessRequests[key1][id].locations[key2].endTime
                     ?   action.accessRequests[key1][id].locations[key2].endTime
-                    :   'Not Set',
+                    :   'TBC',
                 worksiteLimits: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.worksiteLimits
                     ?   action.accessRequests[key1][id].plannerInformation.worksiteLimits
-                    :   'Not Set',
+                    :   'TBC',
                 signallingResourceRequired: action.accessRequests[key1][id].siteDetails.signallingResourceRequired,
-                electricalIsolationRequired: action.accessRequests[key1][id].siteDetails.electricalIsolationRequired,
+                electricalResourceRequired: action.accessRequests[key1][id].siteDetails.electricalResourceRequired,
                 testTramsRequired: action.accessRequests[key1][id].siteDetails.testTramsRequired,
+                tramConfigurationType: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.tramConfigurationType
+                    ?   action.accessRequests[key1][id].plannerInformation.tramConfigurationType
+                    :   'TBC',
                 onTrackMachineCount: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.onTrackMachineCount
                     ?   action.accessRequests[key1][id].plannerInformation.onTrackMachineCount
-                    :   'Not Set',
+                    :   'TBC',
                 rrvType: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.rrvType
                     ?   action.accessRequests[key1][id].plannerInformation.rrvType
-                    :   'Not Set',
+                    :   'TBC',
                 trolleyType: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.trolleyType
                     ?   action.accessRequests[key1][id].plannerInformation.trolleyType
-                    :   'Not Set',
+                    :   'TBC',
                 heavyMachineType: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.heavyMachineType
                     ?   action.accessRequests[key1][id].plannerInformation.heavyMachineType
-                    :   'Not Set',
+                    :   'TBC',
                 siteRemarks: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.siteRemarks
                     ?   action.accessRequests[key1][id].plannerInformation.siteRemarks
                     :   '',
+                withinDisruptivePossession: action.accessRequests[key1][id].plannerInformation && typeof action.accessRequests[key1][id].plannerInformation.withinDisruptivePossession === "boolean"
+                    ? action.accessRequests[key1][id].plannerInformation.withinDisruptivePossession
+                    : 'TBC',
                 updated: action.accessRequests[key1][id].updated,
                 possessionCategory: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.possessionCategory
                 ?   action.accessRequests[key1][id].plannerInformation.possessionCategory
-                :   'Not Set',
+                :   'TBC',
                 status: action.accessRequests[key1][id].status
             })
         }

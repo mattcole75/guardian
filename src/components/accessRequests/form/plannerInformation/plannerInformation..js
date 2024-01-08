@@ -11,6 +11,7 @@ import rrvTypes from '../../../../configuration/lists/rrv.json';
 import trolleyTypes from '../../../../configuration/lists/trolley.json';
 import heavyMachineTypes from '../../../../configuration/lists/heavyMachines.json';
 import possessionCategories from '../../../../configuration/lists/possessionCategories.json';
+import tramConfigurationTypes from '../../../../configuration/lists/tramConfigurationTypes.json';
 
 const PlannerInformation = (props) => {
     const { plannerInformation, update, save, isPlanner, status } = props;
@@ -185,6 +186,21 @@ const PlannerInformation = (props) => {
                         </span>
                     </label>
                 </div>
+                {/* worksite within disruptive Possession */}
+                <div className='list-group mb-2'>
+                    <label className='list-group-item d-flex gap-2'>
+                        <div className='form-check form-switch'>
+                            <input className='form-check-input' type='checkbox' role='switch' id='withinDisruptivePossession' disabled={ !isPlanner }
+                                { ...register('withinDisruptivePossession', { onChange:  onUpdate })}
+                            />
+                        </div>
+                        <span className='text-start'>
+                            Worksite within disruptive possession
+                            <small className='d-block text-muted'>is this worksite within a disruptive possession?</small>
+                        </span>
+                    </label>
+                </div>
+                {/* line */}
                  <div className='row g-2'>
                     <div className='form-floating col-sm-6 mb-2'>
                         <select className='form-select' id='line' required disabled={ !isPlanner }
@@ -237,7 +253,7 @@ const PlannerInformation = (props) => {
                         <input type='text' className='form-control' id='isolationDetails' autoComplete='off' placeholder='Isolation Details' minLength={5} maxLength={51} disabled={ !isPlanner }
                             { ...register('isolationDetails', { onChange: onUpdate,
                                 minLength: {
-                                    value: 5,
+                                    value: 3,
                                     message: "Isolation details must have at least 5 characters"
                                 },
                                 maxLength: {
@@ -333,7 +349,7 @@ const PlannerInformation = (props) => {
                     { errors.siteRemarks && <p className='form-error mt-1 text-start'>{errors.siteRemarks.message}</p> }
                 </div>
                 
-                {/* category */}
+                {/* category and escalation date */}
                 <div className='row g-2 mb-3'>
                     <div className='form-floating col-sm-6 mb-2'>
                         <select className='form-select' id='possessionCategory' required disabled={ !isPlanner }
@@ -348,11 +364,31 @@ const PlannerInformation = (props) => {
                         <label htmlFor='possessionCategory'>Possession Category</label>
                         { errors.possessionCategory && <p className='form-error mt-1 text-start'>{ errors.possessionCategory.message }</p> }
                     </div>
+                    <div className='form-floating  col-sm-6 mb-2'>
+                        <input type='date' className='form-control' id='escalatedDate' placeholder='Date' disabled={ !isPlanner }
+                            { ...register('escalatedDate', { onChange: onUpdate }) } />
+                        <label htmlFor='escalatedDate' className='form-label'>Escalated Date</label>
+                    </div>
+                </div>
+                {/* Tram configuration requirements */}
+                <div className='row g-2 mb-3'>
                     <div className='form-floating col-sm-6 mb-2'>
+                        <select className='form-select' id='tramConfigurationType' required disabled={ !isPlanner }
+                            {...register('tramConfigurationType', { onChange: onUpdate, required: 'A tram configuration must be selected' })}>
+                            <option value=''>Choose...</option>
+                            {
+                                tramConfigurationTypes.map(item => {
+                                    return (<option className='success' key={ item.type } value={ item.type }>{ item.type }</option>)
+                                })
+                            }
+                        </select>
+                        <label htmlFor='tramConfigurationType'>Tram Configuration Type</label>
+                        { errors.tramConfigurationType && <p className='form-error mt-1 text-start'>{ errors.tramConfigurationType.message }</p> }
+                    </div>
+                    <div className='form-floating  col-sm-6 mb-2'>
                         
                     </div>
                 </div>
-                
 
             { isPlanner
                 ?   <div>

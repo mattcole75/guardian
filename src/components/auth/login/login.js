@@ -29,7 +29,7 @@ const Login = () => {
     }, [errors]);
 
     const loginHandler = useCallback((data) => {
-        onLogin({...data, returnSecureToken: true}, 'LOGIN');
+        onLogin({ ...data, returnSecureToken: true }, 'LOGIN');
     }, [onLogin]);
 
     let spinner = null;

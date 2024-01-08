@@ -15,15 +15,16 @@ const List = (props) => {
                     <tr>
                         <th>Status</th>
                         <th>Category</th>
+                        <th>Organisation</th>
                         <th>Start Date</th>
                         <th>End Date</th>
+                        <th>Escalated</th>
                         <th>Posession Details</th>
                         <th>Co-Locatable</th>
                         <th>PICOP</th>
-                        <th>NWR Adjacent</th>
                         <th>PIC</th>
+                        <th>NWR Adjacent</th>
                         <th>Line</th>
-                        <th>Organisation</th>
                         <th>Nature of Work</th>
                         <th>Isolation Type</th>
                         <th>Isolation Details</th>
@@ -33,10 +34,12 @@ const List = (props) => {
                         <th>S&T Support</th>
                         <th>E&M Support</th>
                         <th>Test Trams Required</th>
+                        <th>Tram Configuration</th>
                         <th>OTM Count</th>
-                        <th>RRV In Use</th>
+                        <th>RRV</th>
                         <th>Ironmen/Trolly</th>
                         <th>Tamper/Reg</th>
+                        <th>Within Disruptive Possession</th>
                         <th>Site Remarks</th>
                         <th>Last Updated</th>
                         {/* <th></th> */}

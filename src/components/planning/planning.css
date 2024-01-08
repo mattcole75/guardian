@@ -25,6 +25,42 @@
     background-color: rgba(31,78,120,.8);
 }
 
+.bg-TBC-Priority1 {
+    background-color: rgba(255,0,0,.8) !important;
+}
+.bg-TBC-Priority2 {
+    background-color: rgba(255,255,0,.8) !important;
+}
+.bg-Cell-Disruptive {
+    background-color: rgba(255,255,0,.8) !important;
+}
+.bg-Trolly {
+    background-color: rgba(255,51,153,.8) !important;
+}
+.bg-signallingResource {
+    background-color: rgba(255,51,153,.8) !important;
+}
+.bg-electricalResource {
+    background-color: rgba(153,102,51,.8) !important;
+}
+.bg-withinDisruptivePosession {
+    background-color: rgba(255,192,0,.8) !important;
+}
+.bg-escalatedDate {
+    background-color: rgba(112,48,160,.8) !important;
+    color: rgba(255,255,0,0.8) !important;
+}
+.bg-tramAny {
+    background-color: rgba(205, 236, 104, 0.8) !important;
+}
+.bg-tramSingle {
+    background-color: rgba(47,117,181,.8) !important;
+}
+.bg-tramDouble {
+    background-color: rgba(84,130,53,.8) !important;
+}
+
+
 @media (max-width: 767.98px) {
     
 }

@@ -93,8 +93,8 @@ const SiteDetails = (props) => {
             <div className='list-group'>
                 <label className='list-group-item d-flex gap-2'>
                     <div className='form-check form-switch'>
-                        <input className='form-check-input' type='checkbox' role='switch' id='electricalIsolationRequired' disabled={ recordLocked }
-                            { ...register('electricalIsolationRequired', { onChange:  onUpdate })}
+                        <input className='form-check-input' type='checkbox' role='switch' id='electricalResourceRequired' disabled={ recordLocked }
+                            { ...register('electricalResourceRequired', { onChange:  onUpdate })}
                         />
                     </div>
                     <span className='text-start'>

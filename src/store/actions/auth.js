@@ -149,7 +149,7 @@ export const login = (authData, identifier) => {
 
         direct.post('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + apikey, authData)
             .then(res => {
-                
+                console.log(res.data);
                 const { idToken, localId, expiresIn } = res.data
                 axios.get('/user' , {
                     headers: {
@@ -158,10 +158,11 @@ export const login = (authData, identifier) => {
                     }
                 })
                 .then(user => {
+                    console.log(user.data);
                     const { displayName, phoneNumber, email, organisation, roles } = user.data.data;
                     setLocalStorage(idToken, localId, displayName, phoneNumber, email, organisation, roles, expiresIn);
                     dispatch(authSuccess(idToken, localId, displayName, phoneNumber, email, organisation, roles, identifier));
-                    dispatch(checkAuthTimeout(expiresIn));
+                    // dispatch(checkAuthTimeout(expiresIn));
                 })
                 .then(() => {
                     dispatch(authFinish());
@@ -238,7 +239,7 @@ export const authUpdatePassword = (authData, identifier) => {
                     const { displayName, phoneNumber, email, organisation, roles } = user.data.data;
                     setLocalStorage(idToken, localId, displayName, phoneNumber, email, organisation, roles, expiresIn);
                     dispatch(authSuccess(idToken, localId, displayName, phoneNumber, email, organisation, roles, identifier));
-                    dispatch(checkAuthTimeout(expiresIn));
+                    // dispatch(checkAuthTimeout(expiresIn));
                 })
                 .then(() => {
                     dispatch(authFinish());
@@ -342,13 +343,13 @@ export const authAdminPatch = (idToken, localId, data, identifier) => {
     };
 }
 
-export const checkAuthTimeout = (expirationTime) => {
-    return dispatch => {
-        setTimeout(() => {
-            dispatch(logout());
-        }, expirationTime * 1000);
-    };
-}
+// export const checkAuthTimeout = (expirationTime) => {
+//     return dispatch => {
+//         setTimeout(() => {
+//             dispatch(logout());
+//         }, expirationTime * 1000);
+//     };
+// }
 
 export const authCheckState = () => {
     return dispatch => {
@@ -359,19 +360,19 @@ export const authCheckState = () => {
         const email = localStorage.getItem('email');
         const organisation = localStorage.getItem('organisation');
         const roles = localStorage.getItem('roles');
-        
 
         if (!idToken) {
             dispatch(logout());
         } else {
             const expirationDate = new Date(localStorage.getItem('expirationDate'));
-            if (expirationDate <= new Date()){
+            if (expirationDate <= new Date()) {
                 dispatch(logout());
                 dispatch(authStateReset());
             } else {
                 dispatch(authSuccess(idToken, localId, displayName, phoneNumber, email, organisation, roles, 'AUTH_CHECK_STATE'));
-                dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000 ));
-            } 
+                // dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000 ));
+                // todo: https://cloud.google.com/identity-platform/docs/use-rest-api#section-refresh-token
+            }
         }
     };
 }
