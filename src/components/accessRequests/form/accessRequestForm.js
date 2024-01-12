@@ -17,7 +17,7 @@ import WorkStageForm from './workStages/form/workStageForm';
 import PermitRequirements from './permitRequirements/permitRequirements';
 import ElectricalIsolationRequirements from './electricalIsolationRequirements/electricalIsolationRequirements';
 import AdditionalInformation from './additionalInformation/additionalInformation';
-import PlannerInformation from './plannerInformation/plannerInformation.';
+import PlanningInformation from './planningInformation/planningInformation.';
 
 import Modal from '../../ui/modal/modal';
 import Backdrop from '../../ui/backdrop/backdrop';
@@ -49,7 +49,7 @@ const AccessRequestForm = () => {
     const [ permitRequirements, setPermitRequirements] = useState(null);
     const [ electricalIsolationRequirements, setElectricalIsolationRequirements ] = useState(null);
     const [ additionalInformation, setAdditionalInformation ] = useState(null);
-    const [ plannerInformation, setPlannerInformation ] = useState(null);
+    const [ planningInformation, setPlanningInformation ] = useState(null);
     const [ siteDetailsValid, setSiteDetailsValid ] = useState(true);
     
     const onGetAccessRequest = useCallback((idToken, localId, uid, identifier) => dispatch(userGetAccessRequest(idToken, localId, uid, identifier)), [dispatch]);
@@ -69,7 +69,7 @@ const AccessRequestForm = () => {
             setPermitRequirements(accessRequest[uid].permitRequirements);
             setElectricalIsolationRequirements(accessRequest[uid].electricalIsolationRequirements);
             setAdditionalInformation(accessRequest[uid].additionalInformation);
-            setPlannerInformation(accessRequest[uid].plannerInformation);
+            setPlanningInformation(accessRequest[uid].planningInformation);
         }
     }, [identifier, accessRequest, uid]);
 
@@ -135,13 +135,13 @@ const AccessRequestForm = () => {
                 ...electricalIsolationRequirements
             },
             additionalInformation: {
-                ...additionalInformation
+                ...additionalInformation,
             },
             status: status
             }, 'UPDATE_ACCESS_REQUEST');
     }, [onUpdateAccessRequest, uid, idToken, localId, siteDetails, locations, workStages, permitRequirements, electricalIsolationRequirements, additionalInformation]);
 
-    const onPlannerSave = useCallback((status) => {
+    const onPlanningSave = useCallback((status) => {
     
         let updatedEventLogItems = [ ...accessRequest[uid].eventLog ];
 
@@ -163,14 +163,14 @@ const AccessRequestForm = () => {
         }
 
         onUpdateAccessRequest(uid, idToken, localId, {
-            plannerInformation: {
-                ...plannerInformation
+            planningInformation: {
+                ...planningInformation
             },
             status: status,
             eventLog: updatedEventLogItems
             }, 'UPDATE_ACCESS_REQUEST');
 
-    }, [accessRequest, uid, onUpdateAccessRequest, idToken, localId, plannerInformation, displayName]);
+    }, [accessRequest, uid, onUpdateAccessRequest, idToken, localId, planningInformation, displayName]);
 
     const onSaveComments = useCallback((data) => {
         onUpdateAccessRequest(uid, idToken, localId, {
@@ -335,8 +335,8 @@ const AccessRequestForm = () => {
         setAdditionalInformation(data);
     }
 
-    const onSetPlannerInformation = (data) => {
-        setPlannerInformation(data);
+    const onSetPlanningInformation = (data) => {
+        setPlanningInformation(data);
     }
 
     const onClose = () => {
@@ -495,10 +495,10 @@ const AccessRequestForm = () => {
                                     </h2>
                                     <div id='panelsStayOpen-collapseHazards' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingHazards'>
                                         <div className='accordion-body'>
-                                            <PlannerInformation 
-                                                plannerInformation={ plannerInformation }
-                                                update={ onSetPlannerInformation }
-                                                save={ onPlannerSave }
+                                            <PlanningInformation 
+                                                planningInformation={ planningInformation }
+                                                update={ onSetPlanningInformation }
+                                                save={ onPlanningSave }
                                                 isPlanner={ roles.includes('planner') }
                                                 status={ accessRequest[uid].status }
                                             />

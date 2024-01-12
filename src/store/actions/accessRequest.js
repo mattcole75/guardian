@@ -151,7 +151,9 @@ export const userGetAccessRequests = (idToken, localId, startDate, endDate, iden
     };
 }
 
-export const plannerGetAccessRequests = (idToken, localId, startDate, endDate, identifier) => {
+export const plannerGetAccessRequests = (idToken, localId, data, identifier) => {
+
+    const { startDate, endDate, status, category, picop, pic, organisation, line, isolation, safetyResource, testTrams, signallingResource, electricalResource } = data;
 
     return dispatch => {
         
@@ -159,7 +161,18 @@ export const plannerGetAccessRequests = (idToken, localId, startDate, endDate, i
             idToken: idToken,
             localId: localId,
             startDate: startDate,
-            endDate: endDate
+            endDate: endDate,
+            statusFilter: status,
+            categoryFilter: category,
+            picopFilter: picop,
+            picFilter: pic,
+            organisationFilter: organisation,
+            lineFilter: line,
+            isolationFilter: isolation,
+            safetyResourceFilter: safetyResource,
+            testTramsFilter: testTrams,
+            signallingResourceFilter: signallingResource,
+            electricalResourceFilter: electricalResource
         }};
 
         dispatch(accessRequestStart());

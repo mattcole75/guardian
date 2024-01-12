@@ -59,6 +59,9 @@
 .bg-tramDouble {
     background-color: rgba(84,130,53,.8) !important;
 }
+.bg-safetyResource {
+    background-color: rgba(51,204,204,.8) !important;
+}
 
 
 @media (max-width: 767.98px) {

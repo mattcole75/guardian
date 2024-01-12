@@ -1,0 +1,426 @@
+[
+    {
+        "organisation": "TBC",
+        "inuse": true
+    },
+    {
+        "organisation": "3WAY",
+        "inuse": true
+    },
+    {
+        "organisation": "AB Roofing",
+        "inuse": true
+    },
+    {
+        "organisation": "Adxba Ltd",
+        "inuse": true
+    },
+    {
+        "organisation": "Aecom",
+        "inuse": true
+    },
+    {
+        "organisation": "Alstom",
+        "inuse": true
+    },
+    {
+        "organisation": "Am Tree Services Northwest Ltd",
+        "inuse": true
+    },
+    {
+        "organisation": "Amcogiffen",
+        "inuse": true
+    },
+    {
+        "organisation": "Amey",
+        "inuse": true
+    },
+    {
+        "organisation": "Argyle",
+        "inuse": true
+    },
+    {
+        "organisation": "Astra Signs",
+        "inuse": true
+    },
+    {
+        "organisation": "Atkins",
+        "inuse": true
+    },
+    {
+        "organisation": "Balfour Beatty/MCC",
+        "inuse": true
+    },
+    {
+        "organisation": "Bam Nuttal/Nwr",
+        "inuse": true
+    },
+    {
+        "organisation": "Bidvest Noonan",
+        "inuse": true
+    },
+    {
+        "organisation": "Bolton Gate Services",
+        "inuse": true
+    },
+    {
+        "organisation": "Bombardier",
+        "inuse": true
+    },
+    {
+        "organisation": "Bridgeway Consulting",
+        "inuse": true
+    },
+    {
+        "organisation": "Buckinghams",
+        "inuse": true
+    },
+    {
+        "organisation": "Buckinghams/Haigh Rail",
+        "inuse": true
+    },
+    {
+        "organisation": "Buckinghams/Tfgm",
+        "inuse": true
+    },
+    {
+        "organisation": "Butterfield Signs",
+        "inuse": true
+    },
+    {
+        "organisation": "Cater",
+        "inuse": true
+    },
+    {
+        "organisation": "Connolly Scaffolding",
+        "inuse": true
+    },
+    {
+        "organisation": "Construction Marine Ltd",
+        "inuse": true
+    },
+    {
+        "organisation": "Cordant",
+        "inuse": true
+    },
+    {
+        "organisation": "Cordant/KAM S&T",
+        "inuse": true
+    },
+    {
+        "organisation": "Crest Scaffolding",
+        "inuse": true
+    },
+    {
+        "organisation": "Crossways Scaffolding",
+        "inuse": true
+    },
+    {
+        "organisation": "Dywidag",
+        "inuse": true
+    },
+    {
+        "organisation": "Garco Rail",
+        "inuse": true
+    },
+    {
+        "organisation": "Global.Com",
+        "inuse": true
+    },
+    {
+        "organisation": "Hcs Cleaning",
+        "inuse": true
+    },
+    {
+        "organisation": "Industrial Flooring Surfacing",
+        "inuse": true
+    },
+    {
+        "organisation": "Jamieson Contracting",
+        "inuse": true
+    },
+    {
+        "organisation": "JC Decaux Ltd",
+        "inuse": true
+    },
+    {
+        "organisation": "Jetrod",
+        "inuse": true
+    },
+    {
+        "organisation": "John Sisk & Son",
+        "inuse": true
+    },
+    {
+        "organisation": "KAM Civils & Structures",
+        "inuse": true
+    },
+    {
+        "organisation": "KAM Elec/Podtrak",
+        "inuse": true
+    },
+    {
+        "organisation": "KAM Electrical",
+        "inuse": true
+    },
+    {
+        "organisation": "KAM Engineering",
+        "inuse": true
+    },
+    {
+        "organisation": "KAM Network Presentation",
+        "inuse": true
+    },
+    {
+        "organisation": "KAM Planning",
+        "inuse": true
+    },
+    {
+        "organisation": "KAM Projects",
+        "inuse": true
+    },
+    {
+        "organisation": "KAM Pway",
+        "inuse": true
+    },
+    {
+        "organisation": "KAM Pway/1St In Rail",
+        "inuse": true
+    },
+    {
+        "organisation": "KAM Pway/3Way",
+        "inuse": true
+    },
+    {
+        "organisation": "KAM Pway/3Way/Gtm",
+        "inuse": true
+    },
+    {
+        "organisation": "KAM Pway/Cater",
+        "inuse": true
+    },
+    {
+        "organisation": "KAM Pway/Harsco",
+        "inuse": true
+    },
+    {
+        "organisation": "KAM Pway/Huddersfield University",
+        "inuse": true
+    },
+    {
+        "organisation": "KAM Pway/Mecno",
+        "inuse": true
+    },
+    {
+        "organisation": "KAM Pway/Podtrak",
+        "inuse": true
+    },
+    {
+        "organisation": "KAM Pway/Thermit",
+        "inuse": true
+    },
+    {
+        "organisation": "KAM Pway/Udp",
+        "inuse": true
+    },
+    {
+        "organisation": "KAM Pway/Volker Rail",
+        "inuse": true
+    },
+    {
+        "organisation": "KAM Pway/Volker/3Way/Udp",
+        "inuse": true
+    },
+    {
+        "organisation": "KAM Pway/Weld A Rail",
+        "inuse": true
+    },
+    {
+        "organisation": "KAM Rlngstk/Bombardier",
+        "inuse": true
+    },
+    {
+        "organisation": "KAM S&T",
+        "inuse": true
+    },
+    {
+        "organisation": "KAM S&T/Sudlows",
+        "inuse": true
+    },
+    {
+        "organisation": "KAM Structures/3Way",
+        "inuse": true
+    },
+    {
+        "organisation": "KAM Structures/Cordant",
+        "inuse": true
+    },
+    {
+        "organisation": "KAM Systemwide",
+        "inuse": true
+    },
+    {
+        "organisation": "KAM Vehicles",
+        "inuse": true
+    },
+    {
+        "organisation": "Lanes 4 Drains",
+        "inuse": true
+    },
+    {
+        "organisation": "Lendlease Construction Ltd",
+        "inuse": true
+    },
+    {
+        "organisation": "Manchester City Council",
+        "inuse": true
+    },
+    {
+        "organisation": "MPT",
+        "inuse": true
+    },
+    {
+        "organisation": "Neary Rail",
+        "inuse": true
+    },
+    {
+        "organisation": "Neary/Telent",
+        "inuse": true
+    },
+    {
+        "organisation": "Network Rail",
+        "inuse": true
+    },
+    {
+        "organisation": "NSS Group",
+        "inuse": true
+    },
+    {
+        "organisation": "OCS Group",
+        "inuse": true
+    },
+    {
+        "organisation": "Podtrak",
+        "inuse": true
+    },
+    {
+        "organisation": "Podtrak/Camlin Technologies",
+        "inuse": true
+    },
+    {
+        "organisation": "Precision Utility Mapping",
+        "inuse": true
+    },
+    {
+        "organisation": "Quadriga",
+        "inuse": true
+    },
+    {
+        "organisation": "Radiocoms Systems Ltd",
+        "inuse": true
+    },
+    {
+        "organisation": "Rhodar Industrial Services",
+        "inuse": true
+    },
+    {
+        "organisation": "Rigg-Tech",
+        "inuse": true
+    },
+    {
+        "organisation": "Road Traffic Solutions",
+        "inuse": true
+    },
+    {
+        "organisation": "Rope 2 Rope Uk Ltd",
+        "inuse": true
+    },
+    {
+        "organisation": "Seasonal Group, THE",
+        "inuse": true
+    },
+    {
+        "organisation": "Siemens",
+        "inuse": true
+    },
+    {
+        "organisation": "SISK",
+        "inuse": true
+    },
+    {
+        "organisation": "Solaris",
+        "inuse": true
+    },
+    {
+        "organisation": "Spraygroup",
+        "inuse": true
+    },
+    {
+        "organisation": "Story Contracting",
+        "inuse": true
+    },
+    {
+        "organisation": "Sudlows",
+        "inuse": true
+    },
+    {
+        "organisation": "TA365 Rail/Network Rail",
+        "inuse": true
+    },
+    {
+        "organisation": "Telent",
+        "inuse": true
+    },
+    {
+        "organisation": "Telent/Neary Rail",
+        "inuse": true
+    },
+    {
+        "organisation": "Tes- Sudlows",
+        "inuse": true
+    },
+    {
+        "organisation": "TfGM",
+        "inuse": true
+    },
+    {
+        "organisation": "Thales",
+        "inuse": true
+    },
+    {
+        "organisation": "UDP",
+        "inuse": true
+    },
+    {
+        "organisation": "Uk Power Network Services",
+        "inuse": true
+    },
+    {
+        "organisation": "UK Scaffolding",
+        "inuse": true
+    },
+    {
+        "organisation": "Vertical Access Ltd",
+        "inuse": true
+    },
+    {
+        "organisation": "Vital Energi",
+        "inuse": true
+    },
+    {
+        "organisation": "Volker Rail",
+        "inuse": true
+    },
+    {
+        "organisation": "Watermans/Mcc",
+        "inuse": true
+    },
+    {
+        "organisation": "Wilde Consulting",
+        "inuse": true
+    },
+    {
+        "organisation": "Willowtree",
+        "inuse": true
+    }
+]

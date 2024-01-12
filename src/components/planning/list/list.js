@@ -31,6 +31,7 @@ const List = (props) => {
                         <th>Start Time</th>
                         <th>End Time</th>
                         <th>Worksite Limits</th>
+                        <th>Safety Resource Required</th>
                         <th>S&T Support</th>
                         <th>E&M Support</th>
                         <th>Test Trams Required</th>

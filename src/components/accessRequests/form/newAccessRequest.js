@@ -76,7 +76,7 @@ const NewAccessRequest = () => {
                 ...electricalIsolationRequirements
             },
             additionalInformation: {
-                ...additionalInformation
+                ...additionalInformation,
             },
             eventLog: [{
                 user: displayName,

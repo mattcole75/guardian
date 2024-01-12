@@ -1,0 +1,17 @@
+[
+    {
+        "status": "Submitted"
+    },
+    {
+        "status": "Under Review"
+    },
+    {
+        "status": "Denied"
+    },
+    {
+        "status": "Cancelled"
+    },
+    {
+        "status": "Granted"
+    }
+]

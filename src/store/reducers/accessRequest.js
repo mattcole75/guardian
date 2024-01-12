@@ -104,72 +104,33 @@ const plannerGetAccessRequestsSuccess = (state, action) => {
                 uid: id,
                 startDate: action.accessRequests[key1][id].locations[key2].startDate,
                 endDate: action.accessRequests[key1][id].locations[key2].endDate,
-                escalatedDate: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.escalatedDate
-                    ?   action.accessRequests[key1][id].plannerInformation.escalatedDate
-                    :   'n/a',
-                possessionDetails: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.possessionDetails 
-                    ?   action.accessRequests[key1][id].plannerInformation.possessionDetails 
-                    :   'TBC',
-                coLocate: action.accessRequests[key1][id].plannerInformation && typeof action.accessRequests[key1][id].plannerInformation.coLocate === "boolean"
-                    ?   action.accessRequests[key1][id].plannerInformation.coLocate
-                    :   'TBC',
-                picop: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.picop
-                    ?   action.accessRequests[key1][id].plannerInformation.picop
-                    :   'TBC',
-                nwrAdjacent: action.accessRequests[key1][id].plannerInformation && typeof action.accessRequests[key1][id].plannerInformation.nwrAdjacent === "boolean"
-                    ?   action.accessRequests[key1][id].plannerInformation.nwrAdjacent
-                    :   'TBC',
-                pic: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.pic
-                    ?   action.accessRequests[key1][id].plannerInformation.pic
-                    :   'TBC',
-                line: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.line
-                ?   action.accessRequests[key1][id].plannerInformation.line
-                :   'TBC',
-                organisation: action.accessRequests[key1][id].requester.organisation,
+                escalatedDate: action.accessRequests[key1][id].planningInformation.escalatedDate,
+                possessionDetails: action.accessRequests[key1][id].planningInformation.possessionDetails,
+                picop: action.accessRequests[key1][id].planningInformation.picop,
+                pic: action.accessRequests[key1][id].planningInformation.pic,
+                nwrAdjacent: action.accessRequests[key1][id].planningInformation.nwrAdjacent,
+                coLocate: action.accessRequests[key1][id].planningInformation.coLocate,
+                organisation: action.accessRequests[key1][id].planningInformation.organisation,
+                line: action.accessRequests[key1][id].planningInformation.line,
                 siteDescription: action.accessRequests[key1][id].siteDetails.siteDescription,
-                isolationType: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.isolationType
-                    ?   action.accessRequests[key1][id].plannerInformation.isolationType
-                    :   'TBC',
-                isolationDetails: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.isolationDetails
-                    ?   action.accessRequests[key1][id].plannerInformation.isolationDetails
-                    :   'TBC',
-                startTime: action.accessRequests[key1][id].locations[key2].startTime
-                    ?   action.accessRequests[key1][id].locations[key2].startTime
-                    :   'TBC',
-                endTime: action.accessRequests[key1][id].locations[key2].endTime
-                    ?   action.accessRequests[key1][id].locations[key2].endTime
-                    :   'TBC',
-                worksiteLimits: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.worksiteLimits
-                    ?   action.accessRequests[key1][id].plannerInformation.worksiteLimits
-                    :   'TBC',
+                isolationType: action.accessRequests[key1][id].planningInformation.isolationType,
+                isolationDetails: action.accessRequests[key1][id].planningInformation.isolationDetails,
+                startTime: action.accessRequests[key1][id].locations[key2].startTime,
+                endTime: action.accessRequests[key1][id].locations[key2].endTime,
+                worksiteLimits: action.accessRequests[key1][id].planningInformation.worksiteLimits,
+                safetyResourceRequired: action.accessRequests[key1][id].planningInformation.safetyResourceRequired,
                 signallingResourceRequired: action.accessRequests[key1][id].siteDetails.signallingResourceRequired,
                 electricalResourceRequired: action.accessRequests[key1][id].siteDetails.electricalResourceRequired,
                 testTramsRequired: action.accessRequests[key1][id].siteDetails.testTramsRequired,
-                tramConfigurationType: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.tramConfigurationType
-                    ?   action.accessRequests[key1][id].plannerInformation.tramConfigurationType
-                    :   'TBC',
-                onTrackMachineCount: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.onTrackMachineCount
-                    ?   action.accessRequests[key1][id].plannerInformation.onTrackMachineCount
-                    :   'TBC',
-                rrvType: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.rrvType
-                    ?   action.accessRequests[key1][id].plannerInformation.rrvType
-                    :   'TBC',
-                trolleyType: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.trolleyType
-                    ?   action.accessRequests[key1][id].plannerInformation.trolleyType
-                    :   'TBC',
-                heavyMachineType: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.heavyMachineType
-                    ?   action.accessRequests[key1][id].plannerInformation.heavyMachineType
-                    :   'TBC',
-                siteRemarks: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.siteRemarks
-                    ?   action.accessRequests[key1][id].plannerInformation.siteRemarks
-                    :   '',
-                withinDisruptivePossession: action.accessRequests[key1][id].plannerInformation && typeof action.accessRequests[key1][id].plannerInformation.withinDisruptivePossession === "boolean"
-                    ? action.accessRequests[key1][id].plannerInformation.withinDisruptivePossession
-                    : 'TBC',
+                tramConfigurationType: action.accessRequests[key1][id].planningInformation.tramConfigurationType,
+                onTrackMachineCount: action.accessRequests[key1][id].planningInformation.onTrackMachineCount,
+                rrvType: action.accessRequests[key1][id].planningInformation.rrvType,
+                trolleyType: action.accessRequests[key1][id].planningInformation.trolleyType,
+                heavyMachineType: action.accessRequests[key1][id].planningInformation.heavyMachineType,
+                siteRemarks: action.accessRequests[key1][id].planningInformation.siteRemarks,
+                withinDisruptivePossession: action.accessRequests[key1][id].planningInformation.withinDisruptivePossession,
                 updated: action.accessRequests[key1][id].updated,
-                possessionCategory: action.accessRequests[key1][id].plannerInformation && action.accessRequests[key1][id].plannerInformation.possessionCategory
-                ?   action.accessRequests[key1][id].plannerInformation.possessionCategory
-                :   'TBC',
+                possessionCategory: action.accessRequests[key1][id].planningInformation.possessionCategory,
                 status: action.accessRequests[key1][id].status
             })
         }
