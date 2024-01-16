@@ -208,6 +208,31 @@ export const plannerGetAccessRequests = (idToken, localId, data, identifier) => 
     };
 }
 
+export const plannerGetDailySummary = (idToken, localId, day, identifier) => {
+
+    return dispatch => {
+        
+        let headers = { headers: {
+            idToken: idToken,
+            localId: localId,
+            day: day,
+        }};
+
+        dispatch(accessRequestStart());
+
+        axios.get('/dailysummary', headers)
+        .then(res => {
+            dispatch(plannerGetAccessRequestsSuccess(res.data.result, identifier));
+        })
+        .then(() => {
+            dispatch(accessRequestFinish());
+        })
+        .catch(err => {
+            dispatch(accessRequestFail(err.message));
+        });
+    };
+}
+
 export const userGetAccessRequest = (idToken, localId, uid, identifier) => {
 
     const getAccessRequest = new Promise((resolve, reject) => {

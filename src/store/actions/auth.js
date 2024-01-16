@@ -355,11 +355,12 @@ export const checkAuthTimeout = (expirationTime, refreshToken) => {
 const extendAuthTimeout = (refreshToken) => {
     return dispatch => {
         dispatch(authStart());
-
+        console.log({ grant_type: 'refresh_token', refresh_token: refreshToken });
         direct.post('https://securetoken.googleapis.com/v1/token?key=' + apikey, { grant_type: 'refresh_token', refresh_token: refreshToken })
             .then(res => {
                 
                 const { id_token, user_id, expires_in, refresh_token } = res.data
+                
                 axios.get('/user' , {
                     headers: {
                         idToken: id_token,
@@ -376,6 +377,7 @@ const extendAuthTimeout = (refreshToken) => {
                     dispatch(authFinish());
                 })
                 .catch(err => {
+                    console.log(err);
                     dispatch(authFail(err.message));
                 })
             })

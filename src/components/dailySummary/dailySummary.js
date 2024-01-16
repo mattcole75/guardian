@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { useSelector } from 'react-redux';
 
 import Filter from './filter/filter';
@@ -6,7 +7,7 @@ import List from './list/list';
 import Backdrop from "../ui/backdrop/backdrop";
 import Spinner from "../ui/spinner/spinner";
 
-const Planning = () => {
+const DailySummary = () => {
 
     const { loading, error, accessRequests } = useSelector(state => state.accessRequest);
 
@@ -34,4 +35,4 @@ const Planning = () => {
     );
 }
 
-export default Planning;
+export default DailySummary;

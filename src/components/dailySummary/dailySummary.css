@@ -1,0 +1,69 @@
+/* access request background colours */
+.bg-ThirdPartyWorks {
+    background-color: rgba(146,208,80,.8);
+}
+.bg-DisruptivePossession {
+    background-color: rgba(255,192,0,.8);
+}
+.bg-WheelsFreeRequired {
+    background-color: rgba(112,48,160,.8);
+}
+.bg-ConflictConflictingInformation {
+    background-color: rgba(58,58,56,.8);
+}
+.bg-CancelledWorks {
+    background-color: rgba(255,255,255,.0);
+}
+.bg-ChangedWorks {
+    background-color: rgba(255,255,255,.0);
+    color: rgba(0,112,192,1);
+}
+.bg-DayWorks {
+    background-color: rgba(0,176,240,.8);
+}
+.bg-NoPossessionReqBluePermitWorks {
+    background-color: rgba(31,78,120,.8);
+}
+
+.bg-TBC-Priority1 {
+    background-color: rgba(255,0,0,.8) !important;
+}
+.bg-TBC-Priority2 {
+    background-color: rgba(255,255,0,.8) !important;
+}
+.bg-Cell-Disruptive {
+    background-color: rgba(255,255,0,.8) !important;
+}
+.bg-Trolly {
+    background-color: rgba(255,51,153,.8) !important;
+}
+.bg-signallingResource {
+    background-color: rgba(255,51,153,.8) !important;
+}
+.bg-electricalResource {
+    background-color: rgba(153,102,51,.8) !important;
+}
+.bg-withinDisruptivePosession {
+    background-color: rgba(255,192,0,.8) !important;
+}
+.bg-escalatedDate {
+    background-color: rgba(112,48,160,.8) !important;
+    color: rgba(255,255,0,0.8) !important;
+}
+.bg-tramAny {
+    background-color: rgba(205, 236, 104, 0.8) !important;
+}
+.bg-tramSingle {
+    background-color: rgba(47,117,181,.8) !important;
+}
+.bg-tramDouble {
+    background-color: rgba(84,130,53,.8) !important;
+}
+.bg-safetyResource {
+    background-color: rgba(51,204,204,.8) !important;
+}
+
+
+@media (max-width: 767.98px) {
+    
+}

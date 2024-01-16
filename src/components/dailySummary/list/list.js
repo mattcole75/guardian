@@ -1,5 +1,6 @@
 import React from 'react';
 import ListItem from './listItem/listItem';
+// import '../accessRequests.css';
 
 const List = (props) => {
 
@@ -12,37 +13,17 @@ const List = (props) => {
             <table className='table table-bordered'>
                 <thead className='border-bottom'>
                     <tr>
+                        <th>Posession Details</th>
+                        <th>PICOP</th>
+                        <th>Organisation</th>
+                        <th>Worksite Limits</th>
+                        <th>Nature of Work</th>
+                        <th>Ironmen/Trolly</th>
+                        <th>RRV</th>
+                        <th>Tamper/Reg</th>
+                        <th>PIC</th>
                         <th>Status</th>
                         <th>Category</th>
-                        <th>Organisation</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
-                        <th>Escalated</th>
-                        <th>Posession Details</th>
-                        <th>Co-Locatable</th>
-                        <th>PICOP</th>
-                        <th>PIC</th>
-                        <th>NWR Adjacent</th>
-                        <th>Line</th>
-                        <th>Nature of Work</th>
-                        <th>Isolation Type</th>
-                        <th>Isolation Details</th>
-                        <th>Start Time</th>
-                        <th>End Time</th>
-                        <th>Worksite Limits</th>
-                        <th>Safety Resource Required</th>
-                        <th>S&T Support</th>
-                        <th>E&M Support</th>
-                        <th>Test Trams Required</th>
-                        <th>Tram Configuration</th>
-                        <th>OTM Count</th>
-                        <th>RRV</th>
-                        <th>Ironmen/Trolly</th>
-                        <th>Tamper/Reg</th>
-                        <th>Within Disruptive Possession</th>
-                        <th>Site Remarks</th>
-                        <th>Last Updated</th>
-                        {/* <th></th> */}
                     </tr>
                 </thead>
                 <tbody>

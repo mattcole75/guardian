@@ -88,9 +88,6 @@ const SiteDetails = (props) => {
                         <small className='d-block text-muted'>Indicate if this access request is urgent and will not follow agreed timescales</small>
                     </span>
                 </label>
-            </div>
-
-            <div className='list-group'>
                 <label className='list-group-item d-flex gap-2'>
                     <div className='form-check form-switch'>
                         <input className='form-check-input' type='checkbox' role='switch' id='electricalResourceRequired' disabled={ recordLocked }
@@ -102,8 +99,6 @@ const SiteDetails = (props) => {
                         <small className='d-block text-muted'>Indicate if this access request will require an electrical resource</small>
                     </span>
                 </label>
-            </div>
-            <div className='list-group'>
                 <label className='list-group-item d-flex gap-2'>
                     <div className='form-check form-switch'>
                         <input className='form-check-input' type='checkbox' role='switch' id='signallingResourceRequired' disabled={ recordLocked }
@@ -115,8 +110,6 @@ const SiteDetails = (props) => {
                         <small className='d-block text-muted'>Indicate if this access request will require signalling resource (e.g. Axle Counter Reset)</small>
                     </span>
                 </label>
-            </div>
-            <div className='list-group'>
                 <label className='list-group-item d-flex gap-2'>
                     <div className='form-check form-switch'>
                         <input className='form-check-input' type='checkbox' role='switch' id='testTramsRequired' disabled={ recordLocked }

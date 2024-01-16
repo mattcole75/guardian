@@ -37,6 +37,9 @@ const NewAccessRequest = React.lazy(() => {
 const Planning = React.lazy(() => {
 	return import('./components/planning/planning');
 });
+const DailySummary = React.lazy(() => {
+	return import('./components/dailySummary/dailySummary');
+});
 const Forbidden = React.lazy(() => {
 	return import('./pages/forbidden');
 });
@@ -68,6 +71,7 @@ const App = () => {
 			{ isAuthenticated && <Route path='/accessrequest/:uid' element={ <AccessRequest /> } /> }
 			{ isAuthenticated && <Route path='/newaccessrequest' element={ <NewAccessRequest /> } /> }
 			{ isAuthenticated && isPlanner && <Route path='/planning' element={ <Planning /> } /> }
+			{ isAuthenticated && isPlanner && <Route path='/dailysummary' element={ <DailySummary /> } /> }
 			{ isAuthenticated && isAdministrator && <Route path='/users' element={ <Users /> } /> }
 			<Route path='*' element={ <Index /> } />
 		</Routes>

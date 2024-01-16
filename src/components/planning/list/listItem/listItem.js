@@ -83,7 +83,7 @@ const { item } = props;
             <td>{ moment(item.endDate).format('DD/MM/YYYY') }</td>
             <td className={ item.escalatedDate === '' ? '' : 'bg-escalatedDate'}>{ item.escalatedDate === '' ? item.escalatedDate :  moment(item.escalatedDate).format('DD/MM/YYYY') }</td>
             <td className={ item.possessionDetails === 'TBC' ? 'bg-TBC-Priority2' : '' }>{ item.possessionDetails }</td>
-            <td className={ item.possessionDetails === 'TBC' ? 'bg-TBC-Priority2' : '' }>{ item.coLocate === 'TBC' ? item.coLocate : item.coLocate === true ? 'Yes' : 'No'}</td>
+            <td className={ item.coLocate === 'TBC' ? 'bg-TBC-Priority2' : '' }>{ item.coLocate === 'TBC' ? item.coLocate : item.coLocate === true ? 'Yes' : 'No'}</td>
             <td className={ item.picop === 'TBC' ? 'bg-TBC-Priority1' : '' }>{ item.picop }</td>
             <td className={ item.pic === 'TBC' ? 'bg-TBC-Priority1' : ''  }>{ item.pic }</td>
             <td className={ item.picop === 'TBC' ? 'bg-TBC-Priority2' : '' }>{ item.nwrAdjacent === 'TBC' ? item.nwrAdjacent : item.nwrAdjacent === true ? 'Yes' : 'No' }</td>

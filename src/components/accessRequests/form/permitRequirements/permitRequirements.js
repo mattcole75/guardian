@@ -34,9 +34,8 @@ const PermitRequirements = (props) => {
                         <small className='d-block text-muted'>Could any part of the work site, plant, tools, suspended load or persons encroach within the Metrolink Hazard Zone?</small>
                     </span>
                 </label>
-            </div>
-            {/* Pedestrians */}
-            <div className='list-group'>
+            
+                {/* Pedestrians */}
                 <label className='list-group-item d-flex gap-2'>
                     <div className='form-check form-switch'>
                         <input className='form-check-input' type='checkbox' role='switch' id='pedestrians' disabled={recordLocked}
@@ -48,9 +47,7 @@ const PermitRequirements = (props) => {
                         <small className='d-block text-muted'>Will pedestrians be diverted into the Metrolink Hazard Zone?</small>
                     </span>
                 </label>
-            </div>
-            {/* piling */}
-            <div className='list-group'>
+                {/* piling */}
                 <label className='list-group-item d-flex gap-2'>
                     <div className='form-check form-switch'>
                         <input className='form-check-input' type='checkbox' role='switch' id='piling' disabled={recordLocked}
@@ -62,9 +59,7 @@ const PermitRequirements = (props) => {
                         <small className='d-block text-muted'>Does the work involve piling within 4 meters of the Metrolink Hazard Zone?</small>
                     </span>
                 </label>
-            </div>
-            {/* Crane or load suspension equipment */}
-            <div className='list-group'>
+                {/* Crane or load suspension equipment */}
                 <label className='list-group-item d-flex gap-2'>
                     <div className='form-check form-switch'>
                         <input className='form-check-input' type='checkbox' role='switch' id='crane' disabled={recordLocked}
@@ -76,9 +71,7 @@ const PermitRequirements = (props) => {
                         <small className='d-block text-muted'>Does the work involve a crane or any load suspension equipment within 4 meters of the Metrolink Hazard Zone?</small>
                     </span>
                 </label>
-            </div>
-            {/* Deep Excavation */}
-            <div className='list-group'>
+                {/* Deep Excavation */}
                 <label className='list-group-item d-flex gap-2'>
                     <div className='form-check form-switch'>
                         <input className='form-check-input' type='checkbox' role='switch' id='deepExcavation' disabled={recordLocked}
@@ -90,9 +83,7 @@ const PermitRequirements = (props) => {
                         <small className='d-block text-muted'>Does the work involve any excavation over 2 meters in depth within the Metrolink Hazard Zone?</small>
                     </span>
                 </label>
-            </div>
-            {/* Scaffold */}
-            <div className='list-group'>
+                {/* Scaffold */}
                 <label className='list-group-item d-flex gap-2'>
                     <div className='form-check form-switch'>
                         <input className='form-check-input' type='checkbox' role='switch' id='scaffold' disabled={recordLocked}
@@ -104,9 +95,7 @@ const PermitRequirements = (props) => {
                         <small className='d-block text-muted'>Does the work involve erecting / dismantling of scaffold within the Metrolink Hazard Zone?</small>
                     </span>
                 </label>
-            </div>
-            {/* Demolition */}
-            <div className='list-group'>
+                {/* Demolition */}
                 <label className='list-group-item d-flex gap-2'>
                     <div className='form-check form-switch'>
                         <input className='form-check-input' type='checkbox' role='switch' id='demolition' disabled={recordLocked}
@@ -118,9 +107,7 @@ const PermitRequirements = (props) => {
                         <small className='d-block text-muted'>Does the work involve demolition work of any kind within the Metrolink Hazard Zone?</small>
                     </span>
                 </label>
-            </div>
-            {/* OLE Excavation */}
-            <div className='list-group'>
+                {/* OLE Excavation */}
                 <label className='list-group-item d-flex gap-2'>
                     <div className='form-check form-switch'>
                         <input className='form-check-input' type='checkbox' role='switch' id='OLEexcavation' disabled={recordLocked}
@@ -132,9 +119,7 @@ const PermitRequirements = (props) => {
                         <small className='d-block text-muted'>Does the work involve any excavation within 3 meters of any pole supporting overhead wires?</small>
                     </span>
                 </label>
-            </div>
-            {/* OLE Structures */}
-            <div className='list-group'>
+                {/* OLE Structures */}
                 <label className='list-group-item d-flex gap-2'>
                     <div className='form-check form-switch'>
                         <input className='form-check-input' type='checkbox' role='switch' id='OLEstructures' disabled={recordLocked}
@@ -146,9 +131,7 @@ const PermitRequirements = (props) => {
                         <small className='d-block text-muted'>Does the work involve work on any building or structure with supporting attachments to the overhead wires?</small>
                     </span>
                 </label>
-            </div>
-            {/* Access Routes */}
-            <div className='list-group'>
+                {/* Access Routes */}
                 <label className='list-group-item d-flex gap-2'>
                     <div className='form-check form-switch'>
                         <input className='form-check-input' type='checkbox' role='switch' id='accessRoutes' disabled={recordLocked}
@@ -160,9 +143,7 @@ const PermitRequirements = (props) => {
                         <small className='d-block text-muted'>Does any part of the access route to the work site (for persons or plant) encroach within the Metrolink Hazard Zone?</small>
                     </span>
                 </label>
-            </div>
-            {/* Access Routes */}
-            <div className='list-group'>
+                {/* Access Routes */}
                 <label className='list-group-item d-flex gap-2'>
                     <div className='form-check form-switch'>
                         <input className='form-check-input' type='checkbox' role='switch' id='operationsAffected' disabled={recordLocked}

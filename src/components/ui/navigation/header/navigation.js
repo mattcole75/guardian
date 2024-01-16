@@ -16,7 +16,7 @@ const Navigation = (props) => {
 				
 				{/* Access request */}
 				{ isAuthenticated && !isPlanner
-					? 	<NavigationItem link='/accessrequests' icon='bi-calendar-event'>Access Requests</NavigationItem>
+					? 	<NavigationItem link='/accessrequests' icon='bi-calendar2-x'>Access Requests</NavigationItem>
 					:	null
 				}
 				{ isAuthenticated && isPlanner
@@ -26,9 +26,11 @@ const Navigation = (props) => {
 								Access Requests
 							</a>
 							<ul className='dropdown-menu text-small' aria-labelledby='dropdownProfile1'>
-								<NavigationListItem link='/accessrequests' icon='bi-calendar-event'> Your Access Requests</NavigationListItem>
+								<NavigationListItem link='/accessrequests' icon='bi-calendar2-x'> Your Access Requests</NavigationListItem>
 								<li><hr className='dropdown-divider'/></li>
 								<NavigationListItem link='/planning' icon='bi-calendar2-week'> Planning</NavigationListItem>
+								<li><hr className='dropdown-divider'/></li>
+								<NavigationListItem link='/dailysummary' icon='bi-calendar-event'> Daily Summary</NavigationListItem>
 							</ul>
 						</div>
 					:	null

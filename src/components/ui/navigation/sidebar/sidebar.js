@@ -22,12 +22,16 @@ const Sidebar = (props) => {
                     <nav>
                         <ul className='nav flex-column mb-auto menu-margin_top'>
                             <NavigationListItem link='/' icon='bi-house-door' click={ toggleShowSidebar }> Home</NavigationListItem>
+                            { isAuthenticated
+                                ?   <NavigationListItem link='/accessrequests' icon='bi-calendar2-x' click={ toggleShowSidebar }> Access Requests</NavigationListItem>
+                                :   null
+                            }
                             { isAuthenticated && isPlanner
                                 ?   <NavigationListItem link='/planning' icon='bi-calendar2-week' click={ toggleShowSidebar }> Planning</NavigationListItem>
                                 :   null
                             }
-                            { isAuthenticated
-                                ?   <NavigationListItem link='/accessrequests' icon='bi-calendar-event' click={ toggleShowSidebar }> Access Requests</NavigationListItem>
+                            { isAuthenticated && isPlanner
+                                ?   <NavigationListItem link='/dailysummary' icon='bi-calendar-event' click={ toggleShowSidebar }> Daily Summary</NavigationListItem>
                                 :   null
                             }
                             { isAuthenticated

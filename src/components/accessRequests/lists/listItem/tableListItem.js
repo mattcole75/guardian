@@ -46,10 +46,10 @@ switch(accessRequest && accessRequest.status) {
     return (
         <tr className='border-bottom cursor-pointer' onClick={ open }>
             <td className='ps-3 pe-3'><div>{ accessRequest && accessRequest.siteDetails.siteDescription }</div></td>
-            <td className='ps-3 pe-3'>{ accessRequest && accessRequest.siteDetails.accessFirstDay ? accessRequest.siteDetails.accessFirstDay : 'Not Set'  }</td>
-            <td className='ps-3 pe-3'>{ accessRequest && accessRequest.siteDetails.accessLastDay ? accessRequest.siteDetails.accessLastDay : 'Not Set'  }</td>
+            <td className='ps-3 pe-3'>{ accessRequest && accessRequest.siteDetails.accessFirstDay ? moment(accessRequest.siteDetails.accessFirstDay).format('DD/MM/YYYY') : 'Not Set'  }</td>
+            <td className='ps-3 pe-3'>{ accessRequest && accessRequest.siteDetails.accessLastDay ? moment(accessRequest.siteDetails.accessLastDay).format('DD/MM/YYYY') : 'Not Set'  }</td>
             <td className='ps-3 pe-3'>{ accessRequest && moment(accessRequest.updated).fromNow() }</td>
-            <td className='ps-3 pe-3'>{ <small className={statusCSS.join(' ')}>{accessRequest && accessRequest.status}</small> }</td>
+            <td className='ps-3 pe-3'>{ <small className={statusCSS.join(' ')}>{ accessRequest && accessRequest.status }</small> }</td>
         </tr>
     );
 }

@@ -16,6 +16,7 @@ export {
     userGetAccessRequests,
     userGetAccessRequest,
     plannerGetAccessRequests,
+    plannerGetDailySummary,
     plannerGetPlanners,
     userUploadDocument,
     userDeleteUploadedDocument,
