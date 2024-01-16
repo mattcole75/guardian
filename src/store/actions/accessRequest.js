@@ -1,4 +1,6 @@
 import axios from '../../shared/axios';
+import { ref, uploadBytes, listAll, deleteObject } from 'firebase/storage'
+import { storage } from '../../configuration/firebase/firebase';
 import * as type from './types';
 
 const accessRequestStart = () => {
@@ -31,6 +33,22 @@ const userGetAccessRequestsSuccess = (accessRequests, identifier) => {
         accessRequests: accessRequests,
         identifier: identifier
     };
+}
+
+const userUploadAccessRequestDocumentSuccess = (document, identifier) => {
+    return {
+        type: type.USER_UPLOAD_ACCESS_REQUEST_DOCUMENT_SUCCESS,
+        document: document,
+        identifier: identifier
+    };
+}
+
+const userDeleteAccessRequestDocumentSuccess = (fileName, identifier) => {
+    return {
+        type: type.USER_DELETE_ACCESS_REQUEST_DOCUMENT_SUCCESS,
+        fileName: fileName,
+        identifier: identifier
+    }
 }
 
 const plannerGetAccessRequestsSuccess = (accessRequests, identifier) => {
@@ -191,11 +209,8 @@ export const plannerGetAccessRequests = (idToken, localId, data, identifier) => 
 }
 
 export const userGetAccessRequest = (idToken, localId, uid, identifier) => {
-    
-    return dispatch => {
 
-        dispatch(accessRequestStart());
-
+    const getAccessRequest = new Promise((resolve, reject) => {
         axios.get('/accessrequest', { 
             headers: {
                 idToken: idToken,
@@ -204,14 +219,50 @@ export const userGetAccessRequest = (idToken, localId, uid, identifier) => {
             }
         })
         .then(res => {
-            dispatch(userGetAccessRquestSuccess(res.data.result, identifier))
-        })
-        .then(() => {
-            dispatch(accessRequestFinish());
+            resolve(res.data.result[uid]);
         })
         .catch(err => {
-            dispatch(accessRequestFail(err.message));
+            reject(err);
         })
+    });
+
+    const getAccessRequestDocuments = new Promise((resolve, reject) => {
+
+         // set the document location reference
+         const docListRef = ref(storage, `access_request_documents/${uid}/`);
+         const docList = [];
+    
+         listAll(docListRef)
+             .then(res => {
+                 res.items.forEach((item) => {
+                    docList.push({ name: item.name });
+                 })
+ 
+                 return () => docList.length = 0; // empty the array
+ 
+             })
+             .then(() => {
+                resolve(docList);
+             })
+             .catch(err => {
+                 reject(err);
+             });
+    });
+    
+    return dispatch => {
+
+        dispatch(accessRequestStart());
+
+        Promise.all([getAccessRequest, getAccessRequestDocuments])
+            .then(res => {
+                dispatch(userGetAccessRquestSuccess({ ...res[0], documents: [ ...res[1] ] }, identifier))
+            })
+            .then(() => {
+                dispatch(accessRequestFinish());
+            })
+            .catch(err => {
+                dispatch(accessRequestFail(err.message));
+            })
     };
 }
 
@@ -240,8 +291,52 @@ export const plannerGetPlanners = (idToken, localId, identifier) => {
     };
 }
 
+export const userUploadDocument = (uid, doc, identifier) => {
+
+    return dispatch => {
+        dispatch(accessRequestStart());
+        
+        const docRef = ref(storage, `access_request_documents/${uid}/${doc.name}`)
+
+        uploadBytes(docRef, doc)
+            .then(() => {
+                dispatch(userUploadAccessRequestDocumentSuccess({ name: doc.name }, identifier));
+            })
+            .then(() => {
+                dispatch(accessRequestFinish());
+            })
+            .catch(err => {
+                dispatch(accessRequestFail(err.message));
+            });
+    };
+}
+
+export const userDeleteUploadedDocument = (uid, fileName, identifier) => {
+
+    return dispatch => {
+        dispatch(accessRequestStart());
+
+        const docRef = ref(storage, `access_request_documents/${uid}/${fileName}`);
+        
+        deleteObject(docRef)
+            .then(() => {
+                dispatch(userDeleteAccessRequestDocumentSuccess(fileName, identifier));
+            })
+            .then(() => {
+                dispatch(accessRequestFinish());
+            })
+            .catch(err => {
+                dispatch(accessRequestFail(err.message));
+            });
+    };
+}
+
+
 export const accessRequestResetState = () => {
     return dispatch => {
         dispatch(accessRequestStateReset());
     };
 };
+
+
+

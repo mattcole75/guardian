@@ -95,6 +95,34 @@ const userGetAccessRequestSuccess = (state, action) => {
     };
 }
 
+const userUploadAccessRequestDocumentSuccess = (state, action) => {
+    let updatedAccessRequestDocuments = [];
+    updatedAccessRequestDocuments = [ ...state.accessRequest.documents ];
+    updatedAccessRequestDocuments.push(action.document);
+    const updatedAccessRequest = { ...state.accessRequest, documents: [ ...updatedAccessRequestDocuments ] };
+
+    return { ...state,
+        loading: false,
+        error: null,
+        accessRequest: updatedAccessRequest,
+        identifier: action.identifier
+    };
+}
+
+const userDeleteAccessRequestDocumentSuccess = (state, action) => {
+
+    const updatedAccessRequestDocuments = [ ...state.accessRequest.documents].filter(el => {
+        return el.name !== action.fileName
+    });
+
+    return { ...state,
+        loading: false,
+        error: null,
+        accessRequest: { ...state.accessRequest, documents: [ ...updatedAccessRequestDocuments ] },
+        identifier: action.identifier
+    };
+}
+
 const plannerGetAccessRequestsSuccess = (state, action) => {
     let accessRequestItems = [];
     for(const key1 in action.accessRequests) {
@@ -197,6 +225,8 @@ const reducer = (state = initialState, action) => {
         case type.USER_UPDATE_ACCESS_REQUEST_SUCCESS: return userUpdateAccessRequestSuccess(state, action);
         case type.USER_GET_ACCESS_REQUESTS_SUCCESS: return userGetAccessRequestsSuccess(state, action);
         case type.USER_GET_ACCESS_REQUEST_SUCCESS: return userGetAccessRequestSuccess(state, action);
+        case type.USER_UPLOAD_ACCESS_REQUEST_DOCUMENT_SUCCESS: return userUploadAccessRequestDocumentSuccess(state,action);
+        case type.USER_DELETE_ACCESS_REQUEST_DOCUMENT_SUCCESS: return userDeleteAccessRequestDocumentSuccess(state, action);
         case type.PLANNER_GET_ACCESS_REQUESTS_SUCCESS: return plannerGetAccessRequestsSuccess(state, action);
         case type.ACCESS_REQUEST_PLANNER_GET_PLANNERS_SUCCESS: return plannerGetPlannersSuccess(state, action);
         case type.ACCESS_REQUEST_PLANNER_DELETE_SUCCESS: return accessRequestDeleteSuccess(state, action);

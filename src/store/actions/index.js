@@ -17,6 +17,8 @@ export {
     userGetAccessRequest,
     plannerGetAccessRequests,
     plannerGetPlanners,
+    userUploadDocument,
+    userDeleteUploadedDocument,
     accessRequestResetState
 } from './accessRequest';
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { userGetAccessRequest, userUpdateAccessRequest } from '../../../store/actions/index';
+import { userGetAccessRequest, userUpdateAccessRequest, userDeleteUploadedDocument } from '../../../store/actions/index';
 import { Navigate, useParams } from 'react-router-dom';
 import moment from 'moment';
 
@@ -17,7 +17,9 @@ import WorkStageForm from './workStages/form/workStageForm';
 import PermitRequirements from './permitRequirements/permitRequirements';
 import ElectricalIsolationRequirements from './electricalIsolationRequirements/electricalIsolationRequirements';
 import AdditionalInformation from './additionalInformation/additionalInformation';
-import PlanningInformation from './planningInformation/planningInformation.';
+import PlanningInformation from './planningInformation/planningInformation';
+import Documentation from './documentation/documentation';
+import DocumentUpload from './documentation/documentUpload/documentUpload';
 
 import Modal from '../../ui/modal/modal';
 import Backdrop from '../../ui/backdrop/backdrop';
@@ -33,6 +35,7 @@ const AccessRequestForm = () => {
     
     const [ editLocation, setEditLocation ] = useState(false);
     const [ editWorkStage, setEditWorkStage ] = useState(false);
+    const [ uploadingDocument, setUploadingDocument ] = useState(false);
 
     const [ redirect, setRedirect ] = useState(null);
     const [ recordLocked, setRecordLocked ] = useState(false);
@@ -54,6 +57,7 @@ const AccessRequestForm = () => {
     
     const onGetAccessRequest = useCallback((idToken, localId, uid, identifier) => dispatch(userGetAccessRequest(idToken, localId, uid, identifier)), [dispatch]);
     const onUpdateAccessRequest = useCallback((id, idToken, localId, data, identifier) => dispatch(userUpdateAccessRequest(id, idToken, localId, data, identifier)), [dispatch]);
+    const onDeleteAccessRequestDocument = useCallback((id, fileName, identifier) => dispatch(userDeleteUploadedDocument(id, fileName, identifier)), [dispatch]);
 
     // load access request
     useEffect (() => {
@@ -63,27 +67,27 @@ const AccessRequestForm = () => {
     // load state once record retrieved
     useEffect(() => {
         if(identifier === 'GET_ACCESS_REQUEST') {
-            setSiteDetails(accessRequest[uid].siteDetails)
-            setLocations(accessRequest[uid].locations);
-            setWorkStages(accessRequest[uid].workStages);
-            setPermitRequirements(accessRequest[uid].permitRequirements);
-            setElectricalIsolationRequirements(accessRequest[uid].electricalIsolationRequirements);
-            setAdditionalInformation(accessRequest[uid].additionalInformation);
-            setPlanningInformation(accessRequest[uid].planningInformation);
+            setSiteDetails(accessRequest.siteDetails)
+            setLocations(accessRequest.locations);
+            setWorkStages(accessRequest.workStages);
+            setPermitRequirements(accessRequest.permitRequirements);
+            setElectricalIsolationRequirements(accessRequest.electricalIsolationRequirements);
+            setAdditionalInformation(accessRequest.additionalInformation);
+            setPlanningInformation(accessRequest.planningInformation);
         }
     }, [identifier, accessRequest, uid]);
 
     // if a user tries to view another users access request then redirect
     useEffect(() => {
         if(!roles.includes('planner'))
-            if(accessRequest != null && accessRequest[uid].requester.localId !== localId)
+            if(accessRequest != null && accessRequest.requester.localId !== localId)
                 setRedirect(<Navigate to='/forbidden' />);
     }, [accessRequest, localId, uid, roles]);
 
     // determin if the record is editable based on status
     useEffect(() => {
         if(accessRequest) {
-            if(accessRequest[uid].status === 'Submitted' || accessRequest[uid].status === 'Under Review' || accessRequest[uid].status === 'Granted' || accessRequest[uid].status === 'Completed' || accessRequest[uid].requester.localId !== localId)
+            if(accessRequest.status === 'Submitted' || accessRequest.status === 'Under Review' || accessRequest.status === 'Granted' || accessRequest.status === 'Completed' || accessRequest.requester.localId !== localId)
                 setRecordLocked(true);
             else
                 setRecordLocked(false);
@@ -108,7 +112,7 @@ const AccessRequestForm = () => {
 
     // enable or disable the submit button
     useEffect(() => {
-        if(accessRequest && accessRequest[uid].locations && accessRequest[uid].locations.length > 0 && accessRequest[uid].workStages.length > 0)
+        if(accessRequest && accessRequest.locations && accessRequest.locations.length > 0 && accessRequest.workStages.length > 0)
             setSubmitButtonDisabled(false);
         else
             setSubmitButtonDisabled(true);
@@ -143,7 +147,7 @@ const AccessRequestForm = () => {
 
     const onPlanningSave = useCallback((status) => {
     
-        let updatedEventLogItems = [ ...accessRequest[uid].eventLog ];
+        let updatedEventLogItems = [ ...accessRequest.eventLog ];
 
         switch(status) {
             case 'Denied':
@@ -179,16 +183,16 @@ const AccessRequestForm = () => {
     }, [idToken, uid, localId, onUpdateAccessRequest]);
 
     const createComplianceLog = useCallback((locations) => {
-        if(moment(determinStartDate(locations)).diff(moment(accessRequest[uid].created), 'week') < 6) {
+        if(moment(determinStartDate(locations)).diff(moment(accessRequest.created), 'week') < 6) {
             return { user: 'System', logged: moment().format(), event: 'Not compliant to 6 week notice requirement' };
         } else {
             return { user: 'System', logged: moment().format(), event: 'Compliant to 6 week notice requirement' };
         }
-    }, [accessRequest, uid]);
+    }, [accessRequest]);
 
     const submitRequestHandler = useCallback((status) => {
 
-        let updatedEventLogItems = [ ...accessRequest[uid].eventLog ];
+        let updatedEventLogItems = [ ...accessRequest.eventLog ];
         updatedEventLogItems.push({ user: displayName, logged: moment().format(), event: 'Access Request ' + status });
         updatedEventLogItems.push(createComplianceLog(locations));
 
@@ -225,8 +229,8 @@ const AccessRequestForm = () => {
 
         let updatedComments = [];
 
-        if (accessRequest[uid].comments != null)
-            updatedComments = [ ...accessRequest[uid].comments ];
+        if (accessRequest.comments != null)
+            updatedComments = [ ...accessRequest.comments ];
 
             updatedComments.push({
                 commentator: displayName,
@@ -236,14 +240,18 @@ const AccessRequestForm = () => {
 
             onSaveComments({ comments: updatedComments }, 'SAVE_ACCESS_REQUEST');
         setComment('');
-    }, [comment, displayName, uid, accessRequest, onSaveComments]);
+    }, [comment, displayName, accessRequest, onSaveComments]);
 
     const toggleLocationEdit = () => {
         setEditLocation(prevState => !prevState);
     }
 
-    const toogleWorkStageEdit = () => {
+    const toggleWorkStageEdit = () => {
         setEditWorkStage(prevState => !prevState);
+    }
+
+    const togglUploadingDocument = () => {
+        setUploadingDocument(prevState => !prevState);
     }
 
     const locationSelectHandler = useCallback((index, item) => {
@@ -303,7 +311,7 @@ const AccessRequestForm = () => {
             case 'ADD':
                 updatedWorkStages.push(workStage);
                 setWorkStages(updatedWorkStages);
-                toogleWorkStageEdit();
+                toggleWorkStageEdit();
                 break;
             case 'DELETE':
                 updatedWorkStages.splice(index, 1);
@@ -343,6 +351,10 @@ const AccessRequestForm = () => {
         setRedirect(<Navigate to='/accessrequests' />);
     }
 
+    const deleteAccessRequestDocumentHandler = (fileName) => {
+        onDeleteAccessRequestDocument(uid, fileName, 'DELETE_ACCESS_REQUEST_DOCUMENT');
+    }
+
     let spinner = null;
     if(loading)
         spinner = <Spinner />;
@@ -365,12 +377,24 @@ const AccessRequestForm = () => {
     if(editWorkStage) {
         modal = <Modal 
             show={ editWorkStage } 
-            modalClosed={ toogleWorkStageEdit } 
+            modalClosed={ toggleWorkStageEdit } 
             content={
                 <WorkStageForm 
-                    toggle={ toogleWorkStageEdit }
+                    toggle={ toggleWorkStageEdit }
                     save={ onSetWorkStage }
                     recordLocked={ recordLocked }
+                />
+            }/>
+    }
+    if(uploadingDocument) {
+        modal = <Modal 
+            show={ uploadingDocument } 
+            modalClosed={ togglUploadingDocument } 
+            content={
+                <DocumentUpload 
+                    uid={ uid }
+                    toggle={ togglUploadingDocument }
+                    save={ () => {} }
                 />
             }/>
     }
@@ -413,7 +437,7 @@ const AccessRequestForm = () => {
                                     </h2>
                                     <div id='panelsStayOpen-collapseRequestor' className='accordion-collapse collapse' aria-labelledby='panelsStayOpen-headingRequestor'>
                                         <div className='accordion-body'>
-                                            <Requester displayName={ accessRequest[uid].requester.displayName } phoneNumber={ accessRequest[uid].requester.phoneNumber } email={ accessRequest[uid].requester.email } organisation={ accessRequest[uid].requester.organisation } />
+                                            <Requester displayName={ accessRequest.requester.displayName } phoneNumber={ accessRequest.requester.phoneNumber } email={ accessRequest.requester.email } organisation={ accessRequest.requester.organisation } />
                                         </div>
                                     </div>
                                 </div>
@@ -430,7 +454,7 @@ const AccessRequestForm = () => {
                                     </h2>
                                     <div id='panelsStayOpen-collapseEventLog' className='accordion-collapse collapse' aria-labelledby='panelsStayOpen-headingEventLog'>
                                         <div className='accordion-body'>
-                                            <EventLog eventLog={ accessRequest[uid].eventLog } />
+                                            <EventLog eventLog={ accessRequest.eventLog } />
                                         </div>
                                     </div>
                                 </div>
@@ -447,13 +471,13 @@ const AccessRequestForm = () => {
                                     </h2>
                                     <div id='panelsStayOpen-collapseSummary' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingSummary'>
                                         <div className='accordion-body'>
-                                            {/* <AccessRequestSummary summary={ accessRequest ? accessRequest[uid].summary : null } locationItems={ accessRequest ? accessRequest[uid].locationItems : null } save={saveAccessRequestHandler} recordLocked={recordLocked} /> */}
+                                            {/* <AccessRequestSummary summary={ accessRequest ? accessRequest.summary : null } locationItems={ accessRequest ? accessRequest.locationItems : null } save={saveAccessRequestHandler} recordLocked={recordLocked} /> */}
                                             {/* Site details */}
-                                            <SiteDetails siteDetails={ siteDetails } update={ onSetSiteDetails } recordLocked={ recordLocked } siteDetailsIsValid={ onSetSiteDetailsValidation } status={ accessRequest[uid].status } />
+                                            <SiteDetails siteDetails={ siteDetails } update={ onSetSiteDetails } recordLocked={ recordLocked } siteDetailsIsValid={ onSetSiteDetailsValidation } status={ accessRequest.status } />
                                             {/* locations */}
                                             <Locations locations={ locations } add={ locationAddHandler } toggle={ locationCloseHandler } select={ locationSelectHandler } recordLocked={ recordLocked } />
                                             {/* work plan */}
-                                            <WorkStages workStages={ workStages } toggle={ toogleWorkStageEdit } save={ onSetWorkStage } recordLocked={ recordLocked } />
+                                            <WorkStages workStages={ workStages } toggle={ toggleWorkStageEdit } save={ onSetWorkStage } recordLocked={ recordLocked } />
                                             {/* Permit Requirements */}
                                             <PermitRequirements permitRequirements={ permitRequirements} update={ onSetPermitRequirement } recordLocked={ recordLocked } />
                                             {/* Electrical Isolation Requirements */}
@@ -468,10 +492,10 @@ const AccessRequestForm = () => {
                                                     :   null
                                                 }
                                                 { !recordLocked && accessRequest
-                                                    ?   <button className='w-100 btn btn-lg btn-primary mb-2' type='button' onClick={ () => onSave(accessRequest[uid].status) } disabled={ saveButtonDisabled }>Save Changes</button>
+                                                    ?   <button className='w-100 btn btn-lg btn-primary mb-2' type='button' onClick={ () => onSave(accessRequest.status) } disabled={ saveButtonDisabled }>Save Changes</button>
                                                     :   null
                                                 }
-                                                { (!recordLocked && accessRequest && (accessRequest[uid].requester.localId === localId))
+                                                { (!recordLocked && accessRequest && (accessRequest.requester.localId === localId))
                                                     ?   <button className='w-100 btn btn-lg btn-success mb-2' type='button' disabled={ submitButtonDisabled } onClick={ () => { submitRequestHandler('Submitted') } }>Submit For Approval</button>
                                                     :   null
                                                 }
@@ -500,7 +524,7 @@ const AccessRequestForm = () => {
                                                 update={ onSetPlanningInformation }
                                                 save={ onPlanningSave }
                                                 isPlanner={ roles.includes('planner') }
-                                                status={ accessRequest[uid].status }
+                                                status={ accessRequest.status }
                                             />
                                         </div>
                                     </div>
@@ -508,37 +532,49 @@ const AccessRequestForm = () => {
                             :   null
                         }
 
+                        {/* document section */}
+                        <div className='accordion-item'>
+                            <h2 className='accordion-header' id='panelsStayOpen-headingDocuments'>
+                                <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseDocuments' aria-expanded='true' aria-controls='panelsStayOpen-collapseDocuments'>
+                                    <h3 className='h5 m-0 text-muted'>Documents</h3>
+                                </button>
+                            </h2>
+                            <div id='panelsStayOpen-collapseDocuments' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingDocuments'>
+                                <div className='accordion-body'>
+                                    <Documentation toggle={ togglUploadingDocument } uid={ uid } documents={ accessRequest && accessRequest.documents } deleteDocument={ deleteAccessRequestDocumentHandler } />
+                                </div>
+                            </div>
+                        </div>
+
                         {/* Comment section */}
-                        { accessRequest
-                            ?    <div className='accordion-item'>
-                                    <h2 className='accordion-header' id='panelsStayOpen-headingComments'>
-                                        <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseComments' aria-expanded='true' aria-controls='panelsStayOpen-collapseComments'>
-                                            <h3 className='h5 m-0 text-muted'>Comments</h3>
-                                        </button>
-                                    </h2>
-                                    <div id='panelsStayOpen-collapseComments' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingComments'>
-                                        <div className='accordion-body'>
-                                            <div className='border rounded p-1 mb-1 bg-light'>
-                                                <div className='text-sm-start p-2'>
-                                                    <div className='mb-2'>
-                                                        <input type='text' className='form-control' id='comment' value={comment} autoComplete='off' onChange={(event => {setComment(event.target.value)})} placeholder='Type your message here' />
-                                                    </div>
-                                                    <div className='text-sm-end'>
-                                                        <button className='w-25 btn btn-sm btn-primary mb-3' type='button' disabled={!commentButtonEnabled} onClick={onSaveComment}>Send</button>
-                                                    </div>
-                                                </div>
-                                                { accessRequest && accessRequest[uid].comments
-                                                    ?   <div className='list-group'>
-                                                            { accessRequest[uid].comments.map((item, index) => (<Comment key={ index } uid={ index } comment={ item } />)) }
-                                                        </div>
-                                                    :   <div className='alert alert-warning text-sm-center' role='alert'>There are no comments on this Access Request</div>
-                                                }
+                        <div className='accordion-item'>
+                            <h2 className='accordion-header' id='panelsStayOpen-headingComments'>
+                                <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseComments' aria-expanded='true' aria-controls='panelsStayOpen-collapseComments'>
+                                    <h3 className='h5 m-0 text-muted'>Comments</h3>
+                                </button>
+                            </h2>
+                            <div id='panelsStayOpen-collapseComments' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingComments'>
+                                <div className='accordion-body'>
+                                    <div className='border rounded p-1 mb-1 bg-light'>
+                                        <div className='text-sm-start p-2'>
+                                            <div className='mb-2'>
+                                                <input type='text' className='form-control' id='comment' value={comment} autoComplete='off' onChange={(event => {setComment(event.target.value)})} placeholder='Type your message here' />
+                                            </div>
+                                            <div className='text-sm-end'>
+                                                <button className='w-25 btn btn-sm btn-primary mb-3' type='button' disabled={!commentButtonEnabled} onClick={onSaveComment}>Send</button>
                                             </div>
                                         </div>
+                                        { accessRequest && accessRequest.comments
+                                            ?   <div className='list-group'>
+                                                    { accessRequest.comments.map((item, index) => (<Comment key={ index } uid={ index } comment={ item } />)) }
+                                                </div>
+                                            :   <div className='alert alert-warning text-sm-center' role='alert'>There are no comments on this Access Request</div>
+                                        }
                                     </div>
                                 </div>
-                            : null
-                        }
+                            </div>
+                        </div>
+                            
                     </div>                        
                 </div>
             </div>
