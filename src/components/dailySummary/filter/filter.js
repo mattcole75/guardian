@@ -19,7 +19,7 @@ const Filter = () => {
     // a side effect to query the database and return to state a list of requests
     useEffect(() => {
         onGetDailySummary(idToken, localId,
-            moment(day),
+            moment(day).format('YYYY-MM-DD'),
             'GET_DAILY_SUMMARY');
 
             return () => { onResetState() }
@@ -28,7 +28,7 @@ const Filter = () => {
 
     const refresh = () => {
         onGetDailySummary(idToken, localId, 
-            moment(day),
+            moment(day).format('YYYY-MM-DD'),
             'GET_DAILY_SUMMARY');
     }
 

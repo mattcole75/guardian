@@ -394,7 +394,6 @@ const AccessRequestForm = () => {
                 <DocumentUpload 
                     uid={ uid }
                     toggle={ togglUploadingDocument }
-                    save={ () => {} }
                 />
             }/>
     }
@@ -541,7 +540,7 @@ const AccessRequestForm = () => {
                             </h2>
                             <div id='panelsStayOpen-collapseDocuments' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingDocuments'>
                                 <div className='accordion-body'>
-                                    <Documentation toggle={ togglUploadingDocument } uid={ uid } documents={ accessRequest && accessRequest.documents } deleteDocument={ deleteAccessRequestDocumentHandler } />
+                                    <Documentation toggle={ togglUploadingDocument } uid={ uid } documents={ accessRequest && accessRequest.documents } deleteDocument={ deleteAccessRequestDocumentHandler } recordLocked={ recordLocked } />
                                 </div>
                             </div>
                         </div>

@@ -1,11 +1,12 @@
 import React from 'react';
 import moment from 'moment';
+import '../../publicView.css';
 
 const accessRequestListItem = (props) => {
 
     const { item, roles } = props;
 
-    const { organisation, siteDescription, startDate, endDate, locations, status, electricalIsolationRequired, signallingResourceRequired, testTramsRequired, coLocate } = item;
+    const { organisation, siteDescription, startDate, endDate, locations, status, electricalResourceRequired, signallingResourceRequired, testTramsRequired, coLocate } = item;
 
     let statusStyle = ['badge d-inline-block mb-2 text-nowrap h-100 ms-lg-1'];
 
@@ -17,7 +18,7 @@ const accessRequestListItem = (props) => {
             statusStyle.push('bg-warning text-dark');
             break;
         case 'Under Review':
-            statusStyle.push('bg-warning text-dark');
+            statusStyle.push('bg-info');
             break;
         case 'Denied':
             statusStyle.push('bg-danger');
@@ -25,8 +26,11 @@ const accessRequestListItem = (props) => {
         case 'Granted':
             statusStyle.push('bg-success');
             break;
-        case 'Complete':
-            statusStyle.push('bg-secondary');
+        case 'Completed':
+            statusStyle.push('bg-secondary')
+            break;
+        case 'Cancelled':
+            statusStyle.push('bg-info')
             break;
         default:
             break;
@@ -54,16 +58,16 @@ const accessRequestListItem = (props) => {
             <p>Note: <small className='text-muted'>{ coLocate ? 'Site can be co-located' : 'site cannot be co-located' }</small></p>
             {roles.length !== 0
                 ?   <div className='d-flex justify-content-evenly'>
-                        {electricalIsolationRequired
-                            ?   <span className='badge d-inline-block bg-warning text-dark text-nowrap'>Electrical Isolation</span>
+                        {electricalResourceRequired
+                            ?   <span className='badge d-inline-block bg-electricalResource text-dark text-nowrap'>Electrical Isolation</span>
                             :   null
                         }
                         {signallingResourceRequired
-                            ?   <span className='badge d-inline-block bg-warning text-dark text-nowrap'>Signalling</span>
+                            ?   <span className='badge d-inline-block bg-signallingResource text-dark text-nowrap'>Signalling</span>
                             :   null
                         }
                         {testTramsRequired
-                            ?   <span className='badge d-inline-block bg-warning text-dark text-nowrap'>Test Trams</span>
+                            ?   <span className='badge d-inline-block bg-tramAny text-dark text-nowrap'>Test Trams</span>
                             :   null
                         }                
                     </div>

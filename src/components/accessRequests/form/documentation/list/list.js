@@ -3,7 +3,7 @@ import ListItem from './listItem/listItem';
 
 const List = (props) => {
 
-    const { uid, documents, deleteDocument } = props;
+    const { uid, documents, deleteDocument, recordLocked } = props;
 
     return (
 
@@ -18,6 +18,7 @@ const List = (props) => {
                                     uid={ uid }
                                     item={ item }
                                     deleteDocument= { deleteDocument }
+                                    recordLocked={ recordLocked }
                                 />);
                             })
                         }
