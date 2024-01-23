@@ -18,10 +18,19 @@ const userCreateAccessRequestSuccess = (id, accessRequest, identifier) => {
     };
 }
 
-const userUpdateAccessRequestSuccess = (id, accessRequest, identifier) => {
+const userUpdateAccessRequestSuccess = (uid, accessRequest, identifier) => {
     return {
         type: type.USER_UPDATE_ACCESS_REQUEST_SUCCESS,
-        id: id,
+        uid: uid,
+        accessRequest: accessRequest,
+        identifier: identifier
+    };
+}
+
+const plannerUpdateAccessRequestSuccess = (uid, accessRequest, identifier) => {
+    return {
+        type: type.PLANNER_UPDATE_ACCESS_REQUEST_SUCCESS,
+        uid: uid,
         accessRequest: accessRequest,
         identifier: identifier
     };
@@ -118,7 +127,7 @@ export const userCreateAccessRequest = (idToken, localId, data, identifier) => {
     };
 }
 
-export const userUpdateAccessRequest = (id, idToken, localId, data, identifier) => {
+export const userUpdateAccessRequest = (uid, idToken, localId, data, identifier) => {
     
     return dispatch => {
         
@@ -128,11 +137,11 @@ export const userUpdateAccessRequest = (id, idToken, localId, data, identifier) 
             headers: {
                 idToken: idToken,
                 localId: localId,
-                param: id
+                param: uid
             }
         })
         .then(() => {
-            dispatch(userUpdateAccessRequestSuccess(id, data, identifier));
+            dispatch(userUpdateAccessRequestSuccess(uid, data, identifier));
         })
         .then(() => {
             dispatch(accessRequestFinish());
@@ -140,6 +149,88 @@ export const userUpdateAccessRequest = (id, idToken, localId, data, identifier) 
         .catch(err => {
             dispatch(accessRequestFail(err.message));
         });
+    };
+}
+
+export const plannerUpdateAccessRequest = (uid, idToken, localId, data, identifier) => {
+
+    return dispatch => {
+        dispatch(accessRequestStart());
+
+        axios.patch('/accessrequest', data, {
+            headers: {
+                idToken: idToken,
+                localId: localId,
+                param: uid
+            }
+        })
+        .then(() => {
+            dispatch(plannerUpdateAccessRequestSuccess(uid, data, identifier));
+        })
+        .then(() => {
+            dispatch(accessRequestFinish());
+        })
+        .catch(err => {
+            dispatch(accessRequestFail(err.message));
+        });        
+    };
+}
+
+export const userGetAccessRequest = (idToken, localId, uid, identifier) => {
+
+    const getAccessRequest = new Promise((resolve, reject) => {
+        axios.get('/accessrequest', { 
+            headers: {
+                idToken: idToken,
+                localId: localId,
+                uid: uid
+            }
+        })
+        .then(res => {
+            resolve(res.data.result[uid]);
+        })
+        .catch(err => {
+            reject(err);
+        })
+    });
+
+    const getAccessRequestDocuments = new Promise((resolve, reject) => {
+
+         // set the document location reference
+         const docListRef = ref(storage, `access_request_documents/${uid}/`);
+         const docList = [];
+    
+         listAll(docListRef)
+             .then(res => {
+                 res.items.forEach((item) => {
+                    docList.push({ name: item.name });
+                 })
+ 
+                 return () => docList.length = 0; // empty the array
+ 
+             })
+             .then(() => {
+                resolve(docList);
+             })
+             .catch(err => {
+                 reject(err);
+             });
+    });
+    
+    return dispatch => {
+
+        dispatch(accessRequestStart());
+
+        Promise.all([getAccessRequest, getAccessRequestDocuments])
+            .then(res => {
+                dispatch(userGetAccessRquestSuccess({ ...res[0], documents: [ ...res[1] ] }, identifier))
+            })
+            .then(() => {
+                dispatch(accessRequestFinish());
+            })
+            .catch(err => {
+                dispatch(accessRequestFail(err.message));
+            })
     };
 }
 
@@ -230,64 +321,6 @@ export const plannerGetDailySummary = (idToken, localId, day, identifier) => {
         .catch(err => {
             dispatch(accessRequestFail(err.message));
         });
-    };
-}
-
-export const userGetAccessRequest = (idToken, localId, uid, identifier) => {
-
-    const getAccessRequest = new Promise((resolve, reject) => {
-        axios.get('/accessrequest', { 
-            headers: {
-                idToken: idToken,
-                localId: localId,
-                uid: uid
-            }
-        })
-        .then(res => {
-            resolve(res.data.result[uid]);
-        })
-        .catch(err => {
-            reject(err);
-        })
-    });
-
-    const getAccessRequestDocuments = new Promise((resolve, reject) => {
-
-         // set the document location reference
-         const docListRef = ref(storage, `access_request_documents/${uid}/`);
-         const docList = [];
-    
-         listAll(docListRef)
-             .then(res => {
-                 res.items.forEach((item) => {
-                    docList.push({ name: item.name });
-                 })
- 
-                 return () => docList.length = 0; // empty the array
- 
-             })
-             .then(() => {
-                resolve(docList);
-             })
-             .catch(err => {
-                 reject(err);
-             });
-    });
-    
-    return dispatch => {
-
-        dispatch(accessRequestStart());
-
-        Promise.all([getAccessRequest, getAccessRequestDocuments])
-            .then(res => {
-                dispatch(userGetAccessRquestSuccess({ ...res[0], documents: [ ...res[1] ] }, identifier))
-            })
-            .then(() => {
-                dispatch(accessRequestFinish());
-            })
-            .catch(err => {
-                dispatch(accessRequestFail(err.message));
-            })
     };
 }
 

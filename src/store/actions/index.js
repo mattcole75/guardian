@@ -13,6 +13,7 @@ export {
 export {
     userCreateAccessRequest,
     userUpdateAccessRequest,
+    plannerUpdateAccessRequest,
     userGetAccessRequests,
     userGetAccessRequest,
     plannerGetAccessRequests,

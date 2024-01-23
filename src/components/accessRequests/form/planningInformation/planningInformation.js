@@ -15,7 +15,7 @@ import tramConfigurationTypes from '../../../../configuration/lists/tramConfigur
 import organisations from '../../../../configuration/lists/organisations.json';
 
 const PlanningInformation = (props) => {
-    const { planningInformation, update, save, isPlanner, status } = props;
+    const { planningInformation, update, save, isPlanner, status, identifier } = props;
     const { register, reset, getValues, formState: { errors, isValid } } = useForm({ mode: 'onBlur' });
 
     const [ redirect, setRedirect ] = useState(null);
@@ -26,6 +26,11 @@ const PlanningInformation = (props) => {
             reset(planningInformation);
         }
     }, [reset, planningInformation]);
+
+    useEffect(() => {
+        if(identifier === 'PLANNER_UPDATE_ACCESS_REQUEST')
+            onClose();
+    }, [identifier]);
 
     const onUpdate = () => {
         update(getValues());
@@ -43,19 +48,19 @@ const PlanningInformation = (props) => {
                 break;
             case 'DENY':
                 save('Denied');
-                onClose();
+                // onClose();
                 break;
             case 'GRANT':
                 save('Granted');
-                onClose();
+                // onClose();
                 break;
             case 'COMPLETE':
                 save('Completed');
-                onClose();
+                // onClose();
                 break;
             case 'CANCEL':
                 save('Cancelled');
-                onClose();
+                // onClose();
                 break;
             default:
                 break;

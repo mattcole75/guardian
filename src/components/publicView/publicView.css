@@ -62,3 +62,8 @@
 .bg-safetyResource {
     background-color: rgba(51,204,204,.8) !important;
 }
+.bg-isolation {
+    border: solid 1px;
+    border-color: rgba(112,48,160,0.8) !important;
+    color: rgba(112,48,160,0.8) !important;
+}

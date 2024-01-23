@@ -81,6 +81,7 @@ const { item } = props;
             <td>{ item.organisation }</td>
             <td>{ moment(item.startDate).format('DD/MM/YYYY') }</td>
             <td>{ moment(item.endDate).format('DD/MM/YYYY') }</td>
+            <td>{ item.locations.join(', ') }</td>
             <td className={ item.escalatedDate === '' ? '' : 'bg-escalatedDate'}>{ item.escalatedDate === '' ? item.escalatedDate :  moment(item.escalatedDate).format('DD/MM/YYYY') }</td>
             <td className={ item.possessionDetails === 'TBC' ? 'bg-TBC-Priority2' : '' }>{ item.possessionDetails }</td>
             <td className={ item.coLocate === 'TBC' ? 'bg-TBC-Priority2' : '' }>{ item.coLocate === 'TBC' ? item.coLocate : item.coLocate === true ? 'Yes' : 'No'}</td>
@@ -111,9 +112,9 @@ const { item } = props;
                                 ?   'bg-tramDouble'
                                 :   '' }>{ item.tramConfigurationType }</td>
             <td className={ item.onTrackMachineCount === 'TBC' ? 'bg-TBC-Priority2' : '' }>{ item.onTrackMachineCount }</td>
-            <td className={ item.rrvType === 'TBC' ? 'bg-TBC-Priority2' : '' }>{ item.rrvType }</td>
+            <td className={ item.onTrackPlant === 'TBC' ? 'bg-TBC-Priority2' : '' }>{ item.onTrackPlant }</td>
             <td className={ item.trolleyType === 'TBC' ? 'bg-TBC-Priority2' : item.trolleyType === 'TBC' || item.trolleyType === 'Not Applicable' ? '' : 'bg-Trolly' }>{ item.trolleyType }</td>
-            <td className={ item.heavyMachineType === 'TBC' ? 'bg-TBC-Priority2' : '' }>{ item.heavyMachineType }</td>
+            <td className={ item.onTrackMachine === 'TBC' ? 'bg-TBC-Priority2' : '' }>{ item.onTrackMachine }</td>
             <td className={ item.withinDisruptivePossession === 'TBC' ? 'bg-TBC-Priority2' : item.withinDisruptivePossession === true ? 'bg-withinDisruptivePosession' : '' }>{ item.withinDisruptivePossession === 'TBC'? item.withinDisruptivePossession : item.withinDisruptivePossession === true ? 'Yes' : 'No' }</td>
             <td>{ item.siteRemarks }</td>
             <td>{ moment(item.updated).fromNow() }</td>

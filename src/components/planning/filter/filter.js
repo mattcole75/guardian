@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import { plannerGetAccessRequests, accessRequestResetState } from '../../../store/actions/index';
+import { plannerGetAccessRequests } from '../../../store/actions/index';
 
 import railWeeks from '../../../configuration/lists/railWeeks.json';
 import statusFilter from '../../../configuration/lists/statusFilter.json';
@@ -32,7 +32,7 @@ const Filter = () => {
     const [ electricalResource, setElectricalResource ] = useState(false);
 
     const onGetAccessRequests = useCallback((idToken, localId, startDate, endDate, identifier) => dispatch(plannerGetAccessRequests(idToken, localId, startDate, endDate, identifier)), [dispatch]);
-    const onResetState = useCallback(() => dispatch(accessRequestResetState()), [dispatch]);
+    // const onResetState = useCallback(() => dispatch(accessRequestResetState()), [dispatch]);
     // a side effect to query the database and return to state a list of requests
     useEffect(() => {
         onGetAccessRequests(idToken, localId,{
@@ -51,9 +51,7 @@ const Filter = () => {
             electricalResource: electricalResource
         },'GET_PLANNER_ACCESS_REQUESTS');
         
-        return () => { onResetState() }
-
-    },[idToken, localId, week, onGetAccessRequests, onResetState, status, category, picop, pic, organisation, line, isolation, safetyResource, testTrams, signallingResource, electricalResource]);
+    },[idToken, localId, week, onGetAccessRequests, status, category, picop, pic, organisation, line, isolation, safetyResource, testTrams, signallingResource, electricalResource]);
 
     const refresh = () => {
         onGetAccessRequests(idToken, localId, {
@@ -240,7 +238,6 @@ const Filter = () => {
                             <label htmlFor='railweeks'>Status</label>
                         </div>
 
-
                         <div className='form-floating col-sm-3 mb-2'>
                             <select className='form-select' id='railweeks'
                                 onChange={ event => setCategory(event.target.value) } value={ category }>
@@ -257,10 +254,7 @@ const Filter = () => {
                             <label htmlFor='railweeks'>Category</label>
                         </div>
 
-
-
                         <div className='form-floating text-end col-sm-2'>
-                            {/* <button className='btn btn-light w100' type='button' onClick={ refresh }>Refresh</button> */}
                             <button className='btn btn-light' type='button' onClick={ refresh }><span className='bi-arrow-clockwise fs-3' /></button>
                         </div>
                     </div>

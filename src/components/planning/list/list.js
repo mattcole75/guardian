@@ -17,6 +17,7 @@ const List = (props) => {
                         <th>Organisation</th>
                         <th>Start Date</th>
                         <th>End Date</th>
+                        <th>Locations</th>
                         <th>Escalated</th>
                         <th>Posession Details</th>
                         <th>Co-Locatable</th>
@@ -36,9 +37,9 @@ const List = (props) => {
                         <th>Test Trams Required</th>
                         <th>Tram Configuration</th>
                         <th>OTM Count</th>
-                        <th>RRV</th>
+                        <th>On Track Plant</th>
                         <th>Ironmen/Trolly</th>
-                        <th>Tamper/Reg</th>
+                        <th>On Track Machine</th>
                         <th>Within Disruptive Possession</th>
                         <th>Site Remarks</th>
                         <th>Last Updated</th>

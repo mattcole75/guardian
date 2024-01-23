@@ -343,47 +343,58 @@ export const authAdminPatch = (idToken, localId, data, identifier) => {
     };
 }
 
-export const checkAuthTimeout = (expirationTime, refreshToken) => {
+export const checkAuthTimeout = (expirationTime) => {
     return dispatch => {
         setTimeout(() => {
             // dispatch(logout()); // use this if you want to log a user out after an hour.
-            dispatch(extendAuthTimeout(refreshToken)); // use this to renew the user token roughly each hour
+            dispatch(extendAuthTimeout()); // use this to renew the user token roughly each hour
         }, (expirationTime - 120) * 1000);
     };
 }
 
-const extendAuthTimeout = (refreshToken) => {
+const extendAuthTimeout = () => {
+    
     return dispatch => {
-        dispatch(authStart());
-        console.log({ grant_type: 'refresh_token', refresh_token: refreshToken });
-        direct.post('https://securetoken.googleapis.com/v1/token?key=' + apikey, { grant_type: 'refresh_token', refresh_token: refreshToken })
-            .then(res => {
-                
-                const { id_token, user_id, expires_in, refresh_token } = res.data
-                
-                axios.get('/user' , {
-                    headers: {
-                        idToken: id_token,
-                        localId: user_id
-                    }
-                })
-                .then(user => {
-                    const { displayName, phoneNumber, email, organisation, roles } = user.data.data;
-                    setLocalStorage(id_token, user_id, displayName, phoneNumber, email, organisation, roles, expires_in, refresh_token);
-                    dispatch(authSuccess(id_token, user_id, displayName, phoneNumber, email, organisation, roles, 'EXTEND_AUTH_TIMEOUT'));
-                    dispatch(checkAuthTimeout(expires_in, refresh_token));
-                })
-                .then(() => {
-                    dispatch(authFinish());
+
+        const refreshToken = localStorage.getItem('refreshToken');
+        if(refreshToken == null) {
+            dispatch(logout());
+                dispatch(authStateReset());
+        } else {
+            
+            dispatch(authStart());
+            
+            console.log({ grant_type: 'refresh_token', refresh_token: refreshToken });
+            
+            direct.post('https://securetoken.googleapis.com/v1/token?key=' + apikey, { grant_type: 'refresh_token', refresh_token: refreshToken })
+                .then(res => {
+                    
+                    const { id_token, user_id, expires_in, refresh_token } = res.data
+                    
+                    axios.get('/user' , {
+                        headers: {
+                            idToken: id_token,
+                            localId: user_id
+                        }
+                    })
+                    .then(user => {
+                        const { displayName, phoneNumber, email, organisation, roles } = user.data.data;
+                        setLocalStorage(id_token, user_id, displayName, phoneNumber, email, organisation, roles, expires_in, refresh_token);
+                        dispatch(authSuccess(id_token, user_id, displayName, phoneNumber, email, organisation, roles, 'EXTEND_AUTH_TIMEOUT'));
+                        dispatch(checkAuthTimeout(expires_in, refresh_token));
+                    })
+                    .then(() => {
+                        dispatch(authFinish());
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        dispatch(authFail(err.message));
+                    })
                 })
                 .catch(err => {
-                    console.log(err);
                     dispatch(authFail(err.message));
-                })
-            })
-            .catch(err => {
-                dispatch(authFail(err.message));
-            });
+                });
+        }
     };
 }
 
@@ -406,7 +417,8 @@ export const authCheckState = () => {
                 dispatch(authStateReset());
             } else {
                 dispatch(authSuccess(idToken, localId, displayName, phoneNumber, email, organisation, roles, 'AUTH_CHECK_STATE'));
-                dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000 ));
+                dispatch(checkAuthTimeout());
+                // dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000 ));
                 // todo: https://cloud.google.com/identity-platform/docs/use-rest-api#section-refresh-token
             }
         }

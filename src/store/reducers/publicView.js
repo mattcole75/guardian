@@ -26,12 +26,15 @@ const publicViewSuccess = (state, action) => {
                 startdate: action.requests[key1][id].locations[key2].startDate || null,
                 endDate: action.requests[key1][id].locations[key2].endDate || null,
                 locations: action.requests[key1][id].locations[key2].locationList || null,
+                isolationType: action.requests[key1][id].planningInformation && action.requests[key1][id].planningInformation.isolationType
+                    ?   action.requests[key1][id].planningInformation.isolationType
+                    :   null,
                 electricalResourceRequired: action.requests[key1][id].siteDetails.electricalResourceRequired || false,
                 signallingResourceRequired: action.requests[key1][id].siteDetails.signallingResourceRequired || false,
                 testTramsRequired: action.requests[key1][id].siteDetails.testTramsRequired || false,
-                coLocate: action.requests[key1][id].plannerInformation && action.requests[key1][id].plannerInformation.coLocate
-                    ?   action.requests[key1][id].plannerInformation
-                    :   '',
+                coLocate: action.requests[key1][id].planningInformation && action.requests[key1][id].planningInformation.coLocate
+                    ?   action.requests[key1][id].planningInformation.coLocate
+                    :   null,
                 status: action.requests[key1][id].status
             })
         }

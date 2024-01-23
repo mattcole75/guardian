@@ -6,7 +6,7 @@ const accessRequestListItem = (props) => {
 
     const { item, roles } = props;
 
-    const { organisation, siteDescription, startDate, endDate, locations, status, electricalResourceRequired, signallingResourceRequired, testTramsRequired, coLocate } = item;
+    const { organisation, siteDescription, startDate, endDate, locations, status, isolationType, electricalResourceRequired, signallingResourceRequired, testTramsRequired, coLocate } = item;
 
     let statusStyle = ['badge d-inline-block mb-2 text-nowrap h-100 ms-lg-1'];
 
@@ -50,20 +50,24 @@ const accessRequestListItem = (props) => {
                 <span className={statusStyle.join(' ')}>{ status }</span>
             </div>
             { roles.includes('planner')
-                    ? <p className='mb-0'>Organisation: <small className='text-muted'>{ organisation }</small></p>
-                    : null
+                ? <p className='mb-0'>Organisation: <small className='text-muted'>{ organisation }</small></p>
+                : null
             }
             <small>Approx. { moment(startDate).endOf('day').fromNow() }</small>
             <p>Dates: <small className='text-muted'> { moment(startDate).format('Do MMMM YYYY') + ' to ' + moment(endDate).format('Do MMMM YYYY') } </small></p>
             <p>Note: <small className='text-muted'>{ coLocate ? 'Site can be co-located' : 'site cannot be co-located' }</small></p>
             {roles.length !== 0
                 ?   <div className='d-flex justify-content-evenly'>
-                        {electricalResourceRequired
-                            ?   <span className='badge d-inline-block bg-electricalResource text-dark text-nowrap'>Electrical Isolation</span>
+                        { isolationType === 'Isolation'
+                            ?   <span className='badge d-inline-block bg-isolation text-nowrap'>{ isolationType }</span>
                             :   null
                         }
-                        {signallingResourceRequired
-                            ?   <span className='badge d-inline-block bg-signallingResource text-dark text-nowrap'>Signalling</span>
+                        { electricalResourceRequired
+                            ?   <span className='badge d-inline-block bg-electricalResource text-dark text-nowrap'>Electrical Resource</span>
+                            :   null
+                        }
+                        { signallingResourceRequired
+                            ?   <span className='badge d-inline-block bg-signallingResource text-dark text-nowrap'>Signalling Resource</span>
                             :   null
                         }
                         {testTramsRequired

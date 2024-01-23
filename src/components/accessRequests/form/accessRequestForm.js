@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { userGetAccessRequest, userUpdateAccessRequest, userDeleteUploadedDocument } from '../../../store/actions/index';
+import { userGetAccessRequest, userUpdateAccessRequest, userDeleteUploadedDocument, plannerUpdateAccessRequest } from '../../../store/actions/index';
 import { Navigate, useParams } from 'react-router-dom';
 import moment from 'moment';
 
@@ -56,7 +56,8 @@ const AccessRequestForm = () => {
     const [ siteDetailsValid, setSiteDetailsValid ] = useState(true);
     
     const onGetAccessRequest = useCallback((idToken, localId, uid, identifier) => dispatch(userGetAccessRequest(idToken, localId, uid, identifier)), [dispatch]);
-    const onUpdateAccessRequest = useCallback((id, idToken, localId, data, identifier) => dispatch(userUpdateAccessRequest(id, idToken, localId, data, identifier)), [dispatch]);
+    const onUpdateAccessRequest = useCallback((uid, idToken, localId, data, identifier) => dispatch(userUpdateAccessRequest(uid, idToken, localId, data, identifier)), [dispatch]);
+    const onPlannerUpdateAccessRequest = useCallback((uid, idToken, localId, data, identifier) => dispatch(plannerUpdateAccessRequest(uid, idToken, localId, data, identifier)), [dispatch]);
     const onDeleteAccessRequestDocument = useCallback((id, fileName, identifier) => dispatch(userDeleteUploadedDocument(id, fileName, identifier)), [dispatch]);
 
     // load access request
@@ -166,15 +167,15 @@ const AccessRequestForm = () => {
                 break;
         }
 
-        onUpdateAccessRequest(uid, idToken, localId, {
+        onPlannerUpdateAccessRequest(uid, idToken, localId, {
             planningInformation: {
                 ...planningInformation
             },
             status: status,
             eventLog: updatedEventLogItems
-            }, 'UPDATE_ACCESS_REQUEST');
+            }, 'PLANNER_UPDATE_ACCESS_REQUEST');
 
-    }, [accessRequest, uid, onUpdateAccessRequest, idToken, localId, planningInformation, displayName]);
+    }, [accessRequest, onPlannerUpdateAccessRequest, uid, idToken, localId, planningInformation, displayName]);
 
     const onSaveComments = useCallback((data) => {
         onUpdateAccessRequest(uid, idToken, localId, {
@@ -419,8 +420,8 @@ const AccessRequestForm = () => {
                     <h1 className='h3 mb-3 fw-normal'>Access Request Details</h1>
                 </div>
                 <div className='text-start mt-2 mb-3'>
-                                                <button className='btn btn-outline-secondary btn-sm' type='button' onClick={ onClose }>Return to list</button>
-                                            </div> 
+                    <button className='btn btn-outline-secondary btn-sm' type='button' onClick={ onClose }>Return to list</button>
+                </div> 
                 
                 <div className='form-floating mb-3'>
 
@@ -499,6 +500,7 @@ const AccessRequestForm = () => {
                                                     :   null
                                                 }
                                             </div>
+
                                             <div className='text-start mt-2'>
                                                 <button className='btn btn-outline-secondary btn-sm' type='button' onClick={ onClose }>Return to list</button>
                                             </div> 
@@ -524,6 +526,7 @@ const AccessRequestForm = () => {
                                                 save={ onPlanningSave }
                                                 isPlanner={ roles.includes('planner') }
                                                 status={ accessRequest.status }
+                                                identifier={ identifier }
                                             />
                                         </div>
                                     </div>
