@@ -30,7 +30,7 @@ const AccessRequestForm = () => {
     const { uid } = useParams();
     const dispatch = useDispatch();
 
-    const { loading, error, identifier, accessRequest } = useSelector(state => state.accessRequest);
+    const { loading, error, identifier, accessRequest, planners } = useSelector(state => state.accessRequest);
     const { idToken, localId, displayName, roles } = useSelector(state => state.auth);
     
     const [ editLocation, setEditLocation ] = useState(false);
@@ -149,6 +149,7 @@ const AccessRequestForm = () => {
     const onPlanningSave = useCallback((status) => {
     
         let updatedEventLogItems = [ ...accessRequest.eventLog ];
+        let updatedPermit = [ ...accessRequest.permit ];
 
         switch(status) {
             case 'Denied':
@@ -156,6 +157,14 @@ const AccessRequestForm = () => {
                 break;
             case 'Granted':
                 updatedEventLogItems.push({ user: displayName, logged: moment().format(), event: 'The Access Request has been granted' });
+                updatedPermit.push({
+                    organisation: accessRequest.planningInformation.organisation,
+                    worksiteLimits: accessRequest.planningInformation.worksiteLimits,
+                    natureOfWork: accessRequest.siteDetails.siteDescription,
+                    locations: accessRequest.locations,
+                    preparedBy: accessRequest.planningInformation.planner,
+                    approvedDate: moment().format()
+                })
                 break;
             case 'Completed':
                 updatedEventLogItems.push({ user: displayName, logged: moment().format(), event: 'The Access Request has been completed' });
@@ -172,7 +181,8 @@ const AccessRequestForm = () => {
                 ...planningInformation
             },
             status: status,
-            eventLog: updatedEventLogItems
+            eventLog: updatedEventLogItems,
+            permit: updatedPermit
             }, 'PLANNER_UPDATE_ACCESS_REQUEST');
 
     }, [accessRequest, onPlannerUpdateAccessRequest, uid, idToken, localId, planningInformation, displayName]);
@@ -525,6 +535,7 @@ const AccessRequestForm = () => {
                                                 update={ onSetPlanningInformation }
                                                 save={ onPlanningSave }
                                                 isPlanner={ roles.includes('planner') }
+                                                planners={ planners }
                                                 status={ accessRequest.status }
                                                 identifier={ identifier }
                                             />
@@ -543,7 +554,14 @@ const AccessRequestForm = () => {
                             </h2>
                             <div id='panelsStayOpen-collapseDocuments' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingDocuments'>
                                 <div className='accordion-body'>
-                                    <Documentation toggle={ togglUploadingDocument } uid={ uid } documents={ accessRequest && accessRequest.documents } deleteDocument={ deleteAccessRequestDocumentHandler } recordLocked={ recordLocked } />
+                                    <Documentation
+                                        uid={ uid }
+                                        documents={ accessRequest && accessRequest.documents }
+                                        deleteDocument={ deleteAccessRequestDocumentHandler }
+                                        toggle={ togglUploadingDocument }
+                                        recordLocked={ recordLocked }
+                                        permit={ accessRequest && accessRequest.status === 'Granted' ? true : false }
+                                    />
                                 </div>
                             </div>
                         </div>

@@ -15,8 +15,9 @@ import tramConfigurationTypes from '../../../../configuration/lists/tramConfigur
 import organisations from '../../../../configuration/lists/organisations.json';
 
 const PlanningInformation = (props) => {
-    const { planningInformation, update, save, isPlanner, status, identifier } = props;
-    const { register, reset, getValues, formState: { errors, isValid } } = useForm({ mode: 'onBlur' });
+    
+    const { planningInformation, update, save, isPlanner, status, identifier, planners } = props;
+    const { register, reset, getValues, formState: { errors, isValid } } = useForm({ mode: 'onChange' });
 
     const [ redirect, setRedirect ] = useState(null);
     const [ isDirty, setIsDirty ] = useState(false);
@@ -48,19 +49,15 @@ const PlanningInformation = (props) => {
                 break;
             case 'DENY':
                 save('Denied');
-                // onClose();
                 break;
             case 'GRANT':
                 save('Granted');
-                // onClose();
                 break;
             case 'COMPLETE':
                 save('Completed');
-                // onClose();
                 break;
             case 'CANCEL':
                 save('Cancelled');
-                // onClose();
                 break;
             default:
                 break;
@@ -115,6 +112,21 @@ const PlanningInformation = (props) => {
                     <span className={categoryCSS.join(' ')}>{ planningInformation && planningInformation.possessionCategory }</span>
                 </div>
             </div>
+
+            <div className='form-floating col-sm-6 mb-2'>
+                <select className='form-select' id='planner' required disabled={ !isPlanner }
+                    {...register('planner', { onChange: onUpdate, required: 'A planner must be selected' })}>
+                    <option value=''>Choose...</option>
+                    {
+                        planners.map(item => {
+                            return (<option className='success' key={ item } value={ item }>{ item }</option>)
+                        })
+                    }
+                </select>
+                <label htmlFor='planner'>Planner</label>
+                { errors.planner && <p className='form-error mt-1 text-start'>{ errors.planner.message }</p> }
+            </div>
+
             {/* Possession Details */}
             <p className='text-start h6'>Possession</p>
             <div className='form-floating mb-2'>
@@ -261,7 +273,7 @@ const PlanningInformation = (props) => {
                 </div>
                 <div className='form-floating col-sm-6 mb-2'>
                     <select className='form-select' id='line' required disabled={ !isPlanner }
-                        {...register('line', { onChange: onUpdate, required: 'A location must be selected' })}>
+                        {...register('line', { onChange: onUpdate, required: 'A line must be selected' })}>
                         <option value=''>Choose...</option>
                         {
                             lines.map(item => {
@@ -321,9 +333,10 @@ const PlanningInformation = (props) => {
                     <label htmlFor='isolationType'>Isolation Type</label>
                     { errors.isolationType && <p className='form-error mt-1 text-start'>{ errors.isolationType.message }</p> }
                 </div>
+
                 <div className='form-floating col-sm-6 mb-2'>
-                    <input type='text' className='form-control' id='isolationDetails' autoComplete='off' placeholder='Isolation Details' minLength={5} maxLength={51} disabled={ !isPlanner }
-                        { ...register('isolationDetails', { onChange: onUpdate,
+                    <input type='text' className='form-control' id='switchingProgram' autoComplete='off' placeholder='Isolation Details' minLength={5} maxLength={51} disabled={ !isPlanner }
+                        { ...register('switchingProgram', { onChange: onUpdate,
                             minLength: {
                                 value: 3,
                                 message: "Isolation details must have at least 5 characters"
@@ -334,9 +347,27 @@ const PlanningInformation = (props) => {
                             }
                         }) }
                     />
+                    <label htmlFor='switchingProgram' className='form-label'>Switching Program</label>
+                    { errors.switchingProgram && <p className='form-error mt-1 text-start'>{errors.switchingProgram.message}</p> }
+                </div>
+                <div className='form-floating mb-3'>
+                    <textarea className='form-control' id='isolationDetails'  
+                        rows='5' minLength={5} style={{height:'auto'}} placeholder='Isolation Details' disabled={ !isPlanner}
+                        {...register('isolationDetails', { onChange:  onUpdate, required: 'An isolation details must be provided',
+                            minLength: {
+                                value: 5,
+                                message: "Site remarks must have at least 5 characters"
+                            },
+                            maxLength: {
+                                value: 250,
+                                message: "Site remarks must have less than 250 characters"
+                            }
+                        })}
+                    />
                     <label htmlFor='isolationDetails' className='form-label'>Isolation Details</label>
                     { errors.isolationDetails && <p className='form-error mt-1 text-start'>{errors.isolationDetails.message}</p> }
                 </div>
+
             </div>
             {/* on track machines */}
             <div className='row g-2'>

@@ -76,6 +76,14 @@ const userGetAccessRquestSuccess = (accessRequest, identifier) => {
     };
 }
 
+const userGetAccessRequestPermitSuccess = (permit, identifier) => {
+    return {
+        type: type.USER_GET_ACCESS_REQUEST_PERMIT_SUCCESS,
+        permit: permit,
+        identifier: identifier
+    };
+}
+
 const getPlannersSuccess = (planners, identifier) => {
     return {
         type: type.ACCESS_REQUEST_PLANNER_GET_PLANNERS_SUCCESS,
@@ -216,14 +224,30 @@ export const userGetAccessRequest = (idToken, localId, uid, identifier) => {
                  reject(err);
              });
     });
+
+    const getPlanners = new Promise((resolve, reject) => {
+        axios.get('/planners', {
+            headers: {
+                idToken: idToken,
+                localId: localId
+            }
+        })
+        .then(res => {
+            resolve(res.data.planners);
+        })
+        .catch(err => {
+            reject(err);
+        })
+    });
     
     return dispatch => {
 
         dispatch(accessRequestStart());
 
-        Promise.all([getAccessRequest, getAccessRequestDocuments])
+        Promise.all([getAccessRequest, getAccessRequestDocuments, getPlanners])
             .then(res => {
-                dispatch(userGetAccessRquestSuccess({ ...res[0], documents: [ ...res[1] ] }, identifier))
+                dispatch(userGetAccessRquestSuccess({ ...res[0], documents: [ ...res[1] ] }, identifier));
+                dispatch(getPlannersSuccess([ ...res[2] ], identifier));
             })
             .then(() => {
                 dispatch(accessRequestFinish());
@@ -231,6 +255,31 @@ export const userGetAccessRequest = (idToken, localId, uid, identifier) => {
             .catch(err => {
                 dispatch(accessRequestFail(err.message));
             })
+    };
+}
+
+export const userGetAccessRequestPermit = (idToken, localId, uid, identifier) => {
+
+    return dispatch => {
+        
+        dispatch(accessRequestStart());
+
+        axios.get('/accessrequestpermit', {
+            headers: {
+                idToken: idToken,
+                localId: localId,
+                uid: uid
+            }
+        })
+        .then(res => {
+            dispatch(userGetAccessRequestPermitSuccess(res.data.result, identifier));
+        })
+        .then(() => {
+            dispatch(accessRequestFinish());
+        })
+        .catch(err => {
+            dispatch(accessRequestFail(err.message));
+        });
     };
 }
 
@@ -324,31 +373,6 @@ export const plannerGetDailySummary = (idToken, localId, day, identifier) => {
     };
 }
 
-export const plannerGetPlanners = (idToken, localId, identifier) => {
-
-    return dispatch => {
-
-        dispatch(accessRequestStart());
-
-        axios.get('/planners', {
-            headers: {
-                idToken: idToken,
-                localId: localId
-            }
-        })
-        .then(response => {
-            dispatch(getPlannersSuccess(response.data.planners, identifier));
-            
-        })
-        .then(() => {
-            dispatch(accessRequestFinish());
-        })
-        .catch(err => {
-            dispatch(accessRequestFail(err.message));
-        });
-    };
-}
-
 export const userUploadDocument = (uid, doc, identifier) => {
 
     return dispatch => {
@@ -388,7 +412,6 @@ export const userDeleteUploadedDocument = (uid, fileName, identifier) => {
             });
     };
 }
-
 
 export const accessRequestResetState = () => {
     return dispatch => {

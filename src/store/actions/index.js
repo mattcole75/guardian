@@ -15,10 +15,10 @@ export {
     userUpdateAccessRequest,
     plannerUpdateAccessRequest,
     userGetAccessRequests,
+    userGetAccessRequestPermit,
     userGetAccessRequest,
     plannerGetAccessRequests,
     plannerGetDailySummary,
-    plannerGetPlanners,
     userUploadDocument,
     userDeleteUploadedDocument,
     accessRequestResetState

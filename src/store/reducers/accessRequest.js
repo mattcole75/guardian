@@ -5,6 +5,8 @@ const initialState = {
     error: null,
     accessRequests: [],
     accessRequest: null,
+    planners: [],
+    permit: null,
     identifier: null,
     requestRedirectPath: '/'
 };
@@ -116,6 +118,16 @@ const userGetAccessRequestSuccess = (state, action) => {
         loading: false,
         error: null,
         accessRequest: action.accessRequest,
+        identifier: action.identifier
+    };
+}
+
+const userGetAccessRequestPermitSuccess = (state, action) => {
+    return {
+        ...state,
+        loading: false,
+        error: null,
+        permit: action.permit,
         identifier: action.identifier
     };
 }
@@ -252,6 +264,7 @@ const reducer = (state = initialState, action) => {
         case type.PLANNER_UPDATE_ACCESS_REQUEST_SUCCESS: return plannerUpdateAccessRequestSuccess(state, action);
         case type.USER_GET_ACCESS_REQUESTS_SUCCESS: return userGetAccessRequestsSuccess(state, action);
         case type.USER_GET_ACCESS_REQUEST_SUCCESS: return userGetAccessRequestSuccess(state, action);
+        case type.USER_GET_ACCESS_REQUEST_PERMIT_SUCCESS: return userGetAccessRequestPermitSuccess(state, action);
         case type.USER_UPLOAD_ACCESS_REQUEST_DOCUMENT_SUCCESS: return userUploadAccessRequestDocumentSuccess(state,action);
         case type.USER_DELETE_ACCESS_REQUEST_DOCUMENT_SUCCESS: return userDeleteAccessRequestDocumentSuccess(state, action);
         case type.PLANNER_GET_ACCESS_REQUESTS_SUCCESS: return plannerGetAccessRequestsSuccess(state, action);

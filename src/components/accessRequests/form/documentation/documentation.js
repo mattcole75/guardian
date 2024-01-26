@@ -4,7 +4,7 @@ import List from './list/list';
 
 const Documentation = (props) => {
 
-    const { toggle, uid, documents, deleteDocument, recordLocked } = props;
+    const { toggle, uid, documents, deleteDocument, recordLocked, permit } = props;
 
     return (
         <div>
@@ -19,7 +19,7 @@ const Documentation = (props) => {
                 
             </div>
 
-            <List uid={ uid } documents={ documents } deleteDocument={ deleteDocument } recordLocked={ recordLocked } />
+            <List uid={ uid } documents={ documents } permit={ permit } deleteDocument={ deleteDocument } recordLocked={ recordLocked } />
 
         </div>
         
