@@ -14,7 +14,7 @@ import ElectricalIsolationRequirements from './electricalIsolationRequirements/e
 import AdditionalInformation from './additionalInformation/additionalInformation';
 
 import { userCreateAccessRequest } from '../../../store/actions/index';
-import { determinStartDate, determinEndDate } from '../../../shared/utility';
+import { determineStartDate, determineEndDate } from '../../../shared/utility';
 
 import Modal from '../../ui/modal/modal';
 import Backdrop from '../../ui/backdrop/backdrop';
@@ -60,8 +60,8 @@ const NewAccessRequest = () => {
             },
             siteDetails: {
                 ...siteDetails,
-                accessFirstDay: moment(determinStartDate(locations)).format('YYYY-MM-DD'),
-                accessLastDay: moment(determinEndDate(locations)).format('YYYY-MM-DD')
+                accessFirstDay: moment(determineStartDate(locations)).format('YYYY-MM-DD'),
+                accessLastDay: moment(determineEndDate(locations)).format('YYYY-MM-DD')
             },
             locations: [
                  ...locations

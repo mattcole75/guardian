@@ -4,7 +4,7 @@ import { userGetAccessRequest, userUpdateAccessRequest, userDeleteUploadedDocume
 import { Navigate, useParams } from 'react-router-dom';
 import moment from 'moment';
 
-import { determinStartDate, determinEndDate } from '../../../shared/utility';
+import { determineStartDate, determineEndDate } from '../../../shared/utility';
 import Requester from './requester/requester';
 import Comment from '../comment/comment';
 import EventLog from './eventLog/eventLog';
@@ -85,7 +85,7 @@ const AccessRequestForm = () => {
                 setRedirect(<Navigate to='/forbidden' />);
     }, [accessRequest, localId, uid, roles]);
 
-    // determin if the record is editable based on status
+    // determine if the record is editable based on status
     useEffect(() => {
         if(accessRequest) {
             if(accessRequest.status === 'Submitted' || accessRequest.status === 'Under Review' || accessRequest.status === 'Granted' || accessRequest.status === 'Completed' || accessRequest.requester.localId !== localId)
@@ -124,8 +124,8 @@ const AccessRequestForm = () => {
         onUpdateAccessRequest(uid, idToken, localId, {
             siteDetails: {
                 ...siteDetails,
-                accessFirstDay: moment(determinStartDate(locations)).format('YYYY-MM-DD'),
-                accessLastDay: moment(determinEndDate(locations)).format('YYYY-MM-DD')
+                accessFirstDay: moment(determineStartDate(locations)).format('YYYY-MM-DD'),
+                accessLastDay: moment(determineEndDate(locations)).format('YYYY-MM-DD')
             },
             locations: [
                  ...locations
@@ -149,7 +149,9 @@ const AccessRequestForm = () => {
     const onPlanningSave = useCallback((status) => {
     
         let updatedEventLogItems = [ ...accessRequest.eventLog ];
-        let updatedPermit = [ ...accessRequest.permit ];
+        const currentLocations = [ ...accessRequest.locations ];
+
+        let updatedPermit = [];
 
         switch(status) {
             case 'Denied':
@@ -157,14 +159,30 @@ const AccessRequestForm = () => {
                 break;
             case 'Granted':
                 updatedEventLogItems.push({ user: displayName, logged: moment().format(), event: 'The Access Request has been granted' });
-                updatedPermit.push({
-                    organisation: accessRequest.planningInformation.organisation,
-                    worksiteLimits: accessRequest.planningInformation.worksiteLimits,
-                    natureOfWork: accessRequest.siteDetails.siteDescription,
-                    locations: accessRequest.locations,
-                    preparedBy: accessRequest.planningInformation.planner,
-                    approvedDate: moment().format()
-                })
+                
+                // eslint-disable-next-line array-callback-return
+                currentLocations.map((item) => {
+                    let dateFrom = new Date(item.startDate);
+                    const dateTo = new Date(item.endDate);
+
+                    while(dateFrom <= dateTo) {
+                        updatedPermit.push({
+                            date: dateFrom.toISOString().slice(0, 10),
+                            startTime: item.startTime,
+                            endTime: item.endTime,
+                            organisation: accessRequest.planningInformation.organisation,
+                            worksiteLimits: accessRequest.planningInformation.worksiteLimits,
+                            natureOfWork: accessRequest.siteDetails.siteDescription,
+                            locations: item.locationList,
+                            shifts: item.shifts,
+                            preparedBy: accessRequest.planningInformation.planner,
+                            approvedDate: moment().format()
+                        });
+
+                        dateFrom.setDate(dateFrom.getDate() + 1)
+                    }
+                });
+
                 break;
             case 'Completed':
                 updatedEventLogItems.push({ user: displayName, logged: moment().format(), event: 'The Access Request has been completed' });
@@ -194,7 +212,7 @@ const AccessRequestForm = () => {
     }, [idToken, uid, localId, onUpdateAccessRequest]);
 
     const createComplianceLog = useCallback((locations) => {
-        if(moment(determinStartDate(locations)).diff(moment(accessRequest.created), 'week') < 6) {
+        if(moment(determineStartDate(locations)).diff(moment(accessRequest.created), 'week') < 6) {
             return { user: 'System', logged: moment().format(), event: 'Not compliant to 6 week notice requirement' };
         } else {
             return { user: 'System', logged: moment().format(), event: 'Compliant to 6 week notice requirement' };
@@ -210,8 +228,8 @@ const AccessRequestForm = () => {
         onUpdateAccessRequest(uid, idToken, localId, {
             siteDetails: {
                 ...siteDetails,
-                accessFirstDay: moment(determinStartDate(locations)).format('YYYY-MM-DD'),
-                accessLastDay: moment(determinEndDate(locations)).format('YYYY-MM-DD')
+                accessFirstDay: moment(determineStartDate(locations)).format('YYYY-MM-DD'),
+                accessLastDay: moment(determineEndDate(locations)).format('YYYY-MM-DD')
             },
             locations: [
                     ...locations
@@ -261,7 +279,7 @@ const AccessRequestForm = () => {
         setEditWorkStage(prevState => !prevState);
     }
 
-    const togglUploadingDocument = () => {
+    const toggleUploadingDocument = () => {
         setUploadingDocument(prevState => !prevState);
     }
 
@@ -400,11 +418,11 @@ const AccessRequestForm = () => {
     if(uploadingDocument) {
         modal = <Modal 
             show={ uploadingDocument } 
-            modalClosed={ togglUploadingDocument } 
+            modalClosed={ toggleUploadingDocument } 
             content={
                 <DocumentUpload 
                     uid={ uid }
-                    toggle={ togglUploadingDocument }
+                    toggle={ toggleUploadingDocument }
                 />
             }/>
     }
@@ -492,7 +510,7 @@ const AccessRequestForm = () => {
                                             <PermitRequirements permitRequirements={ permitRequirements} update={ onSetPermitRequirement } recordLocked={ recordLocked } />
                                             {/* Electrical Isolation Requirements */}
                                             <ElectricalIsolationRequirements electricalIsolationRequirements={ electricalIsolationRequirements } update={ onSetElectricalIsolationRequirements } recordLocked={ recordLocked } />
-                                            {/* Aditional Information */}
+                                            {/* Additional Information */}
                                             <AdditionalInformation additionalInformation={ additionalInformation } update={ onSetAdditionalInformation } recordLocked={ recordLocked } />
 
                                             <div className='form-floating mt-2 mb-2'>
@@ -558,9 +576,8 @@ const AccessRequestForm = () => {
                                         uid={ uid }
                                         documents={ accessRequest && accessRequest.documents }
                                         deleteDocument={ deleteAccessRequestDocumentHandler }
-                                        toggle={ togglUploadingDocument }
+                                        toggle={ toggleUploadingDocument }
                                         recordLocked={ recordLocked }
-                                        permit={ accessRequest && accessRequest.status === 'Granted' ? true : false }
                                     />
                                 </div>
                             </div>

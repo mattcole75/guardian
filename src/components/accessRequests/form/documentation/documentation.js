@@ -4,13 +4,13 @@ import List from './list/list';
 
 const Documentation = (props) => {
 
-    const { toggle, uid, documents, deleteDocument, recordLocked, permit } = props;
+    const { toggle, uid, documents, deleteDocument, recordLocked } = props;
 
     return (
         <div>
             <div className='d-flex gap-2 w-100 justify-content-between mb-3'>
                 <div className='text-start'>
-                    <h4 className='h4 fw-normal'>Documentation</h4>
+                    <h4 className='h4 fw-normal'>Site Documentation</h4>
                 </div>
                 { recordLocked
                     ?   null
@@ -19,7 +19,7 @@ const Documentation = (props) => {
                 
             </div>
 
-            <List uid={ uid } documents={ documents } permit={ permit } deleteDocument={ deleteDocument } recordLocked={ recordLocked } />
+            <List uid={ uid } documents={ documents } deleteDocument={ deleteDocument } recordLocked={ recordLocked } />
 
         </div>
         

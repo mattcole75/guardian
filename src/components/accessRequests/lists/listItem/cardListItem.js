@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 
@@ -6,6 +6,17 @@ const CardListItem = (props) => {
     
     const { item } = props;
     const accessRequest  = item[Object.keys(item)];
+
+    const [hasPermit, setHasPermit] = useState(false);
+
+    useEffect(() => {
+        // eslint-disable-next-line array-callback-return
+        accessRequest.permit.map((permit) => {
+          if (permit.date === new Date().toISOString().slice(0, 10)) {
+            setHasPermit(true);
+          }
+        });
+      }, [accessRequest]);
 
     let statusCSS = [];
     statusCSS.push('badge d-inline-block mb-2 text-nowrap');
@@ -44,7 +55,11 @@ const CardListItem = (props) => {
                     <p className='mb-0 opacity-75'>First Day: <small className='text-body-secondary'>{ accessRequest && accessRequest.siteDetails.accessFirstDay }</small></p>
                     <p className='mb-0 opacity-75'>Last Day: <small className='text-body-secondary'>{ accessRequest && accessRequest.siteDetails.accessLastDay }</small></p>
                     <p className='mb-0 opacity-75 mb-2'>Last Updated: <small className='text-body-secondary'>{ accessRequest && moment(accessRequest.updated).fromNow() }</small></p>
-                    <Link className='btn btn-outline-primary btn-sm' to={`/accessrequest/${Object.keys(item)}` }>View</Link>
+                    <Link className='btn btn-outline-primary btn-sm me-2' to={`/accessrequest/${Object.keys(item)}` }>View</Link>
+                    { accessRequest.status === 'Granted' && hasPermit
+                        ?   <Link className='btn btn-outline-primary btn-sm' to={`/accessrequest/permit/${Object.keys(item)}` }>View Permit</Link>
+                        :   <small className='badge d-inline-block text-nowrap bg-info'>Permit Not available</small>
+                    }
                 </div>
                 <div><span className={statusCSS.join(' ')}>{ accessRequest && accessRequest.status }</span></div>
             </div>    

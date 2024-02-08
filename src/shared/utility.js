@@ -32,7 +32,7 @@ export const elementDisabled = (roles, requestStatus, isDisrupted, disruptionSta
     }
 }
 
-export const determinStartDate = (arr) => {
+export const determineStartDate = (arr) => {
     const startDate = new Date(
         Math.min(
           ...arr.map(ele => {
@@ -43,7 +43,7 @@ export const determinStartDate = (arr) => {
     return startDate;
 }
 
-export const determinEndDate = (arr) => {
+export const determineEndDate = (arr) => {
     const endDate = new Date(
         Math.max(
           ...arr.map(ele => {
@@ -52,4 +52,11 @@ export const determinEndDate = (arr) => {
         ),
     );
     return endDate;
+}
+
+export const datediff = (startDate, endDate) => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    return Math.round((end - start) / (1000 * 60 * 60 * 24));
 }

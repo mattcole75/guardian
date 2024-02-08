@@ -3,7 +3,7 @@ import ListItem from './listItem/listItem';
 
 const List = (props) => {
 
-    const { uid, documents, permit, deleteDocument, recordLocked } = props;
+    const { uid, documents, deleteDocument, recordLocked } = props;
 
     return (
 
@@ -21,13 +21,6 @@ const List = (props) => {
                                     recordLocked={ recordLocked }
                                 />);
                             })
-                        }
-                        { permit
-                            ?   <ListItem
-                                    key="permit"
-                                    uid={ uid }
-                                />
-                            :   null
                         }
                     </div>
                 :   <div className='alert alert-warning text-sm-center' role='alert'>There are no documents registered</div>
