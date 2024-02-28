@@ -106,7 +106,7 @@ const PlanningInformation = (props) => {
             { redirect }
             <div className='d-flex gap-2 w-100 justify-content-between'>
                 <div>
-                    <h4 className='h4 fw-normal'>Planning</h4>
+                    <h4 className='h4 fw-normal'>a) Planning</h4>
                 </div>
                 <div>
                     <span className={categoryCSS.join(' ')}>{ planningInformation && planningInformation.possessionCategory }</span>
@@ -128,7 +128,7 @@ const PlanningInformation = (props) => {
             </div>
 
             {/* Possession Details */}
-            <p className='text-start h6'>Possession</p>
+            <p className='text-start h4'>b) Possession</p>
             <div className='form-floating mb-2'>
                 <input type='text' className='form-control' id='possessionDetails' autoComplete='off' placeholder='Possession Details' minLength={5} maxLength={101} required disabled={ !isPlanner }
                     { ...register('possessionDetails', { onChange: onUpdate, 
@@ -255,7 +255,7 @@ const PlanningInformation = (props) => {
             </div>
 
             {/* organisation & location */}
-            <p className='text-start h6'>Site Details</p>
+            <p className='text-start h4'> c) Site Details</p>
             {/* organisation */}
             <div className='row g-2'>
                 <div className='form-floating col-sm-6 mb-2'>

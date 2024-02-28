@@ -7,7 +7,6 @@ const List = (props) => {
 
     const { accessRequests } = props;
 
-
     return (
         <div>
             {/* for larger screens show a table */}
@@ -15,7 +14,7 @@ const List = (props) => {
                 <table className='w-100 table table-hover table-borderless table-sm align-middle bg-light border-start border-end shadow-sm fs-7'>
                     <thead className='border-bottom'>
                         <tr className='w-auto'>
-                            <th className='ps-3 pe-3 table-verticle_center'><div className='table-item_col'>Site Description</div></th>
+                            <th className='ps-3 pe-3 table-verticle_center'><div className='table-item_col'>Nature of Work</div></th>
                             <th className='ps-3 pe-3 table-verticle_center'><div className='table-item_col'>First Day</div></th>
                             <th className='ps-3 pe-3 table-verticle_center'><div className='table-item_col'>Last Day</div></th>
                             <th className='ps-3 pe-3 table-verticle_center'><div className='table-item_col'>Last Updated</div></th>
@@ -24,7 +23,7 @@ const List = (props) => {
                         </tr>
                     </thead>
                     <tbody>
-                        { accessRequests.map((item, index) => (
+                        { accessRequests?.map((item, index) => (
                             <TableListItem
                                 key={ index }
                                 item={ item }
@@ -39,7 +38,7 @@ const List = (props) => {
             {/* For smaller screens show a list of cards */}
             <div className='container access-request_card mt-3 p-0'>
                 <div>
-                    { accessRequests.map((item, index) => (
+                    { accessRequests?.map((item, index) => (
                         <CardListItem
                             key={ index }
                             item={ item }
@@ -48,7 +47,7 @@ const List = (props) => {
                 </div>
             </div>
              
-            { accessRequests.length === 0
+            { accessRequests?.length === 0
                 ?   <div className='alert alert-warning text-sm-center' role='alert'>There are no Access Requests</div>
                 :   null
             }

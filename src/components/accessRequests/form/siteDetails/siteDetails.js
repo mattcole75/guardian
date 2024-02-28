@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useForm } from 'react-hook-form';
 
@@ -7,12 +7,21 @@ const SiteDetails = (props) => {
     const { siteDetails, update, recordLocked, siteDetailsIsValid, status } = props;
     const { register, reset, getValues, formState: { isValid, errors } } = useForm({ mode: 'onBlur' });
 
+    const [thirdPartiesOnSite, setThirdPartiesOnSite] = useState(false);
 
     useEffect(() => {
+        // console.log(siteDetails);
+        console.log(thirdPartiesOnSite);
         if(siteDetails) {
             reset(siteDetails);
         }
-    }, [reset, siteDetails]);
+
+        if(siteDetails?.thirdPartiesOnSite === true) {
+            setThirdPartiesOnSite(true);
+        } else {
+            setThirdPartiesOnSite(false);
+        }
+    }, [reset, siteDetails, thirdPartiesOnSite]);
 
     const onUpdate = () => {
         update(getValues());
@@ -52,28 +61,28 @@ const SiteDetails = (props) => {
         <div className="mb-3">
             <div className='d-flex gap-2 w-100 justify-content-between'>
                 <div>
-                    <h4 className='h4 fw-normal'>Site Details</h4>
+                    <h4 className='h4 fw-normal'>a) Site Details</h4>
                 </div>
                 <div>
                     <span className={statusCSS.join(' ')}>{ status }</span>
                 </div>
             </div>
             <div className='form-floating mb-2'>
-                <input type='text' className='form-control' id='siteDescription' autoComplete='off' placeholder='Site Description' minLength={5} maxLength={50} required disabled={ recordLocked }
-                    { ...register('siteDescription', { onChange: onUpdate, 
-                        required: "You must provide a Site Description",
+                <input type='text' className='form-control' id='natureOfWork' autoComplete='off' placeholder='Site Description' minLength={5} maxLength={50} required disabled={ recordLocked }
+                    { ...register('natureOfWork', { onChange: onUpdate, 
+                        required: "You must describe the nature of work",
                         minLength: {
                             value: 5,
-                            message: "The Site Description must have at least 5 characters"
+                            message: "The Nature of Work must have at least 5 characters"
                         },
                         maxLength: {
                             value: 50,
-                            message: 'The Site Description must have 50 characters or less'
+                            message: 'The Nature of Work must have 50 characters or less'
                         }
                     }) }
                 />
-                <label htmlFor='siteDescription' className='form-label'>Site Description</label>
-                { errors.siteDescription && <p className='form-error mt-1 text-start'>{errors.siteDescription.message}</p> }
+                <label htmlFor='natureOfWork' className='form-label'>Nature of work</label>
+                { errors.natureOfWork && <p className='form-error mt-1 text-start'>{errors.natureOfWork.message}</p> }
             </div>
 
             <div className='list-group'>
@@ -121,6 +130,29 @@ const SiteDetails = (props) => {
                         <small className='d-block text-muted'>Indicate if this access request will require test trams</small>
                     </span>
                 </label>
+                <label className='list-group-item d-flex gap-2'>
+                    <div className='form-check form-switch'>
+                        <input className='form-check-input' type='checkbox' role='switch' id='thirdPartiesOnSite' disabled={ recordLocked }
+                            {...register('thirdPartiesOnSite', { onChange: onUpdate })}
+                        />
+                    </div>
+                    <span className='text-start'>
+                        Will there be third party contractors on site?
+                        <small className='d-block text-muted'>Indicate if there will be on side third parties under requesters control</small>
+                    </span>
+                </label>
+
+                { thirdPartiesOnSite === true
+                    ?   <div className='list-group-item d-flex gap-2'>
+                            <div className='form-floating w-100'>
+                                <input type='text' className='form-control' id='onSiteThirdParties' autoComplete='off' placeholder='On site third parties' minLength={0} maxLength={61} disabled={ recordLocked }
+                                    { ...register('onSiteThirdParties', { onChange: onUpdate }) }
+                                />
+                                <label htmlFor='natureOfWork' className='form-label'>On site third parties</label>
+                            </div>
+                        </div>
+                    :   null
+                }
             </div>
         </div>
     );

@@ -19,7 +19,7 @@ const ElectricalIsolationRequirements = (props) => {
     return (
         <div className="mb-3">
             <div className='text-start'>
-                <h4 className='h4 fw-normal'>Electrical Isolation Requirements</h4>
+                <h4 className='h4 fw-normal'>e) Electrical Isolation Requirements</h4>
             </div>
             {/* OLE encroach */}
             <div className='list-group'>

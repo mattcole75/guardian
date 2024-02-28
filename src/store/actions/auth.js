@@ -188,7 +188,7 @@ export const login = (authData, identifier) => {
                             dispatch(authFail('Too many failed attempts, please try again later'));
                             break;
                         case 'USER_DISABLED':
-                            dispatch(authFail('Account disabled, please cantact the administrator'));
+                            dispatch(authFail('Account disabled, please contact the administrator'));
                             break;
                         default:
                             dispatch(authFail('Unknown error please report the following to the administrator: ' + error.message)); 

@@ -12,7 +12,7 @@ const TableListItem = (props) => {
 
   useEffect(() => {
     // eslint-disable-next-line array-callback-return
-    accessRequest.permit.map((permit) => {
+    accessRequest.permit?.map((permit) => {
       if (permit.date === new Date().toISOString().slice(0, 10)) {
         setHasPermit(true);
       }
@@ -64,7 +64,7 @@ const TableListItem = (props) => {
       onClick={(event) => open(event)}
     >
       <td className="ps-3 pe-3">
-        <div>{accessRequest && accessRequest.siteDetails.siteDescription}</div>
+        <div>{accessRequest && accessRequest.siteDetails.natureOfWork}</div>
       </td>
       <td className="ps-3 pe-3">
         {accessRequest && accessRequest.siteDetails.accessFirstDay

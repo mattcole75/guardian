@@ -19,7 +19,7 @@ const List = (props) => {
                         <th>End Date</th>
                         <th>Locations</th>
                         <th>Escalated</th>
-                        <th>Posession Details</th>
+                        <th>Possession Details</th>
                         <th>Co-Locatable</th>
                         <th>PICOP</th>
                         <th>PIC</th>
@@ -38,7 +38,7 @@ const List = (props) => {
                         <th>Tram Configuration</th>
                         <th>OTM Count</th>
                         <th>On Track Plant</th>
-                        <th>Ironmen/Trolly</th>
+                        <th>Ironmen/Trolley</th>
                         <th>On Track Machine</th>
                         <th>Within Disruptive Possession</th>
                         <th>Site Remarks</th>

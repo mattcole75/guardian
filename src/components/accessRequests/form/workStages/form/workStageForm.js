@@ -22,7 +22,7 @@ const WorkStageForm = (props) => {
             <p className='text-start'><strong>Note:</strong> Indicate key stages of work, i.e: Erecting of scaffold, carry out roof inspection, remove scaffold.</p>
 
             <div className='form-floating mb-2'>
-                <input type='text' className='form-control' id='work_stage' autoComplete='off' placeholder='Work Stage' minLength={5} maxLength={31} required disabled={recordLocked}
+                <input type='text' className='form-control' id='work_stage' autoComplete='off' placeholder='Work Stage' minLength={5} maxLength={61} required disabled={recordLocked}
                     { ...register('work_stage', {
                         required: "You must provide a work stage description",
                         minLength: {
@@ -30,8 +30,8 @@ const WorkStageForm = (props) => {
                             message: "The work stage description must have at least 5 characters"
                         },
                         maxLength: {
-                            value: 30,
-                            message: 'The work stage description must have 30 characters or less'
+                            value: 60,
+                            message: 'The work stage description must have 60 characters or less'
                         }
                     }) }
                 />

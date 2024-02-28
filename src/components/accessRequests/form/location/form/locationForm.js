@@ -85,6 +85,14 @@ const LocationForm = (props) => {
                 </div>
 
                 <List locations={ locations } save={ onSetLocation } />
+                
+                <div className='form-floating mb-2'>
+                    <input type='text' className='form-control' id='location_details' autoComplete='off' placeholder='Location Details' minLength={0} maxLength={61} disabled={recordLocked}
+                        { ...register('location_details' ) }
+                    />
+                    <label htmlFor='location_details' className='form-label'>Location Details</label>
+                </div>
+
         
                 {/* Dates & times Section */}
                 <div className='row g-2'>
@@ -131,11 +139,11 @@ const LocationForm = (props) => {
                             },
                             max: {
                                 value: 100,
-                                message: 'The maximum shiftcount is 100'
+                                message: 'The maximum shift count is 100'
                             }
                         }) }
                     />
-                    <label htmlFor='shifts' className='form-label'>How many shifts will you be using</label>
+                    <label htmlFor='shifts' className='form-label'>How many shifts will you be using?</label>
                     { errors.shifts && <p className='form-error mt-1 text-start'>{errors.shifts.message}</p> }
                 </div>
                 
@@ -149,7 +157,7 @@ const LocationForm = (props) => {
                             })
                         }
                     </select>
-                    <label htmlFor='nearestHospital'>Nearest hospital</label>
+                    <label htmlFor='nearestHospital'>Nearest hospital?</label>
                     { errors.nearestHospital && <p className='form-error mt-1 text-start'>{errors.nearestHospital.message}</p> }
                 </div>
                 

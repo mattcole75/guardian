@@ -68,7 +68,7 @@ const plannerGetAccessRequestsSuccess = (accessRequests, identifier) => {
     }
 }
 
-const userGetAccessRquestSuccess = (accessRequest, identifier) => {
+const userGetAccessRequestSuccess = (accessRequest, identifier) => {
     return {
         type: type.USER_GET_ACCESS_REQUEST_SUCCESS,
         accessRequest: accessRequest,
@@ -246,7 +246,7 @@ export const userGetAccessRequest = (idToken, localId, uid, identifier) => {
 
         Promise.all([getAccessRequest, getAccessRequestDocuments, getPlanners])
             .then(res => {
-                dispatch(userGetAccessRquestSuccess({ ...res[0], documents: [ ...res[1] ] }, identifier));
+                dispatch(userGetAccessRequestSuccess({ ...res[0], documents: [ ...res[1] ] }, identifier));
                 dispatch(getPlannersSuccess([ ...res[2] ], identifier));
             })
             .then(() => {

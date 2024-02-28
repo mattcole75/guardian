@@ -6,7 +6,7 @@ const initialState = {
     accessRequests: [],
     accessRequest: null,
     planners: [],
-    permit: null,
+    permit: [],
     identifier: null,
     requestRedirectPath: '/'
 };
@@ -44,7 +44,7 @@ const userUpdateAccessRequestSuccess = (state, action) => {
         // find the element index in the array
         const accessRequestIndex = state.accessRequests.findIndex(req => req.uid === action.uid);
         // update list item with updated updated
-        updatedAccessRequest = { ...state.accessRequests[accessRequestIndex], ...action.accessRequest };
+        updatedAccessRequest = { ...state.accessRequest, ...action.accessRequest };
         // update list
         updatedAccessRequests[accessRequestIndex] = updatedAccessRequest;
     } else {
@@ -178,7 +178,7 @@ const plannerGetAccessRequestsSuccess = (state, action) => {
                 coLocate: action.accessRequests[key1][id].planningInformation.coLocate,
                 organisation: action.accessRequests[key1][id].planningInformation.organisation,
                 line: action.accessRequests[key1][id].planningInformation.line,
-                siteDescription: action.accessRequests[key1][id].siteDetails.siteDescription,
+                natureOfWork: action.accessRequests[key1][id].siteDetails.natureOfWork,
                 isolationType: action.accessRequests[key1][id].planningInformation.isolationType,
                 isolationDetails: action.accessRequests[key1][id].planningInformation.isolationDetails,
                 startTime: action.accessRequests[key1][id].locations[key2].startTime,

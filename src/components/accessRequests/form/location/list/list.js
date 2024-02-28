@@ -8,10 +8,10 @@ const List = (props) => {
     return (
 
         <div>
-            { locations.length > 0
+            { locations?.length > 0
                 ?   <div className='list-group mb-3 text-start'>
                         {
-                            locations.map((item, index) => {
+                            locations?.map((item, index) => {
                                 return(<ListItem
                                     key={ index }
                                     index={ index }

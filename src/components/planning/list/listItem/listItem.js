@@ -89,7 +89,7 @@ const { item } = props;
             <td className={ item.pic === 'TBC' ? 'bg-TBC-Priority1' : ''  }>{ item.pic }</td>
             <td className={ item.picop === 'TBC' ? 'bg-TBC-Priority2' : '' }>{ item.nwrAdjacent === 'TBC' ? item.nwrAdjacent : item.nwrAdjacent === true ? 'Yes' : 'No' }</td>
             <td className={ item.line === 'TBC' ? 'bg-TBC-Priority2' : '' }>{ item.line }</td>
-            <td>{ item.siteDescription }</td>
+            <td>{ item.natureOfWork }</td>
             <td className={ item.isolationType === 'TBC' ? 'bg-TBC-Priority2' : '' }>{ item.isolationType }</td>
             <td className={ item.isolationDetails === 'TBC' ? 'bg-TBC-Priority2' : '' }>{ item.isolationDetails }</td>
             <td>{ item.startTime }</td>

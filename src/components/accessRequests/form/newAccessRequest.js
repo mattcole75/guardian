@@ -60,8 +60,8 @@ const NewAccessRequest = () => {
             },
             siteDetails: {
                 ...siteDetails,
-                accessFirstDay: moment(determineStartDate(locations)).format('YYYY-MM-DD'),
-                accessLastDay: moment(determineEndDate(locations)).format('YYYY-MM-DD')
+                accessFirstDay: locations.length > 0 ? moment(determineStartDate(locations)).format('YYYY-MM-DD') : null,
+                accessLastDay: locations.length > 0 ? moment(determineEndDate(locations)).format('YYYY-MM-DD') : null
             },
             locations: [
                  ...locations
@@ -94,7 +94,7 @@ const NewAccessRequest = () => {
         setEditLocation(prevState => !prevState);
     }
 
-    const toogleWorkStageEdit = () => {
+    const toggleWorkStageEdit = () => {
         setEditWorkStage(prevState => !prevState);
     }
 
@@ -155,7 +155,7 @@ const NewAccessRequest = () => {
             case 'ADD':
                 updatedWorkStages.push(workStage);
                 setWorkStages(updatedWorkStages);
-                toogleWorkStageEdit();
+                toggleWorkStageEdit();
                 break;
             case 'DELETE':
                 updatedWorkStages.splice(index, 1);
@@ -209,10 +209,10 @@ const NewAccessRequest = () => {
     if(editWorkStage) {
         modal = <Modal 
             show={ editWorkStage } 
-            modalClosed={ toogleWorkStageEdit } 
+            modalClosed={ toggleWorkStageEdit } 
             content={
                 <WorkStageForm 
-                    toggle={ toogleWorkStageEdit }
+                    toggle={ toggleWorkStageEdit }
                     save={ onSetWorkStage }
                     recordLocked={ false }
                 />
@@ -247,7 +247,7 @@ const NewAccessRequest = () => {
                 {/* locations */}
                 <Locations locations={ locations } add={ locationAddHandler } toggle={ locationCloseHandler } select={ locationSelectHandler } />
                 {/* work plan */}
-                <WorkStages workStages={ workStages } toggle={ toogleWorkStageEdit } save={ onSetWorkStage } />
+                <WorkStages workStages={ workStages } toggle={ toggleWorkStageEdit } save={ onSetWorkStage } />
                 {/* Permit Requirements */}
                 <PermitRequirements permitRequirements={ permitRequirements} update={ onSetPermitRequirement } />
                 {/* Electrical Isolation Requirements */}

@@ -2,7 +2,7 @@ import React, { useEffect, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
-import { userGetAccessRequests, accessRequestResetState } from '../../../store/actions/index';
+import { userGetAccessRequests } from '../../../store/actions/index';
 
 import railWeeks from '../../../configuration/railWeeks';
 
@@ -15,7 +15,7 @@ const Filter = () => {
     const [ week, setWeek ] = useState('');
 
     const onGetAccessRequests = useCallback((idToken, localId, startDate, endDate, identifier) => dispatch(userGetAccessRequests(idToken, localId, startDate, endDate,identifier)), [dispatch]);
-    const onResetState = useCallback(() => dispatch(accessRequestResetState()), [dispatch]);
+    // const onResetState = useCallback(() => dispatch(accessRequestResetState()), [dispatch]);
 
     // a side effect to query the database and return to state a list of requests
     useEffect(() => {
@@ -24,9 +24,9 @@ const Filter = () => {
             week !== '' ? railWeeks.find(wks => wks.id === week).end : null,
             'GET_ACCESS_REQUESTS');
 
-            return () => { onResetState() }
+            // return () => { onResetState() }
             
-    },[idToken, localId, week, onGetAccessRequests, onResetState]);
+    },[idToken, localId, week, onGetAccessRequests]);
 
     const refresh = () => {
         onGetAccessRequests(idToken, localId, 
@@ -34,7 +34,6 @@ const Filter = () => {
             week !== '' ? railWeeks.find(wks => wks.id === week).end : null,
             'GET_ACCESS_REQUESTS');
     }
-
 
     return (
         <div className='border-top border-start border-end rounded-top-1 mt-4 bg-light shadow-sm'>

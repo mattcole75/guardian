@@ -8,7 +8,7 @@ const Locations = (props) => {
     return (
         <div>
             <div className='text-start'>
-                <h4 className='h4 fw-normal'>Access Requirements</h4>
+                <h4 className='h4 fw-normal'>b) Access Requirements</h4>
             </div>
             <div className='row g-2'>
                 <div className='form-floating  col-sm-6'>

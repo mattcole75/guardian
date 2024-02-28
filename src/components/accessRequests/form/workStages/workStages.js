@@ -8,7 +8,7 @@ const WorkStages = (props) => {
     return (
         <div>
             <div className='text-start'>
-                <h4 className='h4 fw-normal'>Planned Work</h4>
+                <h4 className='h4 fw-normal'>c) Planned Work</h4>
             </div>
 
             <div className='row g-2'>

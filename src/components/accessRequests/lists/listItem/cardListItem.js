@@ -11,7 +11,7 @@ const CardListItem = (props) => {
 
     useEffect(() => {
         // eslint-disable-next-line array-callback-return
-        accessRequest.permit.map((permit) => {
+        accessRequest.permit?.map((permit) => {
           if (permit.date === new Date().toISOString().slice(0, 10)) {
             setHasPermit(true);
           }
@@ -51,7 +51,7 @@ const CardListItem = (props) => {
         <div className='card p-3 mt-0 mb-2'>
             <div className='d-flex gap-2 w-100 justify-content-between'>
                 <div>
-                    <h6 className='mb-1'>{ accessRequest && accessRequest.siteDetails.siteDescription }</h6>
+                    <h6 className='mb-1'>{ accessRequest && accessRequest.siteDetails.natureOfWork }</h6>
                     <p className='mb-0 opacity-75'>First Day: <small className='text-body-secondary'>{ accessRequest && accessRequest.siteDetails.accessFirstDay }</small></p>
                     <p className='mb-0 opacity-75'>Last Day: <small className='text-body-secondary'>{ accessRequest && accessRequest.siteDetails.accessLastDay }</small></p>
                     <p className='mb-0 opacity-75 mb-2'>Last Updated: <small className='text-body-secondary'>{ accessRequest && moment(accessRequest.updated).fromNow() }</small></p>

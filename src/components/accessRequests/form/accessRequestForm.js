@@ -458,12 +458,12 @@ const AccessRequestForm = () => {
                         {/* This section details the person who made the request and is collapsed by default */}
                         { accessRequest
                             ?   <div className='accordion-item'>
-                                    <h2 className='accordion-header' id='panelsStayOpen-headingRequestor'>
-                                        <button className='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseRequestor' aria-expanded='false' aria-controls='panelsStayOpen-collapseRequestor'>
-                                            <h3 className='h5 m-0 text-muted'>Requestor Details</h3>
+                                    <h2 className='accordion-header' id='panelsStayOpen-headingRequester'>
+                                        <button className='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseRequester' aria-expanded='false' aria-controls='panelsStayOpen-collapseRequester'>
+                                            <h3 className='h5 m-0 text-muted'>1. Requester Details</h3>
                                         </button>
                                     </h2>
-                                    <div id='panelsStayOpen-collapseRequestor' className='accordion-collapse collapse' aria-labelledby='panelsStayOpen-headingRequestor'>
+                                    <div id='panelsStayOpen-collapseRequester' className='accordion-collapse collapse' aria-labelledby='panelsStayOpen-headingRequester'>
                                         <div className='accordion-body'>
                                             <Requester displayName={ accessRequest.requester.displayName } phoneNumber={ accessRequest.requester.phoneNumber } email={ accessRequest.requester.email } organisation={ accessRequest.requester.organisation } />
                                         </div>
@@ -477,7 +477,7 @@ const AccessRequestForm = () => {
                             ?   <div className='accordion-item'>
                                     <h2 className='accordion-header' id='panelsStayOpen-headingEventLog'>
                                         <button className='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseEventLog' aria-expanded='false' aria-controls='panelsStayOpen-collapseEventLog'>
-                                            <h3 className='h5 m-0 text-muted'>Event Log</h3>
+                                            <h3 className='h5 m-0 text-muted'>2. Event Log</h3>
                                         </button>
                                     </h2>
                                     <div id='panelsStayOpen-collapseEventLog' className='accordion-collapse collapse' aria-labelledby='panelsStayOpen-headingEventLog'>
@@ -494,7 +494,7 @@ const AccessRequestForm = () => {
                             ?   <div className='accordion-item'>
                                     <h2 className='accordion-header' id='panelsStayOpen-headingSummary'>
                                         <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseSummary' aria-expanded='true' aria-controls='panelsStayOpen-collapseSummary'>
-                                            <h3 className='h5 m-0 text-muted'>Access Request</h3>
+                                            <h3 className='h5 m-0 text-muted'>3. Access Request</h3>
                                         </button>
                                     </h2>
                                     <div id='panelsStayOpen-collapseSummary' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingSummary'>
@@ -541,12 +541,12 @@ const AccessRequestForm = () => {
                         {/* Planner Section */}
                         { accessRequest
                             ?   <div className='accordion-item'>
-                                    <h2 className='accordion-header' id='panelsStayOpen-headingHazards'>
-                                        <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseHazards' aria-expanded='true' aria-controls='panelsStayOpen-collapseHazards'>
-                                            <h3 className='h5 m-0 text-muted'>For official use only</h3>
+                                    <h2 className='accordion-header' id='panelsStayOpen-headingPlanning'>
+                                        <button className='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapsePlanning' aria-expanded='false' aria-controls='panelsStayOpen-collapsePlanning'>
+                                            <h3 className='h5 m-0 text-muted'>4. For official use only</h3>
                                         </button>
                                     </h2>
-                                    <div id='panelsStayOpen-collapseHazards' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingHazards'>
+                                    <div id='panelsStayOpen-collapsePlanning' className='accordion-collapse collapse collapse' aria-labelledby='panelsStayOpen-headingPlanning'>
                                         <div className='accordion-body'>
                                             <PlanningInformation 
                                                 planningInformation={ planningInformation }
@@ -564,30 +564,34 @@ const AccessRequestForm = () => {
                         }
 
                         {/* document section */}
-                        <div className='accordion-item'>
-                            <h2 className='accordion-header' id='panelsStayOpen-headingDocuments'>
-                                <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseDocuments' aria-expanded='true' aria-controls='panelsStayOpen-collapseDocuments'>
-                                    <h3 className='h5 m-0 text-muted'>Documents</h3>
-                                </button>
-                            </h2>
-                            <div id='panelsStayOpen-collapseDocuments' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingDocuments'>
-                                <div className='accordion-body'>
-                                    <Documentation
-                                        uid={ uid }
-                                        documents={ accessRequest && accessRequest.documents }
-                                        deleteDocument={ deleteAccessRequestDocumentHandler }
-                                        toggle={ toggleUploadingDocument }
-                                        recordLocked={ recordLocked }
-                                    />
+                        { accessRequest
+                            ?   <div className='accordion-item'>
+                                    <h2 className='accordion-header' id='panelsStayOpen-headingDocuments'>
+                                        <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseDocuments' aria-expanded='true' aria-controls='panelsStayOpen-collapseDocuments'>
+                                            <h3 className='h5 m-0 text-muted'>5. Documents</h3>
+                                        </button>
+                                    </h2>
+                                    <div id='panelsStayOpen-collapseDocuments' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingDocuments'>
+                                        <div className='accordion-body'>
+                                            <Documentation
+                                                uid={ uid }
+                                                documents={ accessRequest && accessRequest.documents }
+                                                deleteDocument={ deleteAccessRequestDocumentHandler }
+                                                toggle={ toggleUploadingDocument }
+                                                recordLocked={ recordLocked }
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                            :   null
+                        }
 
                         {/* Comment section */}
-                        <div className='accordion-item'>
+                        { accessRequest
+                            ?   <div className='accordion-item'>
                             <h2 className='accordion-header' id='panelsStayOpen-headingComments'>
                                 <button className='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapseComments' aria-expanded='true' aria-controls='panelsStayOpen-collapseComments'>
-                                    <h3 className='h5 m-0 text-muted'>Comments</h3>
+                                    <h3 className='h5 m-0 text-muted'>6. Comments</h3>
                                 </button>
                             </h2>
                             <div id='panelsStayOpen-collapseComments' className='accordion-collapse collapse show' aria-labelledby='panelsStayOpen-headingComments'>
@@ -610,7 +614,9 @@ const AccessRequestForm = () => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                                </div>
+                            :   null
+                        }
                             
                     </div>                        
                 </div>

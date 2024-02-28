@@ -11,7 +11,7 @@ const List = (props) => {
             { workStages.length > 0
                 ?   <div className='list-group mb-3 text-start'>
                         {
-                            workStages.map((item, index) => {
+                            workStages?.map((item, index) => {
                                 return (<ListItem
                                     key={ index }
                                     index={ index }

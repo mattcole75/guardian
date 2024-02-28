@@ -19,7 +19,7 @@ const PermitRequirements = (props) => {
     return (
         <div className="mb-3">
             <div className='text-start'>
-                <h4 className='h4 fw-normal'>Permit Requirements</h4>
+                <h4 className='h4 fw-normal'>d) Permit Requirements</h4>
             </div>
             {/* Hazard Zone */}
             <div className='list-group'>
